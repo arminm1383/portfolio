@@ -1,0 +1,120 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400&display=swap');
+
+.roboto-mono-font {
+  font-family: "Roboto Mono", monospace;
+  font-weight: 200;
+  font-size: 5rem;
+  font-style: normal;
+  letter-spacing: 0;
+  line-height: 132;
+}
+
+.navbar {
+  color: black;
+  font-size: 160%;
+  font-family: 'Roboto Mono', monospace;
+  margin-left: 980px;
+  justify-content: space-between;
+}
+
+#myName {
+    color: black;
+    font-size: 550%;
+    font-family: 'Roboto Mono', monospace;
+    margin-left: 100px;
+}
+
+#nameSubheader {
+  color: black;
+  font-size: 200%;
+  font-family: 'Roboto Mono', monospace;
+  margin-left: 105px;
+  padding-top: 25px;
+}
+
+.introContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  padding: 5rem;
+}
+
+#lemonImage {
+  width: 414px;
+  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5))
+}
+
+#rugImage {
+  width: 410px;
+  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5))
+}
+
+#sheepImage {
+  width: 186px;
+  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5))
+}
+
+#projects {
+  color: black;
+  font-size: 200%;
+  font-family: 'Roboto Mono', monospace;
+  text-align: center;
+  margin-top: 120px;
+}
+
+.projectsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 100px;
+  margin-top: 60px;
+}
+
+#projectImages {
+  width: 100%;
+  max-width: 484px;
+  height: auto;
+  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5))
+}
+
+#cashewText {
+  color: black;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-family: 'Roboto Mono', monospace;
+  text-align: left;
+  position: static;
+  margin: 0;
+}
+
+#cashewSubtext {
+  color: black;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  font-family: 'Roboto Mono', monospace;
+  text-align: left;
+  position: static;
+  margin: 0;
+}
+
+.painting {
+  max-width: 300px;  
+  height: auto;   
+  display: block;   
+  margin-bottom: 20px;
+}
+
+.painting-container {
+  position: relative; 
+  min-height: 700px;   
+}
+
+.linkedin {
+  height: 25px;
+  width: auto;
+  vertical-align: middle;
+}
+
+.hover-shade:hover {
+  filter: brightness(60%);
+  transition: filter 0.3s ease;
+}
