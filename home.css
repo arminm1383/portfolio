@@ -14,8 +14,9 @@
   color: black;
   font-size: 160%;
   font-family: 'Roboto Mono', monospace;
-  margin-left: 980px;
   justify-content: space-between;
+  background-color: #dedede;
+  border-bottom: 1px solid #ccc;
 }
 
 .linkedin {
@@ -125,6 +126,7 @@
   flex-direction: row;
   gap: 2rem;
 }
+
 .projectsContainer {
   display: flex;
   flex-wrap: wrap;
@@ -136,6 +138,33 @@
 
 .individualProjectContainer {
   display: flex;
-  flex-direction: row; /*default*/
-  justify-content: center;
+  flex-direction: column;  
+  align-items: flex-start; 
+  max-width: 420px;  
+}
+
+.projectTextTitle {
+  padding-left: 7px;
+  color: #000;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.1;   
+}
+
+.projectText {
+  padding-left: 7px;
+  color: #000;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.1;   
+}
+
+.projectCard img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  margin-bottom: 1rem;
 }
