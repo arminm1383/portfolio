@@ -18,103 +18,124 @@
   justify-content: space-between;
 }
 
-#myName {
-    color: black;
-    font-size: 550%;
-    font-family: 'Roboto Mono', monospace;
-    margin-left: 100px;
-}
-
-#nameSubheader {
-  color: black;
-  font-size: 200%;
-  font-family: 'Roboto Mono', monospace;
-  margin-left: 105px;
-  padding-top: 25px;
-}
-
-.introContainer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: baseline;
-  padding: 5rem;
-}
-
-#lemonImage {
-  width: 414px;
-  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5))
-}
-
-#rugImage {
-  width: 410px;
-  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5))
-}
-
-#sheepImage {
-  width: 186px;
-  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5))
-}
-
-#projects {
-  color: black;
-  font-size: 200%;
-  font-family: 'Roboto Mono', monospace;
-  text-align: center;
-  margin-top: 120px;
-}
-
-.projectsContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 100px;
-  margin-top: 60px;
-}
-
-#projectImages {
-  width: 100%;
-  max-width: 484px;
-  height: auto;
-  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5))
-}
-
-#cashewText {
-  color: black;
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  font-family: 'Roboto Mono', monospace;
-  text-align: left;
-  position: static;
-  margin: 0;
-}
-
-#cashewSubtext {
-  color: black;
-  font-size: clamp(0.9rem, 2vw, 1.2rem);
-  font-family: 'Roboto Mono', monospace;
-  text-align: left;
-  position: static;
-  margin: 0;
-}
-
-.painting {
-  max-width: 300px;  
-  height: auto;   
-  display: block;   
-  margin-bottom: 20px;
-}
-
-.painting-container {
-  position: relative; 
-  min-height: 700px;   
-}
-
 .linkedin {
   height: 25px;
   width: auto;
   vertical-align: middle;
 }
 
-.hover-shade:hover {
-  filter: brightness(60%);
-  transition: filter 0.3s ease;
+#myName {
+  color: #000;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 700;
+  font-size: 130px;
+  line-height: 1.1; 
+  z-index: 1;                   
+}
+
+#welcomeText {
+  color: #000;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 500;
+  font-size: 50px;
+  line-height: 1.1;    
+  padding-bottom: 15px;
+}
+
+#aboutText {
+  color: #000;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 1.1;    
+}
+
+.heroContainer {
+  display: flex;
+  flex-direction: row; /*default*/
+  padding-top: 15rem; 
+  gap: 5rem;
+}
+
+.heroLeft {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.heroRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  border-left: 2px solid black;
+  padding-left: 3rem;
+}
+
+.decorativeBubbles {
+  position: absolute;
+  top: 0;
+  left: 0;   
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start; /* aligns all items to start of axis (row) */
+  align-items: center;
+  z-index: 0;
+}
+
+.decorativeBubbles img {
+  width: 70%;
+  opacity: .65;
+}
+
+.positionsContainer {
+  display: flex;
+  flex-direction: row; /*default*/
+  justify-content: center;
+  padding-top: 15rem; 
+  gap: 5rem;
+}
+
+.positionCard {
+  background-color: #dcdcdc;
+  border-radius: 15px;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 15px;
+  width: clamp(200px, 25vw, 300px);
+  height: clamp(70px, 18vh, 120px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.positionCard h1 {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.professionalLinks{
+  padding-top: 2px;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+.projectsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row; /*default*/
+  justify-content: center;
+  padding-top: 10rem; 
+  gap: 3rem;
+}
+
+.individualProjectContainer {
+  display: flex;
+  flex-direction: row; /*default*/
+  justify-content: center;
 }
