@@ -1,0 +1,85 @@
+.navbar-alt-container {
+    position: sticky;
+    padding-top: 2rem;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 99%;
+}
+
+.navbar-alt {
+    z-index: 1000;
+    background-color: #86AF76;
+    opacity: 85%;
+    filter: drop-shadow(0px 1px 4px rgba(0, 0, 0, 0.1));
+    border-radius: 100px;
+    max-width: fit-content;
+}
+
+.nav-item-alt {
+    color: #000;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: clamp(1rem, 1.5rem, 1.5rem);
+    border-radius: 100px;
+    position: relative;
+}
+
+.navbar-alt a {
+    text-decoration: none;
+}
+
+.navbar-alt ul {
+    align-items: center;
+    justify-content: flex-end;
+    list-style-type: none;
+    display: flex;
+    text-align: center;
+    padding: 1rem 1rem;
+    overflow: hidden;
+}
+
+.nav-item-alt:hover {
+    transition: all 0.4s ease-in-out;
+    color: rgba(255, 255, 255, 0.96);
+    opacity: 0.9;
+}
+
+.nav-item-alt::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #01254e, #89b479);
+    border-radius: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.nav-item-alt:hover::before {
+    width: 100%;
+    border-radius: 50%;
+}
+
+.home-button-alt {
+    color: #000000;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-decoration: none;
+    padding: clamp(1rem, 1.5rem, 1.5rem);
+    border-radius: 100px;
+    position: relative;
+}
+
+.home-button-alt:hover {
+    transition: all 0.5s ease-in-out;
+    color: #86AF76;
+}
