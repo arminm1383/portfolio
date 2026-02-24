@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import "../styles/Home.css";
+import "../styles/home.css";
 import HomeButton from "../components/home-button";
 import Navbar from "../components/navbar";
 import Lenis from 'lenis';
