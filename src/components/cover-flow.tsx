@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import Controller from './controller.tsx'
-import '../styles/cover-flow.css';
+import '../styles/CoverFlow.css';
 import apolloImg from '../assets/apollo.png';
 import aviImg from '../assets/avi.png';
 import beatabilityImg from '../assets/beatability.png';

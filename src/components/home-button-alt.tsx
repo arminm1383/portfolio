@@ -1,5 +1,5 @@
 
-import '../styles/navbar-alt.css';
+import '../styles/NavbarAlt.css';
 
 function HomeButtonAlt() {
     return (

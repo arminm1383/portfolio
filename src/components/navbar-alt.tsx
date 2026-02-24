@@ -1,5 +1,5 @@
 
-import '../styles/Navbar-alt.css';
+import '../styles/NavbarAlt.css';
 
 function NavbarAlt() {
     return (
