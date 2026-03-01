@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  },
+  "dependencies": {
+    "lenis": "^1.3.17",
+    "react-router-dom": "^7.13.1"
+  }
+}
