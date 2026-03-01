@@ -1,0 +1,47 @@
+
+.controller {
+    z-index: 1000;
+    background-color: #D3D3D3;
+    opacity: 50%;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1));
+    border-radius: 100px;
+    max-width: fit-content;
+    display: flex;
+    position: fixed;
+    bottom: 8rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.controller ul {
+    text-decoration: none;
+    align-items: center;
+    list-style-type: none;
+    display: flex;
+    text-align: center;
+    padding: 1rem 3rem;
+    overflow: hidden;
+    gap: 5rem;
+}
+
+.controller-item:hover {
+    transition: all 0.4s ease-in-out;
+    color: rgba(59, 75, 80, 0.96);
+}
+
+.controller-item::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #01254e, #89b479);
+    border-radius: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.controller-item:hover::before {
+    width: 100%;
+    border-radius: 50%;
+}
