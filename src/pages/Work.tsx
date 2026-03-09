@@ -1,5 +1,7 @@
 import {useEffect} from "react";
-import CoverFlow from "../components/cover-flow.tsx";
+// import CoverFlow from "../components/cover-flow.tsx";
+import Navbar from "../components/navbar.tsx";
+import HomeButton from "../components/home-button.tsx";
 
 function Work () {
     useEffect(() => {
@@ -10,9 +12,13 @@ function Work () {
 
     return (
         <div>
-            <CoverFlow />
+            <div className={"navbar-container"}>
+                <HomeButton />
+                <Navbar />
+            </div>
+            {/*<CoverFlow />*/}
         </div>
-)
+    )
 }
 
 export default Work;

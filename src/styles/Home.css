@@ -1,24 +1,40 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
 
-html {
-    scroll-behavior: smooth;
+.hero-container {
+    margin-top: clamp(3rem, 6vw, 9rem);
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    gap: 10rem;
+    justify-content: center;
+    min-height: 80vh;
 }
 
-.hero-container {
-    padding-left: 3rem;
+.hero-text-container {
+    padding-top: clamp(7rem, 12vw, 15rem);
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
     align-items: flex-start;
-    min-height: 100vh;
+}
+
+.hero-record-container {
+    padding-top: clamp(1rem, 3vw, 5rem);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 40%;
+    max-width: 500px;
+    min-width: 280px;
 }
 
 .header-text {
     color: #000;
     text-shadow: 0 4px 4px rgba(0, 0, 0, 0.10);
     font-family: 'Roboto Condensed', sans-serif;
-    font-size: 130px;
+    font-size: 120px;
     font-style: normal;
     font-weight: 600;
     line-height: 132px;
@@ -35,6 +51,60 @@ html {
     line-height: 132px;
 }
 
-#about {
+.view-more-button {
+    align-items: center;
+    display: inline-flex;
+    flex-direction: row;
+    padding: 10px 20px;
+    box-shadow:
+            inset 0 2px 4px rgba(0,0,0,0.15),
+            inset 0 -1px 2px rgba(255,255,255,0.8);
+    border: none;
+    border-radius: 999px;
+    justify-content: center;
+    width: fit-content;
+    white-space: nowrap;
+    gap: 10px;
+}
+
+.view-more-button:hover {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+}
+
+.view-more-button-text {
+    color: #000;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.10);
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 350;
+}
+.triangle-icon {
+    padding-top: clamp(1px, 3vw, 5px);
+    align-self: center;
+    width: 20%;
+}
+
+#featured-work {
+    padding: clamp(2rem, 4vw, 4rem);
+    min-height: 100vh;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+}
+
+.featured-work-text {
+    color: #000;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.10);
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 80px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 132px;
+}
+
+.work-grid {
 
 }

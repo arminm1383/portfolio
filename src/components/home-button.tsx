@@ -1,5 +1,5 @@
 
-import '../styles/Navbar.css';
+import '../styles/HomeButton.css';
 
 function HomeButton() {
     return (
