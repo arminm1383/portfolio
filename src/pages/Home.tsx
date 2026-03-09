@@ -5,7 +5,6 @@ import Navbar from "../components/navbar.tsx";
 import Lenis from 'lenis';
 import triangleIcon from "../assets/icon.png";
 import RecordPlayer from "../components/RecordPlayer";
-import projects from "../data/data";
 
 function Home () {
 
