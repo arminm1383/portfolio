@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import './Home.css'
 
@@ -13,6 +13,10 @@ import navCat from '../assets/images/nav-cat.svg'
 import navLinkedin from '../assets/images/nav-linkedin.png'
 import navEmail from '../assets/images/nav-email.png'
 import navResume from '../assets/images/nav-resume.png'
+import orgStreets from '../assets/images/org-streets.png'
+import orgRocket from '../assets/images/org-rocket.png'
+import orgUci from '../assets/images/org-uci.png'
+import orgPacuci from '../assets/images/org-pacuci.png'
 
 function CornerDots() {
   return (
@@ -28,13 +32,14 @@ function CornerDots() {
 interface WorkCardProps {
   artwork: string
   artworkAlt: string
+  orgLogo: string
   org: string
   title: string
   role: string
   isGif?: boolean
 }
 
-function WorkCard({ artwork, artworkAlt, org, title, role, isGif }: WorkCardProps) {
+function WorkCard({ artwork, artworkAlt, orgLogo, org, title, role, isGif }: WorkCardProps) {
   const imgRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => {
@@ -61,7 +66,10 @@ function WorkCard({ artwork, artworkAlt, org, title, role, isGif }: WorkCardProp
         <img ref={imgRef} src={artwork} alt={artworkAlt} />
       </div>
       <div className="work-card-content">
-        <p className="work-card-org">{org}</p>
+        <div className="work-card-org">
+          <img src={orgLogo} alt="" className="work-card-org-logo" />
+          <span>{org}</span>
+        </div>
         <div className="work-card-title-block">
           <h2 className="work-card-title">{title}</h2>
           <p className="work-card-role">{role}</p>
@@ -72,8 +80,87 @@ function WorkCard({ artwork, artworkAlt, org, title, role, isGif }: WorkCardProp
 }
 
 export default function Home() {
+  const [page, setPage] = useState(0) // 0 = hero, 1 = works
+  const worksRef = useRef<HTMLElement>(null)
+  const transitioning = useRef(false)
+  // Timestamp when works first settled at scrollTop === 0.
+  // null means works is not at the top, or we haven't settled yet.
+  const atTopSince = useRef<number | null>(null)
+  // Minimum ms the user must have been resting at the top before a
+  // new upward gesture is allowed to switch pages. This drains
+  // trackpad momentum so only a deliberate nudge triggers the switch.
+  const TOP_COOLDOWN = 500
+
+  const goTo = useCallback((p: number) => {
+    if (transitioning.current) return
+    transitioning.current = true
+    // Arriving at works — start cooldown clock immediately (works starts at scrollTop 0).
+    // Arriving at hero — clear it.
+    atTopSince.current = p === 1 ? Date.now() : null
+    setPage(p)
+    setTimeout(() => { transitioning.current = false }, 700)
+  }, [])
+
+  // Track when works settles at the top so we can distinguish
+  // momentum bleed-through from a deliberate new gesture.
+  useEffect(() => {
+    const works = worksRef.current
+    if (!works || page !== 1) return
+    const onScroll = () => {
+      if (works.scrollTop === 0) {
+        if (atTopSince.current === null) atTopSince.current = Date.now()
+      } else {
+        atTopSince.current = null
+      }
+    }
+    works.addEventListener('scroll', onScroll, { passive: true })
+    return () => works.removeEventListener('scroll', onScroll)
+  }, [page])
+
+  // Wheel handler
+  useEffect(() => {
+    const onWheel = (e: WheelEvent) => {
+      if (page === 0 && e.deltaY > 0) { goTo(1); return }
+      if (page === 1 && e.deltaY < 0) {
+        const works = worksRef.current
+        if (!works) return
+        const settled = atTopSince.current
+        // Must already be at top AND cooldown must have elapsed —
+        // this rejects momentum events and requires a fresh nudge.
+        if (works.scrollTop === 0 && settled !== null && Date.now() - settled >= TOP_COOLDOWN) {
+          goTo(0)
+        }
+      }
+    }
+    window.addEventListener('wheel', onWheel, { passive: true })
+    return () => window.removeEventListener('wheel', onWheel)
+  }, [page, goTo])
+
+  // Touch swipe — start must begin while already at the top
+  useEffect(() => {
+    let startY = 0
+    let startedAtTop = false
+    const onStart = (e: TouchEvent) => {
+      startY = e.touches[0].clientY
+      const works = worksRef.current
+      startedAtTop = page === 1 && !!works && works.scrollTop === 0
+    }
+    const onEnd = (e: TouchEvent) => {
+      const dy = startY - e.changedTouches[0].clientY
+      if (page === 0 && dy > 40) { goTo(1); return }
+      if (page === 1 && dy < -40 && startedAtTop) goTo(0)
+    }
+    window.addEventListener('touchstart', onStart, { passive: true })
+    window.addEventListener('touchend', onEnd, { passive: true })
+    return () => {
+      window.removeEventListener('touchstart', onStart)
+      window.removeEventListener('touchend', onEnd)
+    }
+  }, [page, goTo])
+
   return (
-    <div className="home">
+    <div className="home-clip">
+    <div className="home" style={{ transform: `translateY(${page === 0 ? '0' : '-100vh'})`, transition: 'transform 0.65s cubic-bezier(0.76, 0, 0.24, 1)' }}>
       {/* Hero / Title section */}
       <section className="hero">
         {/* Top navbar — matches Figma frame 221:30193 at x=78, y=47 */}
@@ -139,11 +226,12 @@ export default function Home() {
       </section>
 
       {/* Work cards – 2×2 grid */}
-      <section className="works">
+      <section className="works" ref={worksRef}>
         <div className="works-grid">
           <WorkCard
             artwork={streetsGif}
             artworkAlt="Streets Enterprise UI"
+            orgLogo={orgStreets}
             org="Streets by Plyance"
             title="Streets Enterprise UI"
             role="Founding Product Designer"
@@ -152,6 +240,7 @@ export default function Home() {
           <WorkCard
             artwork={rocketArtwork}
             artworkAlt="Rocket Copilot AI"
+            orgLogo={orgRocket}
             org="Rocket Lawyer"
             title="Rocket Copilot AI"
             role="Founding Product Designer"
@@ -159,6 +248,7 @@ export default function Home() {
           <WorkCard
             artwork={findyGif}
             artworkAlt="Findy"
+            orgLogo={orgUci}
             org="Design @ UCI"
             title="Findy"
             role="Product Designer"
@@ -167,6 +257,7 @@ export default function Home() {
           <WorkCard
             artwork={auraGif}
             artworkAlt="Aura"
+            orgLogo={orgPacuci}
             org="Product Association @ UCI"
             title="Aura"
             role="Product Designer"
@@ -174,6 +265,7 @@ export default function Home() {
           />
         </div>
       </section>
+    </div>
     </div>
   )
 }

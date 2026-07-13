@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Open+Sans:wght@600&display=swap');
 
+/* Clip frame — stays fixed at 100vh, hides everything outside */
+.home-clip {
+  height: 100vh;
+  overflow: hidden;
+  position: fixed;
+  inset: 0;
+}
+
+/* Sliding container — 200vh tall (hero + works), moves via translateY */
 .home {
   /* Tile grid: #f7f7f5 fill, #eeeeee 0.5px border at 25×25px — matches Figma "Tiles Full" */
   background-color: #f7f7f5;
@@ -7,11 +16,31 @@
     linear-gradient(#eeeeee 0.5px, transparent 0.5px),
     linear-gradient(90deg, #eeeeee 0.5px, transparent 0.5px);
   background-size: 25px 25px;
-  /* Scroll container for snap behaviour */
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
+  height: 200vh; /* hero (100vh) + works (100vh) stacked */
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Entrance animations ──
+   Opacity snaps to 1 at ~35% of the duration so the element
+   feels immediately present; the Y shift finishes more slowly. */
+@keyframes floatUp {
+  0%   { opacity: 0; transform: translateY(10px); }
+  35%  { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatDown {
+  0%   { opacity: 0; transform: translateY(-10px); }
+  35%  { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* pill nav — preserves translateX(-50%) centering throughout */
+@keyframes floatUpNav {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  35%  { opacity: 1; }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
 /* ── Hero ── */
@@ -19,8 +48,7 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  flex-shrink: 0;
-  scroll-snap-align: start;
+  overflow: hidden;
 }
 
 /* Top navbar — Figma frame 221:30193: x=78, y=47, w=1330, h=43 */
@@ -34,6 +62,7 @@
   align-items: center;
   justify-content: space-between;
   z-index: 10;
+  animation: floatDown 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
 
 .hero-topnav-logo {
@@ -94,6 +123,7 @@
   height: 680px;
   object-fit: contain;
   object-position: left top;
+  animation: floatUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 }
 
 .hero-name-block {
@@ -102,6 +132,7 @@
   top: 278px;
   width: 723px;
   z-index: 2;
+  animation: floatUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
 }
 
 .hero-stars {
@@ -138,6 +169,7 @@
   display: inline-block;
   margin-top: 31px;
   margin-left: 184px;
+  animation: floatUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
 }
 
 .hero-tagline-box {
@@ -192,12 +224,14 @@
   position: absolute;
   left: 335px;
   top: 341px;
+  animation: floatUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.48s both;
 }
 
 .hero-tag-anteater {
   position: absolute;
   left: 49px;
   top: 445px;
+  animation: floatUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.58s both;
 }
 
 /* ── Hero Pill Navbar ── */
@@ -207,6 +241,7 @@
   bottom: 32px;
   left: 50%;
   transform: translateX(-50%);
+  animation: floatUpNav 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.68s both;
   width: 295px;
   height: 86px;
   border-radius: 24px;
@@ -261,18 +296,18 @@
 
 /* ── Works Grid ── */
 .works {
-  scroll-snap-align: start;
-  min-height: 100vh;
-  max-width: 1648px;
-  margin: 0 auto;
-  padding: 264px 103px 80px;
+  height: 100vh;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
   box-sizing: border-box;
+  /* 104px edge padding, responsive via clamp */
+  padding: 56px clamp(24px, 7.22vw, 104px) 64px;
 }
 
 .works-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 56px;
+  gap: 20px;
 }
 
 /* ── Work Card ── */
@@ -282,11 +317,12 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
+/* Artwork scales with card width — preserves Figma 693:372 ratio */
 .work-card-artwork {
-  height: 372px;
+  width: 100%;
+  aspect-ratio: 693 / 372;
   flex-shrink: 0;
   overflow: hidden;
 }
@@ -299,17 +335,31 @@
 }
 
 .work-card-content {
-  padding: 24px;
+  padding: 16px 20px 20px;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
 .work-card-org {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin: 0;
+}
+
+.work-card-org-logo {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+}
+
+.work-card-org span {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.65);
   line-height: normal;
 }
 
@@ -321,7 +371,7 @@
 
 .work-card-title {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 36px;
+  font-size: 28px;
   line-height: normal;
   color: #000;
   margin: 0;
@@ -329,7 +379,7 @@
 
 .work-card-role {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 16px;
+  font-size: 13px;
   color: rgba(0, 0, 0, 0.65);
   margin: 0;
   line-height: normal;
