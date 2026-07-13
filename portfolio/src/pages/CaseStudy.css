@@ -1,0 +1,134 @@
+.case-study {
+  background: #f7f7f7;
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-top: 62px;
+  position: relative;
+}
+
+/* Noise texture overlay — matches Figma's noise filter on Rectangle 9 (63:70) */
+.case-study::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 300px 300px;
+}
+
+/* ── Hero ── */
+/* Full-width, 900px tall — no horizontal padding. Matches Figma Title frame (63:72) 1498×900px */
+.cs-hero {
+  position: relative;
+  width: 100%;
+  height: 900px;
+  overflow: hidden;
+}
+
+.cs-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.cs-hero-mockup {
+  position: absolute;
+  right: 140px;
+  bottom: 0;
+  height: 80%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.cs-hero-label {
+  position: absolute;
+  left: 94px;
+  bottom: 80px;
+  z-index: 2;
+}
+
+.cs-frame-label {
+  display: block;
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 8px;
+}
+
+.cs-hero-title {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 88px;
+  line-height: 1;
+  color: #000;
+  margin: 0 0 8px;
+}
+
+.cs-hero-role {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.65);
+  margin: 0;
+}
+
+/* Corner dots — 12px green squares, matching Home.css .frame-dot */
+.cs-corner-dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #18671f;
+  z-index: 3;
+}
+
+.cs-corner-dot.tl { top: 0;  left: 0; }
+.cs-corner-dot.tr { top: 0;  right: 0; }
+.cs-corner-dot.bl { bottom: 0; left: 0; }
+.cs-corner-dot.br { bottom: 0; right: 0; }
+
+/* ── Content sections ── */
+/* 52px gap between sections (Figma Landing frame gap-[52px]).
+   94px horizontal margin matches Home project row positioning. */
+.cs-section {
+  position: relative;
+  width: 1498px;
+  max-width: 100%;
+  margin-top: 52px;
+}
+
+.cs-section-inner {
+  padding: 60px 94px;
+  border: 2px dashed #000;
+}
+
+.cs-section-heading {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 40px;
+  line-height: 1;
+  color: #000;
+  margin: 0 0 24px;
+}
+
+.cs-section-body {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.65);
+  margin: 0;
+  max-width: 700px;
+}
+
+/* Not-found fallback */
+.cs-not-found {
+  padding: 120px 94px;
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.65);
+}

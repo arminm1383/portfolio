@@ -1,0 +1,336 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Open+Sans:wght@600&display=swap');
+
+.home {
+  /* Tile grid: #f7f7f5 fill, #eeeeee 0.5px border at 25×25px — matches Figma "Tiles Full" */
+  background-color: #f7f7f5;
+  background-image:
+    linear-gradient(#eeeeee 0.5px, transparent 0.5px),
+    linear-gradient(90deg, #eeeeee 0.5px, transparent 0.5px);
+  background-size: 25px 25px;
+  /* Scroll container for snap behaviour */
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+/* Top navbar — Figma frame 221:30193: x=78, y=47, w=1330, h=43 */
+.hero-topnav {
+  position: absolute;
+  left: 78px;
+  top: 47px;
+  right: 240px;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+.hero-topnav-logo {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.hero-topnav-cat {
+  width: 57px;
+  height: 38px;
+  object-fit: contain;
+  display: block;
+}
+
+.hero-topnav-identity {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-topnav-name {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 16px;
+  color: #000;
+  line-height: normal;
+}
+
+.hero-topnav-role {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.65);
+  line-height: normal;
+}
+
+.hero-topnav-contact {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.hero-topnav-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+
+.hero-topnav-icon-link:hover {
+  opacity: 1;
+}
+
+.hero-illustration {
+  position: absolute;
+  left: 0;
+  top: 110px;
+  width: 622px;
+  height: 680px;
+  object-fit: contain;
+  object-position: left top;
+}
+
+.hero-name-block {
+  position: absolute;
+  right: 143px;
+  top: 278px;
+  width: 723px;
+  z-index: 2;
+}
+
+.hero-stars {
+  position: absolute;
+  right: 324px;
+  top: 174px;
+  width: 360px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-name {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 88px;
+  line-height: 1;
+  color: #000;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-name .first {
+  display: block;
+}
+
+.hero-name .last {
+  display: block;
+  margin-left: 49px;
+  margin-top: -8px;
+}
+
+.hero-tagline-wrap {
+  position: relative;
+  display: inline-block;
+  margin-top: 31px;
+  margin-left: 184px;
+}
+
+.hero-tagline-box {
+  border: 2px dashed #000;
+  padding: 12px 24px;
+  width: 348px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.hero-tagline-box p {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.hero-corner-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #18671f;
+}
+
+.hero-corner-dot.tl { top: -4px; left: -4px; }
+.hero-corner-dot.tr { top: -4px; right: -4px; }
+.hero-corner-dot.bl { bottom: -4px; left: -4px; }
+.hero-corner-dot.br { bottom: -4px; right: -4px; }
+
+/* Tags (pill badges) */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset 0 0 0 2px rgba(0, 0, 0, 0.5),
+    0 4px 16px rgba(0, 0, 0, 0.04);
+  border-radius: 9999px;
+  padding: 6px 16px;
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  background: #fff;
+  white-space: nowrap;
+}
+
+.hero-tag-designer {
+  position: absolute;
+  left: 335px;
+  top: 341px;
+}
+
+.hero-tag-anteater {
+  position: absolute;
+  left: 49px;
+  top: 445px;
+}
+
+/* ── Hero Pill Navbar ── */
+/* Fixed to viewport: always horizontally centered, 32px above bottom edge */
+.hero-nav {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 295px;
+  height: 86px;
+  border-radius: 24px;
+  opacity: 1;
+  box-shadow:
+    0px 4px 4px 0px rgba(0, 0, 0, 0.10),
+    inset 0px 4px 4px 0px rgba(0, 0, 0, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.hero-nav-backdrop {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  backdrop-filter: blur(6px);
+  background: rgba(24, 140, 34, 0.5);
+  pointer-events: none;
+}
+
+.hero-nav-item {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 14px;
+  border-radius: 36px;
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
+}
+
+.hero-nav-item img {
+  display: block;
+  flex-shrink: 0;
+}
+
+.hero-nav-item span {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 16px;
+  color: #000;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+/* ── Works Grid ── */
+.works {
+  scroll-snap-align: start;
+  min-height: 100vh;
+  max-width: 1648px;
+  margin: 0 auto;
+  padding: 264px 103px 80px;
+  box-sizing: border-box;
+}
+
+.works-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 56px;
+}
+
+/* ── Work Card ── */
+.work-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.work-card-artwork {
+  height: 372px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.work-card-artwork img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.work-card-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.work-card-org {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.65);
+  margin: 0;
+  line-height: normal;
+}
+
+.work-card-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.work-card-title {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 36px;
+  line-height: normal;
+  color: #000;
+  margin: 0;
+}
+
+.work-card-role {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.65);
+  margin: 0;
+  line-height: normal;
+}
