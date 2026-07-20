@@ -3,4 +3,9 @@ html, body {
   height: 100%;
   overflow: hidden;
   background-color: #f7f7f5;
+  cursor: none;
+}
+
+*, *::before, *::after {
+  cursor: none !important;
 }

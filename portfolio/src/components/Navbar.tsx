@@ -9,46 +9,31 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      {/* blur backdrop rectangle — height = pill height + 12px top + 12px bottom */}
-      <div className="navbar-blur" />
-
-      <div className="navbar-pills">
-        <Link
-          to="/"
-          className={`nav-pill${pathname === '/' ? ' nav-pill--active' : ''}`}
-        >
-          armin
-        </Link>
+      <div className="navbar-pill">
+        <div className="navbar-pill-blur" />
 
         <Link
           to="/work/aura"
-          className={`nav-pill${pathname.startsWith('/work') ? ' nav-pill--active' : ''}`}
+          className={`nav-tab${pathname.startsWith('/work') ? ' nav-tab--active' : ''}`}
         >
-          <img
-            src={navStar}
-            alt=""
-            className="nav-pill-icon nav-pill-icon--star"
-          />
+          <img src={navStar} alt="" className="nav-tab-icon nav-tab-icon--star" />
           work
         </Link>
 
         <Link
           to="/about"
-          className={`nav-pill${pathname === '/about' ? ' nav-pill--active' : ''}`}
+          className={`nav-tab${pathname === '/about' ? ' nav-tab--active' : ''}`}
         >
-          <img
-            src={navPerson}
-            alt=""
-            className="nav-pill-icon nav-pill-icon--person"
-          />
+          <img src={navPerson} alt="" className="nav-tab-icon nav-tab-icon--person" />
           about
         </Link>
 
         <Link
           to="/playground"
-          className={`nav-pill${pathname === '/playground' ? ' nav-pill--active' : ''}`}
+          className={`nav-tab${pathname === '/playground' ? ' nav-tab--active' : ''}`}
         >
-          playground
+          <img src={navPerson} alt="" className="nav-tab-icon nav-tab-icon--person" />
+          play
         </Link>
       </div>
     </nav>

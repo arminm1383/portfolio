@@ -1,0 +1,322 @@
+@keyframes fcs-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Page shell — tile grid matching Home.css ── */
+.fcs-page {
+  background-color: #f7f7f5;
+  background-image:
+    linear-gradient(#eeeeee 0.5px, transparent 0.5px),
+    linear-gradient(90deg, #eeeeee 0.5px, transparent 0.5px);
+  background-size: 25px 25px;
+  min-height: 100vh;
+  animation: fcs-fade-in 0.35s ease both;
+}
+
+/* ── Fixed top bar ── */
+.fcs-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(24px, 5vw, 72px);
+  z-index: 300;
+  box-sizing: border-box;
+}
+
+.fcs-topbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.fcs-topbar-cat {
+  width: 46px;
+  height: 31px;
+  object-fit: contain;
+  display: block;
+}
+
+.fcs-topbar-identity {
+  display: flex;
+  flex-direction: column;
+}
+
+.fcs-topbar-name {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 15px;
+  color: #000;
+  line-height: 1.2;
+}
+
+.fcs-topbar-role {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.55);
+  line-height: 1.2;
+}
+
+.fcs-topbar-contact {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.fcs-topbar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.fcs-topbar-icon:hover { opacity: 1; }
+
+/* ── Layout ── */
+.fcs-body {
+  margin-left: 220px;
+  padding-top: 72px; /* clear the fixed top bar */
+}
+
+/* ── Sidebar — fixed, always present ── */
+.fcs-sidebar {
+  position: fixed;
+  left: 0;
+  top: 72px; /* below top bar */
+  width: 220px;
+  height: calc(100vh - 72px);
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-right: 0.5px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: flex-start;
+  padding-top: 40px;
+  padding-left: 40px;
+  z-index: 200;
+  box-sizing: border-box;
+}
+
+.fcs-sidebar-sticky { display: contents; }
+
+/* ── Plain text nav ── */
+.fcs-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.fcs-nav-item {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #000000;
+  padding: 0;
+  margin-bottom: 20px;
+  text-align: left;
+  white-space: nowrap;
+  line-height: 1.3;
+  transition: color 0.2s;
+}
+
+/* Active / selected section — 50% opacity */
+.fcs-nav-item--active {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* Non-routable items — still full black, no pointer */
+.fcs-nav-item--soon {
+  cursor: default;
+}
+
+/* Resume modal */
+.fcs-resume-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fcs-resume-modal {
+  position: relative;
+  width: min(900px, 92vw);
+  height: 85vh;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.fcs-resume-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  z-index: 1;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #000;
+  line-height: 1;
+}
+.fcs-resume-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ── Main content area ── */
+.fcs-content {
+  padding: 0 0 160px;
+}
+
+.fcs-inner {
+  max-width: 1028px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+/* ── Header / Hero ── */
+.fcs-header {
+  padding-top: 36px;
+  padding-bottom: 48px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 0;
+}
+
+/* Hero frame image — bleeds out of fcs-inner's 48px padding to fill exactly 1028px */
+.fcs-hero-frame {
+  display: block;
+  width: calc(100% + 96px);   /* cancel both 48px padding sides */
+  margin-left: -48px;
+  margin-right: -48px;
+  margin-bottom: 36px;
+  aspect-ratio: 1028 / 473;   /* exact Figma frame dimensions */
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Org + Title ── */
+.fcs-org-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.fcs-org-logo {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.fcs-org-name {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.fcs-title {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 84px;
+  line-height: 1.2;
+  color: #000;
+  margin: 0 0 36px;
+  letter-spacing: -1.68px;
+}
+
+/* ── Tags row ── */
+.fcs-tags {
+  display: flex;
+  gap: 48px;
+  padding-top: 28px;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+}
+
+.fcs-tag {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fcs-tag-label {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.48px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.fcs-tag-value {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -0.48px;
+  line-height: 1.2;
+  color: #000;
+}
+
+/* ── Content sections ── */
+.fcs-section {
+  padding-top: 64px;
+}
+
+.fcs-section-label {
+  display: block;
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 12px;
+}
+
+.fcs-section-body {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 20px;
+  line-height: 36px;
+  color: #000;
+  margin: 0 0 36px;
+  max-width: 860px;
+  letter-spacing: -0.4px;
+}
+
+/* ── Research card (finding strip) ── */
+.fcs-research-card-img {
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 36px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Generic full-width section images ── */
+.fcs-section-img {
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 36px;
+}

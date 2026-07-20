@@ -1,0 +1,14 @@
+/* Cursor element sits at top-left; lerp transform moves it toward mouse with eased weight */
+.custom-cursor {
+  position: fixed;
+  top: -12px;   /* -half of 24px to center on the hotspot */
+  left: -12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #6CA872;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 99999;
+  will-change: transform;
+}

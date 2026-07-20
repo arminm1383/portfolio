@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Open+Sans:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@500&family=Open+Sans:wght@600&family=Tiro+Tamil&display=swap');
 
 /* Clip frame — stays fixed at 100vh, hides everything outside */
 .home-clip {
@@ -8,7 +8,7 @@
   inset: 0;
 }
 
-/* Sliding container — 200vh tall (hero + works), moves via translateY */
+/* Sliding container — 300vh tall (hero + works + about), moves via translateY */
 .home {
   /* Tile grid: #f7f7f5 fill, #eeeeee 0.5px border at 25×25px — matches Figma "Tiles Full" */
   background-color: #f7f7f5;
@@ -16,7 +16,7 @@
     linear-gradient(#eeeeee 0.5px, transparent 0.5px),
     linear-gradient(90deg, #eeeeee 0.5px, transparent 0.5px);
   background-size: 25px 25px;
-  height: 200vh; /* hero (100vh) + works (100vh) stacked */
+  height: 300vh; /* hero (100vh) + works (100vh) + about (100vh) stacked */
   display: flex;
   flex-direction: column;
 }
@@ -43,6 +43,34 @@
   100% { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
+/* Tag entrance — fades to 0.92; z is baked in so it never changes */
+@keyframes floatUpTag {
+  0%   { opacity: 0; transform: perspective(600px) translateZ(14px) translateY(10px); }
+  35%  { opacity: 0.92; }
+  100% { opacity: 0.92; transform: perspective(600px) translateZ(14px) translateY(0px); }
+}
+
+/* Perpetual float: only Y moves — Z stays at 14px throughout.
+   Shadow grows as the tag rises to sell the physical height. */
+@keyframes tagBob {
+  0%, 100% {
+    transform: perspective(600px) translateZ(14px) translateY(0px);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+    box-shadow:
+      inset 0 0 0 2px rgba(0, 0, 0, 0.5),
+      0 4px 4px rgba(0, 0, 0, 0.16),
+      inset 0 4px 4px rgba(0, 0, 0, 0.02);
+  }
+  50% {
+    transform: perspective(600px) translateZ(14px) translateY(-3px);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+    box-shadow:
+      inset 0 0 0 2px rgba(0, 0, 0, 0.5),
+      0 7px 10px rgba(0, 0, 0, 0.13),
+      inset 0 4px 4px rgba(0, 0, 0, 0.02);
+  }
+}
+
 /* ── Hero ── */
 .hero {
   position: relative;
@@ -51,17 +79,19 @@
   overflow: hidden;
 }
 
-/* Top navbar — Figma frame 221:30193: x=78, y=47, w=1330, h=43 */
+/* Top navbar — full-width positioning container, no background */
 .hero-topnav {
-  position: absolute;
-  left: 78px;
-  top: 47px;
-  right: 240px;
-  height: 43px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 90px; /* 47px offset + 43px element height */
+  padding: 47px clamp(32px, 6.5vw, 96px) 0;
+  box-sizing: border-box;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  z-index: 10;
+  z-index: 1000;
   animation: floatDown 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
 
@@ -69,6 +99,14 @@
   display: flex;
   align-items: flex-start;
   gap: 6px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(247, 247, 245, 0.6);
 }
 
 .hero-topnav-cat {
@@ -101,6 +139,13 @@
   display: flex;
   align-items: center;
   gap: 28px;
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+.hero-topnav-contact--hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .hero-topnav-icon-link {
@@ -109,6 +154,10 @@
   justify-content: center;
   opacity: 0.8;
   transition: opacity 0.15s;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
 }
 
 .hero-topnav-icon-link:hover {
@@ -162,6 +211,7 @@
   display: block;
   margin-left: 49px;
   margin-top: -8px;
+  text-align: center;
 }
 
 .hero-tagline-wrap {
@@ -209,7 +259,8 @@
   justify-content: center;
   box-shadow:
     inset 0 0 0 2px rgba(0, 0, 0, 0.5),
-    0 4px 16px rgba(0, 0, 0, 0.04);
+    0 4px 4px rgba(0, 0, 0, 0.16),
+    inset 0 4px 4px rgba(0, 0, 0, 0.02);
   border-radius: 9999px;
   padding: 6px 16px;
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
@@ -218,20 +269,27 @@
   color: #000;
   background: #fff;
   white-space: nowrap;
+  will-change: transform, box-shadow;
 }
 
 .hero-tag-designer {
   position: absolute;
   left: 335px;
   top: 341px;
-  animation: floatUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.48s both;
+  /* entrance ends at 1.23s (0.48 + 0.75); bob kicks in immediately after */
+  animation:
+    floatUpTag 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.48s both,
+    tagBob 3s linear 1.23s infinite;
 }
 
 .hero-tag-anteater {
   position: absolute;
   left: 49px;
   top: 445px;
-  animation: floatUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.58s both;
+  /* different period (3.7s) so the two tags drift in and out of phase naturally */
+  animation:
+    floatUpTag 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.58s both,
+    tagBob 3.7s linear 1.33s infinite;
 }
 
 /* ── Hero Pill Navbar ── */
@@ -279,6 +337,9 @@
   text-decoration: none;
   color: #000;
   cursor: pointer;
+  background: none;
+  border: none;
+  font: inherit;
 }
 
 .hero-nav-item img {
@@ -307,22 +368,91 @@
 .works-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  column-gap: 60px;
+  row-gap: 96px;
 }
 
+/* ── Work-card entrance: appear stacked → pause → spread ──
+   Phase 1 (0–15 %): all four cards fade in simultaneously at the centre pile.
+   Phase 2 (15–35 %): visible pause — the full stack sits on screen.
+   Phase 3 (35/43/51/59 % → 100 %): cards cascade out to their 2×2 positions.
+   spread easing: cubic-bezier(0.22, 1, 0.36, 1) — fast launch, smooth land */
+
+@keyframes wc-stack-1 {
+  0%   { opacity: 0; transform: translate(calc(50% + 30px), calc(50% + 48px)) rotate(-5deg); }
+  15%  { opacity: 1; transform: translate(calc(50% + 30px), calc(50% + 48px)) rotate(-5deg); }
+  35%  { transform: translate(calc(50% + 30px), calc(50% + 48px)) rotate(-5deg); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  100% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes wc-stack-2 {
+  0%   { opacity: 0; transform: translate(calc(-50% - 30px), calc(50% + 48px)) rotate(4deg); }
+  15%  { opacity: 1; transform: translate(calc(-50% - 30px), calc(50% + 48px)) rotate(4deg); }
+  43%  { transform: translate(calc(-50% - 30px), calc(50% + 48px)) rotate(4deg); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  100% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes wc-stack-3 {
+  0%   { opacity: 0; transform: translate(calc(50% + 30px), calc(-50% - 48px)) rotate(3deg); }
+  15%  { opacity: 1; transform: translate(calc(50% + 30px), calc(-50% - 48px)) rotate(3deg); }
+  51%  { transform: translate(calc(50% + 30px), calc(-50% - 48px)) rotate(3deg); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  100% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes wc-stack-4 {
+  0%   { opacity: 0; transform: translate(calc(-50% - 30px), calc(-50% - 48px)) rotate(-3deg); }
+  15%  { opacity: 1; transform: translate(calc(-50% - 30px), calc(-50% - 48px)) rotate(-3deg); }
+  59%  { transform: translate(calc(-50% - 30px), calc(-50% - 48px)) rotate(-3deg); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  100% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+}
+
+.works-grid .work-card:nth-child(1) { animation: wc-stack-1 1.7s linear backwards; }
+.works-grid .work-card:nth-child(2) { animation: wc-stack-2 1.7s linear backwards; }
+.works-grid .work-card:nth-child(3) { animation: wc-stack-3 1.7s linear backwards; }
+.works-grid .work-card:nth-child(4) { animation: wc-stack-4 1.7s linear backwards; }
+
+
 /* ── Work Card ── */
+a.work-card {
+  text-decoration: none;
+  color: inherit;
+}
+
 .work-card {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 16px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  opacity: 0.98;
+  box-shadow:
+    0 4px 4px rgba(0, 0, 0, 0.12),
+    inset 0 4px 4px rgba(0, 0, 0, 0.02);
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Artwork scales with card width — preserves Figma 693:372 ratio */
+/* [0,0] top-left and [1,1] bottom-right → tilt left */
+.work-card:nth-child(1):hover,
+.work-card:nth-child(4):hover {
+  transform: translateY(-10px) rotate(-1deg);
+  box-shadow:
+    0 16px 24px rgba(0, 0, 0, 0.12),
+    inset 0 4px 4px rgba(0, 0, 0, 0.02);
+}
+
+/* [0,1] top-right and [1,0] bottom-left → tilt right */
+.work-card:nth-child(2):hover,
+.work-card:nth-child(3):hover {
+  transform: translateY(-10px) rotate(1deg);
+  box-shadow:
+    0 16px 24px rgba(0, 0, 0, 0.12),
+    inset 0 4px 4px rgba(0, 0, 0, 0.02);
+}
+
+/* Artwork scales with card width — preserves Figma 591:342 ratio */
 .work-card-artwork {
   width: 100%;
-  aspect-ratio: 693 / 372;
+  aspect-ratio: 591 / 342;
   flex-shrink: 0;
   overflow: hidden;
 }
@@ -334,17 +464,109 @@
   object-position: top center;
 }
 
+/* ── Case study coming soon — cursor-following portal popup ── */
+
+/* Outer float: positioned via JS transform (position:fixed, stays at 0,0 baseline) */
+.cs-float {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9998; /* below custom cursor (99999) */
+}
+
+/* Inner popup window: animates independently of the position transform */
+.cs-popup {
+  width: min(300px, 80vw);
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.75),
+    0 10px 36px rgba(0, 0, 0, 0.50);
+  overflow: hidden;
+  transform-origin: bottom left;
+  animation: cs-tab-open 0.16s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes cs-tab-open {
+  from { opacity: 0; transform: scale(0.80); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.cs-title-bar {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+
+.cs-controls {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.cs-dot {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 0.5px solid rgba(0, 0, 0, 0.35);
+}
+
+.cs-dot--close { background: #ff5c60; }
+.cs-dot--min   { background: #fac800; }
+.cs-dot--zoom  { background: #35c759; }
+
+.cs-content {
+  padding: 12px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cs-command {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: #e9ecef;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cs-result {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  color: #e86165;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.cs-result--found {
+  color: #35c759;
+}
+
 .work-card-content {
-  padding: 16px 20px 20px;
+  padding: 24px;
+  height: 114px;
+  box-sizing: border-box;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  justify-content: center;
 }
 
 .work-card-org {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   margin: 0;
 }
 
@@ -358,7 +580,7 @@
 
 .work-card-org span {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   color: rgba(0, 0, 0, 0.65);
   line-height: normal;
 }
@@ -371,7 +593,7 @@
 
 .work-card-title {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 28px;
+  font-size: 24px;
   line-height: normal;
   color: #000;
   margin: 0;
@@ -379,8 +601,596 @@
 
 .work-card-role {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   color: rgba(0, 0, 0, 0.65);
   margin: 0;
   line-height: normal;
+}
+
+/* ── About section ── */
+.about {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(32px, 6.5vw, 96px);
+  box-sizing: border-box;
+  overflow: hidden;
+  /* Perspective for the 3D magazine tilt */
+  perspective: 1400px;
+  perspective-origin: 50% 50%;
+}
+
+/* ── Magazine outer wrapper — owns the 3D tilt ── */
+/* Width is FIXED — no width transition. The cover flips in place;
+   the back face extends left beyond this element's layout bounds. */
+/* filter: drop-shadow is intentionally avoided: it breaks transform-style: preserve-3d. */
+.about-magazine {
+  position: relative;
+  flex-shrink: 0;
+  cursor: pointer;
+  width: min(500px, 90vw);
+  /* translateX(0%) included so the function list EXACTLY matches .is-open —
+     mismatched lists force matrix decomposition which takes the wrong rotation path */
+  transform: rotateY(-8deg) rotateX(2deg) translateX(0%);
+  transform-style: preserve-3d;
+  will-change: transform;
+  box-shadow:
+    20px 36px 60px rgba(0, 0, 0, 0.48),
+    6px 10px 20px rgba(0, 0, 0, 0.28);
+  transition:
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.8s ease;
+}
+
+.about-magazine.is-open {
+  transform: rotateY(0deg) rotateX(0deg) translateX(50%);
+  box-shadow:
+    0 36px 60px rgba(0, 0, 0, 0.28),
+    0 10px 20px rgba(0, 0, 0, 0.16);
+}
+
+/* ── Magazine book — paper background, always same size as the magazine ── */
+/* No preserve-3d here — z-index controls stacking of p5/inner/cover instead.
+   The book itself is a flat 2D container; the outer .about-magazine handles 3D tilt. */
+.magazine-book {
+  width: 100%;
+  position: relative;
+  border-radius: 2px;
+  background: #fafaf8;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px, transparent 2px,
+      rgba(0, 0, 0, 0.007) 2px, rgba(0, 0, 0, 0.007) 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px, transparent 2px,
+      rgba(0, 0, 0, 0.005) 2px, rgba(0, 0, 0, 0.005) 3px
+    );
+  box-shadow:
+    1.5px  1.5px 0 rgba(195, 195, 195, 0.95),
+    3px    3px   0 rgba(208, 208, 208, 0.85),
+    4.5px  4.5px 0 rgba(218, 218, 218, 0.75),
+    6px    6px   0 rgba(225, 225, 225, 0.55);
+}
+
+/* ── Flippable cover — fills the full book; spine is its left edge ── */
+/* Cover sits above the right page; when it flips left, the right page becomes visible */
+.magazine-cover {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.about-magazine.is-open .magazine-cover {
+  transform: rotateY(-180deg);
+}
+
+/* ── Inside back cover — visible only when the cover is flipped ── */
+/* clip-path instead of overflow:hidden — overflow:hidden creates an independent 2D
+   compositing layer that breaks the element out of the preserve-3d scene, causing
+   page 2 to appear as a flat layer that "flies in" rather than being the true back
+   face of page 1. clip-path clips content visually without promoting to a new layer. */
+.magazine-cover-back {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 round 2px);
+  background: #fff;
+  box-shadow:
+    inset -14px 0 28px rgba(0, 0, 0, 0.10),
+    inset 0.5px 0 0 rgba(255, 255, 255, 0.85),
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.85);
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ── Magazine cover — cardboard journal ── */
+.about-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 640 / 820;
+  /* clip-path instead of overflow:hidden for the same preserve-3d reason */
+  clip-path: inset(0 round 2px);
+  background: #9b7849;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Cardboard texture fill */
+.about-card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Subtle spine shadow overlay on top of texture */
+.about-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg,
+      rgba(0, 0, 0, 0.18) 0%,
+      rgba(0, 0, 0, 0.06) 10%,
+      transparent 24%),
+    linear-gradient(0deg,
+      rgba(0, 0, 0, 0.10) 0%,
+      transparent 14%);
+}
+
+/* ── Page 1: all elements use % of 640×820 Figma frame ── */
+.about-img { position: absolute; object-fit: contain; z-index: 1; }
+
+.about-img--birds1 {
+  left: 31.09%;  top: 4.76%;  width: 63.91%;
+}
+.about-img--birds2 {
+  left: 46.09%;  top: -3.05%; width: 24.06%;
+}
+.about-img--birds3 {
+  left: 70.47%;  top: 21.22%; width: 32.19%;
+}
+
+/* "about" — left=37/640=5.78% + width/2=328/2/640=25.63% → center at 31.41% */
+.about-heading-about {
+  position: absolute;
+  left: 31.41%;
+  top: 28.78%;   /* 236/820 */
+  transform: translateX(-50%);
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: clamp(40px, 6.5vw, 66px);
+  line-height: 1;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* "me" — left=46/640=7.19% + width/2=185/2/640=14.45% → center at 21.64% */
+.about-heading-me {
+  position: absolute;
+  left: 21.64%;
+  top: 37.44%;   /* 307/820 */
+  transform: translateX(-50%);
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: clamp(40px, 6.5vw, 66px);
+  line-height: 1;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Boy with guitar — new cover person */
+.about-cover-person {
+  position: absolute;
+  left: 6.56%;    /* 42/640 */
+  top: 52.80%;    /* 433/820 */
+  width: 46.88%;  /* 300/640 */
+  object-fit: contain;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Music note stickers on cover */
+.cover-note {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 3;
+}
+.cover-note--1 {
+  left: 47.97%;   /* 307/640 */
+  top: 47.20%;    /* 387/820 */
+  width: 12.34%;  /* 79/640 */
+}
+.cover-note--2 {
+  left: 55.00%;   /* 352/640 */
+  top: 55.24%;    /* 453/820 */
+  width: 7.81%;   /* 50/640 */
+}
+.cover-note--3 {
+  left: 62.03%;   /* 397/640 */
+  top: 48.90%;    /* 401/820 */
+  width: 9.53%;   /* 61/640 */
+}
+
+/* Star / snowflake stickers on cover */
+.cover-star {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 3;
+}
+.cover-star--tl-sm {
+  left: -3.13%;   /* -20/640 */
+  top:  4.63%;    /*  38/820 */
+  width: 9.84%;   /*  63/640 */
+}
+.cover-star--tl-lg {
+  left:  4.22%;   /*  27/640 */
+  top:  -4.76%;   /* -39/820 */
+  width: 12.66%;  /*  81/640 */
+}
+.cover-star--br-sm {
+  left: 82.50%;   /* 528/640 */
+  top: 80.24%;    /* 658/820 */
+  width: 9.84%;   /*  63/640 */
+}
+.cover-star--br-md {
+  left: 89.84%;   /* 575/640 */
+  top: 76.95%;    /* 631/820 */
+  width: 12.66%;  /*  81/640 */
+}
+.cover-star--br-lg {
+  left: 85.31%;   /* 546/640 */
+  top: 84.39%;    /* 692/820 */
+  width: 20.94%;  /* 134/640 */
+}
+
+/* "press to turn page →" hint */
+.cover-press-hint {
+  position: absolute;
+  left: 80.47%;   /* 515/640 */
+  top: 44.51%;    /* 365/820 */
+  width: 17.03%;  /* 109/640 */
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: clamp(5px, 0.6vw, 8px);
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.5;
+  margin: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Binder rings — rendered brass spiral binding at the spine */
+.magazine-binder-rings {
+  position: absolute;
+  left: -7.03%;    /* -45/640 — overlaps left edge of book */
+  top: 0;
+  width: 14.22%;   /* 91/640 */
+  height: 100%;
+  object-fit: fill;
+  z-index: 10;     /* above the flipping cover at z-index 2 */
+  pointer-events: none;
+  /* No filter — filter inside preserve-3d ancestor causes GPU compositing conflicts */
+}
+
+/* ── Page 2 content ── */
+
+/* Large photo clip */
+.p2-photo-clip {
+  position: absolute;
+  left: 8.75%;    /* 56/640 */
+  top: 5.61%;     /* 46/820 */
+  width: 82.5%;   /* 528/640 */
+  height: 62.56%; /* 513/820 */
+  border-radius: 4px;
+  overflow: hidden;
+}
+.p2-photo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+/* Arabic/Persian Coca-Cola graphic — top-left of photo, blends over image */
+.p2-text-top {
+  position: absolute;
+  left: -2.84%;   /* -15/528 */
+  top: 2.53%;     /* 13/513 */
+  width: 50%;     /* 264/528 */
+  height: auto;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+/* Caption card inside photo */
+.p2-caption {
+  position: absolute;
+  left: 70.45%;   /* 372/528 */
+  top: 50.10%;    /* 257/513 */
+  width: 29.55%;  /* 156/528 */
+  height: 18.13%; /* 93/513 */
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+.p2-caption-main {
+  position: absolute;
+  left: 10.26%;  /* 16/156 */
+  top: 19.35%;   /* 18/93 */
+  width: 78.85%; /* 123/156 */
+  font-family: 'Tiro Tamil', Georgia, serif;
+  font-size: clamp(6px, 0.65vw, 9px);
+  color: #000;
+  filter: blur(0.5px);
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.04);
+  line-height: 1.3;
+  margin: 0;
+}
+.p2-caption-note {
+  position: absolute;
+  left: 53.85%; /* 84/156 */
+  top: 66.67%;  /* 62/93 */
+  font-family: 'Tiro Tamil', Georgia, serif;
+  font-size: clamp(5px, 0.55vw, 8px);
+  color: #000;
+  filter: blur(0.5px);
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.04);
+  margin: 0;
+}
+
+/* ARMIN MOHAMMADI name at bottom of page 2 */
+.p2-name {
+  position: absolute;
+  font-family: 'Tiro Tamil', Georgia, serif;
+  font-size: clamp(26px, 3.5vw, 45px);
+  color: rgba(0, 0, 0, 0.9);
+  filter: blur(1.5px);
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.04);
+  margin: 0;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.p2-name--first {
+  left: 6.09%;  /* 39/640 */
+  top: 71.83%;  /* 589/820 */
+}
+.p2-name--last {
+  left: 6.25%;  /* 40/640 */
+  top: 78.66%;  /* 645/820 */
+}
+
+/* ── Page 3: right inner page — always visible behind the cover ── */
+.magazine-right-page {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  border-radius: 2px;
+  overflow: hidden;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.007) 2px, rgba(0,0,0,0.007) 3px),
+    repeating-linear-gradient(90deg, transparent 0px, transparent 2px, rgba(0,0,0,0.005) 2px, rgba(0,0,0,0.005) 3px);
+  box-shadow: inset -14px 0 28px rgba(0,0,0,0.08), inset 0.5px 0 0 rgba(255,255,255,0.85);
+}
+
+.p3-quote-block {
+  position: absolute;
+  background: #fff;
+  border-radius: 32px;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.p3-quote-block--first {
+  left: 6.25%;    /* 40/640 */
+  top: 10.73%;    /* 88/820 — updated */
+  width: 77.50%;  /* 496/640 — updated */
+  height: 21.83%; /* 179/820 */
+  display: flex;
+  align-items: center;
+}
+
+.p3-botanical-wrap {
+  position: absolute;
+  left: -18.59%;  /* -119/640 — extends beyond left edge */
+  top: 35.73%;    /* 293/820 */
+  width: 65.47%;  /* 419/640 */
+  height: 64.27%; /* 527/820 */
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.p3-botanical-img {
+  position: absolute;
+  top: -5.03%;
+  left: 0;
+  width: 100%;
+  height: 105.07%;
+  object-fit: cover;
+}
+
+.p3-quote-block--second {
+  left: 28.91%;   /* 185/640 — updated */
+  top: 75.00%;    /* 615/820 — updated */
+  width: 66.72%;  /* 427/640 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+.p3-quote-text {
+  font-family: 'Tiro Tamil', Georgia, serif;
+  /* Scale 14px from Figma's 640px frame → 500px magazine (×0.78) */
+  font-size: clamp(7px, 0.75vw, 11px);
+  color: #000;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.p3-quote-text--right {
+  text-align: right;
+  /* Scale 16px × 0.78 → 12px */
+  font-size: clamp(7px, 0.82vw, 12px);
+}
+
+.p3-signature {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: clamp(7px, 0.82vw, 12px);
+  color: #000;
+  text-align: right;
+  margin: 4px 0 0 0;
+}
+
+/* Buffalo photo — CSS polaroid frame */
+.p3-polaroid {
+  position: absolute;
+  left: 50.16%;   /* 321/640 — updated */
+  top: 39.02%;    /* 320/820 — updated */
+  width: 26.88%;  /* 172/640 — updated */
+  aspect-ratio: 172 / 216;
+  background: #fff;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.18), 0 1px 3px rgba(0,0,0,0.10);
+  pointer-events: none;
+  transform: rotate(-1.5deg);
+}
+.p3-polaroid-photo {
+  position: absolute;
+  left: 11.05%;   /* 19/172 — updated */
+  top: 7.87%;     /* 17/216 — updated */
+  width: 79.65%;  /* 137/172 — updated */
+  height: 70.37%; /* 152/216 — updated */
+  overflow: hidden;
+  box-shadow: inset 0 4px 4px rgba(0,0,0,0.08);
+}
+.p3-polaroid-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Buffalo painting — bison painting behind wavy frame */
+.p3-buffalo-painting-wrap {
+  position: absolute;
+  left: 65.31%;   /* 418/640 — updated */
+  top: 54.76%;    /* 449/820 — updated */
+  width: 27.66%;  /* 177/640 — updated */
+  aspect-ratio: 177 / 135;
+  pointer-events: none;
+}
+.p3-buffalo-painting-content-clip {
+  position: absolute;
+  left: 8%;
+  top: 10%;
+  width: 84%;
+  height: 80%;
+  overflow: hidden;
+}
+.p3-buffalo-painting-content-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.p3-buffalo-painting-frame-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+/* ── Resume modal ── */
+@keyframes resume-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes resume-modal-up {
+  from { opacity: 0; transform: scale(0.94) translateY(20px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
+
+.resume-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: resume-fade-in 0.2s ease both;
+}
+
+.resume-modal {
+  position: relative;
+  width: min(92vw, 960px);
+  height: min(92vh, 680px);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 32px 96px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+  animation: resume-modal-up 0.28s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+
+.resume-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.resume-modal-close:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.resume-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
 }
