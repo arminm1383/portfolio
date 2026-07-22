@@ -372,41 +372,15 @@
   row-gap: 96px;
 }
 
-/* ── Work-card entrance: appear stacked → pause → spread ──
-   Phase 1 (0–15 %): all four cards fade in simultaneously at the centre pile.
-   Phase 2 (15–35 %): visible pause — the full stack sits on screen.
-   Phase 3 (35/43/51/59 % → 100 %): cards cascade out to their 2×2 positions.
-   spread easing: cubic-bezier(0.22, 1, 0.36, 1) — fast launch, smooth land */
-
-@keyframes wc-stack-1 {
-  0%   { opacity: 0; transform: translate(calc(50% + 30px), calc(50% + 48px)) rotate(-5deg); }
-  15%  { opacity: 1; transform: translate(calc(50% + 30px), calc(50% + 48px)) rotate(-5deg); }
-  35%  { transform: translate(calc(50% + 30px), calc(50% + 48px)) rotate(-5deg); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
-  100% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
-}
-@keyframes wc-stack-2 {
-  0%   { opacity: 0; transform: translate(calc(-50% - 30px), calc(50% + 48px)) rotate(4deg); }
-  15%  { opacity: 1; transform: translate(calc(-50% - 30px), calc(50% + 48px)) rotate(4deg); }
-  43%  { transform: translate(calc(-50% - 30px), calc(50% + 48px)) rotate(4deg); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
-  100% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
-}
-@keyframes wc-stack-3 {
-  0%   { opacity: 0; transform: translate(calc(50% + 30px), calc(-50% - 48px)) rotate(3deg); }
-  15%  { opacity: 1; transform: translate(calc(50% + 30px), calc(-50% - 48px)) rotate(3deg); }
-  51%  { transform: translate(calc(50% + 30px), calc(-50% - 48px)) rotate(3deg); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
-  100% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
-}
-@keyframes wc-stack-4 {
-  0%   { opacity: 0; transform: translate(calc(-50% - 30px), calc(-50% - 48px)) rotate(-3deg); }
-  15%  { opacity: 1; transform: translate(calc(-50% - 30px), calc(-50% - 48px)) rotate(-3deg); }
-  59%  { transform: translate(calc(-50% - 30px), calc(-50% - 48px)) rotate(-3deg); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
-  100% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+@keyframes wc-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-.works-grid .work-card:nth-child(1) { animation: wc-stack-1 1.2s linear backwards; }
-.works-grid .work-card:nth-child(2) { animation: wc-stack-2 1.2s linear backwards; }
-.works-grid .work-card:nth-child(3) { animation: wc-stack-3 1.2s linear backwards; }
-.works-grid .work-card:nth-child(4) { animation: wc-stack-4 1.2s linear backwards; }
+.works-grid .work-card:nth-child(1) { animation: wc-fade 0.4s ease both; }
+.works-grid .work-card:nth-child(2) { animation: wc-fade 0.4s ease 0.06s both; }
+.works-grid .work-card:nth-child(3) { animation: wc-fade 0.4s ease 0.12s both; }
+.works-grid .work-card:nth-child(4) { animation: wc-fade 0.4s ease 0.18s both; }
 
 
 /* ── Work Card ── */
