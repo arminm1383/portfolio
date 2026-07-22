@@ -16,6 +16,10 @@ import feature2 from '../assets/images/findy-cs-feature2.png'
 import feature3 from '../assets/images/findy-cs-feature3.png'
 import reflectionPhoto1 from '../assets/images/findy-cs-reflection-photo1.png'
 import reflectionPhoto2 from '../assets/images/findy-cs-reflection-photo2.png'
+import streetsGif from '../assets/images/streetsgif.gif'
+import auraGif from '../assets/images/auragif.gif'
+import orgStreets from '../assets/images/org-streets.png'
+import orgPacuci from '../assets/images/org-pacuci.png'
 
 const NAV_ITEMS = [
   { id: '',            label: 'Background',  routable: false },
@@ -355,6 +359,38 @@ export default function FindyCaseStudy() {
                   <img src={reflectionPhoto2} alt="Interactive survey setup at the Huntington Beach Council of Aging" />
                   <figcaption>Interactive survey setup at the Huntington Beach Council of Aging</figcaption>
                 </figure>
+              </div>
+            </section>
+
+            {/* ── Up Next ── */}
+            <section className="fcs-upnext">
+              <div className="fcs-upnext-divider" />
+              <h2 className="fcs-upnext-heading">Up Next</h2>
+              <div className="fcs-upnext-cards">
+                <Link to="/work/streets" className="fcs-upnext-card">
+                  <div className="fcs-upnext-card-artwork">
+                    <img src={streetsGif} alt="" draggable={false} />
+                  </div>
+                  <div className="fcs-upnext-card-info">
+                    <div className="fcs-upnext-card-org">
+                      <img src={orgStreets} alt="" className="fcs-upnext-card-org-logo" />
+                      <span>Streets by Plyance</span>
+                    </div>
+                    <div className="fcs-upnext-card-title">Streets Enterprise UI</div>
+                  </div>
+                </Link>
+                <Link to="/work/aura" className="fcs-upnext-card">
+                  <div className="fcs-upnext-card-artwork">
+                    <img src={auraGif} alt="" draggable={false} />
+                  </div>
+                  <div className="fcs-upnext-card-info">
+                    <div className="fcs-upnext-card-org">
+                      <img src={orgPacuci} alt="" className="fcs-upnext-card-org-logo" />
+                      <span>Product Association @ UCI</span>
+                    </div>
+                    <div className="fcs-upnext-card-title">Aura</div>
+                  </div>
+                </Link>
               </div>
             </section>
 
