@@ -13,14 +13,17 @@ import researchPhotos from '../assets/images/findy-cs-research-photos.png'
 import insights from '../assets/images/findy-cs-insights.png'
 import feature1 from '../assets/images/findy-cs-feature1.png'
 import feature2 from '../assets/images/findy-cs-feature2.png'
+import feature3 from '../assets/images/findy-cs-feature3.png'
+import reflectionPhoto1 from '../assets/images/findy-cs-reflection-photo1.png'
+import reflectionPhoto2 from '../assets/images/findy-cs-reflection-photo2.png'
 
 const NAV_ITEMS = [
-  { id: '',         label: 'Background', routable: false },
-  { id: 'problem',  label: 'Problem',    routable: true  },
-  { id: 'research', label: 'Research',   routable: true  },
-  { id: 'process',  label: 'Process',    routable: false },
-  { id: 'solution', label: 'Solution',   routable: true  },
-  { id: 'impact',   label: 'Impact',     routable: false },
+  { id: '',            label: 'Background',  routable: false },
+  { id: 'problem',     label: 'Problem',     routable: true  },
+  { id: 'research',    label: 'Research',    routable: true  },
+  { id: 'process',     label: 'Process',     routable: false },
+  { id: 'solution',    label: 'Solution',    routable: true  },
+  { id: 'reflections', label: 'Reflections', routable: true  },
 ]
 
 // Cubic bezier evaluator matching CSS cubic-bezier(x1,y1,x2,y2)
@@ -290,6 +293,63 @@ export default function FindyCaseStudy() {
                 alt="Feature 2: Spotlight and dimming user interactions — Decreasing overwhelm. Maintaining control."
                 className="fcs-section-img"
               />
+              <img
+                src={feature3}
+                alt="Feature 3: Synchronization across apps — App Integration Providing Clarity and Empowerment."
+                className="fcs-section-img"
+              />
+            </section>
+
+            {/* ── Reflections ── */}
+            <section className="fcs-section" id="reflections">
+              <span className="fcs-section-label">Reflections</span>
+              <p className="fcs-section-body">
+                Moving forward, next steps are such...
+              </p>
+
+              <div className="fcs-next-steps">
+                <div className="fcs-next-step">
+                  <div className="fcs-next-step-left">
+                    <div className="fcs-next-step-circle" />
+                    <h3 className="fcs-next-step-title">Tailoring User Preferences Becomes the Core</h3>
+                  </div>
+                  <p className="fcs-next-step-body">
+                    The most important element of seniors is that their needs vary drastically across age, medical condition,
+                    tech literacy, and more. By building upon the onboarding and preference-tailoring aspects of the app,
+                    we could connect with far more groups of seniors than the specific niche our base approach captures.
+                  </p>
+                </div>
+
+                <div className="fcs-next-step">
+                  <div className="fcs-next-step-left">
+                    <div className="fcs-next-step-circle" />
+                    <h3 className="fcs-next-step-title">Diving even Further in the UX Research Process</h3>
+                  </div>
+                  <p className="fcs-next-step-body">
+                    With our research being highly targeted towards higher-income, technologically fluent individuals,
+                    the scope of Findy is limited. I'd love to reach out to other drastically different communities,
+                    including immigrant communities, low-income individuals, users with memory conditions, and more,
+                    to further usability test and probe how Findy's current state can be adapted for inclusivity.
+                  </p>
+                </div>
+              </div>
+
+              <p className="fcs-section-body fcs-award-text">
+                Findy won first place as part of a case study competition hosted by Design @ UCI, proving that
+                creative vision and a dedication towards connecting with users is key towards building resonant
+                emerging interfaces.
+              </p>
+
+              <div className="fcs-reflection-photos">
+                <figure className="fcs-reflection-photo">
+                  <img src={reflectionPhoto1} alt="My team and I after placing first in the Spring case competition" />
+                  <figcaption>My team and I after placing first in the Spring case competition</figcaption>
+                </figure>
+                <figure className="fcs-reflection-photo">
+                  <img src={reflectionPhoto2} alt="Interactive survey setup at the Huntington Beach Council of Aging" />
+                  <figcaption>Interactive survey setup at the Huntington Beach Council of Aging</figcaption>
+                </figure>
+              </div>
             </section>
 
           </div>

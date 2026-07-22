@@ -320,3 +320,87 @@
   border-radius: 10px;
   margin-bottom: 36px;
 }
+
+/* ── Reflections: Next Steps ── */
+.fcs-next-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  margin-bottom: 64px;
+}
+
+.fcs-next-step {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.fcs-next-step-left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fcs-next-step-circle {
+  width: 63px;
+  height: 63px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+
+.fcs-next-step-title {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #000;
+  margin: 0;
+  letter-spacing: -0.56px;
+}
+
+.fcs-next-step-body {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #000;
+  margin: 0;
+  letter-spacing: -0.34px;
+}
+
+/* ── Award text ── */
+.fcs-award-text {
+  margin-bottom: 36px;
+}
+
+/* ── Reflection photos ── */
+.fcs-reflection-photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 36px;
+}
+
+.fcs-reflection-photo {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fcs-reflection-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 449 / 265;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.fcs-reflection-photo figcaption {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.55);
+  padding: 0 8px;
+}
