@@ -325,16 +325,6 @@ export default function Home() {
       <section className="works" ref={worksRef}>
         <div className="works-grid" key={worksKey}>
           <WorkCard
-            artwork={streetsGif}
-            artworkAlt="Streets Enterprise UI"
-            orgLogo={orgStreets}
-            org="Streets by Plyance"
-            title="Streets Enterprise UI"
-            role="Founding Product Designer"
-            slug="streets"
-            isGif
-          />
-          <WorkCard
             artwork={rocketArtwork}
             artworkAlt="Rocket Copilot"
             orgLogo={orgRocket}
@@ -350,10 +340,20 @@ export default function Home() {
             orgLogo={orgUci}
             org="Design @ UCI"
             title="Findy"
-            role="Lead Product Designer"
+            role="Product Designer"
             slug="findy"
             isGif
             to="/work/findy"
+          />
+          <WorkCard
+            artwork={streetsGif}
+            artworkAlt="Streets Enterprise UI"
+            orgLogo={orgStreets}
+            org="Streets by Plyance"
+            title="Streets Enterprise UI"
+            role="Founding Product Designer"
+            slug="streets"
+            isGif
           />
           <WorkCard
             artwork={auraGif}
