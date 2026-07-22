@@ -52,6 +52,7 @@ export default function FindyCaseStudy() {
   const [active, setActive] = useState('problem')
   const [resumeOpen, setResumeOpen] = useState(false)
   const targetYRef = useRef(0)
+  const currentYRef = useRef(0)
   const rafRef = useRef<number | null>(null)
 
   // Unlock body scroll
@@ -68,22 +69,21 @@ export default function FindyCaseStudy() {
     }
   }, [])
 
-  // Smooth wheel scroll with lerp-style weighted feel (matches landing page weight)
+  // Smooth wheel scroll — currentYRef is shared with scrollTo so they stay in sync
   useEffect(() => {
-    let currentY = window.scrollY
-    targetYRef.current = currentY
+    currentYRef.current = window.scrollY
+    targetYRef.current = currentYRef.current
 
     function tick() {
-      const diff = targetYRef.current - currentY
+      const diff = targetYRef.current - currentYRef.current
       if (Math.abs(diff) < 0.5) {
-        currentY = targetYRef.current
-        window.scrollTo(0, currentY)
+        currentYRef.current = targetYRef.current
+        window.scrollTo(0, currentYRef.current)
         rafRef.current = null
         return
       }
-      // Lerp factor tuned to match 650ms cubic-bezier(0.76,0,0.24,1) feel
-      currentY += diff * 0.085
-      window.scrollTo(0, currentY)
+      currentYRef.current += diff * 0.085
+      window.scrollTo(0, currentYRef.current)
       rafRef.current = requestAnimationFrame(tick)
     }
 
@@ -132,9 +132,15 @@ export default function FindyCaseStudy() {
       function frameTop(now: number) {
         const elapsed = Math.min(now - startTime, SCROLL_DURATION)
         const eased = cubicBezierEase(elapsed / SCROLL_DURATION, EASE_X1, EASE_Y1, EASE_X2, EASE_Y2)
-        window.scrollTo(0, startY * (1 - eased))
-        if (elapsed < SCROLL_DURATION) rafRef.current = requestAnimationFrame(frameTop)
-        else rafRef.current = null
+        const y = startY * (1 - eased)
+        window.scrollTo(0, y)
+        if (elapsed < SCROLL_DURATION) {
+          rafRef.current = requestAnimationFrame(frameTop)
+        } else {
+          currentYRef.current = 0
+          targetYRef.current = 0
+          rafRef.current = null
+        }
       }
       rafRef.current = requestAnimationFrame(frameTop)
       return
@@ -157,6 +163,7 @@ export default function FindyCaseStudy() {
       if (elapsed < SCROLL_DURATION) {
         rafRef.current = requestAnimationFrame(frame)
       } else {
+        currentYRef.current = targetY
         rafRef.current = null
       }
     }

@@ -403,10 +403,10 @@
   100% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
 }
 
-.works-grid .work-card:nth-child(1) { animation: wc-stack-1 1.7s linear backwards; }
-.works-grid .work-card:nth-child(2) { animation: wc-stack-2 1.7s linear backwards; }
-.works-grid .work-card:nth-child(3) { animation: wc-stack-3 1.7s linear backwards; }
-.works-grid .work-card:nth-child(4) { animation: wc-stack-4 1.7s linear backwards; }
+.works-grid .work-card:nth-child(1) { animation: wc-stack-1 1.2s linear backwards; }
+.works-grid .work-card:nth-child(2) { animation: wc-stack-2 1.2s linear backwards; }
+.works-grid .work-card:nth-child(3) { animation: wc-stack-3 1.2s linear backwards; }
+.works-grid .work-card:nth-child(4) { animation: wc-stack-4 1.2s linear backwards; }
 
 
 /* ── Work Card ── */
