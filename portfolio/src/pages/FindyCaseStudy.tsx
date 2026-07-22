@@ -21,7 +21,6 @@ const NAV_ITEMS = [
   { id: '',            label: 'Background',  routable: false },
   { id: 'problem',     label: 'Problem',     routable: true  },
   { id: 'research',    label: 'Research',    routable: true  },
-  { id: 'process',     label: 'Process',     routable: false },
   { id: 'solution',    label: 'Solution',    routable: true  },
   { id: 'reflections', label: 'Reflections', routable: true  },
 ]
