@@ -3,6 +3,8 @@ import Home from './pages/Home'
 import About from './pages/About'
 import CaseStudy from './pages/CaseStudy'
 import FindyCaseStudy from './pages/FindyCaseStudy'
+import AuraCaseStudy from './pages/AuraCaseStudy'
+import RocketLawyerCaseStudy from './pages/RocketLawyerCaseStudy'
 import Playground from './pages/Playground'
 import CustomCursor from './components/CustomCursor'
 
@@ -14,6 +16,8 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/work/findy" element={<FindyCaseStudy />} />
+        <Route path="/work/aura" element={<AuraCaseStudy />} />
+        <Route path="/work/rocket-lawyer" element={<RocketLawyerCaseStudy />} />
         <Route path="/work/:slug" element={<CaseStudy />} />
         <Route path="/playground" element={<Playground />} />
       </Routes>

@@ -2,14 +2,14 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import './Home.css'
+import Navbar from '../components/Navbar'
 
 import heroIllustration from '../assets/images/hero-illustration.png'
+import y2kStar from '../assets/images/y2k-star.png'
 import streetsGif from '../assets/images/streetsgif.gif'
 import rocketArtwork from '../assets/images/rocket-artwork.gif'
 import findyGif from '../assets/images/FindyGif.gif'
 import auraGif from '../assets/images/auragif.gif'
-import navStar from '../assets/images/nav-star.svg'
-import navPerson from '../assets/images/nav-person.svg'
 import navCat from '../assets/images/nav-cat.svg'
 import navLinkedin from '../assets/images/nav-linkedin.png'
 import navEmail from '../assets/images/nav-email.png'
@@ -297,32 +297,38 @@ export default function Home() {
     <div className="home" style={{ transform: `translateY(${page * -100}vh)`, transition: 'transform 0.65s cubic-bezier(0.76, 0, 0.24, 1)' }}>
       {/* Hero / Title section */}
       <section className="hero">
-        <img
-          className="hero-illustration"
-          src={heroIllustration}
-          alt=""
-        />
+        {/* Main Title Content — vertically centered in 100vh at all screen sizes */}
+        <div className="hero-main-content">
+          <img
+            className="hero-illustration"
+            src={heroIllustration}
+            alt=""
+          />
 
-        <div className="hero-name-block">
-          <h1 className="hero-name">
-            <span className="first">hi, i'm</span>
-            <span className="last">armin</span>
-          </h1>
-          <div className="hero-tagline-wrap">
-            <div className="hero-tagline-box">
-              <p>designing connection through collaboration</p>
+          <div className="hero-name-block">
+            <h1 className="hero-name">
+              <span className="first">hi, i'm</span>
+              <span className="last">armin</span>
+            </h1>
+            <div className="hero-tagline-wrap">
+              <div className="hero-tagline-box">
+                <p>designing connection through collaboration</p>
+              </div>
+              <CornerDots />
             </div>
-            <CornerDots />
           </div>
+
+          <span className="tag hero-tag-designer">product designer</span>
+          <span className="tag hero-tag-anteater">anteater</span>
         </div>
-
-        <span className="tag hero-tag-designer">product designer</span>
-        <span className="tag hero-tag-anteater">anteater</span>
-
       </section>
 
       {/* Work cards – 2×2 grid */}
       <section className="works" ref={worksRef}>
+        <div className="works-header">
+          <img src={y2kStar} alt="" className="works-y2k-star" aria-hidden />
+          <h2 className="works-heading">works</h2>
+        </div>
         <div className="works-grid" key={worksKey}>
           <WorkCard
             artwork={rocketArtwork}
@@ -333,6 +339,18 @@ export default function Home() {
             role="UI/UX Intern"
             slug="rocket-lawyer"
             isGif
+            to="/work/rocket-lawyer"
+          />
+          <WorkCard
+            artwork={auraGif}
+            artworkAlt="Aura"
+            orgLogo={orgPacuci}
+            org="Product Association @ UCI"
+            title="Aura"
+            role="Product Designer"
+            slug="aura"
+            isGif
+            to="/work/aura"
           />
           <WorkCard
             artwork={findyGif}
@@ -353,16 +371,6 @@ export default function Home() {
             title="Streets Enterprise UI"
             role="Founding Product Designer"
             slug="streets"
-            isGif
-          />
-          <WorkCard
-            artwork={auraGif}
-            artworkAlt="Aura"
-            orgLogo={orgPacuci}
-            org="Product Association @ UCI"
-            title="Aura"
-            role="Product Designer"
-            slug="aura"
             isGif
           />
         </div>
@@ -472,21 +480,10 @@ export default function Home() {
       </div>
     </div>
 
-    <nav className="hero-nav">
-      <div className="hero-nav-backdrop" />
-      <button className="hero-nav-item" onClick={() => goTo(1)}>
-        <img src={navStar} alt="" width={20} height={16} />
-        <span>work</span>
-      </button>
-      <button className="hero-nav-item" onClick={() => goTo(2)}>
-        <img src={navPerson} alt="" width={24} height={22} />
-        <span>about</span>
-      </button>
-      <Link to="/playground" className="hero-nav-item">
-        <img src={navPerson} alt="" width={24} height={22} />
-        <span>play</span>
-      </Link>
-    </nav>
+    <Navbar
+      onWork={() => goTo(1)}
+      onAbout={() => goTo(2)}
+    />
 
     {resumeOpen && createPortal(
       <div className="resume-overlay" onClick={() => setResumeOpen(false)}>
