@@ -585,139 +585,72 @@ a.work-card {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 clamp(24px, 7.22vw, 104px);
+  padding: 48px clamp(24px, 7.22vw, 104px);
   box-sizing: border-box;
   overflow: hidden;
 }
 
-/* Positioning context for all decorative elements — sized to the content area */
+/* Flex row (portrait + text) + absolute positioning context for decoratives */
 .about-inner {
   position: relative;
   width: 100%;
   max-width: 1242px;
   height: 530px;
+  display: flex;
+  gap: 42px;
+  align-items: flex-start;
 }
 
-/* ── Boy photo + paper shadow ── */
-.about2-paper {
-  position: absolute;
-  left: 9.06px;
-  top: 226.53px;
-  width: 194.408px;
-  height: 264.581px;
-  object-fit: contain;
-  opacity: 0.95;
-  pointer-events: none;
+/* ── Portrait group — Photo Booth window ── */
+.about-portrait {
+  position: relative;
+  width: 507.789px;
+  height: 393.5px;
+  flex-shrink: 0;
+  border-radius: 4px;
 }
 
-.about2-boy {
-  position: absolute;
-  left: 11.58px;
-  top: 223.39px;
-  width: 183.511px;
-  height: 263.615px;
-  object-fit: contain;
-  pointer-events: none;
-}
-
-/* ── Music notes ── */
-.about2-note {
-  position: absolute;
-  object-fit: contain;
-  pointer-events: none;
-  transform: rotate(-27.38deg);
-}
-.about2-note--1 { left: 135.94px; top: 143.65px; width: 86.749px; height: 86.624px; }
-.about2-note--2 { left: 204.28px; top: 187.59px; width: 54.719px; height: 54.64px; }
-.about2-note--3 { left: 156.28px; top: 204.67px; width: 66.73px;  height: 66.634px; }
-
-/* ── Birds ── */
-.about2-birds {
-  position: absolute;
-  object-fit: contain;
-  pointer-events: none;
-}
-.about2-birds--1 { left: 893px;  top: -39px;   width: 262px; height: 108px; }
-.about2-birds--2 { left: 1093px; top: 10.5px;  width: 99px;  height: 74px; }
-
-/* ── Stars — each is an SVG outline + texture overlay, rotated ── */
-.about2-star {
-  position: absolute;
-  pointer-events: none;
-}
-.about2-star-svg,
-.about2-star-tex {
+/* Frame: RGBA PNG sits behind selfie; chrome shows above/below the selfie viewport */
+.about-portrait-frame {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.about2-star-tex { opacity: 0.54; } /* outer 0.9 × inner 0.6 */
-
-.about2-star--sm {
-  left: 94.07%; top: 357.5px;
-  width: 77.514px; height: 75.605px;
-  transform: rotate(-18.87deg);
-}
-.about2-star--lg {
-  left: 97.17%; top: 386.37px;
-  width: 138.819px; height: 134.131px;
-  transform: rotate(10.93deg);
-}
-.about2-star--md {
-  left: 92.58%; top: 446.26px;
-  width: 65.959px; height: 63.938px;
-  transform: rotate(13.51deg);
-}
-
-/* ── Buffalo painting ── */
-/* Portrait images rotated 90° / -90° to become landscape */
-.about2-buffalo-frame {
-  position: absolute;
-  left: 122px;
-  top: 394.5px;
-  width: 176.886px;
-  height: 134.882px;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.about2-buffalo-frame-img {
-  width: 134.882px;
-  height: 176.886px;
-  transform: rotate(90deg);
-  flex-shrink: 0;
-  object-fit: cover;
-}
-
-.about2-buffalo-content {
-  position: absolute;
-  left: 145.1px;
-  top: 413.88px;
-  width: 133.392px;
-  height: 93.895px;
-  pointer-events: none;
+  border-radius: 4px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
-.about2-buffalo-content-img {
-  width: 93.895px;
-  height: 133.392px;
-  transform: rotate(-90deg);
-  flex-shrink: 0;
+.about-portrait-frame-img {
+  position: absolute;
+  left: -0.28%;
+  top: -4.05%;
+  width: 100.57%;
+  height: 107.73%;
   object-fit: cover;
+  pointer-events: none;
 }
 
-/* ── Text content ── */
-.about2-text {
+/* Selfie: fills the transparent viewport of the frame, mirrored (Photo Booth style) */
+.about-portrait-selfie {
   position: absolute;
-  left: 639px; /* 615px left column + 24px gap */
-  top: 0;
-  width: 544px;
+  left: 0;
+  top: 15.91px;
+  width: 100%;
+  height: 337.079px;
+  overflow: hidden;
+  transform: scaleX(-1);
+}
+.about-portrait-selfie-img {
+  position: absolute;
+  left: 0.04%;
+  top: -0.26%;
+  width: 99.85%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* ── Text content (flex child, no absolute positioning) ── */
+.about2-text {
+  width: 687px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -745,6 +678,125 @@ a.work-card {
   letter-spacing: -0.4px;
   color: #000;
   margin: 0;
+}
+
+/* ── Boy photo + paper shadow — overlaps portrait bottom-right, horizontally flipped ── */
+.about2-paper {
+  position: absolute;
+  left: 338.6px;
+  top: 228.15px;
+  width: 194.408px;
+  height: 258.581px;
+  object-fit: contain;
+  opacity: 0.95;
+  pointer-events: none;
+  transform: scaleX(-1);
+}
+
+.about2-boy {
+  position: absolute;
+  left: 346.98px;
+  top: 225px;
+  width: 183.511px;
+  height: 263.615px;
+  object-fit: contain;
+  pointer-events: none;
+  transform: scaleX(-1);
+}
+
+/* ── Music notes ── */
+.about2-note {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: none;
+  transform: rotate(-27.38deg);
+}
+.about2-note--1 { left: 285px;    top: 351px;    width: 86.749px; height: 86.624px; }
+.about2-note--2 { left: 353.34px; top: 394.94px; width: 54.719px; height: 54.64px; }
+.about2-note--3 { left: 305.34px; top: 412.02px; width: 66.73px;  height: 66.634px; }
+
+/* ── Birds ── */
+.about2-birds {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: none;
+}
+.about2-birds--1 { left: 893px;  top: -39px;  width: 262px; height: 108px; }
+.about2-birds--2 { left: 1093px; top: 10.5px; width: 99px;  height: 74px; }
+
+/* ── Stars — SVG outline + texture overlay, each rotated ── */
+.about2-star {
+  position: absolute;
+  pointer-events: none;
+}
+.about2-star-svg,
+.about2-star-tex {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.about2-star-tex { opacity: 0.54; }
+
+/* Figma node 682:2565 — medium star */
+.about2-star--a {
+  left: 94.07%; top: 357.5px;
+  width: 77.514px; height: 75.605px;
+  transform: rotate(-18.87deg);
+}
+/* Figma node 682:2561 — large star */
+.about2-star--b {
+  left: 97.17%; top: 386.37px;
+  width: 138.819px; height: 134.131px;
+  transform: rotate(10.93deg);
+}
+/* Figma node 682:2557 — small star */
+.about2-star--c {
+  left: 92.58%; top: 446.26px;
+  width: 65.959px; height: 63.938px;
+  transform: rotate(13.51deg);
+}
+
+/* ── Buffalo painting — upper-left, overlaps portrait ── */
+/* Portrait-orientation images rotated ±90° to appear landscape */
+.about2-buffalo-frame {
+  position: absolute;
+  left: -61px;
+  top: 59px;
+  width: 176.886px;
+  height: 134.882px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.about2-buffalo-frame-img {
+  width: 134.882px;
+  height: 176.886px;
+  transform: rotate(90deg);
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.about2-buffalo-content {
+  position: absolute;
+  left: -37.9px;
+  top: 78.38px;
+  width: 133.392px;
+  height: 93.895px;
+  pointer-events: none;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.about2-buffalo-content-img {
+  width: 93.895px;
+  height: 133.392px;
+  transform: rotate(-90deg);
+  flex-shrink: 0;
+  object-fit: cover;
 }
 
 /* ── Resume modal ── */

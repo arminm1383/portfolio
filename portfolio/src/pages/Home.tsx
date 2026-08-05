@@ -19,6 +19,8 @@ import orgRocket from '../assets/images/org-rocket.png'
 import orgUci from '../assets/images/org-uci.png'
 import orgPacuci from '../assets/images/org-pacuci.png'
 import starsImg from '../assets/images/stars.png'
+import about2Portrait from '../assets/images/about2-portrait.png'
+import about2PortraitSelfie from '../assets/images/about2-portrait-rect.png'
 import about2Paper from '../assets/images/about2-paper.png'
 import about2Boy from '../assets/images/about2-boy.png'
 import about2MusicNote from '../assets/images/about2-music-note.png'
@@ -433,7 +435,29 @@ export default function Home() {
       {/* About section */}
       <section className="about">
         <div className="about-inner">
-          {/* Boy photo + paper shadow */}
+
+          {/* Portrait group — Photo Booth frame + selfie photo */}
+          <div className="about-portrait">
+            {/* Frame: RGBA PNG with transparent viewport, sits behind selfie */}
+            <div className="about-portrait-frame">
+              <img src={about2Portrait} alt="" className="about-portrait-frame-img" />
+            </div>
+            {/* Selfie: fills the frame viewport area, mirrored (Photo Booth style) */}
+            <div className="about-portrait-selfie">
+              <img src={about2PortraitSelfie} alt="Armin Mohammadi" className="about-portrait-selfie-img" />
+            </div>
+          </div>
+
+          {/* Text content */}
+          <div className="about2-text">
+            <h2 className="about2-title">about me</h2>
+            <div className="about2-body">
+              <p>From the stories 6-year old me used to doodle in my journal to the case study stories I inspire my audience to connect with, I've always been a story teller. This imaginative and creative side has always been innate to me, and it is this natural passion that made me fall in love with product design altogether.</p>
+              <p>Living around such diverse perspectives, I want my stories to not just reflect my craft but to also reflect the journeys, culture, and individuality that continues to excite me to connect with others every single day.</p>
+            </div>
+          </div>
+
+          {/* Boy photo + paper shadow — overlaps portrait, horizontally flipped */}
           <img src={about2Paper} alt="" className="about2-paper" aria-hidden />
           <img src={about2Boy} alt="" className="about2-boy" />
 
@@ -447,20 +471,20 @@ export default function Home() {
           <img src={about2Birds2} alt="" className="about2-birds about2-birds--2" aria-hidden />
 
           {/* Stars */}
-          <div className="about2-star about2-star--sm" aria-hidden>
-            <img src={about2StarSm} alt="" className="about2-star-svg" />
-            <img src={about2StarTexture} alt="" className="about2-star-tex" />
-          </div>
-          <div className="about2-star about2-star--lg" aria-hidden>
-            <img src={about2StarLg} alt="" className="about2-star-svg" />
-            <img src={about2StarTexture} alt="" className="about2-star-tex" />
-          </div>
-          <div className="about2-star about2-star--md" aria-hidden>
+          <div className="about2-star about2-star--a" aria-hidden>
             <img src={about2StarMd} alt="" className="about2-star-svg" />
             <img src={about2StarTexture} alt="" className="about2-star-tex" />
           </div>
+          <div className="about2-star about2-star--b" aria-hidden>
+            <img src={about2StarLg} alt="" className="about2-star-svg" />
+            <img src={about2StarTexture} alt="" className="about2-star-tex" />
+          </div>
+          <div className="about2-star about2-star--c" aria-hidden>
+            <img src={about2StarSm} alt="" className="about2-star-svg" />
+            <img src={about2StarTexture} alt="" className="about2-star-tex" />
+          </div>
 
-          {/* Buffalo painting */}
+          {/* Buffalo painting — upper-left, overlaps portrait */}
           <div className="about2-buffalo-frame" aria-hidden>
             <img src={about2BuffaloFrame} alt="" className="about2-buffalo-frame-img" />
           </div>
@@ -468,14 +492,6 @@ export default function Home() {
             <img src={about2BuffaloContent} alt="" className="about2-buffalo-content-img" />
           </div>
 
-          {/* Text content */}
-          <div className="about2-text">
-            <h2 className="about2-title">about me</h2>
-            <div className="about2-body">
-              <p>From the stories 6-year old me used to doodle in my journal to the case study stories I inspire my audience to connect with, I've always been a story teller. This imaginative and creative side has always been innate to me, and it is this natural passion that made me fall in love with product design altogether.</p>
-              <p>Living around such diverse perspectives, I want my stories to not just reflect my craft but to also reflect the journeys, culture, and individuality that continues to excite me to connect with others every single day.</p>
-            </div>
-          </div>
         </div>
       </section>
 
