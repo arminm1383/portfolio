@@ -187,7 +187,7 @@ function WorkCard({ artwork, artworkAlt, orgLogo, org, title, role, slug, isGif,
 }
 
 export default function Home() {
-  const [page, setPage] = useState(0) // 0 = hero, 1 = works, 2 = gallery, 3 = about
+  const [page, setPage] = useState(0) // 0 = hero, 1 = works, 2 = about, 3 = gallery
   const [worksKey, setWorksKey] = useState(0)
   const [resumeOpen, setResumeOpen] = useState(false)
   const worksRef = useRef<HTMLElement>(null)
@@ -430,13 +430,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Gallery section — placeholder area, content coming soon */}
-      <section className="gallery">
-        <div className="gallery-header">
-          <h2 className="gallery-heading">gallery</h2>
-        </div>
-      </section>
-
       {/* About section */}
       <section className="about">
         <div className="about-inner">
@@ -485,6 +478,13 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Gallery section — placeholder area, content coming soon */}
+      <section className="gallery">
+        <div className="gallery-header">
+          <h2 className="gallery-heading">gallery</h2>
+        </div>
+      </section>
     </div>
     </div>
 
@@ -513,8 +513,8 @@ export default function Home() {
 
     <Navbar
       onWork={() => goTo(1)}
-      onAbout={() => goTo(3)}
-      onGallery={() => goTo(2)}
+      onAbout={() => goTo(2)}
+      onGallery={() => goTo(3)}
     />
 
     {resumeOpen && createPortal(
