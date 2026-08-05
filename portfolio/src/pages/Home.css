@@ -200,6 +200,7 @@
   right: 324px;
   top: 174px;
   width: 360px;
+  height: auto; /* preserves 206:219 intrinsic ratio of the PNG */
   pointer-events: none;
   z-index: 1;
 }
