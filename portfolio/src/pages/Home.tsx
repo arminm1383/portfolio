@@ -18,22 +18,24 @@ import orgStreets from '../assets/images/org-streets.png'
 import orgRocket from '../assets/images/org-rocket.png'
 import orgUci from '../assets/images/org-uci.png'
 import orgPacuci from '../assets/images/org-pacuci.png'
-import aboutBirds2 from '../assets/images/about-birds-2.png'
-import aboutBirds3 from '../assets/images/about-birds-3.png'
-import aboutCoverBg from '../assets/images/about-cover-bg.png'
-import aboutBinderRings from '../assets/images/about-binder-rings.png'
-import aboutCoverPerson from '../assets/images/about-cover-person.png'
-import aboutCoverBird1 from '../assets/images/about-cover-bird1.png'
-import aboutCoverNote from '../assets/images/about-cover-note.png'
-import aboutCoverStar from '../assets/images/about-cover-star.png'
-import aboutP2PhotoNew from '../assets/images/about-p2-photo-new.png'
-import aboutP2PersianText from '../assets/images/about-p2-persian-text.png'
-import aboutP3BotanicalNew from '../assets/images/about-p3-botanical-new.png'
-import aboutP3Note1 from '../assets/images/about-p3-note-1.png'
-import aboutP3Note3 from '../assets/images/about-p3-note-3.png'
-import aboutP3PolaroidPhotoNew from '../assets/images/about-p3-polaroid-photo-new.png'
-import aboutP3BuffaloPaintingFrameNew from '../assets/images/about-p3-buffalo-painting-frame-new.png'
-import aboutP3BuffaloPaintingContentNew from '../assets/images/about-p3-buffalo-painting-content-new.png'
+import starsImg from '../assets/images/stars.svg'
+import about2Paper from '../assets/images/about2-paper.png'
+import about2Boy from '../assets/images/about2-boy.png'
+import about2MusicNote from '../assets/images/about2-music-note.png'
+import about2Birds1 from '../assets/images/about2-birds-1.png'
+import about2Birds2 from '../assets/images/about2-birds-2.png'
+import about2StarTexture from '../assets/images/about2-star-texture.png'
+import about2StarSm from '../assets/images/about2-star-sm.svg'
+import about2StarMd from '../assets/images/about2-star-md.svg'
+import about2StarLg from '../assets/images/about2-star-lg.svg'
+import about2BuffaloContent from '../assets/images/about2-buffalo-content.png'
+import about2BuffaloFrame from '../assets/images/about2-buffalo-frame.png'
+
+// Real, pointer-driven mouse position — used (instead of the mouseenter event's own
+// coordinates) to place the case-study popup. When a work card slides under a stationary
+// cursor via the wheel-triggered page transform, browsers can fire a phantom mouseenter
+// with clientX/clientY stuck at 0, which would otherwise pin the popup to the corner.
+const lastPointerPos = { x: 0, y: 0 }
 
 function CornerDots() {
   return (
@@ -101,10 +103,12 @@ function WorkCard({ artwork, artworkAlt, orgLogo, org, title, role, slug, isGif,
     positionPopup(e.clientX, e.clientY)
   }, [positionPopup])
 
-  const handleMouseEnter = useCallback((e: React.MouseEvent) => {
+  const handleMouseEnter = useCallback(() => {
     setHovered(true)
-    // Give React one frame to mount the portal before positioning
-    requestAnimationFrame(() => positionPopup(e.clientX, e.clientY))
+    // Position from the last real pointer position, not the enter event's own
+    // coordinates (see lastPointerPos comment above) — give React one frame to
+    // mount the portal first.
+    requestAnimationFrame(() => positionPopup(lastPointerPos.x, lastPointerPos.y))
   }, [positionPopup])
 
   const cardInner = (
@@ -183,11 +187,12 @@ function WorkCard({ artwork, artworkAlt, orgLogo, org, title, role, slug, isGif,
 }
 
 export default function Home() {
-  const [page, setPage] = useState(0) // 0 = hero, 1 = works, 2 = about
+  const [page, setPage] = useState(0) // 0 = hero, 1 = works, 2 = gallery, 3 = about
   const [worksKey, setWorksKey] = useState(0)
-  const [magazineOpen, setMagazineOpen] = useState(false)
   const [resumeOpen, setResumeOpen] = useState(false)
   const worksRef = useRef<HTMLElement>(null)
+  const heroIllRef = useRef<HTMLImageElement>(null)
+  const heroStarsRef = useRef<HTMLImageElement>(null)
   const transitioning = useRef(false)
   const atTopSince = useRef<number | null>(null)
   const atBottomSince = useRef<number | null>(null)
@@ -227,6 +232,43 @@ export default function Home() {
     return () => works.removeEventListener('scroll', onScroll)
   }, [page])
 
+  // Track the real cursor position at all times (see lastPointerPos above)
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      lastPointerPos.x = e.clientX
+      lastPointerPos.y = e.clientY
+    }
+    window.addEventListener('mousemove', onMove, { passive: true })
+    return () => window.removeEventListener('mousemove', onMove)
+  }, [])
+
+  // Hero parallax — max shift is 2% of viewport width so sensitivity scales with screen size
+  useEffect(() => {
+    if (page !== 0) return
+    const startedAt = Date.now()
+    let raf = 0
+    const onMove = (e: MouseEvent) => {
+      if (Date.now() - startedAt < 900) return // let entrance animations finish
+      const mx = e.clientX / window.innerWidth - 0.5
+      const my = e.clientY / window.innerHeight - 0.5
+      const max = Math.min(window.innerWidth * 0.02, 22)
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        if (heroIllRef.current)
+          heroIllRef.current.style.transform = `translate(${mx * max * 0.6}px, ${my * max * 0.5}px)`
+        if (heroStarsRef.current)
+          heroStarsRef.current.style.transform = `translate(${mx * max * 1.6}px, ${my * max * 1.3}px)`
+      })
+    }
+    window.addEventListener('mousemove', onMove, { passive: true })
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      cancelAnimationFrame(raf)
+      if (heroIllRef.current) heroIllRef.current.style.transform = ''
+      if (heroStarsRef.current) heroStarsRef.current.style.transform = ''
+    }
+  }, [page])
+
   // Wheel handler
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
@@ -248,6 +290,8 @@ export default function Home() {
         }
       }
       if (page === 2 && e.deltaY < 0) { goTo(1) }
+      if (page === 2 && e.deltaY > 0) { goTo(3) }
+      if (page === 3 && e.deltaY < 0) { goTo(2) }
     }
     window.addEventListener('wheel', onWheel, { passive: true })
     return () => window.removeEventListener('wheel', onWheel)
@@ -270,7 +314,9 @@ export default function Home() {
       if (page === 0 && dy > 40) { goTo(1); return }
       if (page === 1 && dy < -40 && startedAtTop) { goTo(0); return }
       if (page === 1 && dy > 40 && startedAtBottom) { goTo(2); return }
-      if (page === 2 && dy < -40) { goTo(1) }
+      if (page === 2 && dy < -40) { goTo(1); return }
+      if (page === 2 && dy > 40) { goTo(3); return }
+      if (page === 3 && dy < -40) { goTo(2) }
     }
     window.addEventListener('touchstart', onStart, { passive: true })
     window.addEventListener('touchend', onEnd, { passive: true })
@@ -300,9 +346,17 @@ export default function Home() {
         {/* Main Title Content — vertically centered in 100vh at all screen sizes */}
         <div className="hero-main-content">
           <img
+            ref={heroIllRef}
             className="hero-illustration"
             src={heroIllustration}
             alt=""
+          />
+          <img
+            ref={heroStarsRef}
+            className="hero-stars"
+            src={starsImg}
+            alt=""
+            aria-hidden
           />
 
           <div className="hero-name-block">
@@ -376,81 +430,58 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Gallery section — placeholder area, content coming soon */}
+      <section className="gallery">
+        <div className="gallery-header">
+          <h2 className="gallery-heading">gallery</h2>
+        </div>
+      </section>
+
       {/* About section */}
       <section className="about">
-        <div
-          className={`about-magazine${magazineOpen ? ' is-open' : ''}`}
-          onClick={() => setMagazineOpen(o => !o)}
-        >
-          <div className="magazine-book">
+        <div className="about-inner">
+          {/* Boy photo + paper shadow */}
+          <img src={about2Paper} alt="" className="about2-paper" aria-hidden />
+          <img src={about2Boy} alt="" className="about2-boy" />
 
-            {/* Page 3 — right inner page, always visible behind the cover */}
-            <div className="magazine-right-page">
-              <div className="p3-quote-block p3-quote-block--first">
-                <p className="p3-quote-text">I used to fear the ability to be myself in open spaces, but through design and the people i've met in the field, I've discovered that authenticity is to be cherished. By embracing the naturally inquisitive, creative, and people-driven nature that defines my thought process, I was able to let out that weird, funny, and vibrant side of me that defines the span of my visions and strength of my bonds.</p>
-              </div>
-              <div className="p3-botanical-wrap">
-                <img src={aboutP3BotanicalNew} alt="" className="p3-botanical-img" />
-              </div>
-              <div className="p3-quote-block p3-quote-block--second">
-                <p className="p3-quote-text p3-quote-text--right">I've learned to love the charm that I bring to discussions and this energy paired with my ever-growing excitement to learn goes beyond design and taps into my innate ability to connect with, to resonate with others.</p>
-                <p className="p3-signature">- Armin Mohammadi</p>
-              </div>
-              <div className="p3-polaroid">
-                <div className="p3-polaroid-photo">
-                  <img src={aboutP3PolaroidPhotoNew} alt="" className="p3-polaroid-photo-img" />
-                </div>
-              </div>
-              <div className="p3-buffalo-painting-wrap">
-                <div className="p3-buffalo-painting-content-clip">
-                  <img src={aboutP3BuffaloPaintingContentNew} alt="" className="p3-buffalo-painting-content-img" />
-                </div>
-                <img src={aboutP3BuffaloPaintingFrameNew} alt="" className="p3-buffalo-painting-frame-img" />
-              </div>
+          {/* Music notes */}
+          <img src={about2MusicNote} alt="" className="about2-note about2-note--1" aria-hidden />
+          <img src={about2MusicNote} alt="" className="about2-note about2-note--2" aria-hidden />
+          <img src={about2MusicNote} alt="" className="about2-note about2-note--3" aria-hidden />
+
+          {/* Birds */}
+          <img src={about2Birds1} alt="" className="about2-birds about2-birds--1" aria-hidden />
+          <img src={about2Birds2} alt="" className="about2-birds about2-birds--2" aria-hidden />
+
+          {/* Stars */}
+          <div className="about2-star about2-star--sm" aria-hidden>
+            <img src={about2StarSm} alt="" className="about2-star-svg" />
+            <img src={about2StarTexture} alt="" className="about2-star-tex" />
+          </div>
+          <div className="about2-star about2-star--lg" aria-hidden>
+            <img src={about2StarLg} alt="" className="about2-star-svg" />
+            <img src={about2StarTexture} alt="" className="about2-star-tex" />
+          </div>
+          <div className="about2-star about2-star--md" aria-hidden>
+            <img src={about2StarMd} alt="" className="about2-star-svg" />
+            <img src={about2StarTexture} alt="" className="about2-star-tex" />
+          </div>
+
+          {/* Buffalo painting */}
+          <div className="about2-buffalo-frame" aria-hidden>
+            <img src={about2BuffaloFrame} alt="" className="about2-buffalo-frame-img" />
+          </div>
+          <div className="about2-buffalo-content" aria-hidden>
+            <img src={about2BuffaloContent} alt="" className="about2-buffalo-content-img" />
+          </div>
+
+          {/* Text content */}
+          <div className="about2-text">
+            <h2 className="about2-title">about me</h2>
+            <div className="about2-body">
+              <p>From the stories 6-year old me used to doodle in my journal to the case study stories I inspire my audience to connect with, I've always been a story teller. This imaginative and creative side has always been innate to me, and it is this natural passion that made me fall in love with product design altogether.</p>
+              <p>Living around such diverse perspectives, I want my stories to not just reflect my craft but to also reflect the journeys, culture, and individuality that continues to excite me to connect with others every single day.</p>
             </div>
-
-            {/* Pages 1+2 — flippable cover (page 1 front, page 2 back) */}
-            <div className="magazine-cover">
-
-              {/* Page 1 — front cover (cardboard journal) */}
-              <div className="about-card">
-                <img src={aboutCoverBg} alt="" className="about-card-bg" />
-                <img src={aboutCoverBird1} alt="" className="about-img about-img--birds1" />
-                <img src={aboutBirds2} alt="" className="about-img about-img--birds2" />
-                <img src={aboutBirds3} alt="" className="about-img about-img--birds3" />
-                <h1 className="about-heading-about">about</h1>
-                <h1 className="about-heading-me">me</h1>
-                <img src={aboutCoverPerson} alt="" className="about-cover-person" />
-                <img src={aboutP3Note1} alt="" className="cover-note cover-note--1" />
-                <img src={aboutCoverNote} alt="" className="cover-note cover-note--2" />
-                <img src={aboutP3Note3} alt="" className="cover-note cover-note--3" />
-                <img src={aboutCoverStar} alt="" className="cover-star cover-star--tl-sm" />
-                <img src={aboutCoverStar} alt="" className="cover-star cover-star--tl-lg" />
-                <img src={aboutCoverStar} alt="" className="cover-star cover-star--br-sm" />
-                <img src={aboutCoverStar} alt="" className="cover-star cover-star--br-md" />
-                <img src={aboutCoverStar} alt="" className="cover-star cover-star--br-lg" />
-                <p className="cover-press-hint">press to turn page →</p>
-              </div>
-
-              {/* Page 2 — inside back cover (left page when open) */}
-              <div className="magazine-cover-back">
-                <div className="p2-photo-clip">
-                  <img src={aboutP2PhotoNew} alt="" className="p2-photo-img" />
-                  <img src={aboutP2PersianText} alt="" className="p2-text-top" />
-                  <div className="p2-caption">
-                    <p className="p2-caption-main">me visiting the worlds largest tree</p>
-                    <p className="p2-caption-note">*by volume</p>
-                  </div>
-                </div>
-                <p className="p2-name p2-name--first">ARMIN</p>
-                <p className="p2-name p2-name--last">MOHAMMADI</p>
-              </div>
-
-            </div>
-
-            {/* Binder rings — sit at spine, above the flipping cover */}
-            <img src={aboutBinderRings} alt="" className="magazine-binder-rings" />
-
           </div>
         </div>
       </section>
@@ -482,7 +513,8 @@ export default function Home() {
 
     <Navbar
       onWork={() => goTo(1)}
-      onAbout={() => goTo(2)}
+      onAbout={() => goTo(3)}
+      onGallery={() => goTo(2)}
     />
 
     {resumeOpen && createPortal(

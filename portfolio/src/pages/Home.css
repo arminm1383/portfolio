@@ -8,7 +8,7 @@
   inset: 0;
 }
 
-/* Sliding container — 300vh tall (hero + works + about), moves via translateY */
+/* Sliding container — 400vh tall (hero + works + gallery + about), moves via translateY */
 .home {
   /* Tile grid: #f7f7f5 fill, #eeeeee 0.5px border at 25×25px — matches Figma "Tiles Full" */
   background-color: #f7f7f5;
@@ -16,7 +16,7 @@
     linear-gradient(#eeeeee 0.5px, transparent 0.5px),
     linear-gradient(90deg, #eeeeee 0.5px, transparent 0.5px);
   background-size: 25px 25px;
-  height: 300vh; /* hero (100vh) + works (100vh) + about (100vh) stacked */
+  height: 400vh; /* hero (100vh) + works (100vh) + gallery (100vh) + about (100vh) stacked */
   display: flex;
   flex-direction: column;
 }
@@ -558,525 +558,192 @@ a.work-card {
   line-height: normal;
 }
 
+/* ── Gallery section — placeholder, content coming soon ── */
+.gallery {
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 56px clamp(24px, 7.22vw, 104px) 64px;
+}
+
+.gallery-header {
+  max-width: 1106px;
+  margin: 0 auto;
+}
+
+.gallery-heading {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 64px;
+  color: #000;
+  margin: 0;
+  line-height: 1;
+}
+
 /* ── About section ── */
 .about {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 clamp(32px, 6.5vw, 96px);
+  padding: 0 clamp(24px, 7.22vw, 104px);
   box-sizing: border-box;
   overflow: hidden;
-  /* Perspective for the 3D magazine tilt */
-  perspective: 1400px;
-  perspective-origin: 50% 50%;
 }
 
-/* ── Magazine outer wrapper — owns the 3D tilt ── */
-/* Width is FIXED — no width transition. The cover flips in place;
-   the back face extends left beyond this element's layout bounds. */
-/* filter: drop-shadow is intentionally avoided: it breaks transform-style: preserve-3d. */
-.about-magazine {
+/* Positioning context for all decorative elements — sized to the content area */
+.about-inner {
   position: relative;
-  flex-shrink: 0;
-  cursor: pointer;
-  width: min(500px, 90vw);
-  /* translateX(0%) included so the function list EXACTLY matches .is-open —
-     mismatched lists force matrix decomposition which takes the wrong rotation path */
-  transform: rotateY(-8deg) rotateX(2deg) translateX(0%);
-  transform-style: preserve-3d;
-  will-change: transform;
-  box-shadow:
-    20px 36px 60px rgba(0, 0, 0, 0.48),
-    6px 10px 20px rgba(0, 0, 0, 0.28);
-  transition:
-    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.8s ease;
-}
-
-.about-magazine.is-open {
-  transform: rotateY(0deg) rotateX(0deg) translateX(50%);
-  box-shadow:
-    0 36px 60px rgba(0, 0, 0, 0.28),
-    0 10px 20px rgba(0, 0, 0, 0.16);
-}
-
-/* ── Magazine book — paper background, always same size as the magazine ── */
-/* No preserve-3d here — z-index controls stacking of p5/inner/cover instead.
-   The book itself is a flat 2D container; the outer .about-magazine handles 3D tilt. */
-.magazine-book {
   width: 100%;
-  position: relative;
-  border-radius: 2px;
-  background: #fafaf8;
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0px, transparent 2px,
-      rgba(0, 0, 0, 0.007) 2px, rgba(0, 0, 0, 0.007) 3px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px, transparent 2px,
-      rgba(0, 0, 0, 0.005) 2px, rgba(0, 0, 0, 0.005) 3px
-    );
-  box-shadow:
-    1.5px  1.5px 0 rgba(195, 195, 195, 0.95),
-    3px    3px   0 rgba(208, 208, 208, 0.85),
-    4.5px  4.5px 0 rgba(218, 218, 218, 0.75),
-    6px    6px   0 rgba(225, 225, 225, 0.55);
+  max-width: 1242px;
+  height: 530px;
 }
 
-/* ── Flippable cover — fills the full book; spine is its left edge ── */
-/* Cover sits above the right page; when it flips left, the right page becomes visible */
-.magazine-cover {
-  width: 100%;
-  position: relative;
-  z-index: 2;
-  transform-origin: left center;
-  transform-style: preserve-3d;
-  transform: rotateY(0deg);
-  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.about-magazine.is-open .magazine-cover {
-  transform: rotateY(-180deg);
-}
-
-/* ── Inside back cover — visible only when the cover is flipped ── */
-/* clip-path instead of overflow:hidden — overflow:hidden creates an independent 2D
-   compositing layer that breaks the element out of the preserve-3d scene, causing
-   page 2 to appear as a flat layer that "flies in" rather than being the true back
-   face of page 1. clip-path clips content visually without promoting to a new layer. */
-.magazine-cover-back {
+/* ── Boy photo + paper shadow ── */
+.about2-paper {
   position: absolute;
-  inset: 0;
-  clip-path: inset(0 round 2px);
-  background: #fff;
-  box-shadow:
-    inset -14px 0 28px rgba(0, 0, 0, 0.10),
-    inset 0.5px 0 0 rgba(255, 255, 255, 0.85),
-    inset 0 0.5px 0 rgba(255, 255, 255, 0.85);
-  transform: rotateY(180deg);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  left: 9.06px;
+  top: 226.53px;
+  width: 194.408px;
+  height: 264.581px;
+  object-fit: contain;
+  opacity: 0.95;
+  pointer-events: none;
 }
 
-/* ── Magazine cover — cardboard journal ── */
-.about-card {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 640 / 820;
-  /* clip-path instead of overflow:hidden for the same preserve-3d reason */
-  clip-path: inset(0 round 2px);
-  background: #9b7849;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+.about2-boy {
+  position: absolute;
+  left: 11.58px;
+  top: 223.39px;
+  width: 183.511px;
+  height: 263.615px;
+  object-fit: contain;
+  pointer-events: none;
 }
 
-/* Cardboard texture fill */
-.about-card-bg {
+/* ── Music notes ── */
+.about2-note {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: none;
+  transform: rotate(-27.38deg);
+}
+.about2-note--1 { left: 135.94px; top: 143.65px; width: 86.749px; height: 86.624px; }
+.about2-note--2 { left: 204.28px; top: 187.59px; width: 54.719px; height: 54.64px; }
+.about2-note--3 { left: 156.28px; top: 204.67px; width: 66.73px;  height: 66.634px; }
+
+/* ── Birds ── */
+.about2-birds {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: none;
+}
+.about2-birds--1 { left: 893px;  top: -39px;   width: 262px; height: 108px; }
+.about2-birds--2 { left: 1093px; top: 10.5px;  width: 99px;  height: 74px; }
+
+/* ── Stars — each is an SVG outline + texture overlay, rotated ── */
+.about2-star {
+  position: absolute;
+  pointer-events: none;
+}
+.about2-star-svg,
+.about2-star-tex {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Subtle spine shadow overlay on top of texture */
-.about-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg,
-      rgba(0, 0, 0, 0.18) 0%,
-      rgba(0, 0, 0, 0.06) 10%,
-      transparent 24%),
-    linear-gradient(0deg,
-      rgba(0, 0, 0, 0.10) 0%,
-      transparent 14%);
-}
-
-/* ── Page 1: all elements use % of 640×820 Figma frame ── */
-.about-img { position: absolute; object-fit: contain; z-index: 1; }
-
-.about-img--birds1 {
-  left: 31.09%;  top: 4.76%;  width: 63.91%;
-}
-.about-img--birds2 {
-  left: 46.09%;  top: -3.05%; width: 24.06%;
-}
-.about-img--birds3 {
-  left: 70.47%;  top: 21.22%; width: 32.19%;
-}
-
-/* "about" — left=37/640=5.78% + width/2=328/2/640=25.63% → center at 31.41% */
-.about-heading-about {
-  position: absolute;
-  left: 31.41%;
-  top: 28.78%;   /* 236/820 */
-  transform: translateX(-50%);
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: clamp(40px, 6.5vw, 66px);
-  line-height: 1;
-  margin: 0;
-  color: rgba(255, 255, 255, 0.88);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  white-space: nowrap;
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* "me" — left=46/640=7.19% + width/2=185/2/640=14.45% → center at 21.64% */
-.about-heading-me {
-  position: absolute;
-  left: 21.64%;
-  top: 37.44%;   /* 307/820 */
-  transform: translateX(-50%);
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: clamp(40px, 6.5vw, 66px);
-  line-height: 1;
-  margin: 0;
-  color: rgba(255, 255, 255, 0.88);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  white-space: nowrap;
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* Boy with guitar — new cover person */
-.about-cover-person {
-  position: absolute;
-  left: 6.56%;    /* 42/640 */
-  top: 52.80%;    /* 433/820 */
-  width: 46.88%;  /* 300/640 */
   object-fit: contain;
-  z-index: 2;
+}
+.about2-star-tex { opacity: 0.54; } /* outer 0.9 × inner 0.6 */
+
+.about2-star--sm {
+  left: 94.07%; top: 357.5px;
+  width: 77.514px; height: 75.605px;
+  transform: rotate(-18.87deg);
+}
+.about2-star--lg {
+  left: 97.17%; top: 386.37px;
+  width: 138.819px; height: 134.131px;
+  transform: rotate(10.93deg);
+}
+.about2-star--md {
+  left: 92.58%; top: 446.26px;
+  width: 65.959px; height: 63.938px;
+  transform: rotate(13.51deg);
+}
+
+/* ── Buffalo painting ── */
+/* Portrait images rotated 90° / -90° to become landscape */
+.about2-buffalo-frame {
+  position: absolute;
+  left: 122px;
+  top: 394.5px;
+  width: 176.886px;
+  height: 134.882px;
   pointer-events: none;
-}
-
-/* Music note stickers on cover */
-.cover-note {
-  position: absolute;
-  object-fit: contain;
-  pointer-events: none;
-  z-index: 3;
-}
-.cover-note--1 {
-  left: 47.97%;   /* 307/640 */
-  top: 47.20%;    /* 387/820 */
-  width: 12.34%;  /* 79/640 */
-}
-.cover-note--2 {
-  left: 55.00%;   /* 352/640 */
-  top: 55.24%;    /* 453/820 */
-  width: 7.81%;   /* 50/640 */
-}
-.cover-note--3 {
-  left: 62.03%;   /* 397/640 */
-  top: 48.90%;    /* 401/820 */
-  width: 9.53%;   /* 61/640 */
-}
-
-/* Star / snowflake stickers on cover */
-.cover-star {
-  position: absolute;
-  object-fit: contain;
-  pointer-events: none;
-  z-index: 3;
-}
-.cover-star--tl-sm {
-  left: -3.13%;   /* -20/640 */
-  top:  4.63%;    /*  38/820 */
-  width: 9.84%;   /*  63/640 */
-}
-.cover-star--tl-lg {
-  left:  4.22%;   /*  27/640 */
-  top:  -4.76%;   /* -39/820 */
-  width: 12.66%;  /*  81/640 */
-}
-.cover-star--br-sm {
-  left: 82.50%;   /* 528/640 */
-  top: 80.24%;    /* 658/820 */
-  width: 9.84%;   /*  63/640 */
-}
-.cover-star--br-md {
-  left: 89.84%;   /* 575/640 */
-  top: 76.95%;    /* 631/820 */
-  width: 12.66%;  /*  81/640 */
-}
-.cover-star--br-lg {
-  left: 85.31%;   /* 546/640 */
-  top: 84.39%;    /* 692/820 */
-  width: 20.94%;  /* 134/640 */
-}
-
-/* "press to turn page →" hint */
-.cover-press-hint {
-  position: absolute;
-  left: 80.47%;   /* 515/640 */
-  top: 44.51%;    /* 365/820 */
-  width: 17.03%;  /* 109/640 */
-  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: clamp(5px, 0.6vw, 8px);
-  color: rgba(255, 255, 255, 0.75);
-  line-height: 1.5;
-  margin: 0;
-  pointer-events: none;
-  z-index: 3;
-}
-
-/* Binder rings — rendered brass spiral binding at the spine */
-.magazine-binder-rings {
-  position: absolute;
-  left: -7.03%;    /* -45/640 — overlaps left edge of book */
-  top: 0;
-  width: 14.22%;   /* 91/640 */
-  height: 100%;
-  object-fit: fill;
-  z-index: 10;     /* above the flipping cover at z-index 2 */
-  pointer-events: none;
-  /* No filter — filter inside preserve-3d ancestor causes GPU compositing conflicts */
-}
-
-/* ── Page 2 content ── */
-
-/* Large photo clip */
-.p2-photo-clip {
-  position: absolute;
-  left: 8.75%;    /* 56/640 */
-  top: 5.61%;     /* 46/820 */
-  width: 82.5%;   /* 528/640 */
-  height: 62.56%; /* 513/820 */
-  border-radius: 4px;
-  overflow: hidden;
-}
-.p2-photo-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  pointer-events: none;
-}
-
-/* Arabic/Persian Coca-Cola graphic — top-left of photo, blends over image */
-.p2-text-top {
-  position: absolute;
-  left: -2.84%;   /* -15/528 */
-  top: 2.53%;     /* 13/513 */
-  width: 50%;     /* 264/528 */
-  height: auto;
-  pointer-events: none;
-  mix-blend-mode: multiply;
-}
-
-/* Caption card inside photo */
-.p2-caption {
-  position: absolute;
-  left: 70.45%;   /* 372/528 */
-  top: 50.10%;    /* 257/513 */
-  width: 29.55%;  /* 156/528 */
-  height: 18.13%; /* 93/513 */
-  background: #fff;
-  border-radius: 4px;
-  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
-}
-.p2-caption-main {
-  position: absolute;
-  left: 10.26%;  /* 16/156 */
-  top: 19.35%;   /* 18/93 */
-  width: 78.85%; /* 123/156 */
-  font-family: 'Tiro Tamil', Georgia, serif;
-  font-size: clamp(6px, 0.65vw, 9px);
-  color: #000;
-  filter: blur(0.5px);
-  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.04);
-  line-height: 1.3;
-  margin: 0;
-}
-.p2-caption-note {
-  position: absolute;
-  left: 53.85%; /* 84/156 */
-  top: 66.67%;  /* 62/93 */
-  font-family: 'Tiro Tamil', Georgia, serif;
-  font-size: clamp(5px, 0.55vw, 8px);
-  color: #000;
-  filter: blur(0.5px);
-  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.04);
-  margin: 0;
-}
-
-/* ARMIN MOHAMMADI name at bottom of page 2 */
-.p2-name {
-  position: absolute;
-  font-family: 'Tiro Tamil', Georgia, serif;
-  font-size: clamp(26px, 3.5vw, 45px);
-  color: rgba(0, 0, 0, 0.9);
-  filter: blur(1.5px);
-  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.04);
-  margin: 0;
-  white-space: nowrap;
-  pointer-events: none;
-}
-.p2-name--first {
-  left: 6.09%;  /* 39/640 */
-  top: 71.83%;  /* 589/820 */
-}
-.p2-name--last {
-  left: 6.25%;  /* 40/640 */
-  top: 78.66%;  /* 645/820 */
-}
-
-/* ── Page 3: right inner page — always visible behind the cover ── */
-.magazine-right-page {
-  position: absolute;
-  inset: 0;
-  background: #fff;
-  border-radius: 2px;
-  overflow: hidden;
-  background-image:
-    repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.007) 2px, rgba(0,0,0,0.007) 3px),
-    repeating-linear-gradient(90deg, transparent 0px, transparent 2px, rgba(0,0,0,0.005) 2px, rgba(0,0,0,0.005) 3px);
-  box-shadow: inset -14px 0 28px rgba(0,0,0,0.08), inset 0.5px 0 0 rgba(255,255,255,0.85);
-}
-
-.p3-quote-block {
-  position: absolute;
-  background: #fff;
-  border-radius: 32px;
-  box-sizing: border-box;
-  padding: 10px;
-}
-
-.p3-quote-block--first {
-  left: 6.25%;    /* 40/640 */
-  top: 10.73%;    /* 88/820 — updated */
-  width: 77.50%;  /* 496/640 — updated */
-  height: 21.83%; /* 179/820 */
   display: flex;
   align-items: center;
+  justify-content: center;
 }
-
-.p3-botanical-wrap {
-  position: absolute;
-  left: -18.59%;  /* -119/640 — extends beyond left edge */
-  top: 35.73%;    /* 293/820 */
-  width: 65.47%;  /* 419/640 */
-  height: 64.27%; /* 527/820 */
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.p3-botanical-img {
-  position: absolute;
-  top: -5.03%;
-  left: 0;
-  width: 100%;
-  height: 105.07%;
+.about2-buffalo-frame-img {
+  width: 134.882px;
+  height: 176.886px;
+  transform: rotate(90deg);
+  flex-shrink: 0;
   object-fit: cover;
 }
 
-.p3-quote-block--second {
-  left: 28.91%;   /* 185/640 — updated */
-  top: 75.00%;    /* 615/820 — updated */
-  width: 66.72%;  /* 427/640 */
+.about2-buffalo-content {
+  position: absolute;
+  left: 145.1px;
+  top: 413.88px;
+  width: 133.392px;
+  height: 93.895px;
+  pointer-events: none;
+  overflow: hidden;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  background: none;
-  border-radius: 0;
-  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+.about2-buffalo-content-img {
+  width: 93.895px;
+  height: 133.392px;
+  transform: rotate(-90deg);
+  flex-shrink: 0;
+  object-fit: cover;
 }
 
-.p3-quote-text {
-  font-family: 'Tiro Tamil', Georgia, serif;
-  /* Scale 14px from Figma's 640px frame → 500px magazine (×0.78) */
-  font-size: clamp(7px, 0.75vw, 11px);
+/* ── Text content ── */
+.about2-text {
+  position: absolute;
+  left: 639px; /* 615px left column + 24px gap */
+  top: 0;
+  width: 544px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.about2-title {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 48px;
+  line-height: normal;
   color: #000;
-  line-height: 1.5;
   margin: 0;
 }
 
-.p3-quote-text--right {
-  text-align: right;
-  /* Scale 16px × 0.78 → 12px */
-  font-size: clamp(7px, 0.82vw, 12px);
+.about2-body {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
 }
 
-.p3-signature {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: clamp(7px, 0.82vw, 12px);
+.about2-body p {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 36px;
+  letter-spacing: -0.4px;
   color: #000;
-  text-align: right;
-  margin: 4px 0 0 0;
-}
-
-/* Buffalo photo — CSS polaroid frame */
-.p3-polaroid {
-  position: absolute;
-  left: 50.16%;   /* 321/640 — updated */
-  top: 39.02%;    /* 320/820 — updated */
-  width: 26.88%;  /* 172/640 — updated */
-  aspect-ratio: 172 / 216;
-  background: #fff;
-  box-shadow: 0 2px 14px rgba(0,0,0,0.18), 0 1px 3px rgba(0,0,0,0.10);
-  pointer-events: none;
-  transform: rotate(-1.5deg);
-}
-.p3-polaroid-photo {
-  position: absolute;
-  left: 11.05%;   /* 19/172 — updated */
-  top: 7.87%;     /* 17/216 — updated */
-  width: 79.65%;  /* 137/172 — updated */
-  height: 70.37%; /* 152/216 — updated */
-  overflow: hidden;
-  box-shadow: inset 0 4px 4px rgba(0,0,0,0.08);
-}
-.p3-polaroid-photo-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
-
-/* Buffalo painting — bison painting behind wavy frame */
-.p3-buffalo-painting-wrap {
-  position: absolute;
-  left: 65.31%;   /* 418/640 — updated */
-  top: 54.76%;    /* 449/820 — updated */
-  width: 27.66%;  /* 177/640 — updated */
-  aspect-ratio: 177 / 135;
-  pointer-events: none;
-}
-.p3-buffalo-painting-content-clip {
-  position: absolute;
-  left: 8%;
-  top: 10%;
-  width: 84%;
-  height: 80%;
-  overflow: hidden;
-}
-.p3-buffalo-painting-content-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.p3-buffalo-painting-frame-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: fill;
+  margin: 0;
 }
 
 /* ── Resume modal ── */
