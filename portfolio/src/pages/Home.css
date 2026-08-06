@@ -345,7 +345,10 @@
   overflow-y: auto;
   overscroll-behavior-y: contain;
   box-sizing: border-box;
-  padding: var(--fluid-section-pad-top) var(--fluid-section-margin-x) var(--fluid-section-pad-bottom);
+  padding: var(--space-14) var(--fluid-section-margin-x);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Works section heading with Y2K star decoration.
@@ -379,6 +382,9 @@
 }
 
 .works-grid {
+  max-width: var(--content-max);
+  width: 100%;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: var(--space-15);
@@ -647,6 +653,11 @@ a.work-card {
 .gallery-col--a { width: 666px; flex-shrink: 0; }
 .gallery-col--c { width: 662px; flex-shrink: 0; }
 
+@keyframes gallery-tile-in {
+  from { opacity: 0; scale: 0.97; }
+  to   { opacity: 1; scale: 1; }
+}
+
 /* Each tile: rounded corners, drop shadow + inner shadow (Figma effect stack) */
 .gallery-tile {
   position: relative;
@@ -656,7 +667,7 @@ a.work-card {
     0 4px 4px rgba(0, 0, 0, 0.12),
     inset 0 4px 4px rgba(0, 0, 0, 0.04);
   opacity: 0;
-  animation: wc-fade 0.5s ease both;
+  animation: gallery-tile-in 0.6s ease-out both;
 }
 
 .gallery-tile img {
@@ -666,13 +677,14 @@ a.work-card {
   object-fit: cover;
 }
 
-.gallery-tile--video    { width: 100%; height: 321px; animation-delay: 0s; }
-.gallery-tile--burger   { width: 249px; height: 240px; flex-shrink: 0; animation-delay: 0.06s; }
-.gallery-tile--bereal   { width: 440px; height: 587px; flex-shrink: 0; animation-delay: 0.12s; }
-.gallery-tile--findy    { width: 455px; height: 435px; flex-shrink: 0; animation-delay: 0.18s; }
-.gallery-tile--panel    { width: 400px; height: 226px; flex-shrink: 0; animation-delay: 0.24s; }
-.gallery-tile--laptop   { width: 220px; height: 220px; flex-shrink: 0; animation-delay: 0.3s; }
-.gallery-tile--tshirt   { width: 200px; height: 167px; flex-shrink: 0; animation-delay: 0.36s; }
+/* Stagger by visual row (top → bottom) so tiles reveal like a downward scroll */
+.gallery-tile--video    { width: 100%; height: 321px;   animation-delay: 0.05s; }
+.gallery-tile--bereal   { width: 440px; height: 587px; flex-shrink: 0; animation-delay: 0.1s; }
+.gallery-tile--burger   { width: 249px; height: 240px; flex-shrink: 0; animation-delay: 0.2s; }
+.gallery-tile--findy    { width: 455px; height: 435px; flex-shrink: 0; animation-delay: 0.3s; }
+.gallery-tile--panel    { width: 400px; height: 226px; flex-shrink: 0; animation-delay: 0.35s; }
+.gallery-tile--laptop   { width: 220px; height: 220px; flex-shrink: 0; animation-delay: 0.4s; }
+.gallery-tile--tshirt   { width: 200px; height: 167px; flex-shrink: 0; animation-delay: 0.45s; }
 
 /* Rotated salad photo — box is authored pre-rotation (240×375) so the image
    crops correctly, then the whole tile rotates into its 375×240 slot. */
@@ -689,7 +701,7 @@ a.work-card {
   width: 240px;
   height: 375px;
   transform: rotate(90deg);
-  animation-delay: 0.42s;
+  animation-delay: 0.25s;
 }
 
 /* Star cluster — reuses the About section's star treatment (outline SVG +
@@ -699,23 +711,75 @@ a.work-card {
   flex-shrink: 0;
 }
 
+/* Star cluster is positioned absolutely within .gallery-tshirt-wrap.
+   Offsets derived from Figma node 736:2327 (absolute in the 1648px gallery
+   frame) converted to coordinates relative to tshirt-wrap's top-left corner:
+   left=301px keeps the cluster to the right of the tshirt tile (200px wide);
+   top=26px aligns with Figma's 1031px-from-frame-top anchor. */
 .gallery-stars {
   position: absolute;
-  left: 100%;
-  bottom: -24px;
-  width: 180px;
-  height: 150px;
+  left: 301px;
+  top: 26px;
+  width: 256px;
+  height: 156px;
   pointer-events: none;
 }
 
-.gallery-star--a { left: 2%;  top: 12%; width: 46px;  height: 46px;  transform: rotate(13deg); }
-.gallery-star--b { left: 32%; top: 32%; width: 108px; height: 108px; transform: rotate(11deg); }
-.gallery-star--c { left: 0%;  top: 58%; width: 50px;  height: 50px;  transform: rotate(-13deg); }
-.gallery-star--d { left: 46%; top: 0%;  width: 60px;  height: 60px;  transform: rotate(64deg); }
+.gallery-star--a { left: 0%;  top: 47%; width: 66px;  height: 64px;  transform: rotate(13.51deg); }
+.gallery-star--b { left: 23%; top: 8%;  width: 139px; height: 134px; transform: rotate(10.93deg); }
+.gallery-star--c { left: 72%; top: 56%; width: 71px;  height: 68px;  transform: rotate(-12.63deg); }
+.gallery-star--d { left: 70%; top: 0%;  width: 77px;  height: 78px;  transform: rotate(64.37deg); }
+
+/* Row 3 — phone mockup + conference photo */
+.gallery-row--last { align-items: flex-start; }
+
+.gallery-tile--aura {
+  width: 364px;
+  height: 386px;
+  flex-shrink: 0;
+  animation-delay: 0.55s;
+}
+
+.gallery-tile--conference {
+  width: 742px;
+  height: 386px;
+  flex-shrink: 0;
+  animation-delay: 0.6s;
+}
+
+.gallery-tile--conference img {
+  /* show the lower-centre of the photo, matching Figma's top-[-55%] crop */
+  object-position: center 65%;
+}
+
+/* Bottom-of-page marker — person icon + label */
+.gallery-bottom-mark {
+  max-width: var(--content-max);
+  margin: 44px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.gallery-bottom-person {
+  width: 48px;
+  height: 44px;
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.gallery-bottom-text {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.28);
+  user-select: none;
+}
 
 /* ── About section ── */
 .about {
-  height: 100vh;
+  height: 105vh;
   display: flex;
   align-items: center;
   justify-content: center;

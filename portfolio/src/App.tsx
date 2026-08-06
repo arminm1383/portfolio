@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
-import About from './pages/About'
 import CaseStudy from './pages/CaseStudy'
 import FindyCaseStudy from './pages/FindyCaseStudy'
 import AuraCaseStudy from './pages/AuraCaseStudy'
@@ -13,7 +12,6 @@ export default function App() {
       <CustomCursor />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
         <Route path="/work/findy" element={<FindyCaseStudy />} />
         <Route path="/work/aura" element={<AuraCaseStudy />} />
         <Route path="/work/rocket-lawyer" element={<RocketLawyerCaseStudy />} />

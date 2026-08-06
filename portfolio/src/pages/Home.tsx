@@ -11,6 +11,7 @@ import rocketArtwork from '../assets/images/rocket-artwork.gif'
 import findyGif from '../assets/images/FindyGif.gif'
 import auraGif from '../assets/images/auragif.gif'
 import navCat from '../assets/images/nav-cat.svg'
+import navPerson from '../assets/images/nav-person.svg'
 import navLinkedin from '../assets/images/nav-linkedin.png'
 import navEmail from '../assets/images/nav-email.png'
 import navResume from '../assets/images/nav-resume.png'
@@ -40,6 +41,8 @@ import galleryFindyTeam from '../assets/images/gallery-findy-team.jpg'
 import galleryPanelOutdoors from '../assets/images/gallery-panel-outdoors.jpg'
 import galleryLaptopScreenshot from '../assets/images/gallery-laptop-screenshot.jpg'
 import galleryTshirtCrop from '../assets/images/gallery-tshirt-crop.png'
+import galleryAuraTile from '../assets/images/gallery-aura-tile.png'
+import galleryConferencePhoto from '../assets/images/gallery-conference-photo.jpg'
 
 // Real, pointer-driven mouse position — used (instead of the mouseenter event's own
 // coordinates) to place the case-study popup. When a work card slides under a stationary
@@ -199,6 +202,7 @@ function WorkCard({ artwork, artworkAlt, orgLogo, org, title, role, slug, isGif,
 export default function Home() {
   const [page, setPage] = useState(0) // 0 = hero, 1 = works, 2 = about, 3 = gallery
   const [worksKey, setWorksKey] = useState(0)
+  const [galleryKey, setGalleryKey] = useState(0)
   const [resumeOpen, setResumeOpen] = useState(false)
   const worksRef = useRef<HTMLElement>(null)
   const heroIllRef = useRef<HTMLImageElement>(null)
@@ -213,6 +217,15 @@ export default function Home() {
   // so without this a residual tick right after arriving would immediately
   // bounce to the next section. Require a settle window since arrival.
   const WHEEL_SETTLE = 900
+  // Minimum gap between wheel events to be considered a new intentional gesture.
+  // Momentum events arrive every ~16ms; an intentional scroll after stopping has
+  // a natural pause of 150ms+. This prevents momentum from the triggering scroll
+  // from immediately advancing through non-scrollable pages (about, gallery, hero).
+  const SCROLL_GAP = 200
+  const lastWheelTime = useRef(0)
+  // Direction of the last wheel event (+1 down, -1 up, 0 none).
+  // A direction reversal always signals a new intentional gesture regardless of gap.
+  const lastWheelDir = useRef(0)
 
   const goTo = useCallback((p: number) => {
     if (transitioning.current) return
@@ -221,6 +234,7 @@ export default function Home() {
     atTopSince.current = p === 1 ? Date.now() : null
     atBottomSince.current = null
     if (p === 1) setWorksKey(k => k + 1)
+    if (p === 3) setGalleryKey(k => k + 1)
     setPage(p)
     setTimeout(() => { transitioning.current = false }, 700)
   }, [])
@@ -286,7 +300,18 @@ export default function Home() {
   // Wheel handler
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
-      if (Date.now() - arrivedAt.current < WHEEL_SETTLE) return
+      const now = Date.now()
+      const gap = now - lastWheelTime.current
+      const dir = e.deltaY > 0 ? 1 : -1
+      const dirChanged = lastWheelDir.current !== 0 && dir !== lastWheelDir.current
+      lastWheelTime.current = now
+      lastWheelDir.current = dir
+      if (now - arrivedAt.current < WHEEL_SETTLE) return
+      // For non-scrollable pages (hero, about, gallery), only act on the first
+      // event of a new gesture. A new gesture is either: (a) a sufficient gap
+      // since the last event (momentum died), or (b) a direction reversal — which
+      // is always intentional and must never be blocked by the gap check.
+      if (page !== 1 && gap < SCROLL_GAP && !dirChanged) return
       if (page === 0 && e.deltaY > 0) { goTo(1); return }
       if (page === 1 && e.deltaY < 0) {
         const works = worksRef.current
@@ -521,7 +546,7 @@ export default function Home() {
           <h2 className="gallery-heading">gallery</h2>
         </div>
 
-        <div className="gallery-collage">
+        <div className="gallery-collage" key={galleryKey}>
           <div className="gallery-row">
             <div className="gallery-col gallery-col--a">
               <div className="gallery-tile gallery-tile--video">
@@ -581,6 +606,21 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          {/* Row 3 — Aura phone mockup + conference group photo */}
+          <div className="gallery-row gallery-row--last">
+            <div className="gallery-tile gallery-tile--aura">
+              <img src={galleryAuraTile} alt="Aura app — Ready to begin your Quest?" />
+            </div>
+            <div className="gallery-tile gallery-tile--conference">
+              <img src={galleryConferencePhoto} alt="Group photo from a product design conference" />
+            </div>
+          </div>
+        </div>
+
+        <div className="gallery-bottom-mark" aria-label="End of page">
+          <img src={navPerson} alt="" className="gallery-bottom-person" aria-hidden />
+          <span className="gallery-bottom-text">bottom</span>
         </div>
       </section>
     </div>
