@@ -1,3 +1,67 @@
+:root {
+  /* Spacing scale — --space-N = N × 4px, enforces the grid by construction */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-9: 36px;
+  --space-10: 40px;
+  --space-11: 44px;
+  --space-12: 48px;
+  --space-14: 56px;
+  --space-15: 60px;
+  --space-16: 64px;
+  --space-18: 72px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-26: 104px;
+  --space-30: 120px;
+  --space-40: 160px;
+  --space-51: 204px;
+
+  /* Content container width — Figma Works/About/Gallery frames: 1240px
+     inside a 1648px-wide section, i.e. --space-51 margin on each side. */
+  --content-max: 1240px;
+
+  /* Case-study fixed sidebar width, reused for margin-left/width pairing. */
+  --sidebar-width: 220px;
+
+  /* Type scale */
+  --text-xs: 12px;
+  --text-base: 16px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --text-2xl: 28px;
+  --text-3xl: 32px;
+  --text-4xl: 40px;
+  --text-5xl: 48px;
+  --text-6xl: 64px;
+  --text-7xl: 84px;
+  --text-8xl: 88px;
+
+  /* ── Desktop-fluid structural tokens ──
+     Each equals its base token exactly at 1648px (the Figma canvas width),
+     scaling linearly down to a proportional floor at 1280px and up to a
+     proportional ceiling at 1920px: value = base × (viewport / 1648).
+     Only for structural spacing (section padding/margins) and headline
+     font-sizes — tactical/tight values (icon gaps, tag padding, etc.)
+     stay fixed. */
+  --fluid-nav-inset: clamp(74.56px, calc(74.56px + (100vw - 1280px) * 0.0583), 111.84px); /* base: --space-24 (96px) */
+  --fluid-section-margin-x: clamp(158.45px, calc(158.45px + (100vw - 1280px) * 0.1238), 237.67px); /* base: --space-51 (204px) */
+  --fluid-section-pad-top: clamp(43.5px, calc(43.5px + (100vw - 1280px) * 0.034), 65.26px); /* base: --space-14 (56px) */
+  --fluid-section-pad-bottom: clamp(49.7px, calc(49.7px + (100vw - 1280px) * 0.0389), 74.56px); /* base: --space-16 (64px) */
+  --fluid-about-pad-y: clamp(62.14px, calc(62.14px + (100vw - 1280px) * 0.0485), 93.2px); /* base: --space-20 (80px) */
+  --fluid-heading-4xl: clamp(31.07px, calc(31.07px + (100vw - 1280px) * 0.0243), 46.6px); /* base: --text-4xl (40px) */
+  --fluid-heading-5xl: clamp(37.28px, calc(37.28px + (100vw - 1280px) * 0.0291), 55.92px); /* base: --text-5xl (48px) */
+  --fluid-heading-6xl: clamp(49.7px, calc(49.7px + (100vw - 1280px) * 0.0389), 74.56px); /* base: --text-6xl (64px) */
+  --fluid-heading-7xl: clamp(65.26px, calc(65.26px + (100vw - 1280px) * 0.051), 97.87px); /* base: --text-7xl (84px) */
+  --fluid-heading-8xl: clamp(68.35px, calc(68.35px + (100vw - 1280px) * 0.0534), 102.52px); /* base: --text-8xl (88px) */
+}
+
 html, body {
   margin: 0;
   height: 100%;

@@ -28,7 +28,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 clamp(24px, 5vw, 72px);
+  padding: 0 clamp(var(--space-6), 5vw, var(--space-18));
   z-index: 300;
   box-sizing: border-box;
 }
@@ -36,7 +36,7 @@
 .fcs-topbar-logo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
   text-decoration: none;
 }
 
@@ -54,14 +54,14 @@
 
 .fcs-topbar-name {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 15px;
+  font-size: var(--text-base);
   color: #000;
   line-height: 1.2;
 }
 
 .fcs-topbar-role {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 13px;
+  font-size: var(--text-xs);
   color: rgba(0, 0, 0, 0.55);
   line-height: 1.2;
 }
@@ -69,7 +69,7 @@
 .fcs-topbar-contact {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: var(--space-6);
 }
 
 .fcs-topbar-icon {
@@ -89,8 +89,8 @@
 
 /* ── Layout ── */
 .fcs-body {
-  margin-left: 220px;
-  padding-top: 72px; /* clear the fixed top bar */
+  margin-left: var(--sidebar-width);
+  padding-top: var(--space-18); /* clear the fixed top bar */
 }
 
 /* ── Sidebar — fixed, always present ── */
@@ -98,7 +98,7 @@
   position: fixed;
   left: 0;
   top: 72px; /* below top bar */
-  width: 220px;
+  width: var(--sidebar-width);
   height: calc(100vh - 72px);
   background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px);
@@ -106,8 +106,8 @@
   border-right: 0.5px solid rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: flex-start;
-  padding-top: 40px;
-  padding-left: 40px;
+  padding-top: var(--space-10);
+  padding-left: var(--space-10);
   z-index: 200;
   box-sizing: border-box;
 }
@@ -125,11 +125,11 @@
   border: none;
   cursor: pointer;
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 15px;
+  font-size: var(--text-base);
   font-weight: 700;
   color: #000000;
   padding: 0;
-  margin-bottom: 20px;
+  margin-bottom: var(--space-5);
   text-align: left;
   white-space: nowrap;
   line-height: 1.3;
@@ -166,12 +166,12 @@
 }
 .fcs-resume-close {
   position: absolute;
-  top: 12px;
-  right: 16px;
+  top: var(--space-3);
+  right: var(--space-4);
   z-index: 1;
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: var(--text-xl);
   cursor: pointer;
   color: #000;
   line-height: 1;
@@ -184,19 +184,19 @@
 
 /* ── Main content area ── */
 .fcs-content {
-  padding: 0 0 160px;
+  padding: 0 0 var(--space-40);
 }
 
 .fcs-inner {
   max-width: 1028px;
   margin: 0 auto;
-  padding: 0 48px;
+  padding: 0 var(--space-12);
 }
 
 /* ── Header / Hero ── */
 .fcs-header {
-  padding-top: 36px;
-  padding-bottom: 48px;
+  padding-top: var(--space-9);
+  padding-bottom: var(--space-12);
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 0;
 }
@@ -204,10 +204,10 @@
 /* Hero frame image — bleeds out of fcs-inner's 48px padding to fill exactly 1028px */
 .fcs-hero-frame {
   display: block;
-  width: calc(100% + 96px);
-  margin-left: -48px;
-  margin-right: -48px;
-  margin-bottom: 36px;
+  width: calc(100% + var(--space-24));
+  margin-left: calc(-1 * var(--space-12));
+  margin-right: calc(-1 * var(--space-12));
+  margin-bottom: var(--space-9);
   aspect-ratio: 1028 / 473;
   object-fit: cover;
   pointer-events: none;
@@ -218,10 +218,10 @@
 .fcs-hero-frame-container {
   position: relative;
   display: block;
-  width: calc(100% + 96px);
-  margin-left: -48px;
-  margin-right: -48px;
-  margin-bottom: 36px;
+  width: calc(100% + var(--space-24));
+  margin-left: calc(-1 * var(--space-12));
+  margin-right: calc(-1 * var(--space-12));
+  margin-bottom: var(--space-9);
   aspect-ratio: 1028 / 473;
   overflow: hidden;
   pointer-events: none;
@@ -288,8 +288,8 @@
 .fcs-org-row {
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-bottom: 12px;
+  gap: var(--space-1);
+  margin-bottom: var(--space-3);
 }
 
 .fcs-org-logo {
@@ -300,37 +300,37 @@
 
 .fcs-org-name {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 24px;
+  font-size: var(--text-xl);
   font-weight: 400;
   color: rgba(0, 0, 0, 0.65);
 }
 
 .fcs-title {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 84px;
+  font-size: var(--fluid-heading-7xl);
   line-height: 1.2;
   color: #000;
-  margin: 0 0 36px;
+  margin: 0 0 var(--space-9);
   letter-spacing: -1.68px;
 }
 
 /* ── Tags row ── */
 .fcs-tags {
   display: flex;
-  gap: 48px;
-  padding-top: 28px;
+  gap: var(--space-12);
+  padding-top: var(--space-7);
   border-top: 0.5px solid rgba(0, 0, 0, 0.1);
 }
 
 .fcs-tag {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .fcs-tag-label {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 24px;
+  font-size: var(--text-xl);
   font-weight: 600;
   letter-spacing: -0.48px;
   line-height: 1.2;
@@ -340,7 +340,7 @@
 
 .fcs-tag-value {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 24px;
+  font-size: var(--text-xl);
   font-weight: 400;
   letter-spacing: -0.48px;
   line-height: 1.2;
@@ -349,27 +349,27 @@
 
 /* ── Content sections ── */
 .fcs-section {
-  padding-top: 64px;
+  padding-top: var(--space-16);
 }
 
 .fcs-section-label {
   display: block;
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 20px;
+  font-size: var(--text-lg);
   font-weight: 600;
   letter-spacing: -0.4px;
   line-height: 1.2;
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.5);
-  margin-bottom: 12px;
+  margin-bottom: var(--space-3);
 }
 
 .fcs-section-body {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 20px;
+  font-size: var(--text-lg);
   line-height: 36px;
   color: #000;
-  margin: 0 0 36px;
+  margin: 0 0 var(--space-9);
   max-width: 860px;
   letter-spacing: -0.4px;
 }
@@ -379,7 +379,7 @@
   display: block;
   width: 100%;
   border-radius: 10px;
-  margin-bottom: 36px;
+  margin-bottom: var(--space-9);
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
 }
 
@@ -388,28 +388,28 @@
   display: block;
   width: 100%;
   border-radius: 10px;
-  margin-bottom: 36px;
+  margin-bottom: var(--space-9);
 }
 
 /* ── Reflections: Next Steps ── */
 .fcs-next-steps {
   display: flex;
   flex-direction: column;
-  gap: 48px;
-  margin-bottom: 64px;
+  gap: var(--space-12);
+  margin-bottom: var(--space-16);
 }
 
 .fcs-next-step {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: var(--space-10);
   align-items: start;
 }
 
 .fcs-next-step-left {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 .fcs-next-step-circle {
@@ -422,7 +422,7 @@
 
 .fcs-next-step-title {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 28px;
+  font-size: var(--text-2xl);
   font-weight: 400;
   line-height: 1.25;
   color: #000;
@@ -432,7 +432,7 @@
 
 .fcs-next-step-body {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 17px;
+  font-size: var(--text-base);
   line-height: 1.7;
   color: #000;
   margin: 0;
@@ -441,22 +441,22 @@
 
 /* ── Award text ── */
 .fcs-award-text {
-  margin-bottom: 36px;
+  margin-bottom: var(--space-9);
 }
 
 /* ── Reflection photos ── */
 .fcs-reflection-photos {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  margin-bottom: 36px;
+  gap: var(--space-12);
+  margin-bottom: var(--space-9);
 }
 
 .fcs-reflection-photo {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .fcs-reflection-photo img {
@@ -469,20 +469,20 @@
 
 .fcs-reflection-photo figcaption {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 14px;
+  font-size: var(--text-base);
   line-height: 1.5;
   color: rgba(0, 0, 0, 0.55);
-  padding: 0 8px;
+  padding: 0 var(--space-2);
 }
 
 /* ── Subsection heading ── */
 .fcs-subsection-heading {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 28px;
+  font-size: var(--text-2xl);
   font-weight: 400;
   line-height: 1.25;
   color: #000;
-  margin: 0 0 24px;
+  margin: 0 0 var(--space-6);
   letter-spacing: -0.56px;
 }
 
@@ -490,25 +490,25 @@
 .fcs-quote-block {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-bottom: 48px;
+  gap: var(--space-5);
+  margin-bottom: var(--space-12);
 }
 
 .fcs-quote {
   margin: 0;
-  padding: 24px 28px;
+  padding: var(--space-6) var(--space-7);
   border-left: 3px solid #000;
   background: rgba(0, 0, 0, 0.03);
   border-radius: 0 8px 8px 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .fcs-quote blockquote {
   margin: 0;
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 18px;
+  font-size: var(--text-lg);
   line-height: 1.65;
   color: #000;
   letter-spacing: -0.36px;
@@ -517,7 +517,7 @@
 
 .fcs-quote figcaption {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 14px;
+  font-size: var(--text-base);
   color: rgba(0, 0, 0, 0.5);
   letter-spacing: -0.28px;
 }
@@ -526,23 +526,23 @@
 .fcs-insight-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 48px;
+  gap: var(--space-5);
+  margin-bottom: var(--space-12);
 }
 
 .fcs-insight-card {
-  padding: 28px 28px 32px;
+  padding: var(--space-7) var(--space-7) var(--space-8);
   border-radius: 12px;
   background: #fff;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 .fcs-insight-number {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 32px;
+  font-size: var(--text-3xl);
   font-weight: 400;
   color: rgba(0, 0, 0, 0.15);
   line-height: 1;
@@ -551,7 +551,7 @@
 
 .fcs-insight-body {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 17px;
+  font-size: var(--text-base);
   line-height: 1.7;
   color: #000;
   margin: 0;
@@ -560,23 +560,23 @@
 
 /* ── Up Next ── */
 .fcs-upnext {
-  padding-top: 64px;
-  padding-bottom: 80px;
+  padding-top: var(--space-16);
+  padding-bottom: var(--space-20);
 }
 
 .fcs-upnext-divider {
   height: 2px;
   background: rgba(0, 0, 0, 0.08);
-  margin-bottom: 36px;
+  margin-bottom: var(--space-9);
   border-radius: 1px;
 }
 
 .fcs-upnext-heading {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 40px;
+  font-size: var(--fluid-heading-4xl);
   font-weight: 400;
   color: #000;
-  margin: 0 0 32px;
+  margin: 0 0 var(--space-8);
   letter-spacing: -0.8px;
   line-height: 1.1;
 }
@@ -584,7 +584,7 @@
 .fcs-upnext-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: var(--space-10);
 }
 
 .fcs-upnext-card {
@@ -617,19 +617,19 @@
 }
 
 .fcs-upnext-card-info {
-  padding: 14px 24px 18px;
+  padding: var(--space-4) var(--space-6) var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-2);
   border-top: 1px solid rgba(0,0,0,0.06);
 }
 
 .fcs-upnext-card-org {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-2);
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 13px;
+  font-size: var(--text-xs);
   color: rgba(0, 0, 0, 0.5);
   line-height: 1;
 }
@@ -643,7 +643,7 @@
 
 .fcs-upnext-card-title {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 22px;
+  font-size: var(--text-xl);
   font-weight: 400;
   color: #000;
   letter-spacing: -0.44px;

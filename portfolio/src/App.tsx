@@ -5,7 +5,6 @@ import CaseStudy from './pages/CaseStudy'
 import FindyCaseStudy from './pages/FindyCaseStudy'
 import AuraCaseStudy from './pages/AuraCaseStudy'
 import RocketLawyerCaseStudy from './pages/RocketLawyerCaseStudy'
-import Playground from './pages/Playground'
 import CustomCursor from './components/CustomCursor'
 
 export default function App() {
@@ -19,7 +18,6 @@ export default function App() {
         <Route path="/work/aura" element={<AuraCaseStudy />} />
         <Route path="/work/rocket-lawyer" element={<RocketLawyerCaseStudy />} />
         <Route path="/work/:slug" element={<CaseStudy />} />
-        <Route path="/playground" element={<Playground />} />
       </Routes>
     </BrowserRouter>
   )

@@ -1,16 +1,19 @@
 import { Link, useLocation } from 'react-router-dom'
 import './Navbar.css'
 
-import navStar from '../assets/images/nav-star-green.svg'
-import navPerson from '../assets/images/nav-person-green.svg'
+import navStar from '../assets/images/nav-star.svg'
+import navPerson from '../assets/images/nav-person.svg'
+import navPaintbrush from '../assets/images/nav-paintbrush.svg'
+
 
 interface NavbarProps {
   /** On the home page, these override Link navigation with scroll-based goTo() calls */
   onWork?: () => void
   onAbout?: () => void
+  onGallery?: () => void
 }
 
-export default function Navbar({ onWork, onAbout }: NavbarProps) {
+export default function Navbar({ onWork, onAbout, onGallery }: NavbarProps) {
   const { pathname } = useLocation()
 
   return (
@@ -19,7 +22,7 @@ export default function Navbar({ onWork, onAbout }: NavbarProps) {
         <div className="navbar-pill-blur" />
 
         {onWork ? (
-          <button className="nav-tab">
+          <button className="nav-tab" onClick={onWork}>
             <img src={navStar} alt="" className="nav-tab-icon nav-tab-icon--star" />
             work
           </button>
@@ -31,7 +34,7 @@ export default function Navbar({ onWork, onAbout }: NavbarProps) {
         )}
 
         {onAbout ? (
-          <button className="nav-tab">
+          <button className="nav-tab" onClick={onAbout}>
             <img src={navPerson} alt="" className="nav-tab-icon nav-tab-icon--person" />
             about
           </button>
@@ -42,10 +45,17 @@ export default function Navbar({ onWork, onAbout }: NavbarProps) {
           </Link>
         )}
 
-        <Link to="/playground" className={`nav-tab${pathname === '/playground' ? ' nav-tab--active' : ''}`}>
-          <img src={navPerson} alt="" className="nav-tab-icon nav-tab-icon--person" />
-          play
-        </Link>
+        {onGallery ? (
+          <button className="nav-tab" onClick={onGallery}>
+            <img src={navPaintbrush} alt="" className="nav-tab-icon nav-tab-icon--paintbrush" />
+            gallery
+          </button>
+        ) : (
+          <Link to="/" className="nav-tab">
+            <img src={navPaintbrush} alt="" className="nav-tab-icon nav-tab-icon--paintbrush" />
+            gallery
+          </Link>
+        )}
       </div>
     </nav>
   )

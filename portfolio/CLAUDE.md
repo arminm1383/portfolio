@@ -37,21 +37,19 @@ portfolio/               ← you are here (app root)
 
 The portfolio uses a hybrid layout model:
 
-- **Home page (`/`)** — Work and About content are **nested sections within the Home page** (scrollable, not separate routes). The landing/hero frame occupies the full initial viewport with no horizontal padding. Subsequent sections below the hero share a consistent horizontal margin.
+- **Home page (`/`)** — Work, Gallery, and About content are **nested sections within the Home page** (scrollable, not separate routes). The landing/hero frame occupies the full initial viewport with no horizontal padding. Subsequent sections below the hero share a consistent horizontal margin. Gallery sits between Work and About (currently a placeholder — content TBD).
 - **Case studies (`/work/:slug`)** — Each project gets its own tab/route. Format is similar to the home sub-sections but with a case-study-specific hero and content layout.
-- **Playground (`/playground`)** — Separate tab/route.
 
 ### Main Margins
 
-All sections below the hero/landing frame share a consistent horizontal padding. Value: taken from Figma node `63:69` (Landing frame, Portfolio-v4). The hero section itself (`cs-hero`, `hero`) spans the full 1498px width with no horizontal padding.
+All sections below the hero/landing frame share a consistent horizontal margin: 204px side margins around a 1240px content area, out of the 1648px-wide Figma frame (Works/About/Gallery — node `231:9275`, `679:2445`, `696:2411` in "Portfolio-v4", fileKey `Gh9WW3Dl4tQc40mRzkvwVv`). The hero section itself (`cs-hero`, `hero`) spans the full 1648px width with no horizontal padding. Node `63:69` is the "Findy Case Study" frame, not the Landing frame — don't use it as the margin source.
 
 ## Routes
 
 | Path | Component | Status |
 |---|---|---|
-| `/` | `pages/Home.tsx` | Implemented (Work & About are sections within) |
+| `/` | `pages/Home.tsx` | Implemented (Work, Gallery & About are sections within; Gallery is a placeholder) |
 | `/work/:slug` | `pages/CaseStudy.tsx` | To implement |
-| `/playground` | `pages/Playground.tsx` | Stub |
 
 ## Design System
 

@@ -18,7 +18,7 @@ import orgStreets from '../assets/images/org-streets.png'
 import orgRocket from '../assets/images/org-rocket.png'
 import orgUci from '../assets/images/org-uci.png'
 import orgPacuci from '../assets/images/org-pacuci.png'
-import starsImg from '../assets/images/stars.png'
+import individualStar from '../assets/images/individual-star.svg'
 import about2Portrait from '../assets/images/about2-portrait.png'
 import about2PortraitSelfie from '../assets/images/about2-portrait-rect.png'
 import about2Paper from '../assets/images/about2-paper.png'
@@ -32,6 +32,14 @@ import about2StarMd from '../assets/images/about2-star-md.svg'
 import about2StarLg from '../assets/images/about2-star-lg.svg'
 import about2BuffaloContent from '../assets/images/about2-buffalo-content.png'
 import about2BuffaloFrame from '../assets/images/about2-buffalo-frame.png'
+import galleryVrDevice from '../assets/images/gallery-vr-device.png'
+import galleryBurger from '../assets/images/gallery-burger.jpg'
+import gallerySalad from '../assets/images/gallery-salad.png'
+import galleryBereal from '../assets/images/gallery-bereal.jpg'
+import galleryFindyTeam from '../assets/images/gallery-findy-team.jpg'
+import galleryPanelOutdoors from '../assets/images/gallery-panel-outdoors.jpg'
+import galleryLaptopScreenshot from '../assets/images/gallery-laptop-screenshot.jpg'
+import galleryTshirtCrop from '../assets/images/gallery-tshirt-crop.png'
 
 // Real, pointer-driven mouse position — used (instead of the mouseenter event's own
 // coordinates) to place the case-study popup. When a work card slides under a stationary
@@ -194,15 +202,22 @@ export default function Home() {
   const [resumeOpen, setResumeOpen] = useState(false)
   const worksRef = useRef<HTMLElement>(null)
   const heroIllRef = useRef<HTMLImageElement>(null)
-  const heroStarsRef = useRef<HTMLImageElement>(null)
   const transitioning = useRef(false)
   const atTopSince = useRef<number | null>(null)
   const atBottomSince = useRef<number | null>(null)
+  const arrivedAt = useRef(0)
   const TOP_COOLDOWN = 500
+  // Trackpad momentum/inertial scrolling keeps firing low-magnitude wheel
+  // events well past the 700ms transition lock. Pages 0/2/3 have no
+  // scroll-position gate (unlike works, which waits for atTop/atBottomSince),
+  // so without this a residual tick right after arriving would immediately
+  // bounce to the next section. Require a settle window since arrival.
+  const WHEEL_SETTLE = 900
 
   const goTo = useCallback((p: number) => {
     if (transitioning.current) return
     transitioning.current = true
+    arrivedAt.current = Date.now()
     atTopSince.current = p === 1 ? Date.now() : null
     atBottomSince.current = null
     if (p === 1) setWorksKey(k => k + 1)
@@ -258,8 +273,6 @@ export default function Home() {
       raf = requestAnimationFrame(() => {
         if (heroIllRef.current)
           heroIllRef.current.style.transform = `translate(${mx * max * 0.6}px, ${my * max * 0.5}px)`
-        if (heroStarsRef.current)
-          heroStarsRef.current.style.transform = `translate(${mx * max * 1.6}px, ${my * max * 1.3}px)`
       })
     }
     window.addEventListener('mousemove', onMove, { passive: true })
@@ -267,13 +280,13 @@ export default function Home() {
       window.removeEventListener('mousemove', onMove)
       cancelAnimationFrame(raf)
       if (heroIllRef.current) heroIllRef.current.style.transform = ''
-      if (heroStarsRef.current) heroStarsRef.current.style.transform = ''
     }
   }, [page])
 
   // Wheel handler
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
+      if (Date.now() - arrivedAt.current < WHEEL_SETTLE) return
       if (page === 0 && e.deltaY > 0) { goTo(1); return }
       if (page === 1 && e.deltaY < 0) {
         const works = worksRef.current
@@ -353,18 +366,25 @@ export default function Home() {
             src={heroIllustration}
             alt=""
           />
-          <img
-            ref={heroStarsRef}
-            className="hero-stars"
-            src={starsImg}
-            alt=""
-            aria-hidden
-          />
 
           <div className="hero-name-block">
             <h1 className="hero-name">
               <span className="first">hi, i'm</span>
-              <span className="last">armin</span>
+              <span className="last">
+                <span className="last-text">
+                  armin
+                  <div className="hero-stars" aria-hidden>
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
+                      <img
+                        key={n}
+                        className={`hero-star hero-star--${n}`}
+                        src={individualStar}
+                        alt=""
+                      />
+                    ))}
+                  </div>
+                </span>
+              </span>
             </h1>
             <div className="hero-tagline-wrap">
               <div className="hero-tagline-box">
@@ -495,10 +515,72 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Gallery section — placeholder area, content coming soon */}
+      {/* Gallery section — asymmetric photo collage, matches Figma node 696:2411 */}
       <section className="gallery">
         <div className="gallery-header">
           <h2 className="gallery-heading">gallery</h2>
+        </div>
+
+        <div className="gallery-collage">
+          <div className="gallery-row">
+            <div className="gallery-col gallery-col--a">
+              <div className="gallery-tile gallery-tile--video">
+                <img src={galleryVrDevice} alt="VR walking-tour prototype preview" />
+              </div>
+              <div className="gallery-row">
+                <div className="gallery-tile gallery-tile--burger">
+                  <img src={galleryBurger} alt="Bison burger plate" />
+                </div>
+                <div className="gallery-tile-rotate-wrap">
+                  <div className="gallery-tile gallery-tile--salad">
+                    <img src={gallerySalad} alt="Salad bowl" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="gallery-tile gallery-tile--bereal">
+              <img src={galleryBereal} alt="BeReal photo at a team workspace" />
+            </div>
+          </div>
+
+          <div className="gallery-row gallery-row--lower">
+            <div className="gallery-tile gallery-tile--findy">
+              <img src={galleryFindyTeam} alt="Findy team presenting at a case study competition" />
+            </div>
+            <div className="gallery-col gallery-col--c">
+              <div className="gallery-row">
+                <div className="gallery-tile gallery-tile--panel">
+                  <img src={galleryPanelOutdoors} alt="Holding a black panel outdoors" />
+                </div>
+                <div className="gallery-tile gallery-tile--laptop">
+                  <img src={galleryLaptopScreenshot} alt="Laptop screen showing a research dashboard" />
+                </div>
+              </div>
+              <div className="gallery-tshirt-wrap">
+                <div className="gallery-tile gallery-tile--tshirt">
+                  <img src={galleryTshirtCrop} alt="T-shirt cropping tool screenshot" />
+                </div>
+                <div className="gallery-stars" aria-hidden>
+                  <div className="about2-star gallery-star--a">
+                    <img src={about2StarSm} alt="" className="about2-star-svg" />
+                    <img src={about2StarTexture} alt="" className="about2-star-tex" />
+                  </div>
+                  <div className="about2-star gallery-star--b">
+                    <img src={about2StarLg} alt="" className="about2-star-svg" />
+                    <img src={about2StarTexture} alt="" className="about2-star-tex" />
+                  </div>
+                  <div className="about2-star gallery-star--c">
+                    <img src={about2StarSm} alt="" className="about2-star-svg" />
+                    <img src={about2StarTexture} alt="" className="about2-star-tex" />
+                  </div>
+                  <div className="about2-star gallery-star--d">
+                    <img src={about2StarMd} alt="" className="about2-star-svg" />
+                    <img src={about2StarTexture} alt="" className="about2-star-tex" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>

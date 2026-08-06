@@ -2,7 +2,7 @@
   background: #f7f7f7;
   min-height: 100vh;
   overflow-x: hidden;
-  padding-top: 62px;
+  padding-top: var(--space-16);
   position: relative;
 }
 
@@ -56,25 +56,25 @@
 .cs-frame-label {
   display: block;
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.5);
-  margin-bottom: 8px;
+  margin-bottom: var(--space-2);
 }
 
 .cs-hero-title {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 88px;
+  font-size: var(--text-8xl);
   line-height: 1;
   color: #000;
-  margin: 0 0 8px;
+  margin: 0 0 var(--space-2);
 }
 
 .cs-hero-role {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 16px;
+  font-size: var(--text-base);
   color: rgba(0, 0, 0, 0.65);
   margin: 0;
 }
@@ -98,27 +98,27 @@
    94px horizontal margin matches Home project row positioning. */
 .cs-section {
   position: relative;
-  width: 1498px;
+  width: 1500px;
   max-width: 100%;
   margin-top: 52px;
 }
 
 .cs-section-inner {
-  padding: 60px 94px;
+  padding: var(--space-15) var(--space-24);
   border: 2px dashed #000;
 }
 
 .cs-section-heading {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 40px;
+  font-size: var(--text-4xl);
   line-height: 1;
   color: #000;
-  margin: 0 0 24px;
+  margin: 0 0 var(--space-6);
 }
 
 .cs-section-body {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 18px;
+  font-size: var(--text-lg);
   line-height: 1.6;
   color: rgba(0, 0, 0, 0.65);
   margin: 0;
@@ -127,8 +127,8 @@
 
 /* Not-found fallback */
 .cs-not-found {
-  padding: 120px 94px;
+  padding: var(--space-30) var(--space-24);
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 18px;
+  font-size: var(--text-lg);
   color: rgba(0, 0, 0, 0.65);
 }

@@ -1,7 +1,7 @@
 /* ── Navbar shell — fixed bottom-center ── */
 .navbar {
   position: fixed;
-  bottom: 32px;
+  bottom: var(--space-8);
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
@@ -18,12 +18,15 @@
 .navbar-pill {
   position: relative;
   display: flex;
-  width: 295px;
+  width: auto;
   height: 86px;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  border-radius: 24px;
+  gap: var(--space-3);
+  /* responsive horizontal padding */
+  padding: 0 clamp(var(--space-3), 3.5vw, var(--space-7));
+  /* responsive pill rounding */
+  border-radius: clamp(12px, 3.5vw, 24px);
   opacity: 0.95;
   background: rgba(120, 120, 120, 0.25);
   box-shadow:
@@ -51,12 +54,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: 8px 14px;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-4);
   border-radius: 8px;
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
   font-weight: 400;
-  font-size: 16px;
+  font-size: var(--text-base);
   line-height: normal;
   color: #000;
   text-decoration: none;
@@ -106,8 +109,39 @@
   z-index: 1;
 }
 
-.nav-tab-icon--star   { width: 20px; height: 16px; }
-.nav-tab-icon--person { width: 24px; height: 22px; }
+/* Responsive adjustments for smaller screens */
+@media (max-width: 520px) {
+  .navbar {
+    bottom: var(--space-5);
+  }
+
+  .navbar-pill {
+    height: 64px;
+    gap: var(--space-2);
+    padding: 0 clamp(var(--space-3), 6vw, var(--space-5));
+    border-radius: 16px;
+  }
+
+  .nav-tab {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-xs);
+  }
+
+  .nav-tab-icon--star { width: 18px; height: 14px; }
+  .nav-tab-icon--person { width: 20px; height: 18px; }
+  .nav-tab-icon--paintbrush { width: 20px; height: 18px; }
+}
+
+@media (min-width: 1200px) {
+  .navbar-pill {
+    height: 96px;
+    gap: var(--space-4);
+    padding: 0 clamp(var(--space-5), 2.5vw, var(--space-10));
+    border-radius: 28px;
+  }
+
+  .nav-tab { font-size: var(--text-lg); }
+}
 
 /* Tab text sits above fill */
 .nav-tab span,

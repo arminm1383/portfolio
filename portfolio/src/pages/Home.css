@@ -97,7 +97,7 @@
   right: 0;
   top: 0;
   height: 90px; /* 47px offset + 43px element height */
-  padding: 47px clamp(32px, 6.5vw, 96px) 0;
+  padding: var(--space-12) var(--fluid-nav-inset) 0;
   box-sizing: border-box;
   display: flex;
   align-items: flex-start;
@@ -109,8 +109,8 @@
 .hero-topnav-logo {
   display: flex;
   align-items: flex-start;
-  gap: 6px;
-  padding: 8px 12px;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
   border-radius: 14px;
   border: none;
   cursor: pointer;
@@ -134,14 +134,14 @@
 
 .hero-topnav-name {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 16px;
+  font-size: var(--text-base);
   color: #000;
   line-height: normal;
 }
 
 .hero-topnav-role {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 15px;
+  font-size: var(--text-base);
   color: rgba(0, 0, 0, 0.65);
   line-height: normal;
 }
@@ -149,7 +149,7 @@
 .hero-topnav-contact {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: var(--space-7);
   opacity: 1;
   transition: opacity 0.35s ease;
 }
@@ -195,19 +195,53 @@
   animation: floatUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
 }
 
+/* Anchors the star cluster to the rendered "armin" text (not the hero
+   container) so it stays wrapped around the "n" regardless of font
+   metrics or viewport size. */
+.last-text {
+  position: relative;
+  display: inline-block;
+}
+
 .hero-stars {
   position: absolute;
-  right: 324px;
-  top: 174px;
-  width: 360px;
-  height: auto; /* preserves 206:219 intrinsic ratio of the PNG */
+  left: 100%;
+  top: 50%;
+  transform: translate(-65%, -50%);
+  width: 150px;
+  height: 165px;
   pointer-events: none;
-  z-index: 1;
+  z-index: -1; /* sits behind the glyph so the "n" pokes through the cluster */
 }
+
+/* Each star pops in with a slight overshoot (scale) plus a fade,
+   staggered so the ring draws itself in one by one on page load. */
+@keyframes starIn {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.hero-star {
+  position: absolute;
+  height: auto;
+  opacity: 0;
+  filter: blur(0.4px);
+  animation: starIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.hero-star--1 { left: 0%;   top: 3%;  width: 34px; animation-delay: 0.45s; }
+.hero-star--2 { left: 41%;  top: -1%; width: 40px; animation-delay: 0.55s; }
+.hero-star--3 { left: 79%;  top: 6%;  width: 34px; animation-delay: 0.65s; }
+.hero-star--4 { left: 100%; top: 34%; width: 40px; animation-delay: 0.75s; }
+.hero-star--5 { left: 97%;  top: 62%; width: 38px; animation-delay: 0.85s; }
+.hero-star--6 { left: 79%;  top: 92%; width: 34px; animation-delay: 0.95s; }
+.hero-star--7 { left: 41%;  top: 96%; width: 34px; animation-delay: 1.05s; }
+.hero-star--8 { left: 1%;   top: 92%; width: 34px; animation-delay: 1.15s; }
 
 .hero-name {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 88px;
+  font-size: var(--fluid-heading-8xl);
   line-height: 1;
   color: #000;
   margin: 0;
@@ -221,30 +255,29 @@
 
 .hero-name .last {
   display: block;
-  margin-left: 49px;
   margin-top: -8px;
   text-align: center;
 }
 
 .hero-tagline-wrap {
   position: relative;
-  display: inline-block;
-  margin-top: 31px;
-  margin-left: 184px;
+  display: block;
+  width: 36%; /* relative to .hero-name-block so it scales with the shared container */
+  margin: 64px auto 0;
   animation: floatUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
 }
 
 .hero-tagline-box {
   border: 2px dashed #000;
-  padding: 12px 24px;
-  width: 348px;
+  padding: 8px 16px;
+  width: 100%;
   box-sizing: border-box;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
 .hero-tagline-box p {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 24px;
+  font-size: 17px;
   font-weight: 600;
   color: #000;
   text-align: center;
@@ -274,9 +307,9 @@
     0 4px 4px rgba(0, 0, 0, 0.16),
     inset 0 4px 4px rgba(0, 0, 0, 0.02);
   border-radius: 9999px;
-  padding: 6px 16px;
+  padding: var(--space-2) var(--space-4);
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 14px;
+  font-size: var(--text-base);
   font-weight: 600;
   color: #000;
   background: #fff;
@@ -312,14 +345,16 @@
   overflow-y: auto;
   overscroll-behavior-y: contain;
   box-sizing: border-box;
-  padding: 56px clamp(24px, 7.22vw, 104px) 64px;
+  padding: var(--fluid-section-pad-top) var(--fluid-section-margin-x) var(--fluid-section-pad-bottom);
 }
 
-/* Works section heading with Y2K star decoration */
+/* Works section heading with Y2K star decoration.
+   Margin/max-width match Figma's Works frame exactly: 204px side margins,
+   1240px content width (out of the 1648px frame), 96px heading→grid gap. */
 .works-header {
   position: relative;
-  margin-bottom: 52px;
-  max-width: 1106px;
+  margin-bottom: var(--space-24);
+  max-width: var(--content-max);
   margin-left: auto;
   margin-right: auto;
 }
@@ -337,7 +372,7 @@
 
 .works-heading {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 64px;
+  font-size: var(--fluid-heading-6xl);
   color: #000;
   margin: 0;
   line-height: 1;
@@ -346,8 +381,8 @@
 .works-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  column-gap: 60px;
-  row-gap: 96px;
+  column-gap: var(--space-15);
+  row-gap: var(--space-24);
 }
 
 @keyframes wc-fade {
@@ -373,7 +408,7 @@ a.work-card {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-3);
   opacity: 0.98;
   box-shadow:
     0 4px 4px rgba(0, 0, 0, 0.12),
@@ -451,13 +486,13 @@ a.work-card {
   height: 28px;
   display: flex;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 var(--space-3);
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
 }
 
 .cs-controls {
   display: flex;
-  gap: 7px;
+  gap: var(--space-2);
   align-items: center;
 }
 
@@ -474,15 +509,15 @@ a.work-card {
 .cs-dot--zoom  { background: #35c759; }
 
 .cs-content {
-  padding: 12px 14px 14px;
+  padding: var(--space-3) var(--space-4) var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .cs-command {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 500;
   color: #e9ecef;
   margin: 0;
@@ -493,7 +528,7 @@ a.work-card {
 
 .cs-result {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 10px;
+  font-size: var(--text-xs);
   font-weight: 500;
   color: #e86165;
   margin: 0;
@@ -505,20 +540,20 @@ a.work-card {
 }
 
 .work-card-content {
-  padding: 24px;
+  padding: var(--space-6);
   height: 114px;
   box-sizing: border-box;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
   justify-content: center;
 }
 
 .work-card-org {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
   margin: 0;
 }
 
@@ -532,7 +567,7 @@ a.work-card {
 
 .work-card-org span {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 14px;
+  font-size: var(--text-base);
   color: rgba(0, 0, 0, 0.65);
   line-height: normal;
 }
@@ -540,12 +575,12 @@ a.work-card {
 .work-card-title-block {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-1);
 }
 
 .work-card-title {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 24px;
+  font-size: var(--text-xl);
   line-height: normal;
   color: #000;
   margin: 0;
@@ -553,31 +588,130 @@ a.work-card {
 
 .work-card-role {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 14px;
+  font-size: var(--text-base);
   color: rgba(0, 0, 0, 0.65);
   margin: 0;
   line-height: normal;
 }
 
-/* ── Gallery section — placeholder, content coming soon ── */
+/* ── Gallery section — asymmetric photo collage, matches Figma node 696:2411 ── */
 .gallery {
   height: 100vh;
+  overflow-y: auto;
   box-sizing: border-box;
-  padding: 56px clamp(24px, 7.22vw, 104px) 64px;
+  padding: var(--fluid-section-pad-top) var(--fluid-section-margin-x) var(--fluid-section-pad-bottom);
 }
 
 .gallery-header {
-  max-width: 1106px;
+  max-width: var(--content-max);
   margin: 0 auto;
 }
 
 .gallery-heading {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 64px;
+  font-size: var(--fluid-heading-6xl);
   color: #000;
   margin: 0;
   line-height: 1;
 }
+
+/* Figma's gallery frame is one flex column (heading, row, row) at a uniform
+   42px gap — snapped to --space-11 (44px) here; the one exception (31px
+   between the Findy photo and the last column) snaps to --space-8 (32px). */
+.gallery-collage {
+  position: relative;
+  max-width: var(--content-max);
+  margin: var(--space-11) auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-11);
+}
+
+.gallery-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-11);
+}
+
+.gallery-row--lower {
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.gallery-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-11);
+}
+
+.gallery-col--a { width: 666px; flex-shrink: 0; }
+.gallery-col--c { width: 662px; flex-shrink: 0; }
+
+/* Each tile: rounded corners, drop shadow + inner shadow (Figma effect stack) */
+.gallery-tile {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 4px 4px rgba(0, 0, 0, 0.12),
+    inset 0 4px 4px rgba(0, 0, 0, 0.04);
+  opacity: 0;
+  animation: wc-fade 0.5s ease both;
+}
+
+.gallery-tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-tile--video    { width: 100%; height: 321px; animation-delay: 0s; }
+.gallery-tile--burger   { width: 249px; height: 240px; flex-shrink: 0; animation-delay: 0.06s; }
+.gallery-tile--bereal   { width: 440px; height: 587px; flex-shrink: 0; animation-delay: 0.12s; }
+.gallery-tile--findy    { width: 455px; height: 435px; flex-shrink: 0; animation-delay: 0.18s; }
+.gallery-tile--panel    { width: 400px; height: 226px; flex-shrink: 0; animation-delay: 0.24s; }
+.gallery-tile--laptop   { width: 220px; height: 220px; flex-shrink: 0; animation-delay: 0.3s; }
+.gallery-tile--tshirt   { width: 200px; height: 167px; flex-shrink: 0; animation-delay: 0.36s; }
+
+/* Rotated salad photo — box is authored pre-rotation (240×375) so the image
+   crops correctly, then the whole tile rotates into its 375×240 slot. */
+.gallery-tile-rotate-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 375px;
+  height: 240px;
+  flex-shrink: 0;
+}
+
+.gallery-tile--salad {
+  width: 240px;
+  height: 375px;
+  transform: rotate(90deg);
+  animation-delay: 0.42s;
+}
+
+/* Star cluster — reuses the About section's star treatment (outline SVG +
+   grain texture overlay), anchored off the last tile like .hero-stars. */
+.gallery-tshirt-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.gallery-stars {
+  position: absolute;
+  left: 100%;
+  bottom: -24px;
+  width: 180px;
+  height: 150px;
+  pointer-events: none;
+}
+
+.gallery-star--a { left: 2%;  top: 12%; width: 46px;  height: 46px;  transform: rotate(13deg); }
+.gallery-star--b { left: 32%; top: 32%; width: 108px; height: 108px; transform: rotate(11deg); }
+.gallery-star--c { left: 0%;  top: 58%; width: 50px;  height: 50px;  transform: rotate(-13deg); }
+.gallery-star--d { left: 46%; top: 0%;  width: 60px;  height: 60px;  transform: rotate(64deg); }
 
 /* ── About section ── */
 .about {
@@ -585,19 +719,22 @@ a.work-card {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48px clamp(24px, 7.22vw, 104px);
+  padding: var(--fluid-about-pad-y) var(--fluid-section-margin-x);
   box-sizing: border-box;
   overflow: hidden;
 }
 
-/* Flex row (portrait + text) + absolute positioning context for decoratives */
+/* Flex row (portrait + text) + absolute positioning context for decoratives.
+   Height is intentionally less than the tallest decorative element's extent
+   (~510px) so .about (100vh, flex-centered) has more whitespace above/below —
+   all decoratives use fixed px top offsets, not %, so they don't shift. */
 .about-inner {
   position: relative;
   width: 100%;
-  max-width: 1242px;
-  height: 530px;
+  max-width: var(--content-max);
+  height: 440px;
   display: flex;
-  gap: 42px;
+  gap: var(--space-11);
   align-items: flex-start;
 }
 
@@ -653,12 +790,12 @@ a.work-card {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .about2-title {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 48px;
+  font-size: var(--fluid-heading-5xl);
   line-height: normal;
   color: #000;
   margin: 0;
@@ -667,12 +804,12 @@ a.work-card {
 .about2-body {
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: var(--space-9);
 }
 
 .about2-body p {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 20px;
+  font-size: var(--text-lg);
   font-weight: 400;
   line-height: 36px;
   letter-spacing: -0.4px;
@@ -848,7 +985,7 @@ a.work-card {
   color: #fff;
   border: none;
   cursor: pointer;
-  font-size: 20px;
+  font-size: var(--text-lg);
   line-height: 1;
   display: flex;
   align-items: center;
