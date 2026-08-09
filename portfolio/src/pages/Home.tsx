@@ -5,13 +5,11 @@ import './Home.css'
 import Navbar from '../components/Navbar'
 
 import heroIllustration from '../assets/images/hero-illustration.png'
-import y2kStar from '../assets/images/y2k-star.png'
 import streetsGif from '../assets/images/streetsgif.gif'
 import rocketArtwork from '../assets/images/rocket-artwork.gif'
 import findyGif from '../assets/images/FindyGif.gif'
 import auraGif from '../assets/images/auragif.gif'
 import navCat from '../assets/images/nav-cat.svg'
-import navPerson from '../assets/images/nav-person.svg'
 import navLinkedin from '../assets/images/nav-linkedin.png'
 import navEmail from '../assets/images/nav-email.png'
 import navResume from '../assets/images/nav-resume.png'
@@ -411,12 +409,12 @@ export default function Home() {
                 </span>
               </span>
             </h1>
-            <div className="hero-tagline-wrap">
+            {/* <div className="hero-tagline-wrap">
               <div className="hero-tagline-box">
                 <p>designing connection through collaboration</p>
               </div>
               <CornerDots />
-            </div>
+            </div> */}
           </div>
 
           <span className="tag hero-tag-designer">product designer</span>
@@ -427,8 +425,7 @@ export default function Home() {
       {/* Work cards – 2×2 grid */}
       <section className="works" ref={worksRef}>
         <div className="works-header">
-          <img src={y2kStar} alt="" className="works-y2k-star" aria-hidden />
-          <h2 className="works-heading">works</h2>
+          <h2 className="works-heading">featured work</h2>
         </div>
         <div className="works-grid" key={worksKey}>
           <WorkCard
@@ -441,17 +438,6 @@ export default function Home() {
             slug="rocket-lawyer"
             isGif
             to="/work/rocket-lawyer"
-          />
-          <WorkCard
-            artwork={auraGif}
-            artworkAlt="Aura"
-            orgLogo={orgPacuci}
-            org="Product Association @ UCI"
-            title="Aura"
-            role="Product Designer"
-            slug="aura"
-            isGif
-            to="/work/aura"
           />
           <WorkCard
             artwork={findyGif}
@@ -472,6 +458,16 @@ export default function Home() {
             title="Streets Enterprise UI"
             role="Founding Product Designer"
             slug="streets"
+            isGif
+          />
+          <WorkCard
+            artwork={auraGif}
+            artworkAlt="Aura"
+            orgLogo={orgPacuci}
+            org="Product Association @ UCI"
+            title="Aura"
+            role="Product Designer"
+            slug="aura"
             isGif
           />
         </div>
@@ -619,7 +615,6 @@ export default function Home() {
         </div>
 
         <div className="gallery-bottom-mark" aria-label="End of page">
-          <img src={navPerson} alt="" className="gallery-bottom-person" aria-hidden />
           <span className="gallery-bottom-text">bottom</span>
         </div>
       </section>
