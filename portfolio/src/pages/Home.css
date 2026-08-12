@@ -263,13 +263,13 @@
   position: relative;
   display: block;
   width: 36%; /* relative to .hero-name-block so it scales with the shared container */
-  margin: 64px auto 0;
+  margin: var(--space-16) auto 0;
   animation: floatUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
 }
 
 .hero-tagline-box {
   border: 2px dashed #000;
-  padding: 8px 16px;
+  padding: var(--space-2) var(--space-4);
   width: 100%;
   box-sizing: border-box;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
@@ -345,7 +345,8 @@
   overflow-y: auto;
   overscroll-behavior-y: contain;
   box-sizing: border-box;
-  padding: var(--fluid-section-pad-top) var(--fluid-section-margin-x) var(--fluid-section-pad-bottom);
+  /* 90px topnav clearance + --space-6 breathing room */
+  padding: calc(90px + var(--space-6)) var(--fluid-section-margin-x) var(--fluid-section-pad-bottom);
 }
 
 /* Works section heading — matches gallery heading spacing exactly */
@@ -750,10 +751,10 @@ a.work-card {
 /* Bottom-of-page marker */
 .gallery-bottom-mark {
   max-width: var(--content-max);
-  margin: 44px auto 0;
+  margin: var(--space-11) auto 0;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: var(--space-4);
 }
 
 .gallery-bottom-mark::before,
@@ -766,7 +767,7 @@ a.work-card {
 
 .gallery-bottom-text {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 11px;
+  font-size: var(--text-xs);
   letter-spacing: 0.08em;
   color: rgba(0, 0, 0, 0.28);
   user-select: none;
