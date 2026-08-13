@@ -48,16 +48,16 @@ import galleryConferencePhoto from '../assets/images/gallery-conference-photo.jp
 // with clientX/clientY stuck at 0, which would otherwise pin the popup to the corner.
 const lastPointerPos = { x: 0, y: 0 }
 
-function CornerDots() {
-  return (
-    <>
-      <div className="hero-corner-dot tl" />
-      <div className="hero-corner-dot tr" />
-      <div className="hero-corner-dot bl" />
-      <div className="hero-corner-dot br" />
-    </>
-  )
-}
+// function CornerDots() {
+//   return (
+//     <>
+//       <div className="hero-corner-dot tl" />
+//       <div className="hero-corner-dot tr" />
+//       <div className="hero-corner-dot bl" />
+//       <div className="hero-corner-dot br" />
+//     </>
+//   )
+// }
 
 interface WorkCardProps {
   artwork: string
