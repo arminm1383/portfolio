@@ -477,17 +477,14 @@ export default function Home() {
       <section className="about">
         <div className="about-inner">
 
-          {/* Portrait group — Photo Booth frame + selfie photo */}
-          <div className="about-portrait">
-            {/* Frame: RGBA PNG with transparent viewport, sits behind selfie */}
+          {/* <div className="about-portrait">
             <div className="about-portrait-frame">
               <img src={about2Portrait} alt="" className="about-portrait-frame-img" />
             </div>
-            {/* Selfie: fills the frame viewport area, mirrored (Photo Booth style) */}
             <div className="about-portrait-selfie">
               <img src={about2PortraitSelfie} alt="Armin Mohammadi" className="about-portrait-selfie-img" />
             </div>
-          </div>
+          </div> */}
 
           {/* Text content */}
           <div className="about2-text">
