@@ -294,22 +294,22 @@ export default function Home() {
     return () => gallery.removeEventListener('scroll', onScroll)
   }, [page])
 
-  // Trigger about-lower animations when scrolled into view; re-observe on every visit
+  // Trigger about-lower animations after the user scrolls down to reveal them.
+  // IntersectionObserver fires immediately (about-lower is ~22% visible at scrollTop=0),
+  // so we use a scroll event and fire when scrollTop crosses 400px instead.
   useEffect(() => {
-    const el = aboutLowerRef.current
-    if (!el) return
-    el.classList.remove('about-lower--visible')
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add('about-lower--visible')
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.1, root: aboutRef.current }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
+    const about = aboutRef.current
+    const lower = aboutLowerRef.current
+    if (!about || !lower) return
+    lower.classList.remove('about-lower--visible')
+    const onScroll = () => {
+      if (about.scrollTop > 400) {
+        lower.classList.add('about-lower--visible')
+        about.removeEventListener('scroll', onScroll)
+      }
+    }
+    about.addEventListener('scroll', onScroll, { passive: true })
+    return () => about.removeEventListener('scroll', onScroll)
   }, [aboutKey])
 
   // Track the real cursor position at all times (see lastPointerPos above)

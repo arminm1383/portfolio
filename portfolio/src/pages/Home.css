@@ -1031,13 +1031,13 @@ a.work-card {
   vertical-align: middle;
 }
 
-/* Right column: stacked experience cards — 591px in Figma */
+/* Right column: stacked experience cards */
 .about-positions {
   width: 591px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-6); /* 24px gap matches Figma 136−112=24px between cards */
+  gap: var(--space-3);
 }
 
 @keyframes position-in {
@@ -1078,46 +1078,45 @@ a.work-card {
   animation: position-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.52s both;
 }
 
-/* Each position card: 591×112px in Figma, 24px padding on all sides */
 .about-position {
   background: rgba(255, 255, 255, 0.7);
-  border-radius: 16px;
+  border-radius: 12px;
   box-shadow:
-    0 4px 4px rgba(0, 0, 0, 0.08),
-    inset 0 4px 4px rgba(0, 0, 0, 0.02);
-  padding: var(--space-6);
+    0 2px 6px rgba(0, 0, 0, 0.07),
+    inset 0 2px 4px rgba(0, 0, 0, 0.02);
+  padding: var(--space-4) var(--space-5);
   display: flex;
   align-items: center;
-  gap: var(--space-8);
-  min-height: 112px;
+  gap: var(--space-5);
+  min-height: 72px;
   box-sizing: border-box;
 }
 
 .about-position-logo {
-  width: 64px;
-  height: 64px;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
   object-fit: contain;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .about-position-info {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 2px;
 }
 
 .about-position-name {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: var(--text-xl);
+  font-size: var(--text-base);
   color: #000;
   line-height: normal;
 }
 
 .about-position-role {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: var(--text-base);
-  color: rgba(0, 0, 0, 0.65);
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.55);
   line-height: normal;
 }
 
