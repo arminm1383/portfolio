@@ -791,13 +791,10 @@ a.work-card {
   flex-direction: column;
 }
 
-/* Upper portion — the existing portrait/text/decoratives block */
+/* Upper portion — positioning context for all decoratives + text (Figma Frame 674:2329) */
 .about-upper {
   position: relative;
   height: 440px;
-  display: flex;
-  gap: var(--space-11);
-  align-items: flex-start;
 }
 
 /* ── Portrait group — Photo Booth window ── */
@@ -846,10 +843,12 @@ a.work-card {
   pointer-events: none;
 }
 
-/* ── Text content (flex child, no absolute positioning) ── */
+/* ── Text content — Figma Frame 1737: x=525.204, y=0.807, width=687 ── */
 .about2-text {
+  position: absolute;
+  left: 525.2px;
+  top: 0.8px;
   width: 687px;
-  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -879,11 +878,11 @@ a.work-card {
   margin: 0;
 }
 
-/* ── Boy photo + paper shadow — overlaps portrait bottom-right, horizontally flipped ── */
+/* ── Boy photo + paper shadow — Figma Me+Paper (783:2430), x=436.891/439.408 in inner (+ 29.796 offset) ── */
 .about2-paper {
   position: absolute;
-  left: 338.6px;
-  top: 228.15px;
+  left: 469.2px;
+  top: 144.15px;
   width: 194.408px;
   height: 258.581px;
   object-fit: contain;
@@ -894,8 +893,8 @@ a.work-card {
 
 .about2-boy {
   position: absolute;
-  left: 346.98px;
-  top: 225px;
+  left: 466.69px;
+  top: 141px;
   width: 183.511px;
   height: 263.615px;
   object-fit: contain;
@@ -903,16 +902,16 @@ a.work-card {
   transform: scaleX(-1);
 }
 
-/* ── Music notes ── */
+/* ── Music notes — Figma 783:2434/2435/2436 within Frame 1754 inner (+ 29.796 offset) ── */
 .about2-note {
   position: absolute;
   object-fit: contain;
   pointer-events: none;
   transform: rotate(-27.38deg);
 }
-.about2-note--1 { left: 285px;    top: 351px;    width: 86.749px; height: 86.624px; }
-.about2-note--2 { left: 353.34px; top: 394.94px; width: 54.719px; height: 54.64px; }
-.about2-note--3 { left: 305.34px; top: 412.02px; width: 66.73px;  height: 66.634px; }
+.about2-note--1 { left: 185.8px;  top: 233.65px; width: 86.749px; height: 86.624px; }
+.about2-note--2 { left: 254.14px; top: 266.64px; width: 54.719px; height: 54.640px; }
+.about2-note--3 { left: 206.14px; top: 287.83px; width: 66.730px; height: 66.634px; }
 
 /* ── Birds ── */
 .about2-birds {
@@ -938,31 +937,31 @@ a.work-card {
 }
 .about2-star-tex { opacity: 0.54; }
 
-/* Figma node 682:2565 — medium star */
+/* Figma node 682:2565 — medium star: x=1168.354, y=377.494 */
 .about2-star--a {
-  left: 94.07%; top: 357.5px;
+  left: 1168.35px; top: 377.49px;
   width: 77.514px; height: 75.605px;
   transform: rotate(-18.87deg);
 }
-/* Figma node 682:2561 — large star */
+/* Figma node 682:2561 — large star: x=1228.383, y=386.369 */
 .about2-star--b {
-  left: 97.17%; top: 386.37px;
+  left: 1228.38px; top: 386.37px;
   width: 138.819px; height: 134.131px;
   transform: rotate(10.93deg);
 }
-/* Figma node 682:2557 — small star */
+/* Figma node 682:2557 — small star: x=1162.127, y=446.257 */
 .about2-star--c {
-  left: 92.58%; top: 446.26px;
+  left: 1162.13px; top: 446.26px;
   width: 65.959px; height: 63.938px;
   transform: rotate(13.51deg);
 }
 
-/* ── Buffalo painting — upper-left, overlaps portrait ── */
+/* ── Buffalo painting — Figma 783:2438/2439 within Frame 1754 inner (+ 29.796 offset) ── */
 /* Portrait-orientation images rotated ±90° to appear landscape */
 .about2-buffalo-frame {
   position: absolute;
-  left: -61px;
-  top: 59px;
+  left: 206.68px;
+  top: 69px;
   width: 176.886px;
   height: 134.882px;
   pointer-events: none;
@@ -980,8 +979,8 @@ a.work-card {
 
 .about2-buffalo-content {
   position: absolute;
-  left: -37.9px;
-  top: 78.38px;
+  left: 52.9px;
+  top: 182.27px;
   width: 133.392px;
   height: 93.895px;
   pointer-events: none;
