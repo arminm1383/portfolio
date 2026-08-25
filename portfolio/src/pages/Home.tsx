@@ -604,6 +604,8 @@ export default function Home() {
           </div>
 
           {/* Lower portion — tagline + experience list */}
+          <div className="about-separator" aria-hidden />
+
           <div className="about-lower" ref={aboutLowerRef}>
             <div className="about-tagline-col">
               <span className="about-tagline-eyebrow">Driving design through</span>

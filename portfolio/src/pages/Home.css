@@ -797,19 +797,19 @@ a.work-card {
   flex-direction: column;
 }
 
-/* Upper portion — positioning context for all decoratives + text (Figma Frame 674:2329) */
+/* Upper portion — positioning context for all decoratives + text (Figma Frame 674:2329, h=571) */
 .about-upper {
   position: relative;
-  height: 440px;
+  height: 571px;
 }
 
 /* ── Portrait group — Photo Booth window ──
-   Figma: Portrait (783:2427) x=134.796, y=0, width=307.125, height=238
+   Figma: Portrait (783:2427) x=134.796, y=83.19 (Frame 1754 inner shifted), width=307.125, height=238
    Selfie viewport (Rectangle 104, 783:2429): top=9.625px, height=203.875px */
 .about-portrait {
   position: absolute;
   left: 134.8px;
-  top: 0;
+  top: 83.19px;
   width: 307.125px;
   height: 238px;
   border-radius: 4px;
@@ -850,11 +850,11 @@ a.work-card {
   pointer-events: none;
 }
 
-/* ── Text content — Figma Frame 1737: x=525.204, y=0.807, width=687 ── */
+/* ── Text content — Figma Frame 1737: x=525.204, y=84, width=687 ── */
 .about2-text {
   position: absolute;
   left: 525.2px;
-  top: 0.8px;
+  top: 84px;
   width: 687px;
   display: flex;
   flex-direction: column;
@@ -885,11 +885,11 @@ a.work-card {
   margin: 0;
 }
 
-/* ── Boy photo + paper shadow — Figma Me+Paper (783:2430), x=436.891/439.408 in inner (+ 29.796 offset) ── */
+/* ── Boy photo + paper shadow — y values += 83.19 (Frame 1754 inner y offset) ── */
 .about2-paper {
   position: absolute;
   left: 469.2px;
-  top: 144.15px;
+  top: 227.34px;
   width: 194.408px;
   height: 258.581px;
   object-fit: contain;
@@ -901,7 +901,7 @@ a.work-card {
 .about2-boy {
   position: absolute;
   left: 466.69px;
-  top: 141px;
+  top: 224.19px;
   width: 183.511px;
   height: 263.615px;
   object-fit: contain;
@@ -909,16 +909,16 @@ a.work-card {
   transform: scaleX(-1);
 }
 
-/* ── Music notes — Figma 783:2434/2435/2436 within Frame 1754 inner (+ 29.796 offset) ── */
+/* ── Music notes — y values += 83.19 (Frame 1754 inner y offset) ── */
 .about2-note {
   position: absolute;
   object-fit: contain;
   pointer-events: none;
   transform: rotate(-27.38deg);
 }
-.about2-note--1 { left: 185.8px;  top: 233.65px; width: 86.749px; height: 86.624px; }
-.about2-note--2 { left: 254.14px; top: 266.64px; width: 54.719px; height: 54.640px; }
-.about2-note--3 { left: 206.14px; top: 287.83px; width: 66.730px; height: 66.634px; }
+.about2-note--1 { left: 185.8px;  top: 316.84px; width: 86.749px; height: 86.624px; }
+.about2-note--2 { left: 254.14px; top: 349.83px; width: 54.719px; height: 54.640px; }
+.about2-note--3 { left: 206.14px; top: 371.02px; width: 66.730px; height: 66.634px; }
 
 /* ── Birds ── */
 .about2-birds {
@@ -926,8 +926,9 @@ a.work-card {
   object-fit: contain;
   pointer-events: none;
 }
-.about2-birds--1 { left: 893px;  top: -39px;  width: 262px; height: 108px; }
-.about2-birds--2 { left: 1093px; top: 10.5px; width: 99px;  height: 74px; }
+/* Figma 862:11098/11099 — birds repositioned in updated Figma */
+.about2-birds--1 { left: 893px;  top: 41px;   width: 262px; height: 108px; }
+.about2-birds--2 { left: 1093px; top: 90.5px; width: 99px;  height: 74px; }
 
 /* ── Stars — SVG outline + texture overlay, each rotated ── */
 .about2-star {
@@ -944,30 +945,30 @@ a.work-card {
 }
 .about2-star-tex { opacity: 0.54; }
 
-/* Figma node 682:2565 — medium star: x=1168.354, y=377.494 */
+/* Figma 862:11132 — medium star */
 .about2-star--a {
-  left: 1168.35px; top: 377.49px;
-  width: 77.514px; height: 75.605px;
+  left: 1122.34px; top: 470.99px;
+  width: 52.309px; height: 51.022px;
   transform: rotate(-18.87deg);
 }
-/* Figma node 682:2561 — large star: x=1228.383, y=386.369 */
+/* Figma 862:11129 — large star */
 .about2-star--b {
-  left: 1228.38px; top: 386.37px;
-  width: 138.819px; height: 134.131px;
+  left: 1162.85px; top: 476.98px;
+  width: 93.681px; height: 90.517px;
   transform: rotate(10.93deg);
 }
-/* Figma node 682:2557 — small star: x=1162.127, y=446.257 */
+/* Figma 862:11126 — small star */
 .about2-star--c {
-  left: 1162.13px; top: 446.26px;
-  width: 65.959px; height: 63.938px;
+  left: 1118.14px; top: 517.40px;
+  width: 44.512px; height: 43.148px;
   transform: rotate(13.51deg);
 }
 
-/* ── Buffalo painting — combined frame+content image (185×143px) ── */
+/* ── Buffalo painting — combined frame+content image (185×143px), y += 83.19 ── */
 .about2-buffalo-content {
   position: absolute;
   left: 52.9px;
-  top: 69px;
+  top: 152.19px;
   width: 185px;
   height: 143px;
   pointer-events: none;
@@ -979,22 +980,35 @@ a.work-card {
   display: block;
 }
 
-/* ── About lower — tagline + experience list ── */
-/* Figma Frame 1755: y=605.6 within the 1281px content frame, height=676px.
-   Upper portion is ~440px in CSS → gap = 605.6 − 404.6 ≈ 200px. */
+/* ── About separator — Figma 856:11091 Rectangle 103, y=635 in Frame 1756 ──
+   Upper portion ends at y=571; separator at y=635 → margin-top = 64px */
+.about-separator {
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.12);
+  margin-top: 64px;
+  flex-shrink: 0;
+}
+
+/* ── About lower — Figma Position Section (851:2424), y=701 in Frame 1756 ──
+   Separator ends at y=637; lower starts at y=701 → margin-top = 64px
+   Tagline (862:11096): x=104.5, y=10, w=432
+   Positions (853:2451): x=546.5, y=10, w=591 */
 .about-lower {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-5);
-  margin-top: 200px;
-  padding-bottom: var(--space-16);
+  gap: 10px;
+  margin-top: 64px;
+  padding-bottom: var(--space-12);
 }
 
-/* Left column: "Driving design through / collaboration and / communication" */
+/* Left column: "Driving design through / collaboration and / communication"
+   x=104.5 in Position Section; text element at y=24 within text frame (y=10) → y=34 total */
 .about-tagline-col {
-  flex: 1;
-  min-width: 0;
-  padding-top: 251px; /* matches Figma y=251 for the tagline text within Frame 1755 */
+  width: 432px;
+  flex-shrink: 0;
+  margin-left: 104.5px;
+  padding-top: 34px;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -1031,13 +1045,14 @@ a.work-card {
   vertical-align: middle;
 }
 
-/* Right column: stacked experience cards */
+/* Right column: Figma Positions (853:2451) x=546.5, y=10, w=591, card gap=96-72=24px */
 .about-positions {
   width: 591px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-6);
+  padding-top: 10px;
 }
 
 @keyframes position-in {
@@ -1078,23 +1093,24 @@ a.work-card {
   animation: position-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.52s both;
 }
 
+/* Card: h=72, pad=12px top/bot + 24px left (Content x=24, y=12), logo=48px, logo-title gap=32px */
 .about-position {
   background: rgba(255, 255, 255, 0.7);
   border-radius: 12px;
   box-shadow:
     0 2px 6px rgba(0, 0, 0, 0.07),
     inset 0 2px 4px rgba(0, 0, 0, 0.02);
-  padding: var(--space-4) var(--space-5);
+  padding: 12px 24px;
   display: flex;
   align-items: center;
-  gap: var(--space-5);
+  gap: var(--space-8);
   min-height: 72px;
   box-sizing: border-box;
 }
 
 .about-position-logo {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   flex-shrink: 0;
   object-fit: contain;
   border-radius: 6px;
@@ -1106,6 +1122,7 @@ a.work-card {
   gap: 2px;
 }
 
+/* company name: text height=22px → Peace Sans 16px */
 .about-position-name {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
   font-size: var(--text-base);
@@ -1113,6 +1130,7 @@ a.work-card {
   line-height: normal;
 }
 
+/* role: text height=17px → 13px */
 .about-position-role {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
   font-size: 13px;
