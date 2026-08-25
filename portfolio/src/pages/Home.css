@@ -797,16 +797,18 @@ a.work-card {
   height: 440px;
 }
 
-/* ── Portrait group — Photo Booth window ── */
+/* ── Portrait group — Photo Booth window ──
+   Figma: Portrait (783:2427) x=134.796, y=0, width=307.125, height=238
+   Selfie viewport (Rectangle 104, 783:2429): top=9.625px, height=203.875px */
 .about-portrait {
-  position: relative;
-  width: 507.789px;
-  height: 393.5px;
-  flex-shrink: 0;
+  position: absolute;
+  left: 134.8px;
+  top: 0;
+  width: 307.125px;
+  height: 238px;
   border-radius: 4px;
 }
 
-/* Frame: RGBA PNG sits behind selfie; chrome shows above/below the selfie viewport */
 .about-portrait-frame {
   position: absolute;
   inset: 0;
@@ -823,13 +825,12 @@ a.work-card {
   pointer-events: none;
 }
 
-/* Selfie: fills the transparent viewport of the frame, mirrored (Photo Booth style) */
 .about-portrait-selfie {
   position: absolute;
   left: 0;
-  top: 15.91px;
+  top: 9.625px;
   width: 100%;
-  height: 337.079px;
+  height: 203.875px;
   overflow: hidden;
   transform: scaleX(-1);
 }

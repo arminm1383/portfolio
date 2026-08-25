@@ -22,6 +22,8 @@ import orgEatStudios from '../assets/images/org-eat-studios.png'
 import orgAdobe from '../assets/images/org-adobe.png'
 import orgAccessComputing from '../assets/images/org-access-computing.png'
 import individualStar from '../assets/images/individual-star.svg'
+import about2Portrait from '../assets/images/about2-portrait.png'
+import about2PortraitSelfie from '../assets/images/about2-portrait-rect.png'
 import about2Paper from '../assets/images/about2-paper.png'
 import about2Boy from '../assets/images/about2-boy.png'
 import about2MusicNote from '../assets/images/about2-music-note.png'
@@ -539,6 +541,15 @@ export default function Home() {
 
           {/* Upper portion — existing portrait, text, and decoratives */}
           <div className="about-upper">
+            <div className="about-portrait">
+              <div className="about-portrait-frame">
+                <img src={about2Portrait} alt="" className="about-portrait-frame-img" />
+              </div>
+              <div className="about-portrait-selfie">
+                <img src={about2PortraitSelfie} alt="Armin Mohammadi" className="about-portrait-selfie-img" />
+              </div>
+            </div>
+
             <div className="about2-text">
               <h2 className="about2-title">about me</h2>
               <div className="about2-body">
