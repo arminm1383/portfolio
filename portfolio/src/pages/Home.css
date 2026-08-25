@@ -963,45 +963,20 @@ a.work-card {
   transform: rotate(13.51deg);
 }
 
-/* ── Buffalo painting — Figma 783:2438/2439 within Frame 1754 inner (+ 29.796 offset) ── */
-/* Portrait-orientation images rotated ±90° to appear landscape */
-.about2-buffalo-frame {
-  position: absolute;
-  left: 206.68px;
-  top: 69px;
-  width: 176.886px;
-  height: 134.882px;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.about2-buffalo-frame-img {
-  width: 134.882px;
-  height: 176.886px;
-  transform: rotate(90deg);
-  flex-shrink: 0;
-  object-fit: cover;
-}
-
+/* ── Buffalo painting — combined frame+content image (185×143px) ── */
 .about2-buffalo-content {
   position: absolute;
   left: 52.9px;
-  top: 182.27px;
-  width: 133.392px;
-  height: 93.895px;
+  top: 69px;
+  width: 185px;
+  height: 143px;
   pointer-events: none;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .about2-buffalo-content-img {
-  width: 93.895px;
-  height: 133.392px;
-  transform: rotate(-90deg);
-  flex-shrink: 0;
-  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 /* ── About lower — tagline + experience list ── */
@@ -1065,6 +1040,11 @@ a.work-card {
   gap: var(--space-6); /* 24px gap matches Figma 136−112=24px between cards */
 }
 
+@keyframes position-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Each position card: 591×112px in Figma, 24px padding on all sides */
 .about-position {
   background: rgba(255, 255, 255, 0.7);
@@ -1075,10 +1055,18 @@ a.work-card {
   padding: var(--space-6);
   display: flex;
   align-items: center;
-  gap: var(--space-8); /* 32px — logo right edge (64px) to title left (96px) = 32px */
+  gap: var(--space-8);
   min-height: 112px;
   box-sizing: border-box;
+  opacity: 0;
+  animation: position-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+
+.about-position:nth-child(1) { animation-delay: 0.05s; }
+.about-position:nth-child(2) { animation-delay: 0.12s; }
+.about-position:nth-child(3) { animation-delay: 0.19s; }
+.about-position:nth-child(4) { animation-delay: 0.26s; }
+.about-position:nth-child(5) { animation-delay: 0.33s; }
 
 .about-position-logo {
   width: 64px;
