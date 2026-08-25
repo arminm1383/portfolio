@@ -774,12 +774,18 @@ a.work-card {
 }
 
 /* ── About section — scrollable, mirrors works behavior ── */
+/* Horizontal centering is NOT done via section padding (unlike works) because
+   about-upper uses absolute pixel positions anchored to the 1240px content width.
+   Padding-based margins would compress the container below 1240px and break the layout.
+   about-inner uses max-width + margin:auto to center at the correct width. */
 .about {
   height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
   overscroll-behavior-y: contain;
   box-sizing: border-box;
-  padding: calc(90px + var(--space-6)) var(--fluid-section-margin-x) var(--fluid-section-pad-bottom);
+  padding-top: calc(90px + var(--space-6));
+  padding-bottom: var(--fluid-section-pad-bottom);
 }
 
 .about-inner {
