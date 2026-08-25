@@ -8,7 +8,7 @@
   inset: 0;
 }
 
-/* Sliding container — 400vh tall (hero + works + gallery + about), moves via translateY */
+/* Sliding container — 500vh tall (hero + works + about + gallery + footer), moves via translateY */
 .home {
   /* Tile grid: #f7f7f5 fill, #eeeeee 0.5px border at 25×25px — matches Figma "Tiles Full" */
   background-color: #f7f7f5;
@@ -16,7 +16,7 @@
     linear-gradient(#eeeeee 0.5px, transparent 0.5px),
     linear-gradient(90deg, #eeeeee 0.5px, transparent 0.5px);
   background-size: 25px 25px;
-  height: 400vh; /* hero (100vh) + works (100vh) + gallery (100vh) + about (100vh) stacked */
+  height: 500vh;
   display: flex;
   flex-direction: column;
 }
@@ -773,25 +773,27 @@ a.work-card {
   user-select: none;
 }
 
-/* ── About section ── */
+/* ── About section — scrollable, mirrors works behavior ── */
 .about {
-  height: 105vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--fluid-about-pad-y) var(--fluid-section-margin-x);
+  height: 100vh;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
   box-sizing: border-box;
-  overflow: hidden;
+  padding: calc(90px + var(--space-6)) var(--fluid-section-margin-x) var(--fluid-section-pad-bottom);
 }
 
-/* Flex row (portrait + text) + absolute positioning context for decoratives.
-   Height is intentionally less than the tallest decorative element's extent
-   (~510px) so .about (100vh, flex-centered) has more whitespace above/below —
-   all decoratives use fixed px top offsets, not %, so they don't shift. */
 .about-inner {
   position: relative;
   width: 100%;
   max-width: var(--content-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Upper portion — the existing portrait/text/decoratives block */
+.about-upper {
+  position: relative;
   height: 440px;
   display: flex;
   gap: var(--space-11);
@@ -994,6 +996,201 @@ a.work-card {
   transform: rotate(-90deg);
   flex-shrink: 0;
   object-fit: cover;
+}
+
+/* ── About lower — tagline + experience list ── */
+/* Figma Frame 1755: y=605.6 within the 1281px content frame, height=676px.
+   Upper portion is ~440px in CSS → gap = 605.6 − 404.6 ≈ 200px. */
+.about-lower {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-5);
+  margin-top: 200px;
+  padding-bottom: var(--space-16);
+}
+
+/* Left column: "Driving design through / collaboration and / communication" */
+.about-tagline-col {
+  flex: 1;
+  min-width: 0;
+  padding-top: 251px; /* matches Figma y=251 for the tagline text within Frame 1755 */
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.about-tagline-eyebrow {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.65);
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.about-tagline-line {
+  margin: 0;
+  line-height: 1;
+}
+
+.about-tagline-big {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: var(--fluid-heading-6xl);
+  color: #000;
+  line-height: 1;
+}
+
+.about-tagline-and {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: #000;
+  display: inline-block;
+  margin-left: var(--space-3);
+  vertical-align: middle;
+}
+
+/* Right column: stacked experience cards — 591px in Figma */
+.about-positions {
+  width: 591px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6); /* 24px gap matches Figma 136−112=24px between cards */
+}
+
+/* Each position card: 591×112px in Figma, 24px padding on all sides */
+.about-position {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  box-shadow:
+    0 4px 4px rgba(0, 0, 0, 0.08),
+    inset 0 4px 4px rgba(0, 0, 0, 0.02);
+  padding: var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-8); /* 32px — logo right edge (64px) to title left (96px) = 32px */
+  min-height: 112px;
+  box-sizing: border-box;
+}
+
+.about-position-logo {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.about-position-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.about-position-name {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: var(--text-xl);
+  color: #000;
+  line-height: normal;
+}
+
+.about-position-role {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: var(--text-base);
+  color: rgba(0, 0, 0, 0.65);
+  line-height: normal;
+}
+
+/* ── Footer section ── */
+/* Content is 1082px wide with ~283px side margins in Figma (vs 1240px / 204px for other sections).
+   Uses display:flex+align-items:center so the inner box centers within the 100vh slide. */
+.footer {
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-inner {
+  width: min(1082px, calc(100% - var(--fluid-section-margin-x) * 2));
+  display: flex;
+  flex-direction: column;
+}
+
+/* Horizontal rule at the top of the footer content block */
+.footer-sep {
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.18);
+  flex-shrink: 0;
+}
+
+/* Main content: left tagline + right nav grid, 98px below separator */
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 98px;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  width: 371px;
+  flex-shrink: 0;
+}
+
+/* "Designing Connection through Collaboration" — ~32px Peace Sans, 2 lines, 76px total */
+.footer-tagline {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: var(--fluid-heading-4xl);
+  line-height: 1.2;
+  color: #000;
+  margin: 0;
+  width: 371px;
+}
+
+/* "@ Armin Mohammadi 2026" — y=163 in Frame 1761 (title ends at y=76), so gap = 87px */
+.footer-copy {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-base);
+  color: rgba(0, 0, 0, 0.65);
+  margin: 87px 0 0;
+  line-height: normal;
+}
+
+/* Two-column nav group, gap matches Frame 1758 x=101 − Frame 1757 right edge (69px) = 32px */
+.footer-nav {
+  display: flex;
+  gap: var(--space-8);
+}
+
+/* Each column: 3 links stacked at 77px spacing (Home/About/Works, Email/Resume/LinkedIn) */
+.footer-nav-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12); /* ~48px = 77px text-top to text-top − ~29px link height */
+}
+
+.footer-nav-link {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: var(--text-xl);
+  color: #000;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  line-height: normal;
+  opacity: 0.85;
+  transition: opacity 0.15s;
+  text-align: left;
+}
+
+.footer-nav-link:hover {
+  opacity: 1;
 }
 
 /* ── Resume modal ── */
