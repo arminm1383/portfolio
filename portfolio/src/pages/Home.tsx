@@ -34,7 +34,6 @@ import about2StarSm from '../assets/images/about2-star-sm.svg'
 import about2StarMd from '../assets/images/about2-star-md.svg'
 import about2StarLg from '../assets/images/about2-star-lg.svg'
 import about2BuffaloContent from '../assets/images/about2-buffalo-content.png'
-import about2BuffaloFrame from '../assets/images/about2-buffalo-frame.png'
 import galleryVrDevice from '../assets/images/gallery-vr-device.png'
 import galleryBurger from '../assets/images/gallery-burger.jpg'
 import gallerySalad from '../assets/images/gallery-salad.png'
@@ -200,6 +199,7 @@ export default function Home() {
   const worksRef = useRef<HTMLElement>(null)
   const aboutRef = useRef<HTMLElement>(null)
   const galleryRef = useRef<HTMLElement>(null)
+  const aboutLowerRef = useRef<HTMLDivElement>(null)
   const heroIllRef = useRef<HTMLImageElement>(null)
   const transitioning = useRef(false)
   const atTopSince = useRef<number | null>(null)
@@ -293,6 +293,24 @@ export default function Home() {
     gallery.addEventListener('scroll', onScroll, { passive: true })
     return () => gallery.removeEventListener('scroll', onScroll)
   }, [page])
+
+  // Trigger about-lower animations when scrolled into view; re-observe on every visit
+  useEffect(() => {
+    const el = aboutLowerRef.current
+    if (!el) return
+    el.classList.remove('about-lower--visible')
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add('about-lower--visible')
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1, root: aboutRef.current }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [aboutKey])
 
   // Track the real cursor position at all times (see lastPointerPos above)
   useEffect(() => {
@@ -580,17 +598,13 @@ export default function Home() {
               <img src={about2StarSm} alt="" className="about2-star-svg" />
               <img src={about2StarTexture} alt="" className="about2-star-tex" />
             </div>
-
-            <div className="about2-buffalo-frame" aria-hidden>
-              <img src={about2BuffaloFrame} alt="" className="about2-buffalo-frame-img" />
-            </div>
             <div className="about2-buffalo-content" aria-hidden>
               <img src={about2BuffaloContent} alt="" className="about2-buffalo-content-img" />
             </div>
           </div>
 
           {/* Lower portion — tagline + experience list */}
-          <div className="about-lower">
+          <div className="about-lower" ref={aboutLowerRef}>
             <div className="about-tagline-col">
               <span className="about-tagline-eyebrow">Driving design through</span>
               <p className="about-tagline-line">
