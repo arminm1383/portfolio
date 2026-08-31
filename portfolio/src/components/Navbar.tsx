@@ -10,10 +10,10 @@ interface NavbarProps {
   /** On the home page, these override Link navigation with scroll-based goTo() calls */
   onWork?: () => void
   onAbout?: () => void
-  onGallery?: () => void
+  onResume?: () => void
 }
 
-export default function Navbar({ onWork, onAbout, onGallery }: NavbarProps) {
+export default function Navbar({ onWork, onAbout, onResume }: NavbarProps) {
   const { pathname } = useLocation()
 
   return (
@@ -39,21 +39,21 @@ export default function Navbar({ onWork, onAbout, onGallery }: NavbarProps) {
             about
           </button>
         ) : (
-          <Link to="/about" className={`nav-tab${pathname === '/about' ? ' nav-tab--active' : ''}`}>
+          <Link to="/" className="nav-tab">
             <img src={navPerson} alt="" className="nav-tab-icon nav-tab-icon--person" />
             about
           </Link>
         )}
 
-        {onGallery ? (
-          <button className="nav-tab" onClick={onGallery}>
+        {onResume ? (
+          <button className="nav-tab" onClick={onResume}>
             <img src={navPaintbrush} alt="" className="nav-tab-icon nav-tab-icon--paintbrush" />
-            gallery
+            resume
           </button>
         ) : (
           <Link to="/" className="nav-tab">
             <img src={navPaintbrush} alt="" className="nav-tab-icon nav-tab-icon--paintbrush" />
-            gallery
+            resume
           </Link>
         )}
       </div>

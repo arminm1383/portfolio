@@ -1,74 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@500&family=Open+Sans:wght@600&family=Tiro+Tamil&display=swap');
 
-/* Clip frame — stays fixed at 100vh, hides everything outside */
-.home-clip {
-  height: 100vh;
-  overflow: hidden;
-  position: fixed;
-  inset: 0;
-}
-
-/* Sliding container — 500vh tall (hero + works + about + gallery + footer), moves via translateY */
+/* ── Page container — natural block flow, Lenis drives scroll ── */
 .home {
-  /* Tile grid: #f7f7f5 fill, #eeeeee 0.5px border at 25×25px — matches Figma "Tiles Full" */
   background-color: #f7f7f5;
   background-image:
     linear-gradient(#eeeeee 0.5px, transparent 0.5px),
     linear-gradient(90deg, #eeeeee 0.5px, transparent 0.5px);
   background-size: 25px 25px;
-  height: 500vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ── Entrance animations ──
-   Opacity snaps to 1 at ~35% of the duration so the element
-   feels immediately present; the Y shift finishes more slowly. */
-@keyframes floatUp {
-  0%   { opacity: 0; transform: translateY(10px); }
-  35%  { opacity: 1; }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes floatDown {
-  0%   { opacity: 0; transform: translateY(-10px); }
-  35%  { opacity: 1; }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-/* pill nav — preserves translateX(-50%) centering throughout */
-@keyframes floatUpNav {
-  0%   { opacity: 0; transform: translateX(-50%) translateY(10px); }
-  35%  { opacity: 1; }
-  100% { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
-/* Tag entrance — fades to 0.92; z is baked in so it never changes */
-@keyframes floatUpTag {
-  0%   { opacity: 0; transform: perspective(600px) translateZ(14px) translateY(10px); }
-  35%  { opacity: 0.92; }
-  100% { opacity: 0.92; transform: perspective(600px) translateZ(14px) translateY(0px); }
-}
-
-/* Perpetual float: only Y moves — Z stays at 14px throughout.
-   Shadow grows as the tag rises to sell the physical height. */
-@keyframes tagBob {
-  0%, 100% {
-    transform: perspective(600px) translateZ(14px) translateY(0px);
-    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
-    box-shadow:
-      inset 0 0 0 2px rgba(0, 0, 0, 0.5),
-      0 4px 4px rgba(0, 0, 0, 0.16),
-      inset 0 4px 4px rgba(0, 0, 0, 0.02);
-  }
-  50% {
-    transform: perspective(600px) translateZ(14px) translateY(-3px);
-    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
-    box-shadow:
-      inset 0 0 0 2px rgba(0, 0, 0, 0.5),
-      0 7px 10px rgba(0, 0, 0, 0.13),
-      inset 0 4px 4px rgba(0, 0, 0, 0.02);
-  }
 }
 
 /* ── Hero ── */
@@ -79,8 +17,7 @@
   overflow: hidden;
 }
 
-/* Vertically centers all hero content at any screen height.
-   Matches the Figma "Main Title Content" group (y=110, h=680 in 900px frame → center=450=900/2). */
+/* Vertically centers all hero content at any screen height */
 .hero-main-content {
   position: absolute;
   left: 0;
@@ -96,14 +33,13 @@
   left: 0;
   right: 0;
   top: 0;
-  height: 90px; /* 47px offset + 43px element height */
+  height: 90px;
   padding: var(--space-12) var(--fluid-nav-inset) 0;
   box-sizing: border-box;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   z-index: 1000;
-  animation: floatDown 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
 
 .hero-topnav-logo {
@@ -146,35 +82,6 @@
   line-height: normal;
 }
 
-.hero-topnav-contact {
-  display: flex;
-  align-items: center;
-  gap: var(--space-7);
-  opacity: 1;
-  transition: opacity 0.35s ease;
-}
-
-.hero-topnav-contact--hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.hero-topnav-icon-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.8;
-  transition: opacity 0.15s;
-  border: none;
-  background: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-.hero-topnav-icon-link:hover {
-  opacity: 1;
-}
-
 .hero-illustration {
   position: absolute;
   left: 0;
@@ -183,7 +90,6 @@
   height: 680px;
   object-fit: contain;
   object-position: left top;
-  animation: floatUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 }
 
 .hero-name-block {
@@ -192,12 +98,9 @@
   top: 168px;
   width: 723px;
   z-index: 2;
-  animation: floatUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
 }
 
-/* Anchors the star cluster to the rendered "armin" text (not the hero
-   container) so it stays wrapped around the "n" regardless of font
-   metrics or viewport size. */
+/* Anchors the star cluster to the rendered "armin" text */
 .last-text {
   position: relative;
   display: inline-block;
@@ -211,33 +114,25 @@
   width: 150px;
   height: 165px;
   pointer-events: none;
-  z-index: -1; /* sits behind the glyph so the "n" pokes through the cluster */
+  z-index: -1;
 }
 
-/* Each star pops in with a slight overshoot (scale) plus a fade,
-   staggered so the ring draws itself in one by one on page load. */
-@keyframes starIn {
-  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
-  60%  { opacity: 1; }
-  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-}
-
+/* Stars — GSAP handles entrance; opacity:0 prevents flash before GSAP fires */
 .hero-star {
   position: absolute;
   height: auto;
   opacity: 0;
   filter: blur(0.4px);
-  animation: starIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-.hero-star--1 { left: 0%;   top: 3%;  width: 34px; animation-delay: 0.45s; }
-.hero-star--2 { left: 41%;  top: -1%; width: 40px; animation-delay: 0.55s; }
-.hero-star--3 { left: 79%;  top: 6%;  width: 34px; animation-delay: 0.65s; }
-.hero-star--4 { left: 100%; top: 34%; width: 40px; animation-delay: 0.75s; }
-.hero-star--5 { left: 97%;  top: 62%; width: 38px; animation-delay: 0.85s; }
-.hero-star--6 { left: 79%;  top: 92%; width: 34px; animation-delay: 0.95s; }
-.hero-star--7 { left: 41%;  top: 96%; width: 34px; animation-delay: 1.05s; }
-.hero-star--8 { left: 1%;   top: 92%; width: 34px; animation-delay: 1.15s; }
+.hero-star--1 { left: 0%;   top: 3%;  width: 34px; }
+.hero-star--2 { left: 41%;  top: -1%; width: 40px; }
+.hero-star--3 { left: 79%;  top: 6%;  width: 34px; }
+.hero-star--4 { left: 100%; top: 34%; width: 40px; }
+.hero-star--5 { left: 97%;  top: 62%; width: 38px; }
+.hero-star--6 { left: 79%;  top: 92%; width: 34px; }
+.hero-star--7 { left: 41%;  top: 96%; width: 34px; }
+.hero-star--8 { left: 1%;   top: 92%; width: 34px; }
 
 .hero-name {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
@@ -259,44 +154,6 @@
   text-align: center;
 }
 
-.hero-tagline-wrap {
-  position: relative;
-  display: block;
-  width: 36%; /* relative to .hero-name-block so it scales with the shared container */
-  margin: var(--space-16) auto 0;
-  animation: floatUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
-}
-
-.hero-tagline-box {
-  border: 2px dashed #000;
-  padding: var(--space-2) var(--space-4);
-  width: 100%;
-  box-sizing: border-box;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-}
-
-.hero-tagline-box p {
-  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 17px;
-  font-weight: 600;
-  color: #000;
-  text-align: center;
-  margin: 0;
-  line-height: 1.25;
-}
-
-.hero-corner-dot {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: #18671f;
-}
-
-.hero-corner-dot.tl { top: -4px; left: -4px; }
-.hero-corner-dot.tr { top: -4px; right: -4px; }
-.hero-corner-dot.bl { bottom: -4px; left: -4px; }
-.hero-corner-dot.br { bottom: -4px; right: -4px; }
-
 /* Tags (pill badges) */
 .tag {
   display: inline-flex;
@@ -317,39 +174,33 @@
   will-change: transform, box-shadow;
 }
 
-.hero-tag-designer {
+/* Tag shadow updates as GSAP moves them up/down */
+.hero-tag-designer,
+.hero-tag-anteater {
   position: absolute;
+}
+
+.hero-tag-designer {
   left: 335px;
   top: 231px;
-  /* entrance ends at 1.23s (0.48 + 0.75); bob kicks in immediately after */
-  animation:
-    floatUpTag 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.48s both,
-    tagBob 3s linear 1.23s infinite;
+  perspective: 600px;
+  transform-style: preserve-3d;
 }
 
 .hero-tag-anteater {
-  position: absolute;
   left: 49px;
   top: 335px;
-  /* different period (3.7s) so the two tags drift in and out of phase naturally */
-  animation:
-    floatUpTag 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.58s both,
-    tagBob 3.7s linear 1.33s infinite;
+  perspective: 600px;
+  transform-style: preserve-3d;
 }
-
-/* Navbar styles live in components/Navbar.css */
 
 /* ── Works Grid ── */
 .works {
-  height: 100vh;
-  overflow-y: auto;
-  overscroll-behavior-y: contain;
+  min-height: 100vh;
   box-sizing: border-box;
-  /* 90px topnav clearance + --space-6 breathing room */
   padding: calc(90px + var(--space-6)) var(--fluid-section-margin-x) var(--fluid-section-pad-bottom);
 }
 
-/* Works section heading — matches gallery heading spacing exactly */
 .works-header {
   position: relative;
   margin-bottom: var(--space-11);
@@ -358,23 +209,19 @@
   margin-right: auto;
 }
 
-.works-y2k-star {
-  position: absolute;
-  width: 86px;
-  height: 92px;
-  left: -6px;
-  top: -28px;
-  transform: scaleX(-1);
-  pointer-events: none;
-  opacity: 0.75;
-}
-
 .works-heading {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
   font-size: var(--fluid-heading-6xl);
   color: #000;
   margin: 0;
   line-height: 1;
+}
+
+.works-subtitle {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-base);
+  color: rgba(0, 0, 0, 0.65);
+  margin: var(--space-3) 0 0;
 }
 
 .works-grid {
@@ -386,17 +233,6 @@
   column-gap: var(--space-15);
   row-gap: var(--space-24);
 }
-
-@keyframes wc-fade {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-.works-grid .work-card:nth-child(1) { animation: wc-fade 0.4s ease both; }
-.works-grid .work-card:nth-child(2) { animation: wc-fade 0.4s ease 0.06s both; }
-.works-grid .work-card:nth-child(3) { animation: wc-fade 0.4s ease 0.12s both; }
-.works-grid .work-card:nth-child(4) { animation: wc-fade 0.4s ease 0.18s both; }
-
 
 /* ── Work Card ── */
 a.work-card {
@@ -411,7 +247,7 @@ a.work-card {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  opacity: 0.98;
+  opacity: 0; /* GSAP animates to 1 on ScrollTrigger enter */
   box-shadow:
     0 4px 4px rgba(0, 0, 0, 0.12),
     inset 0 4px 4px rgba(0, 0, 0, 0.02);
@@ -420,7 +256,6 @@ a.work-card {
     box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* [0,0] top-left and [1,1] bottom-right → tilt left */
 .work-card:nth-child(1):hover,
 .work-card:nth-child(4):hover {
   transform: translateY(-10px) rotate(-1deg);
@@ -429,7 +264,6 @@ a.work-card {
     inset 0 4px 4px rgba(0, 0, 0, 0.02);
 }
 
-/* [0,1] top-right and [1,0] bottom-left → tilt right */
 .work-card:nth-child(2):hover,
 .work-card:nth-child(3):hover {
   transform: translateY(-10px) rotate(1deg);
@@ -438,7 +272,6 @@ a.work-card {
     inset 0 4px 4px rgba(0, 0, 0, 0.02);
 }
 
-/* Artwork scales with card width — preserves Figma 591:342 ratio */
 .work-card-artwork {
   width: 100%;
   aspect-ratio: 591 / 342;
@@ -453,18 +286,15 @@ a.work-card {
   object-position: top center;
 }
 
-/* ── Case study coming soon — cursor-following portal popup ── */
-
-/* Outer float: positioned via JS transform (position:fixed, stays at 0,0 baseline) */
+/* ── Case study popup ── */
 .cs-float {
   position: fixed;
   top: 0;
   left: 0;
   pointer-events: none;
-  z-index: 9998; /* below custom cursor (99999) */
+  z-index: 9998;
 }
 
-/* Inner popup window: animates independently of the position transform */
 .cs-popup {
   width: min(300px, 80vw);
   background: rgba(0, 0, 0, 0.72);
@@ -596,20 +426,19 @@ a.work-card {
   line-height: normal;
 }
 
-/* ── Gallery section — asymmetric photo collage, matches Figma node 696:2411 ── */
-.gallery {
-  height: 100vh;
-  overflow-y: auto;
+/* ── Resume section ── */
+.resume-section {
   box-sizing: border-box;
-  padding: var(--fluid-section-pad-top) var(--fluid-section-margin-x) var(--fluid-section-pad-bottom);
+  padding: calc(90px + var(--space-6)) var(--fluid-section-margin-x) var(--fluid-section-pad-bottom);
 }
 
-.gallery-header {
+.resume-section-header {
   max-width: var(--content-max);
   margin: 0 auto;
+  margin-bottom: var(--space-11);
 }
 
-.gallery-heading {
+.resume-section-heading {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
   font-size: var(--fluid-heading-6xl);
   color: #000;
@@ -617,393 +446,24 @@ a.work-card {
   line-height: 1;
 }
 
-/* Figma's gallery frame is one flex column (heading, row, row) at a uniform
-   42px gap — snapped to --space-11 (44px) here; the one exception (31px
-   between the Findy photo and the last column) snaps to --space-8 (32px). */
-.gallery-collage {
-  position: relative;
-  max-width: var(--content-max);
-  margin: var(--space-11) auto 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-11);
-}
-
-.gallery-row {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-11);
-}
-
-.gallery-row--lower {
-  align-items: center;
-  gap: var(--space-8);
-}
-
-.gallery-col {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-11);
-}
-
-.gallery-col--a { width: 666px; flex-shrink: 0; }
-.gallery-col--c { width: 662px; flex-shrink: 0; }
-
-@keyframes gallery-tile-in {
-  from { opacity: 0; scale: 0.97; }
-  to   { opacity: 1; scale: 1; }
-}
-
-/* Each tile: rounded corners, drop shadow + inner shadow (Figma effect stack) */
-.gallery-tile {
-  position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow:
-    0 4px 4px rgba(0, 0, 0, 0.12),
-    inset 0 4px 4px rgba(0, 0, 0, 0.04);
-  opacity: 0;
-  animation: gallery-tile-in 0.6s ease-out both;
-}
-
-.gallery-tile img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Stagger by visual row (top → bottom) so tiles reveal like a downward scroll */
-.gallery-tile--video    { width: 100%; height: 321px;   animation-delay: 0.05s; }
-.gallery-tile--bereal   { width: 440px; height: 587px; flex-shrink: 0; animation-delay: 0.1s; }
-.gallery-tile--burger   { width: 249px; height: 240px; flex-shrink: 0; animation-delay: 0.2s; }
-.gallery-tile--findy    { width: 455px; height: 435px; flex-shrink: 0; animation-delay: 0.3s; }
-.gallery-tile--panel    { width: 400px; height: 226px; flex-shrink: 0; animation-delay: 0.35s; }
-.gallery-tile--laptop   { width: 220px; height: 220px; flex-shrink: 0; animation-delay: 0.4s; }
-.gallery-tile--tshirt   { width: 200px; height: 167px; flex-shrink: 0; animation-delay: 0.45s; }
-
-/* Rotated salad photo — box is authored pre-rotation (240×375) so the image
-   crops correctly, then the whole tile rotates into its 375×240 slot. */
-.gallery-tile-rotate-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 375px;
-  height: 240px;
-  flex-shrink: 0;
-}
-
-.gallery-tile--salad {
-  width: 240px;
-  height: 375px;
-  transform: rotate(90deg);
-  animation-delay: 0.25s;
-}
-
-/* Star cluster — reuses the About section's star treatment (outline SVG +
-   grain texture overlay), anchored off the last tile like .hero-stars. */
-.gallery-tshirt-wrap {
-  position: relative;
-  flex-shrink: 0;
-}
-
-/* Star cluster is positioned absolutely within .gallery-tshirt-wrap.
-   Offsets derived from Figma node 736:2327 (absolute in the 1648px gallery
-   frame) converted to coordinates relative to tshirt-wrap's top-left corner:
-   left=301px keeps the cluster to the right of the tshirt tile (200px wide);
-   top=26px aligns with Figma's 1031px-from-frame-top anchor. */
-.gallery-stars {
-  position: absolute;
-  left: 301px;
-  top: 26px;
-  width: 256px;
-  height: 156px;
-  pointer-events: none;
-}
-
-.gallery-star--a { left: 0%;  top: 47%; width: 66px;  height: 64px;  transform: rotate(13.51deg); }
-.gallery-star--b { left: 23%; top: 8%;  width: 139px; height: 134px; transform: rotate(10.93deg); }
-.gallery-star--c { left: 72%; top: 56%; width: 71px;  height: 68px;  transform: rotate(-12.63deg); }
-.gallery-star--d { left: 70%; top: 0%;  width: 77px;  height: 78px;  transform: rotate(64.37deg); }
-
-/* Row 3 — phone mockup + conference photo */
-.gallery-row--last { align-items: flex-start; }
-
-.gallery-tile--aura {
-  width: 364px;
-  height: 386px;
-  flex-shrink: 0;
-  animation-delay: 0.55s;
-}
-
-.gallery-tile--conference {
-  width: 742px;
-  height: 386px;
-  flex-shrink: 0;
-  animation-delay: 0.6s;
-}
-
-.gallery-tile--conference img {
-  /* show the lower-centre of the photo, matching Figma's top-[-55%] crop */
-  object-position: center 65%;
-}
-
-/* Bottom-of-page marker */
-.gallery-bottom-mark {
-  max-width: var(--content-max);
-  margin: var(--space-11) auto 0;
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-}
-
-.gallery-bottom-mark::before,
-.gallery-bottom-mark::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: rgba(0, 0, 0, 0.18);
-}
-
-.gallery-bottom-text {
+.resume-section-subtitle {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: var(--text-xs);
-  letter-spacing: 0.08em;
-  color: rgba(0, 0, 0, 0.28);
-  user-select: none;
+  font-size: var(--text-base);
+  color: rgba(0, 0, 0, 0.65);
+  margin: var(--space-3) 0 0;
 }
 
-/* ── About section — scrollable, mirrors works behavior ── */
-/* Horizontal centering is NOT done via section padding (unlike works) because
-   about-upper uses absolute pixel positions anchored to the 1240px content width.
-   Padding-based margins would compress the container below 1240px and break the layout.
-   about-inner uses max-width + margin:auto to center at the correct width. */
-.about {
-  height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  overscroll-behavior-y: contain;
-  box-sizing: border-box;
-  padding-top: calc(90px + var(--space-6));
-  padding-bottom: var(--fluid-section-pad-bottom);
-}
-
-.about-inner {
-  position: relative;
-  width: 100%;
+.resume-lower {
   max-width: var(--content-max);
   margin: 0 auto;
   display: flex;
-  flex-direction: column;
-}
-
-/* Upper portion — positioning context for all decoratives + text (Figma Frame 674:2329, h=571) */
-.about-upper {
-  position: relative;
-  height: 571px;
-}
-
-/* ── Portrait group — Photo Booth window ──
-   Figma: Portrait (783:2427) x=134.796, y=83.19 (Frame 1754 inner shifted), width=307.125, height=238
-   Selfie viewport (Rectangle 104, 783:2429): top=9.625px, height=203.875px */
-.about-portrait {
-  position: absolute;
-  left: 134.8px;
-  top: 83.19px;
-  width: 307.125px;
-  height: 238px;
-  border-radius: 4px;
-}
-
-.about-portrait-frame {
-  position: absolute;
-  inset: 0;
-  border-radius: 4px;
-  overflow: hidden;
-}
-.about-portrait-frame-img {
-  position: absolute;
-  left: -0.28%;
-  top: -4.05%;
-  width: 100.57%;
-  height: 107.73%;
-  object-fit: cover;
-  pointer-events: none;
-}
-
-.about-portrait-selfie {
-  position: absolute;
-  left: 0;
-  top: 9.625px;
-  width: 100%;
-  height: 203.875px;
-  overflow: hidden;
-  transform: scaleX(-1);
-}
-.about-portrait-selfie-img {
-  position: absolute;
-  left: 0.04%;
-  top: -0.26%;
-  width: 99.85%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-
-/* ── Text content — Figma Frame 1737: x=525.204, y=84, width=687 ── */
-.about2-text {
-  position: absolute;
-  left: 525.2px;
-  top: 84px;
-  width: 687px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.about2-title {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: var(--fluid-heading-5xl);
-  line-height: normal;
-  color: #000;
-  margin: 0;
-}
-
-.about2-body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-9);
-}
-
-.about2-body p {
-  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: var(--text-lg);
-  font-weight: 400;
-  line-height: 36px;
-  letter-spacing: -0.4px;
-  color: #000;
-  margin: 0;
-}
-
-/* ── Boy photo + paper shadow — y values += 83.19 (Frame 1754 inner y offset) ── */
-.about2-paper {
-  position: absolute;
-  left: 469.2px;
-  top: 227.34px;
-  width: 194.408px;
-  height: 258.581px;
-  object-fit: contain;
-  opacity: 0.95;
-  pointer-events: none;
-  transform: scaleX(-1);
-}
-
-.about2-boy {
-  position: absolute;
-  left: 466.69px;
-  top: 224.19px;
-  width: 183.511px;
-  height: 263.615px;
-  object-fit: contain;
-  pointer-events: none;
-  transform: scaleX(-1);
-}
-
-/* ── Music notes — y values += 83.19 (Frame 1754 inner y offset) ── */
-.about2-note {
-  position: absolute;
-  object-fit: contain;
-  pointer-events: none;
-  transform: rotate(-27.38deg);
-}
-.about2-note--1 { left: 185.8px;  top: 316.84px; width: 86.749px; height: 86.624px; }
-.about2-note--2 { left: 254.14px; top: 349.83px; width: 54.719px; height: 54.640px; }
-.about2-note--3 { left: 206.14px; top: 371.02px; width: 66.730px; height: 66.634px; }
-
-/* ── Birds ── */
-.about2-birds {
-  position: absolute;
-  object-fit: contain;
-  pointer-events: none;
-}
-/* Figma 862:11098/11099 — birds repositioned in updated Figma */
-.about2-birds--1 { left: 893px;  top: 41px;   width: 262px; height: 108px; }
-.about2-birds--2 { left: 1093px; top: 90.5px; width: 99px;  height: 74px; }
-
-/* ── Stars — SVG outline + texture overlay, each rotated ── */
-.about2-star {
-  position: absolute;
-  pointer-events: none;
-}
-.about2-star-svg,
-.about2-star-tex {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.about2-star-tex { opacity: 0.54; }
-
-/* Figma 862:11132 — medium star */
-.about2-star--a {
-  left: 1122.34px; top: 470.99px;
-  width: 52.309px; height: 51.022px;
-  transform: rotate(-18.87deg);
-}
-/* Figma 862:11129 — large star */
-.about2-star--b {
-  left: 1162.85px; top: 476.98px;
-  width: 93.681px; height: 90.517px;
-  transform: rotate(10.93deg);
-}
-/* Figma 862:11126 — small star */
-.about2-star--c {
-  left: 1118.14px; top: 517.40px;
-  width: 44.512px; height: 43.148px;
-  transform: rotate(13.51deg);
-}
-
-/* ── Buffalo painting — combined frame+content image (185×143px), y += 83.19 ── */
-.about2-buffalo-content {
-  position: absolute;
-  left: 52.9px;
-  top: 152.19px;
-  width: 185px;
-  height: 143px;
-  pointer-events: none;
-}
-.about2-buffalo-content-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
-
-/* ── About separator — Figma 856:11091 Rectangle 103, y=635 in Frame 1756 ──
-   Upper portion ends at y=571; separator at y=635 → margin-top = 64px */
-.about-separator {
-  width: 100%;
-  height: 2px;
-  background: rgba(0, 0, 0, 0.12);
-  margin-top: 64px;
-  flex-shrink: 0;
-}
-
-/* ── About lower — Figma Position Section (851:2424), y=701 in Frame 1756 ──
-   Separator ends at y=637; lower starts at y=701 → margin-top = 64px
-   Tagline (862:11096): x=104.5, y=10, w=432
-   Positions (853:2451): x=546.5, y=10, w=591 */
-.about-lower {
-  display: flex;
   align-items: flex-start;
   gap: 10px;
-  margin-top: 64px;
   padding-bottom: var(--space-12);
 }
 
-/* Left column: "Driving design through / collaboration and / communication"
-   x=104.5 in Position Section; text element at y=24 within text frame (y=10) → y=34 total */
+/* ── About-lower content (reused inside resume section) ── */
+
 .about-tagline-col {
   width: 432px;
   flex-shrink: 0;
@@ -1012,6 +472,13 @@ a.work-card {
   display: flex;
   flex-direction: column;
   gap: 0;
+}
+
+/* Start invisible — GSAP animates in on ScrollTrigger */
+.about-tagline-eyebrow,
+.about-tagline-line,
+.about-position {
+  opacity: 0;
 }
 
 .about-tagline-eyebrow {
@@ -1045,7 +512,6 @@ a.work-card {
   vertical-align: middle;
 }
 
-/* Right column: Figma Positions (853:2451) x=546.5, y=10, w=591, card gap=96-72=24px */
 .about-positions {
   width: 591px;
   flex-shrink: 0;
@@ -1055,45 +521,6 @@ a.work-card {
   padding-top: 10px;
 }
 
-@keyframes position-in {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Default: invisible until .about-lower--visible is added by IntersectionObserver */
-.about-tagline-eyebrow,
-.about-tagline-line,
-.about-position {
-  opacity: 0;
-}
-
-/* Triggered when about-lower scrolls into view */
-.about-lower--visible .about-tagline-eyebrow {
-  animation: position-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0s both;
-}
-.about-lower--visible .about-tagline-line:nth-child(2) {
-  animation: position-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
-}
-.about-lower--visible .about-tagline-line:nth-child(3) {
-  animation: position-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.16s both;
-}
-.about-lower--visible .about-position:nth-child(1) {
-  animation: position-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
-}
-.about-lower--visible .about-position:nth-child(2) {
-  animation: position-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.31s both;
-}
-.about-lower--visible .about-position:nth-child(3) {
-  animation: position-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.38s both;
-}
-.about-lower--visible .about-position:nth-child(4) {
-  animation: position-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
-}
-.about-lower--visible .about-position:nth-child(5) {
-  animation: position-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.52s both;
-}
-
-/* Card: h=72, pad=12px top/bot + 24px left (Content x=24, y=12), logo=48px, logo-title gap=32px */
 .about-position {
   background: rgba(255, 255, 255, 0.7);
   border-radius: 12px;
@@ -1122,7 +549,6 @@ a.work-card {
   gap: 2px;
 }
 
-/* company name: text height=22px → Peace Sans 16px */
 .about-position-name {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
   font-size: var(--text-base);
@@ -1130,7 +556,6 @@ a.work-card {
   line-height: normal;
 }
 
-/* role: text height=17px → 13px */
 .about-position-role {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
   font-size: 13px;
@@ -1139,10 +564,8 @@ a.work-card {
 }
 
 /* ── Footer section ── */
-/* Content is 1082px wide with ~283px side margins in Figma (vs 1240px / 204px for other sections).
-   Uses display:flex+align-items:center so the inner box centers within the 100vh slide. */
 .footer {
-  height: 100vh;
+  min-height: 100vh;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -1155,7 +578,6 @@ a.work-card {
   flex-direction: column;
 }
 
-/* Horizontal rule at the top of the footer content block */
 .footer-sep {
   width: 100%;
   height: 2px;
@@ -1163,7 +585,6 @@ a.work-card {
   flex-shrink: 0;
 }
 
-/* Main content: left tagline + right nav grid, 98px below separator */
 .footer-content {
   display: flex;
   justify-content: space-between;
@@ -1178,7 +599,6 @@ a.work-card {
   flex-shrink: 0;
 }
 
-/* "Designing Connection through Collaboration" — ~32px Peace Sans, 2 lines, 76px total */
 .footer-tagline {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
   font-size: var(--fluid-heading-4xl);
@@ -1188,7 +608,6 @@ a.work-card {
   width: 371px;
 }
 
-/* "@ Armin Mohammadi 2026" — y=163 in Frame 1761 (title ends at y=76), so gap = 87px */
 .footer-copy {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
   font-size: var(--text-base);
@@ -1197,17 +616,15 @@ a.work-card {
   line-height: normal;
 }
 
-/* Two-column nav group, gap matches Frame 1758 x=101 − Frame 1757 right edge (69px) = 32px */
 .footer-nav {
   display: flex;
   gap: var(--space-8);
 }
 
-/* Each column: 3 links stacked at 77px spacing (Home/About/Works, Email/Resume/LinkedIn) */
 .footer-nav-col {
   display: flex;
   flex-direction: column;
-  gap: var(--space-12); /* ~48px = 77px text-top to text-top − ~29px link height */
+  gap: var(--space-12);
 }
 
 .footer-nav-link {
