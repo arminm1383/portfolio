@@ -238,10 +238,11 @@ export default function Home() {
       tl.from('.hero-name-block',   { opacity: 0, y: 10,  duration: 0.75 }, 0.2)
       tl.from('.hero-tag-designer', { opacity: 0, y: 10,  duration: 0.75 }, 0.48)
       tl.from('.hero-tag-anteater', { opacity: 0, y: 10,  duration: 0.75 }, 0.58)
-      tl.from('.hero-star', {
-        opacity: 0, scale: 0.3, duration: 0.4,
-        stagger: 0.1, ease: 'back.out(2)',
-      }, 0.45)
+      tl.fromTo('.hero-star',
+        { opacity: 0, scale: 0.3 },
+        { opacity: 1, scale: 1, duration: 0.4, stagger: 0.1, ease: 'back.out(2)' },
+        0.45
+      )
       tl.from('.navbar', { opacity: 0, y: 12, duration: 0.75 }, 0.68)
       gsap.to('.hero-tag-designer', {
         y: -3, duration: 1.5, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: 1.23,
@@ -266,8 +267,8 @@ export default function Home() {
   useEffect(() => {
     if (page !== 2) return
     gsap.fromTo('.about-position',
-      { opacity: 0, y: 14 },
-      { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'power2.out', delay: 0.15 }
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: 'power2.out', delay: 0.6 }
     )
   }, [page])
 
