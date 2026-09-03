@@ -272,29 +272,6 @@ export default function Home() {
     )
   }, [page])
 
-  // Hero parallax — only active on hero page
-  useEffect(() => {
-    if (page !== 0) return
-    const ill = heroIllRef.current
-    if (!ill) return
-    const xTo = gsap.quickTo(ill, 'x', { duration: 0.6, ease: 'power3.out' })
-    const yTo = gsap.quickTo(ill, 'y', { duration: 0.6, ease: 'power3.out' })
-    const startedAt = Date.now()
-    const onMove = (e: MouseEvent) => {
-      if (Date.now() - startedAt < 900) return
-      const mx = e.clientX / window.innerWidth - 0.5
-      const my = e.clientY / window.innerHeight - 0.5
-      const max = Math.min(window.innerWidth * 0.02, 22)
-      xTo(mx * max * 0.6)
-      yTo(my * max * 0.5)
-    }
-    window.addEventListener('mousemove', onMove, { passive: true })
-    return () => {
-      window.removeEventListener('mousemove', onMove)
-      gsap.set(ill, { x: 0, y: 0 })
-    }
-  }, [page])
-
   // Wheel handler — drives page transitions
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {

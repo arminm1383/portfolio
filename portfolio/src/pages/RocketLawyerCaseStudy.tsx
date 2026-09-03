@@ -4,7 +4,13 @@ import './FindyCaseStudy.css'
 
 import rocketHeroFrame from '../assets/images/rocket-cs-hero-frame.png'
 import rocketArtwork from '../assets/images/rocket-artwork.png'
-import rocketDashboard from '../assets/images/rocket-cs-dashboard.png'
+import rocketDiagram from '../assets/images/rocket-cs-diagram.png'
+import rocketChart from '../assets/images/rocket-cs-chart.png'
+import rocketAffinityMap from '../assets/images/rocket-cs-affinity-map.png'
+import rocketResearch from '../assets/images/rocket-cs-research.png'
+import rocketVersionHistory from '../assets/images/rocket-cs-version-history.png'
+import rocketCommsTimeline from '../assets/images/rocket-cs-comms-timeline.png'
+import iconSparkles from '../assets/images/icon-sparkles.svg'
 import orgRocket from '../assets/images/org-rocket.png'
 import orgUci from '../assets/images/org-uci.png'
 import orgStreets from '../assets/images/org-streets.png'
@@ -16,11 +22,12 @@ import findyGif from '../assets/images/FindyGif.gif'
 import streetsGif from '../assets/images/streetsgif.gif'
 
 const NAV_ITEMS = [
-  { id: '',             label: 'Background',  routable: false },
-  { id: 'problem',      label: 'Problem',     routable: true  },
-  { id: 'research',     label: 'Research',    routable: true  },
-  { id: 'solution',     label: 'Solution',    routable: false },
-  { id: 'reflections',  label: 'Reflections', routable: false },
+  { id: '',            label: 'Background',             routable: false },
+  { id: 'problem',     label: 'Problem',                routable: true  },
+  { id: 'research',    label: 'Research',               routable: true  },
+  { id: 'design-recs', label: 'Design Recommendations', routable: true  },
+  { id: 'solution',    label: 'Solution & Results',     routable: true  },
+  { id: 'reflections', label: 'Reflections',            routable: true  },
 ]
 
 function cubicBezierEase(t: number, x1: number, y1: number, x2: number, y2: number): number {
@@ -120,8 +127,7 @@ export default function RocketLawyerCaseStudy() {
       function frameTop(now: number) {
         const elapsed = Math.min(now - startTime, SCROLL_DURATION)
         const eased = cubicBezierEase(elapsed / SCROLL_DURATION, EASE_X1, EASE_Y1, EASE_X2, EASE_Y2)
-        const y = startY * (1 - eased)
-        window.scrollTo(0, y)
+        window.scrollTo(0, startY * (1 - eased))
         if (elapsed < SCROLL_DURATION) {
           rafRef.current = requestAnimationFrame(frameTop)
         } else {
@@ -142,10 +148,8 @@ export default function RocketLawyerCaseStudy() {
     targetYRef.current = targetY
     function frame(now: number) {
       const elapsed = Math.min(now - startTime, SCROLL_DURATION)
-      const t = elapsed / SCROLL_DURATION
-      const eased = cubicBezierEase(t, EASE_X1, EASE_Y1, EASE_X2, EASE_Y2)
-      const y = startY + (targetY - startY) * eased
-      window.scrollTo(0, y)
+      const eased = cubicBezierEase(elapsed / SCROLL_DURATION, EASE_X1, EASE_Y1, EASE_X2, EASE_Y2)
+      window.scrollTo(0, startY + (targetY - startY) * eased)
       if (elapsed < SCROLL_DURATION) {
         rafRef.current = requestAnimationFrame(frame)
       } else {
@@ -184,16 +188,14 @@ export default function RocketLawyerCaseStudy() {
 
         <aside className="fcs-sidebar">
           <nav className="fcs-nav">
-            {NAV_ITEMS.map(({ id, label, routable }, i) => (
+            {NAV_ITEMS.map(({ id, label }, i) => (
               <button
                 key={`${label}-${i}`}
                 className={[
                   'fcs-nav-item',
-                  !routable && id !== '' ? 'fcs-nav-item--soon' : '',
                   active === id && id !== '' ? 'fcs-nav-item--active' : '',
                 ].filter(Boolean).join(' ')}
-                onClick={() => (routable || id === '') ? scrollTo(id) : undefined}
-                disabled={!routable && id !== ''}
+                onClick={() => scrollTo(id)}
               >
                 {label}
               </button>
@@ -204,6 +206,7 @@ export default function RocketLawyerCaseStudy() {
         <main className="fcs-content">
           <div className="fcs-inner">
 
+            {/* ── Header ── */}
             <header className="fcs-header">
               <div className="fcs-hero-frame-container fcs-hero-rocket">
                 <img src={rocketHeroFrame} alt="" className="fcs-rocket-main" draggable={false} />
@@ -220,78 +223,262 @@ export default function RocketLawyerCaseStudy() {
                   <span className="fcs-tag-value">UI/UX Intern</span>
                 </div>
                 <div className="fcs-tag">
-                  <span className="fcs-tag-label">Internship Duration</span>
+                  <span className="fcs-tag-label">Timeline</span>
                   <span className="fcs-tag-value">June 2026 – Sep. 2026</span>
                 </div>
                 <div className="fcs-tag">
-                  <span className="fcs-tag-label">Tools</span>
-                  <span className="fcs-tag-value">Figma, UserTesting, Amplitude</span>
+                  <span className="fcs-tag-label">Team</span>
+                  <div className="fcs-tag-values">
+                    <span className="fcs-tag-value">Product Management</span>
+                    <span className="fcs-tag-value">Product Design</span>
+                    <span className="fcs-tag-value">UX Research</span>
+                  </div>
                 </div>
                 <div className="fcs-tag">
-                  <span className="fcs-tag-label">AI</span>
-                  <span className="fcs-tag-value">Claude Design, Claude Cowork, Figma Make</span>
+                  <span className="fcs-tag-label">Tools</span>
+                  <div className="fcs-tag-values">
+                    <span className="fcs-tag-value">Figma</span>
+                    <span className="fcs-tag-value">UserTesting</span>
+                    <span className="fcs-tag-value">Claude</span>
+                    <span className="fcs-tag-value">Amplitude</span>
+                  </div>
                 </div>
               </div>
             </header>
 
-            <section className="fcs-section" id="problem">
+            {/* ── Background ── */}
+            <section className="fcs-section">
               <span className="fcs-section-label">Background</span>
+              <h2 className="fcs-section-heading">Redefining Legal Tech with AI</h2>
               <p className="fcs-section-body">
-                Rocket Lawyer is a legal platform designed towards empowering small business users with access
-                to otherwise costly legal services. Rocket Copilot aims to integrate AI as part of the document
-                generation, negotiation, and organization processes that define working with attorneys.
+                In pursuit of evolving the legal-tech experience to incorporate AI tools for customers,
+                internally, the design team was also completely restructuring their workflow to maximize
+                data-backed solutions. As part of this, I was brought on to not only drive design through
+                UX research but to also build, from the ground up, Claude-powered UX research pipelines
+                that puts customer insights at the forefront of every design project.
               </p>
-              <p className="fcs-section-body">
-                I led the research and discovery for the Negotiation &amp; Sign end-to-end experience, translating
-                survey, interview, and usability testing insights into design decisions presented and shipped to
-                project management and engineering stakeholders.
-              </p>
-              <img
-                src={rocketDashboard}
-                alt="Old: Copilot Agent Negotiation View"
-                className="fcs-section-img"
-              />
+              <img src={rocketDiagram} alt="" className="fcs-section-img" draggable={false} />
             </section>
 
-            <section className="fcs-section" id="research">
-              <span className="fcs-section-label">Research</span>
+            {/* ── Problem ── */}
+            <section className="fcs-section" id="problem">
+              <span className="fcs-section-label">Problem</span>
+              <h2 className="fcs-section-heading">Negotiate &amp; Sign felt Disconnected from User Needs</h2>
               <p className="fcs-section-body">
-                I conducted and synthesized 100+ user test respondents through surveys, usability sessions,
-                and stakeholder interviews — mapping findings into themes, pain points, and potential
-                feature recommendations.
+                Users' business needs were not quite captured by the existing E2E flows, with Copilot
+                support being geared towards conversational support rather than assisting an organized,
+                centralized workspace.
               </p>
-
-              <h3 className="fcs-subsection-heading">
-                Affinity Mapping 100+ User Test Respondents into Themes, Pain Points, and Potential Feature Recommendations
-              </h3>
-
-              {/* Affinity map images — image fills in Figma, export each frame at 3x */}
-              <img
-                src={rocketDashboard}
-                alt="Old: Copilot Agent Negotiation View — affinity mapping source"
-                className="fcs-section-img"
-              />
-
-              <h3 className="fcs-subsection-heading">Key Insights</h3>
-
-              <div className="fcs-insight-grid">
-                <div className="fcs-insight-card">
-                  <div className="fcs-insight-number">01</div>
-                  <p className="fcs-insight-body">
-                    Users trust Copilot to accurately validate, flag, and redline any clauses
-                    throughout the negotiate process.
-                  </p>
-                </div>
-                <div className="fcs-insight-card">
-                  <div className="fcs-insight-number">02</div>
-                  <p className="fcs-insight-body">
-                    Users often face frustration with version control and tracking changes,
-                    leading to a desire for enhanced organization.
-                  </p>
+              <div className="fcs-rq-card">
+                <span className="fcs-rq-label">Research Questions</span>
+                <div className="fcs-rq-list">
+                  <div className="fcs-rq-item">
+                    <span className="fcs-rq-icon" aria-hidden="true" />
+                    <p className="fcs-rq-text">To what extent do users trust Copilot AI when it comes to automating legal tasks?</p>
+                  </div>
+                  <div className="fcs-rq-item">
+                    <span className="fcs-rq-icon" aria-hidden="true" />
+                    <p className="fcs-rq-text">What pain points do users face when trying to negotiate a document with other parties?</p>
+                  </div>
+                  <div className="fcs-rq-item">
+                    <span className="fcs-rq-icon" aria-hidden="true" />
+                    <p className="fcs-rq-text">How are users currently managing their own documents and small business workflows?</p>
+                  </div>
                 </div>
               </div>
             </section>
 
+            {/* ── Research ── */}
+            <section className="fcs-section" id="research">
+              <span className="fcs-section-label">Research</span>
+              <h2 className="fcs-section-heading">Drafting a Study on User Behavior</h2>
+              <p className="fcs-section-body">
+                Standard UX research methodologies were deployed to extract both quantitative and
+                qualitative insights and inform iterative cross-functional development.
+              </p>
+
+              <div className="fcs-core-task-card">
+                <span className="fcs-core-task-label">The Core Task</span>
+                <div className="fcs-core-task-row">
+                  <p className="fcs-core-task-body">
+                    To <strong className="fcs-core-task-highlight">engage in UX research methodologies to better understand our users' pain points,</strong> serving as a perfect opportunity for me to experiment and build my AI-powered research pipeline.
+                  </p>
+                  <div className="fcs-core-task-badges">
+                    <span className="fcs-stat-badge-rocket">6 User &amp; Attorney Interviews Conducted</span>
+                    <span className="fcs-stat-badge-rocket">7 Usability Tests Launched</span>
+                    <span className="fcs-stat-badge-rocket">100+ Users Surveyed</span>
+                  </div>
+                </div>
+              </div>
+
+              <h3 className="fcs-subsection-heading">Quantifying our Users</h3>
+              <p className="fcs-section-body">
+                UserTesting was used to connect with 100+ Rocket Lawyer users, gathering a high-level
+                understanding of the research themes further explored through user interviews.
+              </p>
+              <div className="fcs-media-card">
+                <img src={rocketChart} alt="Survey results chart" className="fcs-media-card-img fcs-media-chart" draggable={false} />
+              </div>
+
+              <h3 className="fcs-subsection-heading">Automating the Workflow</h3>
+              <p className="fcs-section-body">
+                Beyond traditional methods for developing user tests, I created an AI pipeline to automate
+                the generation of direct comparison usability tests, experimented on throughout the
+                Negotiate &amp; Sign project.
+              </p>
+              <div className="fcs-media-card fcs-media-card--padded">
+                <div className="fcs-media-card-inner">
+                  <img src={rocketResearch} alt="AI pipeline for building user tests" className="fcs-media-card-img" draggable={false} />
+                </div>
+                <p className="fcs-media-caption-red">Building User Tests using Claude Cowork and Chrome &amp; Figma MCPs</p>
+              </div>
+
+              <h3 className="fcs-subsection-heading">Talking to Customers</h3>
+              <p className="fcs-section-body">
+                By conducting user interviews with both attorneys and Rocket Lawyer users, I surfaced
+                critical research themes that addressed user opinions towards everything from AI use and
+                document generation to case management and workspace organization.
+              </p>
+
+              <div className="fcs-quote-card">
+                <div className="fcs-quote-entry">
+                  <span className="fcs-quote-icon" aria-hidden="true">"</span>
+                  <div className="fcs-quote-content">
+                    <span className="fcs-quote-attr">Small-business owner</span>
+                    <p className="fcs-quote-text">"how do I have to get these things drafted without calling an attorney."</p>
+                  </div>
+                </div>
+                <div className="fcs-quote-divider" />
+                <div className="fcs-quote-entry">
+                  <span className="fcs-quote-icon" aria-hidden="true">"</span>
+                  <div className="fcs-quote-content">
+                    <span className="fcs-quote-attr">Attorney</span>
+                    <p className="fcs-quote-text">"how do I have to get these things drafted without calling an attorney."</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="fcs-media-card fcs-media-card--padded">
+                <div className="fcs-media-card-inner">
+                  <img src={rocketAffinityMap} alt="Affinity map of user interview insights" className="fcs-media-card-img" draggable={false} />
+                </div>
+                <p className="fcs-media-caption-red">Affinity Map Breaking Down User Interview Insights into Themes</p>
+              </div>
+
+              <h3 className="fcs-subsection-heading">Synthesizing Findings into Themes</h3>
+              <p className="fcs-section-body">
+                Through the results analyzed, I put together the following key themes that best capture
+                our users' expectations of the Copilot experience within Negotiate &amp; Sign end-to-end flows.
+              </p>
+
+              <div className="fcs-theme-cards">
+                <div className="fcs-theme-card">
+                  <img src={iconSparkles} alt="" className="fcs-theme-icon" aria-hidden="true" />
+                  <div className="fcs-theme-content">
+                    <p className="fcs-theme-title">AI Integrated in the Document Authorship Process</p>
+                    <p className="fcs-theme-body">As long as there is some human making the final confirmation, users want to be able to offload tasks and processes to Copilot.</p>
+                  </div>
+                </div>
+                <div className="fcs-theme-card">
+                  <img src={iconSparkles} alt="" className="fcs-theme-icon" aria-hidden="true" />
+                  <div className="fcs-theme-content">
+                    <p className="fcs-theme-title">Document and Templates Organized</p>
+                    <p className="fcs-theme-body">Users struggle with managing, organizing, and editing multiple documents across platform, especially when AI support should be seemingly available.</p>
+                  </div>
+                </div>
+                <div className="fcs-theme-card">
+                  <img src={iconSparkles} alt="" className="fcs-theme-icon" aria-hidden="true" />
+                  <div className="fcs-theme-content">
+                    <p className="fcs-theme-title">Communication is a Blocker</p>
+                    <p className="fcs-theme-body">There is a clear need to manage the sending and receiving of information. The generation and deployment of automated emails resonated, and time management systems can help enhance the process further.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* ── Design Recommendations ── */}
+            <section className="fcs-section" id="design-recs">
+              <span className="fcs-section-label">Design Recommendations</span>
+              <h2 className="fcs-section-heading">Designing Features to Address Research Findings</h2>
+              <p className="fcs-section-body">
+                The following design recommendations were built to help inform potential future directions
+                for the experience. While not directly implemented, their existence shaped the trajectory
+                of the iterative project.
+              </p>
+
+              <div className="fcs-rec-subsection">
+                <h3 className="fcs-rec-heading">Adding Version History to Track Changes over Time</h3>
+                <p className="fcs-section-body">
+                  The following design recommendations were built to help inform potential future directions
+                  for the experience. While not directly implemented, their existence shaped the trajectory
+                  of the iterative project.
+                </p>
+                <div className="fcs-rec-image-wrap">
+                  <img src={rocketVersionHistory} alt="Version history design recommendation" className="fcs-rec-image" draggable={false} />
+                </div>
+              </div>
+
+              <div className="fcs-rec-subsection">
+                <h3 className="fcs-rec-heading">Communication Timeline Managing Notifications and Statuses</h3>
+                <p className="fcs-section-body">
+                  The following design recommendations were built to help inform potential future directions
+                  for the experience. While not directly implemented, their existence shaped the trajectory
+                  of the iterative project.
+                </p>
+                <div className="fcs-rec-image-wrap">
+                  <img src={rocketCommsTimeline} alt="Communication timeline design recommendation" className="fcs-rec-image" draggable={false} />
+                </div>
+              </div>
+            </section>
+
+            {/* ── Solution & Results ── */}
+            <section className="fcs-section" id="solution">
+              <span className="fcs-section-label">Solution &amp; Results</span>
+              <h2 className="fcs-section-heading">Automated Copilot Assistance as the Core of the End-to-End Flow</h2>
+              <p className="fcs-section-body">
+                The following design recommendations were built to help inform potential future directions
+                for the experience. While not directly implemented, their existence shaped the trajectory
+                of the iterative project.
+              </p>
+              <div className="fcs-rec-image-wrap">
+                <img src={rocketVersionHistory} alt="Copilot dashboard solution" className="fcs-rec-image" draggable={false} />
+              </div>
+
+              <h3 className="fcs-subsection-heading">Redefining UX Research at Rocket Lawyer</h3>
+              <p className="fcs-section-body">
+                The following design recommendations were built to help inform potential future directions
+                for the experience. While not directly implemented, their existence shaped the trajectory
+                of the iterative project.
+              </p>
+              <div className="fcs-solution-placeholder" aria-hidden="true" />
+            </section>
+
+            {/* ── Reflections ── */}
+            <section className="fcs-section" id="reflections">
+              <span className="fcs-section-label">Reflections</span>
+              <h2 className="fcs-section-heading">Learning, Growing, and Evolving</h2>
+              <p className="fcs-section-body">
+                The following design recommendations were built to help inform potential future directions
+                for the experience. While not directly implemented, their existence shaped the trajectory
+                of the iterative project.
+              </p>
+              <div className="fcs-reflection-row">
+                <div className="fcs-reflection-num-card">
+                  <span className="fcs-reflection-num">01</span>
+                  <p className="fcs-reflection-placeholder-text">lores ipsum</p>
+                </div>
+                <div className="fcs-reflection-num-card">
+                  <span className="fcs-reflection-num">02</span>
+                  <p className="fcs-reflection-placeholder-text">lores ipsum</p>
+                </div>
+                <div className="fcs-reflection-num-card">
+                  <span className="fcs-reflection-num">03</span>
+                  <p className="fcs-reflection-placeholder-text">lores ipsum</p>
+                </div>
+              </div>
+            </section>
+
+            {/* ── Up Next ── */}
             <section className="fcs-upnext">
               <div className="fcs-upnext-divider" />
               <h2 className="fcs-upnext-heading">Up Next</h2>

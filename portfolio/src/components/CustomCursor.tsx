@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import './CustomCursor.css'
 
-const EASE = 0.10  // lower = heavier/more lag
+const EASE = 0.18  // lower = heavier/more lag
 
 export default function CustomCursor() {
   const ref = useRef<HTMLDivElement>(null)

@@ -188,9 +188,9 @@
 }
 
 .fcs-inner {
-  max-width: 1028px;
-  margin: 0 auto;
-  padding: 0 var(--space-12);
+  max-width: 800px;
+  margin: 0;
+  padding: 0 var(--space-12) 0 124px;
 }
 
 /* ── Header / Hero ── */
@@ -201,14 +201,14 @@
   margin-bottom: 0;
 }
 
-/* Hero frame image — bleeds out of fcs-inner's 48px padding to fill exactly 1028px */
+/* Hero frame image — bleeds out of fcs-inner's padding to fill the full container width */
 .fcs-hero-frame {
   display: block;
-  width: calc(100% + var(--space-24));
-  margin-left: calc(-1 * var(--space-12));
+  width: calc(100% + 124px + var(--space-12));
+  margin-left: -124px;
   margin-right: calc(-1 * var(--space-12));
   margin-bottom: var(--space-9);
-  aspect-ratio: 1028 / 473;
+  aspect-ratio: 860 / 396;
   object-fit: cover;
   pointer-events: none;
   user-select: none;
@@ -218,11 +218,11 @@
 .fcs-hero-frame-container {
   position: relative;
   display: block;
-  width: calc(100% + var(--space-24));
-  margin-left: calc(-1 * var(--space-12));
+  width: calc(100% + 124px + var(--space-12));
+  margin-left: -124px;
   margin-right: calc(-1 * var(--space-12));
   margin-bottom: var(--space-9);
-  aspect-ratio: 1028 / 473;
+  aspect-ratio: 860 / 396;
   overflow: hidden;
   pointer-events: none;
   user-select: none;
@@ -364,6 +364,16 @@
   margin-bottom: var(--space-3);
 }
 
+.fcs-section-heading {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: var(--text-3xl);
+  font-weight: 400;
+  line-height: 1.2;
+  color: #000;
+  margin: 0 0 var(--space-6);
+  letter-spacing: -0.72px;
+}
+
 .fcs-section-body {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
   font-size: var(--text-lg);
@@ -372,6 +382,108 @@
   margin: 0 0 var(--space-9);
   max-width: 860px;
   letter-spacing: -0.4px;
+}
+
+/* ── Multi-value tag (Team, Tools) ── */
+.fcs-tag-values {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* ── Research Questions card ── */
+.fcs-rq-card {
+  padding: var(--space-7) var(--space-7) var(--space-8);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(0, 0, 0, 0.07);
+  margin-bottom: var(--space-12);
+}
+
+.fcs-rq-label {
+  display: block;
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.45);
+  margin-bottom: var(--space-5);
+}
+
+.fcs-rq-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.fcs-rq-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.fcs-rq-icon {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.25);
+  margin-top: 7px;
+}
+
+.fcs-rq-text {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.65;
+  color: #000;
+  margin: 0;
+  letter-spacing: -0.34px;
+}
+
+/* ── Core Task card ── */
+.fcs-core-task-card {
+  padding: var(--space-7) var(--space-7) var(--space-8);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(0, 0, 0, 0.07);
+  margin-bottom: var(--space-12);
+}
+
+.fcs-core-task-label {
+  display: block;
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.45);
+  margin-bottom: var(--space-4);
+}
+
+
+.fcs-stat-badge {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  letter-spacing: -0.28px;
+  white-space: nowrap;
+}
+
+/* ── Image caption ── */
+.fcs-img-caption {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-sm);
+  color: rgba(0, 0, 0, 0.5);
+  letter-spacing: -0.28px;
+  line-height: 1.5;
+  margin: calc(-1 * var(--space-6)) 0 var(--space-9);
 }
 
 /* ── Research card (finding strip) ── */
@@ -648,4 +760,283 @@
   color: #000;
   letter-spacing: -0.44px;
   line-height: 1.2;
+}
+
+/* ── Rocket Lawyer: Core Task card — two-column layout ── */
+.fcs-core-task-row {
+  display: flex;
+  gap: var(--space-5);
+  align-items: center;
+}
+
+.fcs-core-task-body {
+  flex: 1 1 0;
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.8;
+  color: #33332f;
+  margin: 0;
+  letter-spacing: -0.34px;
+}
+
+.fcs-core-task-highlight {
+  font-weight: 700;
+  color: #991b1d;
+}
+
+.fcs-core-task-badges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+/* Rocket-themed stat badge — red fill */
+.fcs-stat-badge-rocket {
+  display: inline-block;
+  padding: var(--space-2) var(--space-3);
+  border-radius: 8px;
+  background: rgba(248, 40, 40, 0.24);
+  box-shadow: inset 0 0 0 1px rgba(135, 45, 45, 0.1);
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #991b1d;
+  white-space: nowrap;
+}
+
+/* ── Rocket Lawyer: Media card — white card container for images ── */
+.fcs-media-card {
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: var(--space-9);
+}
+
+.fcs-media-card--padded {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-8) var(--space-8) var(--space-7);
+}
+
+.fcs-media-card-inner {
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.fcs-media-card-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.fcs-media-chart {
+  aspect-ratio: 800 / 306;
+  object-fit: cover;
+}
+
+.fcs-media-caption-red {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #991b1d;
+  text-align: center;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ── Rocket Lawyer: Quote card — single card with divider ── */
+.fcs-quote-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(28, 28, 26, 0.08);
+  padding: var(--space-6) var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-9);
+}
+
+.fcs-quote-entry {
+  display: flex;
+  gap: var(--space-5);
+  align-items: flex-start;
+}
+
+.fcs-quote-icon {
+  flex-shrink: 0;
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 28px;
+  color: #991b1d;
+  line-height: 1;
+  width: 28px;
+  display: block;
+}
+
+.fcs-quote-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.fcs-quote-attr {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #991b1d;
+  line-height: 1.2;
+}
+
+.fcs-quote-text {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: #1c1c1a;
+  line-height: 28px;
+  margin: 0;
+}
+
+.fcs-quote-divider {
+  height: 2px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 100px;
+}
+
+/* ── Rocket Lawyer: Theme cards (Synthesizing Findings) ── */
+.fcs-theme-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-12);
+}
+
+.fcs-theme-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(28, 28, 26, 0.08);
+  padding: var(--space-6) var(--space-7);
+  display: flex;
+  gap: var(--space-5);
+  align-items: flex-start;
+}
+
+.fcs-theme-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+}
+
+.fcs-theme-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.fcs-theme-title {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #991b1d;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.fcs-theme-body {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: #1c1c1a;
+  line-height: 28px;
+  margin: 0;
+}
+
+/* ── Rocket Lawyer: Design Recommendations subsection ── */
+.fcs-rec-subsection {
+  margin-bottom: var(--space-11);
+}
+
+.fcs-rec-heading {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: var(--text-2xl);
+  font-weight: 400;
+  line-height: 1.2;
+  color: #991b1d;
+  margin: 0 0 var(--space-3);
+  letter-spacing: -0.48px;
+}
+
+.fcs-rec-image-wrap {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  aspect-ratio: 1013 / 720;
+}
+
+.fcs-rec-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Rocket Lawyer: Solution placeholder ── */
+.fcs-solution-placeholder {
+  height: 450px;
+  background: #872d2d;
+  border-radius: 12px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), inset 0 4px 4px rgba(0, 0, 0, 0.04);
+  margin-bottom: var(--space-9);
+}
+
+/* ── Rocket Lawyer: Reflection numbered cards ── */
+.fcs-reflection-row {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-12);
+}
+
+.fcs-reflection-num-card {
+  flex: 1;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
+  padding: var(--space-6) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fcs-reflection-num {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: var(--text-lg);
+  color: #991b1d;
+  opacity: 0.75;
+  line-height: 1.2;
+}
+
+.fcs-reflection-placeholder-text {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: #000;
+  opacity: 0.75;
+  margin: 0;
+  line-height: 1.5;
 }
