@@ -11,6 +11,11 @@ import rocketResearch from '../assets/images/rocket-cs-research.png'
 import rocketVersionHistory from '../assets/images/rocket-cs-version-history.png'
 import rocketCommsTimeline from '../assets/images/rocket-cs-comms-timeline.png'
 import iconSparkles from '../assets/images/icon-sparkles.svg'
+import iconDocument from '../assets/images/icon-document.svg'
+import iconEmail from '../assets/images/icon-email.svg'
+import rqIcon1 from '../assets/images/rq-icon-1.svg'
+import rqIcon2 from '../assets/images/rq-icon-2.svg'
+import rqIcon3 from '../assets/images/rq-icon-3.svg'
 import orgRocket from '../assets/images/org-rocket.png'
 import orgUci from '../assets/images/org-uci.png'
 import orgStreets from '../assets/images/org-streets.png'
@@ -271,19 +276,19 @@ export default function RocketLawyerCaseStudy() {
               </p>
               <div className="fcs-rq-card">
                 <span className="fcs-rq-label">Research Questions</span>
-                <div className="fcs-rq-list">
-                  <div className="fcs-rq-item">
-                    <span className="fcs-rq-icon" aria-hidden="true" />
-                    <p className="fcs-rq-text">To what extent do users trust Copilot AI when it comes to automating legal tasks?</p>
-                  </div>
-                  <div className="fcs-rq-item">
-                    <span className="fcs-rq-icon" aria-hidden="true" />
-                    <p className="fcs-rq-text">What pain points do users face when trying to negotiate a document with other parties?</p>
-                  </div>
-                  <div className="fcs-rq-item">
-                    <span className="fcs-rq-icon" aria-hidden="true" />
-                    <p className="fcs-rq-text">How are users currently managing their own documents and small business workflows?</p>
-                  </div>
+                <div className="fcs-rq-item">
+                  <img src={rqIcon1} alt="" className="fcs-rq-icon-img" aria-hidden="true" />
+                  <p className="fcs-rq-text">To what extent do users trust Copilot AI when it comes to automating legal tasks?</p>
+                </div>
+                <div className="fcs-rq-divider" />
+                <div className="fcs-rq-item">
+                  <img src={rqIcon2} alt="" className="fcs-rq-icon-img" aria-hidden="true" />
+                  <p className="fcs-rq-text">What pain points do users face when trying to negotiate a document with other parties?</p>
+                </div>
+                <div className="fcs-rq-divider" />
+                <div className="fcs-rq-item">
+                  <img src={rqIcon3} alt="" className="fcs-rq-icon-img" aria-hidden="true" />
+                  <p className="fcs-rq-text">How are users currently managing their own documents and small business workflows?</p>
                 </div>
               </div>
             </section>
@@ -327,8 +332,10 @@ export default function RocketLawyerCaseStudy() {
                 Negotiate &amp; Sign project.
               </p>
               <div className="fcs-media-card fcs-media-card--padded">
-                <div className="fcs-media-card-inner">
-                  <img src={rocketResearch} alt="AI pipeline for building user tests" className="fcs-media-card-img" draggable={false} />
+                <div className="fcs-media-card-inner fcs-media-card-inner--frame">
+                  <div className="fcs-media-frame-overflow">
+                    <img src={rocketResearch} alt="AI pipeline for building user tests" className="fcs-media-card-img fcs-media-card-img--frame" draggable={false} />
+                  </div>
                 </div>
                 <p className="fcs-media-caption-red">Building User Tests using Claude Cowork and Chrome &amp; Figma MCPs</p>
               </div>
@@ -380,14 +387,14 @@ export default function RocketLawyerCaseStudy() {
                   </div>
                 </div>
                 <div className="fcs-theme-card">
-                  <img src={iconSparkles} alt="" className="fcs-theme-icon" aria-hidden="true" />
+                  <img src={iconDocument} alt="" className="fcs-theme-icon" aria-hidden="true" />
                   <div className="fcs-theme-content">
                     <p className="fcs-theme-title">Document and Templates Organized</p>
                     <p className="fcs-theme-body">Users struggle with managing, organizing, and editing multiple documents across platform, especially when AI support should be seemingly available.</p>
                   </div>
                 </div>
                 <div className="fcs-theme-card">
-                  <img src={iconSparkles} alt="" className="fcs-theme-icon" aria-hidden="true" />
+                  <img src={iconEmail} alt="" className="fcs-theme-icon" aria-hidden="true" />
                   <div className="fcs-theme-content">
                     <p className="fcs-theme-title">Communication is a Blocker</p>
                     <p className="fcs-theme-body">There is a clear need to manage the sending and receiving of information. The generation and deployment of automated emails resonated, and time management systems can help enhance the process further.</p>

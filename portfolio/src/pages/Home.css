@@ -25,17 +25,8 @@
   position: relative;
   width: 100%;
   height: 100vh;
+  background-color: #f7f7f5;
   overflow: hidden;
-}
-
-/* Vertically centers all hero content at any screen height */
-.hero-main-content {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 680px;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 /* Top navbar — full-width positioning container, no background */
@@ -93,39 +84,144 @@
   line-height: normal;
 }
 
-.hero-illustration {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 622px;
-  height: 680px;
-  object-fit: contain;
-  object-position: left top;
+.hero-topnav-contact {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  transition: opacity 0.3s ease;
 }
 
-.hero-name-block {
+.hero-topnav-contact--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-topnav-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2);
+  border: none;
+  background: none;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: opacity 0.15s;
+}
+
+.hero-topnav-icon-link:hover {
+  opacity: 1;
+}
+
+/*
+ * ── Hero decorative images ──
+ * All positions use absoluteRenderBounds relative to the 1648×890 hero frame.
+ * Render bounds = actual visual content extent of each Figma group export.
+ * z-index matches Figma layer order (back → front).
+ */
+.hero-bird2,
+.hero-bird1,
+.hero-bird3,
+.hero-wii,
+.hero-me-green,
+.hero-ipod,
+.hero-arrow,
+.hero-mac,
+.hero-guitar {
   position: absolute;
-  right: 143px;
-  top: 168px;
-  width: 723px;
+  height: auto;
+  pointer-events: none;
+}
+
+/* bird3 — medium seagull, rbX=19.83 rbY=179.04 rbW=194.64 */
+.hero-bird3 {
+  left: 1.2vw;     /* 19.83/1648 */
+  top: 20.11vh;    /* 179.04/890 */
+  width: 11.81vw;  /* 194.64/1648 */
+  z-index: 1;
+}
+
+/* bird2 — two small silhouette birds, rbX=51.72 rbY=0 rbW=206 */
+.hero-bird2 {
+  left: 3.14vw;    /* 51.72/1648 */
+  top: 0;
+  width: 12.5vw;   /* 206/1648 */
   z-index: 2;
 }
 
-/* Anchors the star cluster to the rendered "armin" text */
-.last-text {
-  position: relative;
-  display: inline-block;
+/* bird1 — large seagull, rbX=0 rbY=13 rbW=266.36 */
+.hero-bird1 {
+  left: 0;
+  top: 1.46vh;     /* 13/890 */
+  width: 16.16vw;  /* 266.36/1648 */
+  z-index: 3;
 }
 
+/* iPod — rbX=1425.72 rbY=157.84 rbW=222.28 */
+.hero-ipod {
+  left: 86.51vw;   /* 1425.72/1648 */
+  top: 17.73vh;    /* 157.84/890 */
+  width: 13.49vw;  /* 222.28/1648 */
+  z-index: 4;
+}
+
+/* arrow — rbX=1512.31 rbY=384.58 rbW=76.77 */
+.hero-arrow {
+  left: 91.77vw;   /* 1512.31/1648 */
+  top: 43.21vh;    /* 384.58/890 */
+  width: 4.66vw;   /* 76.77/1648 */
+  z-index: 5;
+}
+
+/* Wii Remote — rbX=0 rbY=219.83 rbW=244.69 */
+.hero-wii {
+  left: 0;
+  top: 24.7vh;     /* 219.83/890 */
+  width: 14.85vw;  /* 244.69/1648 */
+  z-index: 6;
+}
+
+/* meGreen — green person, rbX=0 rbY=409.63 rbW=444 */
+.hero-me-green {
+  left: 0;
+  top: 46.02vh;    /* 409.63/890 */
+  width: 26.94vw;  /* 444/1648 */
+  z-index: 7;
+}
+
+/* Mac — rbX=1206.08 rbY=601.58 rbW=441.92 */
+.hero-mac {
+  left: 73.19vw;   /* 1206.08/1648 */
+  top: 67.6vh;     /* 601.58/890 */
+  width: 26.82vw;  /* 441.92/1648 */
+  z-index: 8;
+}
+
+/* guitar kid — rbX=1420.55 rbY=598.12 rbW=227.45 */
+.hero-guitar {
+  left: 86.2vw;    /* 1420.55/1648 */
+  top: 67.2vh;     /* 598.12/890 */
+  width: 13.8vw;   /* 227.45/1648 */
+  z-index: 9;
+}
+
+/* Text block — Figma: x=508,y=305 on 1648×890 canvas */
+.hero-name-block {
+  position: absolute;
+  left: 30.85vw;    /* 508/1648 */
+  top: 34.27vh;     /* 305/890 */
+  width: 29.55vw;   /* 487/1648 — spans from x=508 to x=995 */
+  z-index: 2;
+}
+
+/* Stars ring — Figma: x=943,y=368, 197×217 on 1648×890 canvas */
 .hero-stars {
   position: absolute;
-  left: 100%;
-  top: 50%;
-  transform: translate(-65%, -50%);
-  width: 150px;
-  height: 165px;
+  left: 57.22vw;    /* 943/1648 */
+  top: 36vh;        /* shifted up ~5vh to wrap naturally around name text */
+  width: 11.95vw;   /* 197/1648 */
+  height: 13vw;
   pointer-events: none;
-  z-index: -1;
+  z-index: 1;
 }
 
 /* Stars — GSAP handles entrance; opacity:0 prevents flash before GSAP fires */
@@ -148,62 +244,23 @@
 .hero-name {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
   font-size: var(--fluid-heading-8xl);
-  line-height: 1;
+  line-height: 1.07;  /* 94px gap / 88px font-size at design scale */
   color: #000;
   margin: 0;
-  position: relative;
-  z-index: 1;
 }
 
+/* "hi, i'm" left-aligned — starts at container left (x=508) */
 .hero-name .first {
   display: block;
+  text-align: left;
 }
 
+/* "armin" right-aligned — right edge at container right (x=995) */
 .hero-name .last {
   display: block;
-  margin-top: -8px;
-  text-align: center;
+  text-align: right;
 }
 
-/* Tags (pill badges) */
-.tag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow:
-    inset 0 0 0 2px rgba(0, 0, 0, 0.5),
-    0 4px 4px rgba(0, 0, 0, 0.16),
-    inset 0 4px 4px rgba(0, 0, 0, 0.02);
-  border-radius: 9999px;
-  padding: var(--space-2) var(--space-4);
-  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: var(--text-base);
-  font-weight: 600;
-  color: #000;
-  background: #fff;
-  white-space: nowrap;
-  will-change: transform, box-shadow;
-}
-
-/* Tag shadow updates as GSAP moves them up/down */
-.hero-tag-designer,
-.hero-tag-anteater {
-  position: absolute;
-}
-
-.hero-tag-designer {
-  left: 335px;
-  top: 231px;
-  perspective: 600px;
-  transform-style: preserve-3d;
-}
-
-.hero-tag-anteater {
-  left: 49px;
-  top: 335px;
-  perspective: 600px;
-  transform-style: preserve-3d;
-}
 
 /* ── Works Grid ── */
 .works {
@@ -399,117 +456,19 @@ a.work-card {
   line-height: normal;
 }
 
-/* ── Resume + Footer combined scrollable section ── */
-.resume-footer-section {
+/* ── Footer section ── */
+.footer-section {
   height: 100vh;
   overflow-y: auto;
   overscroll-behavior-y: contain;
   box-sizing: border-box;
-}
-
-.resume-content-area {
-  padding: calc(90px + var(--space-6)) var(--fluid-section-margin-x) var(--space-16);
-}
-
-.resume-section-header {
-  max-width: var(--content-max);
-  margin: 0 auto;
-  margin-bottom: 24px;
-}
-
-.resume-section-heading {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: var(--text-xl);
-  color: #000;
-  margin: 0;
-  line-height: normal;
-}
-
-.resume-section-subtitle {
-  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: var(--text-base);
-  color: rgba(0, 0, 0, 0.65);
-  margin: 12px 0 0;
-}
-
-/* ── Footer area inside combined section ── */
-.footer-area {
-  padding: 0 var(--fluid-section-margin-x) var(--fluid-section-pad-bottom);
-  display: flex;
-  justify-content: center;
-}
-
-/* ── Resume positions list ── */
-.resume-positions-wrap {
-  max-width: var(--content-max);
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 10px;
-  overflow: hidden;
-}
-
-/* Start invisible — GSAP animates in when Resume page becomes active */
-.about-position {
-  opacity: 0;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
-  filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.12));
-  padding: 12px 24px;
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  box-sizing: border-box;
-}
-
-.about-position-logo-wrap {
-  width: 72px;
-  height: 72px;
-  flex-shrink: 0;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  padding: 4px;
-  background: #fff;
-  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.02);
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
-
-.about-position-logo {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 6px;
-}
-
-.about-position-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.about-position-name {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: var(--text-base);
-  color: #000;
-  line-height: normal;
-}
-
-.about-position-role {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 12px;
-  color: rgba(0, 0, 0, 0.65);
-  line-height: normal;
-}
-
-/* ── Footer inner layout ── */
 
 .footer-inner {
-  width: min(1082px, calc(100% - var(--fluid-section-margin-x) * 2));
+  width: min(var(--content-max), calc(100% - var(--fluid-section-margin-x) * 2));
   display: flex;
   flex-direction: column;
 }
@@ -638,6 +597,7 @@ a.work-card {
   justify-content: center;
   transition: background 0.15s;
 }
+
 .resume-modal-close:hover {
   background: rgba(0, 0, 0, 0.8);
 }

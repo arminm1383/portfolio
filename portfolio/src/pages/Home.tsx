@@ -5,16 +5,22 @@ import { gsap } from 'gsap'
 import './Home.css'
 import Navbar from '../components/Navbar'
 
-import heroIllustration from '../assets/images/hero-illustration.png'
+import heroGuitar  from '../assets/images/hero-guitar.png'
+import heroMac     from '../assets/images/hero-mac.png'
+import heroMeGreen from '../assets/images/hero-me-green.png'
+import heroWii     from '../assets/images/hero-wii.svg'
+import heroIpod    from '../assets/images/hero-ipod.png'
+import heroBird1   from '../assets/images/hero-bird1.png'
+import heroBird2   from '../assets/images/hero-bird2.png'
+import heroBird3   from '../assets/images/hero-bird3.png'
 import streetsGif from '../assets/images/streetsgif.gif'
 import rocketArtwork from '../assets/images/rocket-artwork.gif'
 import findyGif from '../assets/images/FindyGif.gif'
 import auraGif from '../assets/images/auragif.gif'
-import navCat from '../assets/images/nav-cat.svg'
-import orgPacuci from '../assets/images/org-pacuci.png'
-import orgRocketLawyerLogo from '../assets/images/org-rocket-lawyer-logo.png'
-import orgAdobe from '../assets/images/org-adobe.png'
-import orgAccessComputing from '../assets/images/org-access-computing.png'
+import navCat      from '../assets/images/nav-cat.svg'
+import navEmail    from '../assets/images/nav-email.png'
+import navLinkedin from '../assets/images/nav-linkedin.png'
+import navResume   from '../assets/images/nav-resume.png'
 import individualStar from '../assets/images/individual-star.svg'
 
 // Real pointer position — guards against phantom mouseenter events (clientX/Y=0)
@@ -143,22 +149,15 @@ function WorkCard({ artwork, artworkAlt, title, description, slug, isGif, to }: 
   )
 }
 
-const POSITIONS = [
-  { logo: orgRocketLawyerLogo, org: 'Rocket Lawyer',                    role: 'UX Research Intern, AI Experience' },
-  { logo: orgAdobe,            org: 'Adobe',                            role: 'Campus Ambassador' },
-  { logo: orgPacuci,           org: 'Product Association @ UCI',        role: 'Product Design Lead' },
-  { logo: orgAccessComputing,  org: 'Design 4 Access / AccessComputing', role: 'Research & Design Assistant' },
-]
-
 export default function Home() {
-  // 0 = hero, 1 = works, 2 = resume+footer
+  // 0 = hero, 1 = works, 2 = footer
   const [page, setPage] = useState(0)
   const [worksKey, setWorksKey] = useState(0)
   const [resumeOpen, setResumeOpen] = useState(false)
 
   const worksRef        = useRef<HTMLElement>(null)
   const resumeFooterRef = useRef<HTMLElement>(null)
-  const heroIllRef      = useRef<HTMLImageElement>(null)
+  const heroMeRef       = useRef<HTMLImageElement>(null)
 
   const transitioning = useRef(false)
   const atTopSince    = useRef<number | null>(null)
@@ -234,22 +233,21 @@ export default function Home() {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
       tl.from('.hero-topnav',       { opacity: 0, y: -10, duration: 0.75 }, 0.05)
-      tl.from(heroIllRef.current,   { opacity: 0, y: 10,  duration: 0.75 }, 0.1)
+      tl.from(['.hero-bird1', '.hero-bird2', '.hero-bird3'],
+                                    { opacity: 0, y: -10, duration: 0.7, stagger: 0.07 }, 0.08)
+      tl.from(heroMeRef.current,    { opacity: 0, x: -20, duration: 0.8 }, 0.15)
+      tl.from('.hero-wii',          { opacity: 0, x: -20, duration: 0.8 }, 0.18)
+      tl.from('.hero-ipod',         { opacity: 0, x: 20,  duration: 0.8 }, 0.18)
+      tl.from(['.hero-mac', '.hero-guitar'],
+                                    { opacity: 0, y: 20,  duration: 0.8, stagger: 0.05 }, 0.22)
+      tl.from('.hero-arrow',        { opacity: 0, scale: 0.5, duration: 0.5 }, 0.55)
       tl.from('.hero-name-block',   { opacity: 0, y: 10,  duration: 0.75 }, 0.2)
-      tl.from('.hero-tag-designer', { opacity: 0, y: 10,  duration: 0.75 }, 0.48)
-      tl.from('.hero-tag-anteater', { opacity: 0, y: 10,  duration: 0.75 }, 0.58)
       tl.fromTo('.hero-star',
         { opacity: 0, scale: 0.3 },
         { opacity: 1, scale: 1, duration: 0.4, stagger: 0.1, ease: 'back.out(2)' },
         0.45
       )
       tl.from('.navbar', { opacity: 0, y: 12, duration: 0.75 }, 0.68)
-      gsap.to('.hero-tag-designer', {
-        y: -3, duration: 1.5, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: 1.23,
-      })
-      gsap.to('.hero-tag-anteater', {
-        y: -3, duration: 1.85, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: 1.33,
-      })
     })
     return () => ctx.revert()
   }, [])
@@ -263,14 +261,6 @@ export default function Home() {
     )
   }, [page, worksKey])
 
-  // Resume section elements animate in when Resume becomes active
-  useEffect(() => {
-    if (page !== 2) return
-    gsap.fromTo('.about-position',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: 'power2.out', delay: 0.6 }
-    )
-  }, [page])
 
   // Wheel handler — drives page transitions
   useEffect(() => {
@@ -353,13 +343,6 @@ export default function Home() {
     }
   }, [page, goTo])
 
-  // Resume modal keyboard close
-  useEffect(() => {
-    if (!resumeOpen) return
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setResumeOpen(false) }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [resumeOpen])
 
   return (
     <>
@@ -373,35 +356,39 @@ export default function Home() {
         >
           {/* ── Hero ──────────────────────────────────────────────────────── */}
           <section className="hero">
-            <div className="hero-main-content">
-              <img
-                ref={heroIllRef}
-                className="hero-illustration"
-                src={heroIllustration}
-                alt=""
-              />
+            {/* Birds — left/top area */}
+            <img className="hero-bird2" src={heroBird2} alt="" aria-hidden />
+            <img className="hero-bird1" src={heroBird1} alt="" aria-hidden />
+            <img className="hero-bird3" src={heroBird3} alt="" aria-hidden />
 
-              <div className="hero-name-block">
-                <h1 className="hero-name">
-                  <span className="first">hi, i'm</span>
-                  <span className="last">
-                    <span className="last-text">
-                      armin
-                      <div className="hero-stars" aria-hidden>
-                        {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
-                          <img
-                            key={n}
-                            className={`hero-star hero-star--${n}`}
-                            src={individualStar}
-                            alt=""
-                          />
-                        ))}
-                      </div>
-                    </span>
-                  </span>
-                </h1>
-              </div>
+            {/* Wii Remote — left edge */}
+            <img className="hero-wii" src={heroWii} alt="" aria-hidden />
 
+            {/* Green person (meGreen) — left center */}
+            <img ref={heroMeRef} className="hero-me-green" src={heroMeGreen} alt="" aria-hidden />
+
+            {/* iPod — right side */}
+            <img className="hero-ipod" src={heroIpod} alt="" aria-hidden />
+
+            {/* Mac — bottom right */}
+            <img className="hero-mac" src={heroMac} alt="" aria-hidden />
+
+            {/* Guitar kid — far right */}
+            <img className="hero-guitar" src={heroGuitar} alt="" aria-hidden />
+
+            {/* Star ring */}
+            <div className="hero-stars" aria-hidden>
+              {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
+                <img key={n} className={`hero-star hero-star--${n}`} src={individualStar} alt="" />
+              ))}
+            </div>
+
+            {/* Name text */}
+            <div className="hero-name-block">
+              <h1 className="hero-name">
+                <span className="first">hi, i'm</span>
+                <span className="last">armin</span>
+              </h1>
             </div>
           </section>
 
@@ -449,48 +436,26 @@ export default function Home() {
             </div>
           </section>
 
-          {/* ── Resume + Footer (combined scrollable section) ─────────────── */}
-          <section className="resume-footer-section" ref={resumeFooterRef}>
-            <div className="resume-content-area">
-              <div className="resume-section-header">
-                <h2 className="resume-section-heading">resume</h2>
-                <p className="resume-section-subtitle">some of my involvements</p>
-              </div>
-              <div className="resume-positions-wrap">
-                {POSITIONS.map(({ logo, org, role }) => (
-                  <div className="about-position" key={org}>
-                    <div className="about-position-logo-wrap">
-                      <img src={logo} alt="" className="about-position-logo" />
-                    </div>
-                    <div className="about-position-info">
-                      <span className="about-position-name">{org}</span>
-                      <span className="about-position-role">{role}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="footer-area">
-              <div className="footer-inner">
-                <div className="footer-sep" aria-hidden />
-                <div className="footer-content">
-                  <div className="footer-left">
-                    <h2 className="footer-tagline">Designing Connection through Collaboration</h2>
-                    <p className="footer-copy">@ Armin Mohammadi 2026</p>
-                  </div>
-                  <nav className="footer-nav" aria-label="Footer navigation">
-                    <div className="footer-nav-col">
-                      <button className="footer-nav-link" onClick={() => goTo(0)}>Home</button>
-                      <button className="footer-nav-link" onClick={() => goTo(1)}>Works</button>
-                      <button className="footer-nav-link" onClick={() => goTo(2)}>Resume</button>
-                    </div>
-                    <div className="footer-nav-col">
-                      <a href="mailto:arminmohammadi1342@gmail.com" className="footer-nav-link">Email</a>
-                      <button className="footer-nav-link" onClick={() => setResumeOpen(true)}>View Resume</button>
-                      <a href="https://www.linkedin.com/in/arminmoh" target="_blank" rel="noreferrer" className="footer-nav-link">LinkedIn</a>
-                    </div>
-                  </nav>
+          {/* ── Footer section ────────────────────────────────────────────── */}
+          <section className="footer-section" ref={resumeFooterRef}>
+            <div className="footer-inner">
+              <div className="footer-sep" aria-hidden />
+              <div className="footer-content">
+                <div className="footer-left">
+                  <h2 className="footer-tagline">Designing Connection through Collaboration</h2>
+                  <p className="footer-copy">@ Armin Mohammadi 2026</p>
                 </div>
+                <nav className="footer-nav" aria-label="Footer navigation">
+                  <div className="footer-nav-col">
+                    <button className="footer-nav-link" onClick={() => goTo(0)}>Home</button>
+                    <button className="footer-nav-link" onClick={() => goTo(1)}>Works</button>
+                  </div>
+                  <div className="footer-nav-col">
+                    <a href="mailto:arminmohammadi1342@gmail.com" className="footer-nav-link">Email</a>
+                    <button className="footer-nav-link" onClick={() => setResumeOpen(true)}>Resume</button>
+                    <a href="https://www.linkedin.com/in/arminmoh" target="_blank" rel="noreferrer" className="footer-nav-link">LinkedIn</a>
+                  </div>
+                </nav>
               </div>
             </div>
           </section>
@@ -506,6 +471,17 @@ export default function Home() {
             <span className="hero-topnav-role">Product Designer</span>
           </div>
         </button>
+        <div className={`hero-topnav-contact${page !== 0 ? ' hero-topnav-contact--hidden' : ''}`}>
+          <a href="https://www.linkedin.com/in/arminmoh" target="_blank" rel="noreferrer" className="hero-topnav-icon-link">
+            <img src={navLinkedin} alt="LinkedIn" width={30} height={29} />
+          </a>
+          <a href="mailto:arminmohammadi1342@gmail.com" className="hero-topnav-icon-link">
+            <img src={navEmail} alt="Email" width={29} height={22} />
+          </a>
+          <button className="hero-topnav-icon-link" aria-label="Resume" onClick={() => setResumeOpen(true)}>
+            <img src={navResume} alt="Resume" width={22} height={27} />
+          </button>
+        </div>
       </div>
 
       <Navbar

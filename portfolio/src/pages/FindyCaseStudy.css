@@ -118,6 +118,9 @@
 .fcs-nav {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  padding-right: var(--space-10);
+  box-sizing: border-box;
 }
 
 .fcs-nav-item {
@@ -131,7 +134,8 @@
   padding: 0;
   margin-bottom: var(--space-5);
   text-align: left;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
   line-height: 1.3;
   transition: color 0.2s;
 }
@@ -393,10 +397,13 @@
 
 /* ── Research Questions card ── */
 .fcs-rq-card {
-  padding: var(--space-7) var(--space-7) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 36px;
   border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(0, 0, 0, 0.07);
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 2px 10px rgba(28, 28, 26, 0.08), inset 0 0 0 1px rgba(0, 0, 0, 0.12);
   margin-bottom: var(--space-12);
 }
 
@@ -404,41 +411,41 @@
   display: block;
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
   font-size: var(--text-sm);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.45);
-  margin-bottom: var(--space-5);
-}
-
-.fcs-rq-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .fcs-rq-item {
   display: flex;
-  align-items: flex-start;
-  gap: var(--space-4);
+  align-items: center;
+  gap: 24px;
 }
 
-.fcs-rq-icon {
+.fcs-rq-icon-img {
   flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.25);
-  margin-top: 7px;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+}
+
+.fcs-rq-divider {
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 100px;
+  flex-shrink: 0;
 }
 
 .fcs-rq-text {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
   font-size: var(--text-base);
-  line-height: 1.65;
+  line-height: 32px;
   color: #000;
   margin: 0;
-  letter-spacing: -0.34px;
+  flex: 1;
 }
 
 /* ── Core Task card ── */
@@ -829,6 +836,28 @@
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.12);
   overflow: hidden;
+}
+
+.fcs-media-card-inner--frame {
+  position: relative;
+  aspect-ratio: 719 / 409;
+  overflow: visible;
+}
+
+.fcs-media-frame-overflow {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.fcs-media-card-img--frame {
+  position: absolute;
+  width: 100%;
+  height: 102.15%;
+  top: 0;
+  left: 0;
 }
 
 .fcs-media-card-img {
