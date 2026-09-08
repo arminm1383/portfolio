@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Peace Sans';
+  src: url('/fonts/PeaceSans.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Spacing scale — --space-N = N × 4px, enforces the grid by construction */
   --space-1: 4px;

@@ -1,0 +1,10 @@
+node_modules/
+my-app/
+dist/
+dist-ssr/
+*.local
+.DS_Store
+.vite/
+*.log
+/package.json
+/package-lock.json

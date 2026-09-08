@@ -1,0 +1,9 @@
+{
+	"servers": {
+		"figma": {
+			"url": "Implement this design from Figma. @https://www.figma.com/design/Gh9WW3Dl4tQc40mRzkvwVv/Portfolio-v4?node-id=767-46413&m=dev",
+			"type": "http"
+		}
+	},
+	"inputs": []
+}
