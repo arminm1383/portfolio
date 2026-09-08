@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import './Home.css'
 import Navbar from '../components/Navbar'
+import CsTopbar from '../components/CsTopbar'
 
 import heroGuitar  from '../assets/images/hero-guitar.png'
 import heroMac     from '../assets/images/hero-mac.png'
@@ -14,32 +15,200 @@ import heroBird1   from '../assets/images/hero-bird1.png'
 import heroBird2   from '../assets/images/hero-bird2.png'
 import heroBird3   from '../assets/images/hero-bird3.png'
 import streetsGif from '../assets/images/streetsgif.gif'
-import rocketArtwork from '../assets/images/rocket-artwork.gif'
-import findyGif from '../assets/images/FindyGif.gif'
+import rocketArtwork from '../assets/images/rocket-artwork-v2.gif'
+import findyGif from '../assets/images/findy-artwork-v2.gif'
 import auraGif from '../assets/images/auragif.gif'
-import navCat      from '../assets/images/nav-cat.svg'
-import navEmail    from '../assets/images/nav-email.png'
-import navLinkedin from '../assets/images/nav-linkedin.png'
-import navResume   from '../assets/images/nav-resume.png'
 import individualStar from '../assets/images/individual-star.svg'
+import amlmSend    from '../assets/images/amlm-send.svg'
+import amlmStarSm  from '../assets/images/nav-topbar-star-sm.svg'
+import amlmStarLg  from '../assets/images/nav-topbar-star-lg.svg'
+import amlmStarMd  from '../assets/images/nav-topbar-star-md.svg'
+import amlmStarTex from '../assets/images/nav-topbar-star-texture.png'
 
-// Real pointer position — guards against phantom mouseenter events (clientX/Y=0)
-const lastPointerPos = { x: 0, y: 0 }
+// ── amLM: sparkle badge (AI Tag) ─────────────────────────────────────────────
+function AmLMTag({ onClick }: { onClick: (e: React.MouseEvent) => void }) {
+  return (
+    <button className="amlm-tag" onClick={onClick} aria-label="Open amLM">
+      <div className="amlm-tag-stars">
+        <div className="amlm-tag-star amlm-tag-star--sm">
+          <img src={amlmStarSm} alt="" />
+          <img src={amlmStarTex} alt="" className="amlm-star-tex" />
+        </div>
+        <div className="amlm-tag-star amlm-tag-star--lg">
+          <img src={amlmStarLg} alt="" />
+          <img src={amlmStarTex} alt="" className="amlm-star-tex" />
+        </div>
+        <div className="amlm-tag-star amlm-tag-star--md">
+          <img src={amlmStarMd} alt="" />
+          <img src={amlmStarTex} alt="" className="amlm-star-tex" />
+        </div>
+      </div>
+    </button>
+  )
+}
+
+// ── amLM: chat popup ──────────────────────────────────────────────────────────
+function AmLMPopup({ onStop }: { onStop: (e: React.MouseEvent) => void }) {
+  return (
+    <div className="amlm-popup" onClick={onStop}>
+      <div className="amlm-popup-header">
+        <span className="amlm-popup-label">ask amLM</span>
+      </div>
+      <div className="amlm-popup-send-row">
+        <img src={amlmSend} alt="send" className="amlm-popup-send-icon" />
+      </div>
+    </div>
+  )
+}
+
+// ── CV: perimeter tracing — two modes ────────────────────────────────────────
+// 'alpha'  — original approach: uses raw alpha channel. Works perfectly for
+//            images with true transparent backgrounds (birds, meGreen).
+// 'infer'  — background inference: composites each pixel over the page colour
+//            (#f7f7f5) and checks perceptual contrast. Handles images whose
+//            backgrounds are opaque near-white (Mac, iPod, Wii SVG, guitar).
+//            Uses the same simple 2-direction row scan as 'alpha' to avoid the
+//            self-intersecting polygon that caused the "double outline" bug.
+function useAlphaOutline(
+  ref: React.RefObject<HTMLImageElement | null>,
+  mode: 'alpha' | 'infer' = 'alpha',
+): string {
+  const [pts, setPts] = useState('')
+
+  useEffect(() => {
+    const img = ref.current
+    if (!img) return
+
+    function trace() {
+      const W = img!.naturalWidth
+      const H = img!.naturalHeight
+      if (!W || !H) return
+
+      const scale = Math.min(1, 250 / Math.max(W, H))
+      const cw = Math.round(W * scale)
+      const ch = Math.round(H * scale)
+
+      const canvas = document.createElement('canvas')
+      canvas.width = cw
+      canvas.height = ch
+      const ctx = canvas.getContext('2d', { willReadFrequently: true })
+      if (!ctx) return
+
+      try {
+        if (mode === 'infer') {
+          // Pre-fill with page colour so SVG files (no explicit bg) composite
+          // onto the right surface before we read pixels.
+          ctx.fillStyle = '#f7f7f5'
+          ctx.fillRect(0, 0, cw, ch)
+        }
+        ctx.drawImage(img!, 0, 0, cw, ch)
+        const { data } = ctx.getImageData(0, 0, cw, ch)
+
+        const PR = 247, PG = 247, PB = 245
+        const N = 56
+
+        function isFg(x: number, y: number): boolean {
+          if (x < 0 || x >= cw || y < 0 || y >= ch) return false
+          const i = (y * cw + x) * 4
+          const a = data[i + 3]
+          if (mode === 'alpha') return a >= 12
+          // 'infer': composite over page bg and check perceptual contrast
+          if (a < 10) return false
+          const f = a / 255
+          const cr = data[i]   * f + PR * (1 - f)
+          const cg = data[i+1] * f + PG * (1 - f)
+          const cb = data[i+2] * f + PB * (1 - f)
+          return (Math.abs(cr - PR) + Math.abs(cg - PG) + Math.abs(cb - PB)) >= 22
+        }
+
+        // 2-direction row scan — simple left/right per row.
+        // This avoids the self-intersecting 4-edge polygon that produced double outlines.
+        const left:  Array<[number, number]> = []
+        const right: Array<[number, number]> = []
+        for (let s = 0; s <= N; s++) {
+          const y = Math.round((s / N) * (ch - 1))
+          let l = -1, r = -1
+          for (let x = 0; x < cw; x++)      if (isFg(x, y)) { l = x; break }
+          for (let x = cw - 1; x >= 0; x--) if (isFg(x, y)) { r = x; break }
+          if (l !== -1 && r !== -1) {
+            left.push([l / cw * 100, y / ch * 100])
+            right.push([r / cw * 100, y / ch * 100])
+          }
+        }
+
+        if (left.length > 2) {
+          setPts([...left, ...right.reverse()]
+            .map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`)
+            .join(','))
+        }
+      } catch (_) { /* CORS / tainted canvas */ }
+    }
+
+    if (img.complete && img.naturalWidth > 0) trace()
+    else {
+      img.addEventListener('load', trace, { once: true })
+      return () => img.removeEventListener('load', trace)
+    }
+  }, [ref, mode])
+
+  return pts
+}
+
+// ── Selectable hero graphic wrapper ──────────────────────────────────────────
+interface HeroGraphicProps {
+  id: string
+  src: string
+  cls: string
+  mode?: 'alpha' | 'infer'
+  selected: string | null
+  popupOpen: boolean
+  onSelect: (id: string) => void
+  onTag: (e: React.MouseEvent) => void
+  onPopupStop: (e: React.MouseEvent) => void
+}
+
+function HeroGraphic({ id, src, cls, mode = 'alpha', selected, popupOpen, onSelect, onTag, onPopupStop }: HeroGraphicProps) {
+  const imgRef = useRef<HTMLImageElement>(null)
+  const outlinePts = useAlphaOutline(imgRef, mode)
+  const isSelected = selected === id
+
+  return (
+    <div
+      className={`hero-selectable${isSelected ? ' is-selected' : ''}`}
+      data-graphic={id}
+      onClick={(e) => { e.stopPropagation(); onSelect(id) }}
+    >
+      <img ref={imgRef} className={cls} src={src} alt="" aria-hidden />
+      <svg className="hero-sel-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
+        {outlinePts && (
+          <polygon
+            points={outlinePts}
+            fill="none"
+            stroke="#18671F"
+            strokeWidth="2"
+            strokeDasharray="5 3"
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+          />
+        )}
+      </svg>
+      {isSelected && <AmLMTag onClick={onTag} />}
+      {isSelected && popupOpen && <AmLMPopup onStop={onPopupStop} />}
+    </div>
+  )
+}
 
 interface WorkCardProps {
   artwork: string
   artworkAlt: string
   title: string
   description: string
-  slug: string
   isGif?: boolean
   to?: string
 }
 
-function WorkCard({ artwork, artworkAlt, title, description, slug, isGif, to }: WorkCardProps) {
+function WorkCard({ artwork, artworkAlt, title, description, isGif, to }: WorkCardProps) {
   const imgRef = useRef<HTMLImageElement>(null)
-  const [hovered, setHovered] = useState(false)
-  const floatRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!isGif) return
@@ -59,93 +228,32 @@ function WorkCard({ artwork, artworkAlt, title, description, slug, isGif, to }: 
     return () => observer.disconnect()
   }, [isGif])
 
-  const positionPopup = useCallback((clientX: number, clientY: number) => {
-    const el = floatRef.current
-    if (!el) return
-    const W = el.offsetWidth || 300
-    const H = el.offsetHeight || 80
-    let x = clientX + 20
-    let y = clientY - H - 14
-    if (x + W > window.innerWidth - 12) x = clientX - W - 20
-    if (y < 12) y = clientY + 20
-    el.style.transform = `translate(${x}px, ${y}px)`
-  }, [])
+  const cursorVariant = to ? 'case-study' : 'coming-soon'
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    positionPopup(e.clientX, e.clientY)
-  }, [positionPopup])
-
-  const handleMouseEnter = useCallback(() => {
-    setHovered(true)
-    requestAnimationFrame(() => positionPopup(lastPointerPos.x, lastPointerPos.y))
-  }, [positionPopup])
-
-  const cardInner = (
-    <div className="work-card-artwork">
-      <img ref={imgRef} src={artwork} alt={artworkAlt} />
-    </div>
-  )
-
-  const cardMeta = (
-    <div className="work-card-content">
-      <h2 className="work-card-title">{title}</h2>
-      <p className="work-card-description">{description}</p>
-    </div>
-  )
-
-  const popup = hovered && createPortal(
-    <div ref={floatRef} className="cs-float">
-      <div className="cs-popup">
-        <div className="cs-title-bar">
-          <div className="cs-controls">
-            <span className="cs-dot cs-dot--close" />
-            <span className="cs-dot cs-dot--min" />
-            <span className="cs-dot cs-dot--zoom" />
-          </div>
-        </div>
-        <div className="cs-content">
-          <p className="cs-command">{`$ grep "${slug}" case-study.txt`}</p>
-          {to
-            ? <p className="cs-result cs-result--found">{`case-study.txt:1: case_study_found ↗`}</p>
-            : <p className="cs-result">grep: case-study.txt: Case Study Coming Soon</p>
-          }
-        </div>
+  const content = (
+    <>
+      <div className="work-card-artwork">
+        <img ref={imgRef} src={artwork} alt={artworkAlt} />
       </div>
-    </div>,
-    document.body
+      <div className="work-card-content">
+        <h2 className="work-card-title">{title}</h2>
+        <p className="work-card-description">{description}</p>
+      </div>
+    </>
   )
 
   if (to) {
     return (
-      <>
-        <Link
-          to={to}
-          className="work-card"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={() => setHovered(false)}
-          onMouseMove={handleMouseMove}
-        >
-          {cardInner}
-          {cardMeta}
-        </Link>
-        {popup}
-      </>
+      <Link to={to} className="work-card" data-cursor={cursorVariant}>
+        {content}
+      </Link>
     )
   }
 
   return (
-    <>
-      <div
-        className="work-card"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={() => setHovered(false)}
-        onMouseMove={handleMouseMove}
-      >
-        {cardInner}
-        {cardMeta}
-      </div>
-      {popup}
-    </>
+    <div className="work-card" data-cursor={cursorVariant}>
+      {content}
+    </div>
   )
 }
 
@@ -154,10 +262,21 @@ export default function Home() {
   const [page, setPage] = useState(0)
   const [worksKey, setWorksKey] = useState(0)
   const [resumeOpen, setResumeOpen] = useState(false)
+  const [selectedGraphic, setSelectedGraphic] = useState<string | null>(null)
+  const [popupOpen, setPopupOpen] = useState(false)
+
+  const handleSelect = useCallback((id: string) => {
+    setSelectedGraphic(prev => {
+      setPopupOpen(false)
+      return prev === id ? null : id
+    })
+  }, [])
+  const handleDeselect = useCallback(() => { setSelectedGraphic(null); setPopupOpen(false) }, [])
+  const handleTag = useCallback((e: React.MouseEvent) => { e.stopPropagation(); setPopupOpen(p => !p) }, [])
+  const stopProp = useCallback((e: React.MouseEvent) => e.stopPropagation(), [])
 
   const worksRef        = useRef<HTMLElement>(null)
   const resumeFooterRef = useRef<HTMLElement>(null)
-  const heroMeRef       = useRef<HTMLImageElement>(null)
 
   const transitioning = useRef(false)
   const atTopSince    = useRef<number | null>(null)
@@ -218,15 +337,6 @@ export default function Home() {
     return () => section.removeEventListener('scroll', onScroll)
   }, [page])
 
-  // Real pointer tracking for popup positioning
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      lastPointerPos.x = e.clientX
-      lastPointerPos.y = e.clientY
-    }
-    window.addEventListener('mousemove', onMove, { passive: true })
-    return () => window.removeEventListener('mousemove', onMove)
-  }, [])
 
   // Hero entrance timeline — fires once on mount
   useEffect(() => {
@@ -235,7 +345,7 @@ export default function Home() {
       tl.from('.hero-topnav',       { opacity: 0, y: -10, duration: 0.75 }, 0.05)
       tl.from(['.hero-bird1', '.hero-bird2', '.hero-bird3'],
                                     { opacity: 0, y: -10, duration: 0.7, stagger: 0.07 }, 0.08)
-      tl.from(heroMeRef.current,    { opacity: 0, x: -20, duration: 0.8 }, 0.15)
+      tl.from('.hero-me-green',      { opacity: 0, x: -20, duration: 0.8 }, 0.15)
       tl.from('.hero-wii',          { opacity: 0, x: -20, duration: 0.8 }, 0.18)
       tl.from('.hero-ipod',         { opacity: 0, x: 20,  duration: 0.8 }, 0.18)
       tl.from(['.hero-mac', '.hero-guitar'],
@@ -346,6 +456,7 @@ export default function Home() {
 
   return (
     <>
+      <CsTopbar />
       <div className="home-clip">
         <div
           className="home"
@@ -355,26 +466,38 @@ export default function Home() {
           }}
         >
           {/* ── Hero ──────────────────────────────────────────────────────── */}
-          <section className="hero">
-            {/* Birds — left/top area */}
-            <img className="hero-bird2" src={heroBird2} alt="" aria-hidden />
-            <img className="hero-bird1" src={heroBird1} alt="" aria-hidden />
-            <img className="hero-bird3" src={heroBird3} alt="" aria-hidden />
+          <section className="hero" onClick={handleDeselect}>
+            <HeroGraphic id="bird2"    src={heroBird2}   cls="hero-bird2"
+              selected={selectedGraphic} popupOpen={popupOpen}
+              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-            {/* Wii Remote — left edge */}
-            <img className="hero-wii" src={heroWii} alt="" aria-hidden />
+            <HeroGraphic id="bird1"    src={heroBird1}   cls="hero-bird1"
+              selected={selectedGraphic} popupOpen={popupOpen}
+              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-            {/* Green person (meGreen) — left center */}
-            <img ref={heroMeRef} className="hero-me-green" src={heroMeGreen} alt="" aria-hidden />
+            <HeroGraphic id="bird3"    src={heroBird3}   cls="hero-bird3"
+              selected={selectedGraphic} popupOpen={popupOpen}
+              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-            {/* iPod — right side */}
-            <img className="hero-ipod" src={heroIpod} alt="" aria-hidden />
+            <HeroGraphic id="wii"      src={heroWii}     cls="hero-wii"      mode="infer"
+              selected={selectedGraphic} popupOpen={popupOpen}
+              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-            {/* Mac — bottom right */}
-            <img className="hero-mac" src={heroMac} alt="" aria-hidden />
+            <HeroGraphic id="me-green" src={heroMeGreen} cls="hero-me-green"
+              selected={selectedGraphic} popupOpen={popupOpen}
+              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-            {/* Guitar kid — far right */}
-            <img className="hero-guitar" src={heroGuitar} alt="" aria-hidden />
+            <HeroGraphic id="ipod"     src={heroIpod}    cls="hero-ipod"    mode="infer"
+              selected={selectedGraphic} popupOpen={popupOpen}
+              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+
+            <HeroGraphic id="mac"      src={heroMac}     cls="hero-mac"     mode="infer"
+              selected={selectedGraphic} popupOpen={popupOpen}
+              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+
+            <HeroGraphic id="guitar"   src={heroGuitar}  cls="hero-guitar"  mode="infer"
+              selected={selectedGraphic} popupOpen={popupOpen}
+              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
             {/* Star ring */}
             <div className="hero-stars" aria-hidden>
@@ -395,7 +518,7 @@ export default function Home() {
           {/* ── Works grid ────────────────────────────────────────────────── */}
           <section className="works" ref={worksRef}>
             <div className="works-header">
-              <h2 className="works-heading">featured work</h2>
+              <h2 className="works-heading">Featured work</h2>
               <p className="works-subtitle">a collection of some of my latest projects</p>
             </div>
             <div className="works-grid" key={worksKey}>
@@ -404,7 +527,6 @@ export default function Home() {
                 artworkAlt="Rocket Lawyer"
                 title="Rocket Lawyer"
                 description="redefining AI software through data-driven research"
-                slug="rocket-lawyer"
                 isGif
                 to="/work/rocket-lawyer"
               />
@@ -413,7 +535,6 @@ export default function Home() {
                 artworkAlt="Streets"
                 title="Streets"
                 description="design engineering enterprise B2B software"
-                slug="streets"
                 isGif
               />
               <WorkCard
@@ -421,7 +542,6 @@ export default function Home() {
                 artworkAlt="Findy"
                 title="Findy"
                 description="a case-competition winning solution built for elders, tested by elders"
-                slug="findy"
                 isGif
                 to="/work/findy"
               />
@@ -430,7 +550,6 @@ export default function Home() {
                 artworkAlt="Aura"
                 title="Aura"
                 description="connecting users with algorithmic accountability and motivation"
-                slug="aura"
                 isGif
               />
             </div>
@@ -463,26 +582,6 @@ export default function Home() {
       </div>
 
       {/* ── Fixed top nav ────────────────────────────────────────────────── */}
-      <div className="hero-topnav">
-        <button className="hero-topnav-logo" onClick={() => goTo(0)}>
-          <img src={navCat} alt="" className="hero-topnav-cat" />
-          <div className="hero-topnav-identity">
-            <span className="hero-topnav-name">Armin Mohammadi</span>
-            <span className="hero-topnav-role">Product Designer</span>
-          </div>
-        </button>
-        <div className={`hero-topnav-contact${page !== 0 ? ' hero-topnav-contact--hidden' : ''}`}>
-          <a href="https://www.linkedin.com/in/arminmoh" target="_blank" rel="noreferrer" className="hero-topnav-icon-link">
-            <img src={navLinkedin} alt="LinkedIn" width={30} height={29} />
-          </a>
-          <a href="mailto:arminmohammadi1342@gmail.com" className="hero-topnav-icon-link">
-            <img src={navEmail} alt="Email" width={29} height={22} />
-          </a>
-          <button className="hero-topnav-icon-link" aria-label="Resume" onClick={() => setResumeOpen(true)}>
-            <img src={navResume} alt="Resume" width={22} height={27} />
-          </button>
-        </div>
-      </div>
 
       <Navbar
         onWork={() => goTo(1)}

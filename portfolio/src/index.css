@@ -28,10 +28,11 @@
   --content-max: 1240px;
 
   /* Case-study fixed sidebar width, reused for margin-left/width pairing. */
-  --sidebar-width: 220px;
+  --sidebar-width: 272px;
 
   /* Type scale */
-  --text-xs: 12px;
+  --text-2xs: 12px;
+  --text-xs: 14px;
   --text-base: 16px;
   --text-lg: 20px;
   --text-xl: 24px;

@@ -1,13 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import './FindyCaseStudy.css'
+import CsTopbar from '../components/CsTopbar'
 
 import findyHeroFrame from '../assets/images/findy-cs-hero-frame.png'
 import orgUci from '../assets/images/org-uci.png'
-import navCat from '../assets/images/nav-cat.svg'
-import navLinkedin from '../assets/images/nav-linkedin.png'
-import navEmail from '../assets/images/nav-email.png'
-import navResume from '../assets/images/nav-resume.png'
 import researchCard from '../assets/images/findy-cs-research-card.png'
 import researchPhotos from '../assets/images/findy-cs-research-photos.png'
 import insights from '../assets/images/findy-cs-insights.png'
@@ -53,8 +50,7 @@ const EASE_X1 = 0.76, EASE_Y1 = 0, EASE_X2 = 0.24, EASE_Y2 = 1
 const SCROLL_DURATION = 650
 
 export default function FindyCaseStudy() {
-  const [active, setActive] = useState('problem')
-  const [resumeOpen, setResumeOpen] = useState(false)
+  const [active, setActive] = useState('')
   const targetYRef = useRef(0)
   const currentYRef = useRef(0)
   const rafRef = useRef<number | null>(null)
@@ -111,7 +107,7 @@ export default function FindyCaseStudy() {
 
     function update() {
       const threshold = window.innerHeight * 0.35
-      let found = routable[0].id
+      let found = ''
       for (const { id } of routable) {
         const el = document.getElementById(id)
         if (!el) continue
@@ -178,27 +174,7 @@ export default function FindyCaseStudy() {
   return (
     <div className="fcs-page">
 
-      {/* ── Fixed top bar ── */}
-      <header className="fcs-topbar">
-        <Link to="/" className="fcs-topbar-logo">
-          <img src={navCat} alt="" className="fcs-topbar-cat" />
-          <div className="fcs-topbar-identity">
-            <span className="fcs-topbar-name">Armin Mohammadi</span>
-            <span className="fcs-topbar-role">Product Designer</span>
-          </div>
-        </Link>
-        <div className="fcs-topbar-contact">
-          <a href="https://www.linkedin.com/in/arminmoh" target="_blank" rel="noreferrer" className="fcs-topbar-icon">
-            <img src={navLinkedin} alt="LinkedIn" width={30} height={29} />
-          </a>
-          <a href="mailto:arminmohammadi1342@gmail.com" className="fcs-topbar-icon">
-            <img src={navEmail} alt="Email" width={29} height={22} />
-          </a>
-          <button className="fcs-topbar-icon" aria-label="Resume" onClick={() => setResumeOpen(true)}>
-            <img src={navResume} alt="Resume" width={22} height={27} />
-          </button>
-        </div>
-      </header>
+      <CsTopbar showAtTop />
 
       <div className="fcs-body">
 
@@ -211,7 +187,7 @@ export default function FindyCaseStudy() {
                 className={[
                   'fcs-nav-item',
                   !routable && id !== '' ? 'fcs-nav-item--soon' : '',
-                  active === id && id !== '' ? 'fcs-nav-item--active' : '',
+                  active === id ? 'fcs-nav-item--active' : '',
                 ].filter(Boolean).join(' ')}
                 onClick={() => (routable || id === '') ? scrollTo(id) : undefined}
                 disabled={!routable && id !== ''}
@@ -399,20 +375,6 @@ export default function FindyCaseStudy() {
 
       </div>
 
-      {/* Resume modal */}
-      {resumeOpen && (
-        <div className="fcs-resume-overlay" onClick={() => setResumeOpen(false)}>
-          <div className="fcs-resume-modal" onClick={e => e.stopPropagation()}>
-            <button className="fcs-resume-close" onClick={() => setResumeOpen(false)}>×</button>
-            <iframe
-              className="fcs-resume-iframe"
-              src="https://embed.figma.com/proto/leZEBxJorC3mH2RtuKTTQN/Resume?node-id=1-3&viewport=-3405%2C1260%2C1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share"
-              allowFullScreen
-              title="Resume"
-            />
-          </div>
-        </div>
-      )}
     </div>
   )
 }

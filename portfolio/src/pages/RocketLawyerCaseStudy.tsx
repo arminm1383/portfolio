@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import './FindyCaseStudy.css'
+import CsTopbar from '../components/CsTopbar'
 
-import rocketHeroFrame from '../assets/images/rocket-cs-hero-frame.png'
-import rocketArtwork from '../assets/images/rocket-artwork.png'
+import rocketHeroGif from '../assets/images/rocket-cs-hero-new.gif'
 import rocketDiagram from '../assets/images/rocket-cs-diagram.png'
 import rocketChart from '../assets/images/rocket-cs-chart.png'
 import rocketAffinityMap from '../assets/images/rocket-cs-affinity-map.png'
@@ -19,10 +19,6 @@ import rqIcon3 from '../assets/images/rq-icon-3.svg'
 import orgRocket from '../assets/images/org-rocket.png'
 import orgUci from '../assets/images/org-uci.png'
 import orgStreets from '../assets/images/org-streets.png'
-import navCat from '../assets/images/nav-cat.svg'
-import navLinkedin from '../assets/images/nav-linkedin.png'
-import navEmail from '../assets/images/nav-email.png'
-import navResume from '../assets/images/nav-resume.png'
 import findyGif from '../assets/images/FindyGif.gif'
 import streetsGif from '../assets/images/streetsgif.gif'
 
@@ -55,9 +51,36 @@ function cubicBezierEase(t: number, x1: number, y1: number, x2: number, y2: numb
 const EASE_X1 = 0.76, EASE_Y1 = 0, EASE_X2 = 0.24, EASE_Y2 = 1
 const SCROLL_DURATION = 650
 
+function CountUp({ to, decimals = 0 }: { to: number; decimals?: number }) {
+  const [val, setVal] = useState(0)
+  const spanRef = useRef<HTMLSpanElement>(null)
+
+  useEffect(() => {
+    const el = spanRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return
+      obs.disconnect()
+      const start = performance.now()
+      const dur = 650
+      function frame(now: number) {
+        const t = Math.min((now - start) / dur, 1)
+        const eased = 1 - Math.pow(1 - t, 3)
+        setVal(eased * to)
+        if (t < 1) requestAnimationFrame(frame)
+        else setVal(to)
+      }
+      requestAnimationFrame(frame)
+    }, { threshold: 0.4 })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [to])
+
+  return <span ref={spanRef}>{val.toFixed(decimals)}%</span>
+}
+
 export default function RocketLawyerCaseStudy() {
-  const [active, setActive] = useState('problem')
-  const [resumeOpen, setResumeOpen] = useState(false)
+  const [active, setActive] = useState('')
   const targetYRef = useRef(0)
   const currentYRef = useRef(0)
   const rafRef = useRef<number | null>(null)
@@ -110,7 +133,7 @@ export default function RocketLawyerCaseStudy() {
     const routable = NAV_ITEMS.filter(i => i.routable)
     function update() {
       const threshold = window.innerHeight * 0.35
-      let found = routable[0].id
+      let found = ''
       for (const { id } of routable) {
         const el = document.getElementById(id)
         if (!el) continue
@@ -166,28 +189,9 @@ export default function RocketLawyerCaseStudy() {
   }, [])
 
   return (
-    <div className="fcs-page">
+    <div className="fcs-page fcs-page--rocket">
 
-      <header className="fcs-topbar">
-        <Link to="/" className="fcs-topbar-logo">
-          <img src={navCat} alt="" className="fcs-topbar-cat" />
-          <div className="fcs-topbar-identity">
-            <span className="fcs-topbar-name">Armin Mohammadi</span>
-            <span className="fcs-topbar-role">Product Designer</span>
-          </div>
-        </Link>
-        <div className="fcs-topbar-contact">
-          <a href="https://www.linkedin.com/in/arminmoh" target="_blank" rel="noreferrer" className="fcs-topbar-icon">
-            <img src={navLinkedin} alt="LinkedIn" width={30} height={29} />
-          </a>
-          <a href="mailto:arminmohammadi1342@gmail.com" className="fcs-topbar-icon">
-            <img src={navEmail} alt="Email" width={29} height={22} />
-          </a>
-          <button className="fcs-topbar-icon" aria-label="Resume" onClick={() => setResumeOpen(true)}>
-            <img src={navResume} alt="Resume" width={22} height={27} />
-          </button>
-        </div>
-      </header>
+      <CsTopbar showAtTop />
 
       <div className="fcs-body">
 
@@ -198,7 +202,7 @@ export default function RocketLawyerCaseStudy() {
                 key={`${label}-${i}`}
                 className={[
                   'fcs-nav-item',
-                  active === id && id !== '' ? 'fcs-nav-item--active' : '',
+                  active === id ? 'fcs-nav-item--active' : '',
                 ].filter(Boolean).join(' ')}
                 onClick={() => scrollTo(id)}
               >
@@ -213,19 +217,18 @@ export default function RocketLawyerCaseStudy() {
 
             {/* ── Header ── */}
             <header className="fcs-header">
-              <div className="fcs-hero-frame-container fcs-hero-rocket">
-                <img src={rocketHeroFrame} alt="" className="fcs-rocket-main" draggable={false} />
-                <img src={rocketArtwork} alt="" className="fcs-rocket-artwork" draggable={false} />
+              <div className="fcs-name-org">
+                <div className="fcs-org-row">
+                  <img src={orgRocket} alt="" className="fcs-org-logo" />
+                  <span className="fcs-org-name">Rocket Lawyer</span>
+                </div>
+                <h1 className="fcs-title">Rocket Copilot</h1>
               </div>
-              <div className="fcs-org-row">
-                <img src={orgRocket} alt="" className="fcs-org-logo" />
-                <span className="fcs-org-name">Rocket Lawyer</span>
-              </div>
-              <h1 className="fcs-title">Rocket Copilot</h1>
+              <img src={rocketHeroGif} alt="" className="fcs-hero-single" draggable={false} />
               <div className="fcs-tags">
                 <div className="fcs-tag">
                   <span className="fcs-tag-label">Role</span>
-                  <span className="fcs-tag-value">UI/UX Intern</span>
+                  <span className="fcs-tag-value">UX Research Intern</span>
                 </div>
                 <div className="fcs-tag">
                   <span className="fcs-tag-label">Timeline</span>
@@ -263,6 +266,12 @@ export default function RocketLawyerCaseStudy() {
                 that puts customer insights at the forefront of every design project.
               </p>
               <img src={rocketDiagram} alt="" className="fcs-section-img" draggable={false} />
+              <p className="fcs-media-caption-red">Design System Component for Copilot Sidebar Menu</p>
+              <p className="fcs-section-body">
+                In addition to ux research, AI was used to help integrate connectivity with upgraded
+                design systems, using Claude skills and Design Engineering principles to update the
+                updated visuals, components typography attributes.
+              </p>
             </section>
 
             {/* ── Problem ── */}
@@ -271,9 +280,30 @@ export default function RocketLawyerCaseStudy() {
               <h2 className="fcs-section-heading">Negotiate &amp; Sign felt Disconnected from User Needs</h2>
               <p className="fcs-section-body">
                 Users' business needs were not quite captured by the existing E2E flows, with Copilot
-                support being geared towards conversational support rather than assisting an organized,
-                centralized workspace.
+                seemingly feeling misaligned with what small business cohorts need to continue using
+                the platform.
               </p>
+
+              <div className="fcs-problem-stats">
+                <div className="fcs-problem-stat">
+                  <span className="fcs-problem-stat-num"><CountUp to={26.9} decimals={1} /></span>
+                  <p className="fcs-problem-stat-text">drop in subscription rates over the course of 3 months</p>
+                </div>
+                <div className="fcs-problem-stat">
+                  <span className="fcs-problem-stat-num"><CountUp to={44} decimals={0} /></span>
+                  <p className="fcs-problem-stat-text">drop in weekly user activity after 3 weeks of use</p>
+                </div>
+                <div className="fcs-problem-stat">
+                  <span className="fcs-problem-stat-num"><CountUp to={13.7} decimals={1} /></span>
+                  <p className="fcs-problem-stat-text">drop in Copilot Usage over the course of 3 months</p>
+                </div>
+              </div>
+
+              <p className="fcs-section-body">
+                To address this, we centered our study around addressing user concerns in hopes of
+                better optimizing Rocket Lawyer for the aforementioned business metrics.
+              </p>
+
               <div className="fcs-rq-card">
                 <span className="fcs-rq-label">Research Questions</span>
                 <div className="fcs-rq-item">
@@ -296,35 +326,6 @@ export default function RocketLawyerCaseStudy() {
             {/* ── Research ── */}
             <section className="fcs-section" id="research">
               <span className="fcs-section-label">Research</span>
-              <h2 className="fcs-section-heading">Drafting a Study on User Behavior</h2>
-              <p className="fcs-section-body">
-                Standard UX research methodologies were deployed to extract both quantitative and
-                qualitative insights and inform iterative cross-functional development.
-              </p>
-
-              <div className="fcs-core-task-card">
-                <span className="fcs-core-task-label">The Core Task</span>
-                <div className="fcs-core-task-row">
-                  <p className="fcs-core-task-body">
-                    To <strong className="fcs-core-task-highlight">engage in UX research methodologies to better understand our users' pain points,</strong> serving as a perfect opportunity for me to experiment and build my AI-powered research pipeline.
-                  </p>
-                  <div className="fcs-core-task-badges">
-                    <span className="fcs-stat-badge-rocket">6 User &amp; Attorney Interviews Conducted</span>
-                    <span className="fcs-stat-badge-rocket">7 Usability Tests Launched</span>
-                    <span className="fcs-stat-badge-rocket">100+ Users Surveyed</span>
-                  </div>
-                </div>
-              </div>
-
-              <h3 className="fcs-subsection-heading">Quantifying our Users</h3>
-              <p className="fcs-section-body">
-                UserTesting was used to connect with 100+ Rocket Lawyer users, gathering a high-level
-                understanding of the research themes further explored through user interviews.
-              </p>
-              <div className="fcs-media-card">
-                <img src={rocketChart} alt="Survey results chart" className="fcs-media-card-img fcs-media-chart" draggable={false} />
-              </div>
-
               <h3 className="fcs-subsection-heading">Automating the Workflow</h3>
               <p className="fcs-section-body">
                 Beyond traditional methods for developing user tests, I created an AI pipeline to automate
@@ -338,6 +339,15 @@ export default function RocketLawyerCaseStudy() {
                   </div>
                 </div>
                 <p className="fcs-media-caption-red">Building User Tests using Claude Cowork and Chrome &amp; Figma MCPs</p>
+              </div>
+
+              <h3 className="fcs-subsection-heading">Quantifying our Users</h3>
+              <p className="fcs-section-body">
+                UserTesting was used to connect with 100+ Rocket Lawyer users, gathering a high-level
+                understanding of the research themes further explored through user interviews.
+              </p>
+              <div className="fcs-media-card">
+                <img src={rocketChart} alt="Survey results chart" className="fcs-media-card-img fcs-media-chart" draggable={false} />
               </div>
 
               <h3 className="fcs-subsection-heading">Talking to Customers</h3>
@@ -369,7 +379,7 @@ export default function RocketLawyerCaseStudy() {
                 <div className="fcs-media-card-inner">
                   <img src={rocketAffinityMap} alt="Affinity map of user interview insights" className="fcs-media-card-img" draggable={false} />
                 </div>
-                <p className="fcs-media-caption-red">Affinity Map Breaking Down User Interview Insights into Themes</p>
+                <p className="fcs-media-caption-red">Affinity Map Breaking Down User Interview Insights into Thematic Analysis</p>
               </div>
 
               <h3 className="fcs-subsection-heading">Synthesizing Findings into Themes</h3>
@@ -436,6 +446,18 @@ export default function RocketLawyerCaseStudy() {
                   <img src={rocketCommsTimeline} alt="Communication timeline design recommendation" className="fcs-rec-image" draggable={false} />
                 </div>
               </div>
+
+              <div className="fcs-rec-subsection">
+                <h3 className="fcs-rec-heading">Building the Business Center for Information Management</h3>
+                <p className="fcs-section-body">
+                  The following design recommendations were built to help inform potential future directions
+                  for the experience. While not directly implemented, their existence shaped the trajectory
+                  of the iterative project.
+                </p>
+                <div className="fcs-rec-image-wrap">
+                  <img src={rocketVersionHistory} alt="Business center design recommendation" className="fcs-rec-image" draggable={false} />
+                </div>
+              </div>
             </section>
 
             {/* ── Solution & Results ── */}
@@ -450,14 +472,6 @@ export default function RocketLawyerCaseStudy() {
               <div className="fcs-rec-image-wrap">
                 <img src={rocketVersionHistory} alt="Copilot dashboard solution" className="fcs-rec-image" draggable={false} />
               </div>
-
-              <h3 className="fcs-subsection-heading">Redefining UX Research at Rocket Lawyer</h3>
-              <p className="fcs-section-body">
-                The following design recommendations were built to help inform potential future directions
-                for the experience. While not directly implemented, their existence shaped the trajectory
-                of the iterative project.
-              </p>
-              <div className="fcs-solution-placeholder" aria-hidden="true" />
             </section>
 
             {/* ── Reflections ── */}
@@ -522,19 +536,6 @@ export default function RocketLawyerCaseStudy() {
 
       </div>
 
-      {resumeOpen && (
-        <div className="fcs-resume-overlay" onClick={() => setResumeOpen(false)}>
-          <div className="fcs-resume-modal" onClick={e => e.stopPropagation()}>
-            <button className="fcs-resume-close" onClick={() => setResumeOpen(false)}>×</button>
-            <iframe
-              className="fcs-resume-iframe"
-              src="https://embed.figma.com/proto/leZEBxJorC3mH2RtuKTTQN/Resume?node-id=1-3&viewport=-3405%2C1260%2C1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share"
-              allowFullScreen
-              title="Resume"
-            />
-          </div>
-        </div>
-      )}
     </div>
   )
 }

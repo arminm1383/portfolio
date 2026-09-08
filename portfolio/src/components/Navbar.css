@@ -13,14 +13,14 @@
   position: relative;
   display: flex;
   width: auto;
-  height: 86px;
+  height: 62px;
   justify-content: center;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-2);
   /* responsive horizontal padding */
-  padding: 0 clamp(var(--space-3), 3.5vw, var(--space-7));
+  padding: 0 clamp(var(--space-3), 3.5vw, var(--space-6));
   /* responsive pill rounding */
-  border-radius: clamp(12px, 3.5vw, 24px);
+  border-radius: clamp(10px, 3.5vw, 18px);
   opacity: 0.95;
   background: rgba(120, 120, 120, 0.25);
   box-shadow:
@@ -49,11 +49,11 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-1);
-  padding: var(--space-2) var(--space-4);
-  border-radius: 8px;
+  padding: var(--space-1) var(--space-3);
+  border-radius: 6px;
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
   font-weight: 400;
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   line-height: normal;
   color: #000;
   text-decoration: none;

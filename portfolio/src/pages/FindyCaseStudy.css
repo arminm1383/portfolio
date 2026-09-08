@@ -90,24 +90,20 @@
 /* ── Layout ── */
 .fcs-body {
   margin-left: var(--sidebar-width);
-  padding-top: var(--space-18); /* clear the fixed top bar */
 }
 
 /* ── Sidebar — fixed, always present ── */
 .fcs-sidebar {
   position: fixed;
   left: 0;
-  top: 72px; /* below top bar */
+  top: 0;
   width: var(--sidebar-width);
-  height: calc(100vh - 72px);
-  background-color: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  height: 100vh;
   border-right: 0.5px solid rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: flex-start;
-  padding-top: var(--space-10);
-  padding-left: var(--space-10);
+  padding-top: 100px;
+  padding-left: 37px;
   z-index: 200;
   box-sizing: border-box;
 }
@@ -128,24 +124,26 @@
   border: none;
   cursor: pointer;
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: var(--text-base);
-  font-weight: 700;
-  color: #000000;
+  font-size: 14;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
   padding: 0;
-  margin-bottom: var(--space-5);
+  margin-bottom: 24px;
   text-align: left;
   white-space: normal;
   word-break: break-word;
   line-height: 1.3;
+  letter-spacing: -0.32px;
+  text-transform: uppercase;
   transition: color 0.2s;
 }
 
-/* Active / selected section — 50% opacity */
+/* Active / selected section — full opacity */
 .fcs-nav-item--active {
-  color: rgba(0, 0, 0, 0.5);
+  color: #000;
 }
 
-/* Non-routable items — still full black, no pointer */
+/* Non-routable items — no pointer */
 .fcs-nav-item--soon {
   cursor: default;
 }
@@ -192,14 +190,14 @@
 }
 
 .fcs-inner {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0;
-  padding: 0 var(--space-12) 0 124px;
+  padding: 0 var(--space-12) 0 164px;
 }
 
 /* ── Header / Hero ── */
 .fcs-header {
-  padding-top: var(--space-9);
+  padding-top: 100px;
   padding-bottom: var(--space-12);
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 0;
@@ -208,8 +206,8 @@
 /* Hero frame image — bleeds out of fcs-inner's padding to fill the full container width */
 .fcs-hero-frame {
   display: block;
-  width: calc(100% + 124px + var(--space-12));
-  margin-left: -124px;
+  width: calc(100% + 164px + var(--space-12));
+  margin-left: -164px;
   margin-right: calc(-1 * var(--space-12));
   margin-bottom: var(--space-9);
   aspect-ratio: 860 / 396;
@@ -222,8 +220,8 @@
 .fcs-hero-frame-container {
   position: relative;
   display: block;
-  width: calc(100% + 124px + var(--space-12));
-  margin-left: -124px;
+  width: calc(100% + 164px + var(--space-12));
+  margin-left: -164px;
   margin-right: calc(-1 * var(--space-12));
   margin-bottom: var(--space-9);
   aspect-ratio: 860 / 396;
@@ -353,7 +351,12 @@
 
 /* ── Content sections ── */
 .fcs-section {
-  padding-top: var(--space-16);
+  padding-top: 100px;
+}
+
+/* First section directly after header keeps the 64px header→content gap */
+.fcs-header + .fcs-section {
+  padding-top: 64px;
 }
 
 .fcs-section-label {
@@ -374,8 +377,8 @@
   font-weight: 400;
   line-height: 1.2;
   color: #000;
-  margin: 0 0 var(--space-6);
-  letter-spacing: -0.72px;
+  margin: 0 0 12px;
+  letter-spacing: -0.64px;
 }
 
 .fcs-section-body {
@@ -384,7 +387,7 @@
   line-height: 36px;
   color: #000;
   margin: 0 0 var(--space-9);
-  max-width: 860px;
+  max-width: 900px;
   letter-spacing: -0.4px;
 }
 
@@ -392,7 +395,7 @@
 .fcs-tag-values {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: var(--space-2);
 }
 
 /* ── Research Questions card ── */
@@ -410,9 +413,9 @@
 .fcs-rq-label {
   display: block;
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: -0.32px;
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.5);
 }
@@ -460,9 +463,9 @@
 .fcs-core-task-label {
   display: block;
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: -0.32px;
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.45);
   margin-bottom: var(--space-4);
@@ -476,17 +479,17 @@
   background: rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   font-weight: 500;
   color: rgba(0, 0, 0, 0.7);
-  letter-spacing: -0.28px;
+  letter-spacing: -0.32px;
   white-space: nowrap;
 }
 
 /* ── Image caption ── */
 .fcs-img-caption {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   color: rgba(0, 0, 0, 0.5);
   letter-spacing: -0.28px;
   line-height: 1.5;
@@ -692,12 +695,12 @@
 
 .fcs-upnext-heading {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: var(--fluid-heading-4xl);
+  font-size: var(--text-3xl);
   font-weight: 400;
   color: #000;
   margin: 0 0 var(--space-8);
-  letter-spacing: -0.8px;
-  line-height: 1.1;
+  letter-spacing: -0.64px;
+  line-height: 1.2;
 }
 
 .fcs-upnext-cards {
@@ -807,7 +810,7 @@
   background: rgba(248, 40, 40, 0.24);
   box-shadow: inset 0 0 0 1px rgba(135, 45, 45, 0.1);
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 13px;
+  font-size: var(--text-2xs);
   font-weight: 600;
   color: #991b1d;
   white-space: nowrap;
@@ -875,7 +878,7 @@
 
 .fcs-media-caption-red {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 15px;
+  font-size: var(--text-xs);
   font-weight: 700;
   color: #991b1d;
   text-align: center;
@@ -920,7 +923,7 @@
 
 .fcs-quote-attr {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 15px;
+  font-size: var(--text-xs);
   font-weight: 700;
   color: #991b1d;
   line-height: 1.2;
@@ -928,7 +931,7 @@
 
 .fcs-quote-text {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 17px;
+  font-size: var(--text-base);
   font-weight: 600;
   color: #1c1c1a;
   line-height: 28px;
@@ -976,7 +979,7 @@
 
 .fcs-theme-title {
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 15px;
+  font-size: var(--text-xs);
   font-weight: 700;
   color: #991b1d;
   line-height: 1.2;
@@ -1068,4 +1071,136 @@
   opacity: 0.75;
   margin: 0;
   line-height: 1.5;
+}
+
+/* ── Rocket Lawyer typography scale ── */
+.fcs-page--rocket .fcs-org-name {
+  font-size: var(--text-base);
+  letter-spacing: -0.32px;
+}
+
+.fcs-page--rocket .fcs-title {
+  font-size: var(--text-3xl);
+  letter-spacing: -0.64px;
+}
+
+.fcs-page--rocket .fcs-tag-label {
+  font-size: var(--text-base);
+  letter-spacing: -0.32px;
+}
+
+.fcs-page--rocket .fcs-tag-value {
+  font-size: var(--text-base);
+  letter-spacing: -0.32px;
+}
+
+.fcs-page--rocket .fcs-section-label {
+  font-size: var(--text-base);
+  letter-spacing: -0.32px;
+}
+
+.fcs-page--rocket .fcs-section-heading {
+  font-size: var(--text-xl);
+  letter-spacing: -0.48px;
+}
+
+.fcs-page--rocket .fcs-section-body {
+  font-size: var(--text-base);
+  line-height: 32px;
+  letter-spacing: 0;
+}
+
+.fcs-page--rocket .fcs-subsection-heading {
+  font-size: var(--text-xl);
+  letter-spacing: -0.48px;
+}
+
+.fcs-page--rocket .fcs-rec-heading {
+  font-size: var(--text-xl);
+  letter-spacing: -0.48px;
+}
+
+/* ── Rocket Lawyer: header flex layout ── */
+.fcs-page--rocket .fcs-header {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-bottom: var(--space-12);
+}
+
+.fcs-page--rocket .fcs-title {
+  margin: 0;
+}
+
+.fcs-page--rocket .fcs-org-row {
+  margin-bottom: 0;
+}
+
+.fcs-page--rocket .fcs-tags {
+  border-top: none;
+  padding-top: 0;
+}
+
+/* ── Name + Org stacked container ── */
+.fcs-name-org {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ── Single hero image (Rocket Lawyer header) ── */
+.fcs-hero-single {
+  display: block;
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), inset 0 4px 4px rgba(0, 0, 0, 0.04);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Problem stats (Rocket Lawyer) — Figma node 976:22673 ── */
+.fcs-problem-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin: 24px 0;
+  line-height: 28px;
+}
+
+.fcs-problem-stat {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 32px;
+  padding: 16px 32px;
+  border-radius: 12px;
+  /* drop-shadow as filter so it respects border-radius on transparent bg */
+  filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.12));
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fcs-problem-stat-num {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: #991b1d;
+  line-height: 1;
+  width: 103px;
+  flex-shrink: 0;
+}
+
+.fcs-problem-stat-text {
+  flex: 1;
+  min-width: 0;
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.75);
+  line-height: 28px;
+  margin: 0;
 }
