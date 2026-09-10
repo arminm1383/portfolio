@@ -80,11 +80,14 @@ function AmLMPopup({ onStop }: { onStop: (e: React.MouseEvent) => void }) {
 //            backgrounds are opaque near-white (Mac, iPod, Wii SVG, guitar).
 //            Uses the same simple 2-direction row scan as 'alpha' to avoid the
 //            self-intersecting polygon that caused the "double outline" bug.
+interface OutlineBbox { minX: number; minY: number; maxX: number; maxY: number }
+
 function useAlphaOutline(
   ref: React.RefObject<HTMLImageElement | null>,
   mode: 'alpha' | 'infer' = 'alpha',
-): string {
+): { pts: string; bbox: OutlineBbox | null } {
   const [pts, setPts] = useState('')
+  const [bbox, setBbox] = useState<OutlineBbox | null>(null)
 
   useEffect(() => {
     const img = ref.current
@@ -148,6 +151,15 @@ function useAlphaOutline(
         }
 
         if (left.length > 2) {
+          const allPts = [...left, ...right]
+          const xs = allPts.map(([x]) => x)
+          const ys = allPts.map(([, y]) => y)
+          setBbox({
+            minX: Math.min(...xs),
+            minY: Math.min(...ys),
+            maxX: Math.max(...xs),
+            maxY: Math.max(...ys),
+          })
           setPts([...left, ...right.reverse()]
             .map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`)
             .join(','))
@@ -162,7 +174,7 @@ function useAlphaOutline(
     }
   }, [ref, mode])
 
-  return pts
+  return { pts, bbox }
 }
 
 // ── Selectable hero graphic wrapper ──────────────────────────────────────────
@@ -180,8 +192,12 @@ interface HeroGraphicProps {
 
 function HeroGraphic({ id, src, cls, mode = 'alpha', selected, popupOpen, onSelect, onTag, onPopupStop }: HeroGraphicProps) {
   const imgRef = useRef<HTMLImageElement>(null)
-  const outlinePts = useAlphaOutline(imgRef, mode)
+  const { pts: outlinePts, bbox } = useAlphaOutline(imgRef, mode)
   const isSelected = selected === id
+
+  const anchorStyle: React.CSSProperties = bbox
+    ? { left: `${bbox.maxX}%`, top: `${bbox.minY}%`, transform: 'translate(-50%, -50%)' }
+    : { right: '4px', top: '4px' }
 
   return (
     <div
@@ -203,8 +219,12 @@ function HeroGraphic({ id, src, cls, mode = 'alpha', selected, popupOpen, onSele
           />
         )}
       </svg>
-      {isSelected && <AmLMTag onClick={onTag} />}
-      {isSelected && popupOpen && <AmLMPopup onStop={onPopupStop} />}
+      {isSelected && (
+        <div className="amlm-anchor" style={anchorStyle}>
+          <AmLMTag onClick={onTag} />
+          {popupOpen && <AmLMPopup onStop={onPopupStop} />}
+        </div>
+      )}
     </div>
   )
 }

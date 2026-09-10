@@ -1549,6 +1549,150 @@
   color: #872d2d;
 }
 
+/* ── Before/After Container ── */
+/* Outer card */
+.fcs-ba {
+  width: 100%;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Tab bar */
+.fcs-ba-tabs {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.fcs-ba-tab {
+  flex: 1;
+  background: #f3f3f3;
+  border: none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 24px;
+  cursor: pointer;
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.32px;
+  line-height: 1.2;
+  color: rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+  user-select: none;
+}
+
+.fcs-ba-tab:hover {
+  background: #ebebeb;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.fcs-ba-tab-divider {
+  width: 1px;
+  background: rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+/* Animated red underline indicator — slides between tabs */
+.fcs-ba-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(50% - 0.5px);
+  height: 4px;
+  background: #991b1d;
+  transition: left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.fcs-ba-indicator--right {
+  left: calc(50% + 0.5px);
+}
+
+/* Mockup image area */
+.fcs-ba-mockup {
+  position: relative;
+  width: 100%;
+}
+
+/* Invisible sizer — AFTER image sets the container height */
+.fcs-ba-sizer {
+  display: block;
+  width: 100%;
+  height: auto;
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Each state is a panel absolutely covering the container */
+.fcs-ba-panel {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.fcs-ba-panel--active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* AFTER (and fill-mode BEFORE): full-bleed image */
+.fcs-ba-fill-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* BEFORE inset layout — white bg + framed mockup */
+/* Proportions from Figma: 898×642 container, image at top:44 left:12 w:873 h:553 */
+.fcs-ba-panel--inset {
+  background: #fff;
+}
+
+.fcs-ba-before-frame {
+  position: absolute;
+  top: 6.85%;    /* 44 / 642 */
+  left: 1.34%;   /* 12 / 898 */
+  right: 1.45%;  /* 13 / 898 */
+  height: 86.14%; /* 553 / 642 */
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.fcs-ba-frame-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Inset shadow on top of each panel */
+.fcs-ba-inset {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.04);
+}
+
 /* ── Rocket Lawyer: Solution placeholder ── */
 .fcs-solution-placeholder {
   height: 450px;
@@ -1605,14 +1749,41 @@
 .fcs-page--rocket .fcs-section              { padding-top: 56px; }
 .fcs-page--rocket .fcs-header + .fcs-section { padding-top: 72px; }
 
-/* ── Rocket Lawyer: consistent 16px gaps between content elements ── */
-.fcs-page--rocket .fcs-section-body   { margin-bottom: 16px; }
-.fcs-page--rocket .fcs-media-card     { margin-bottom: 16px; }
-.fcs-page--rocket .fcs-quote-card     { margin-bottom: 16px; }
-.fcs-page--rocket .fcs-rq-card        { margin-bottom: 16px; }
-.fcs-page--rocket .fcs-subsection-heading { margin-bottom: 12px; }
-.fcs-page--rocket .fcs-rec-subsection { margin-bottom: 48px; }
-.fcs-page--rocket .fcs-problem-stats  { margin: 16px 0; }
+/* ── Rocket Lawyer: 16px gaps between all content elements within a section ── */
+.fcs-page--rocket .fcs-section-label   { margin-bottom: 16px; }
+.fcs-page--rocket .fcs-section-heading { margin: 0 0 16px; }
+.fcs-page--rocket .fcs-section-body    { margin-bottom: 16px; }
+.fcs-page--rocket .fcs-media-card      { margin-bottom: 16px; }
+.fcs-page--rocket .fcs-quote-card      { margin-bottom: 16px; }
+.fcs-page--rocket .fcs-rq-card         { margin-bottom: 16px; }
+.fcs-page--rocket .fcs-subsection-heading { margin-bottom: 0; }
+.fcs-page--rocket .fcs-problem-stats   { margin: 0; }
+
+/* ── Subsection grouping — 56px between subsections, 16px within ── */
+/* Used inside both the Research and Design Recs sections */
+.fcs-sub-group {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.fcs-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Zero out internal margins so gap drives all spacing */
+.fcs-sub > * { margin: 0; }
+
+/* ── Rocket: design-rec subsections use the same flex-gap pattern ── */
+.fcs-page--rocket .fcs-rec-subsection {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.fcs-page--rocket .fcs-rec-subsection > * { margin: 0; }
 
 /* ── Rocket Lawyer typography scale ── */
 .fcs-page--rocket .fcs-org-name {

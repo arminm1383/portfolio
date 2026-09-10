@@ -14,8 +14,10 @@ import diagRL          from '../assets/images/rocket-cs-diag-rl.svg'
 import rocketChart from '../assets/images/rocket-cs-chart.png'
 import rocketAffinityMap from '../assets/images/rocket-cs-affinity-map.png'
 import rocketResearch from '../assets/images/rocket-cs-research.png'
-import rocketVersionHistory from '../assets/images/rocket-cs-version-history-new.png'
-import rocketCommsTimeline from '../assets/images/rocket-cs-comms-timeline-new.png'
+import rocketVersionHistoryBefore from '../assets/images/rocket-cs-version-history-before.png'
+import rocketVersionHistoryAfter  from '../assets/images/version-history.gif'
+import rocketCommsTimelineBefore  from '../assets/images/rocket-cs-comms-timeline.png'
+import rocketCommsTimelineAfter   from '../assets/images/rocket-cs-comms-timeline-new.png'
 import rocketBizCenter from '../assets/images/rocket-cs-biz-center.png'
 import rqIcon1 from '../assets/images/rq-icon-1.svg'
 import rqIcon2 from '../assets/images/rq-icon-2.svg'
@@ -53,6 +55,66 @@ function cubicBezierEase(t: number, x1: number, y1: number, x2: number, y2: numb
 
 const EASE_X1 = 0.76, EASE_Y1 = 0, EASE_X2 = 0.24, EASE_Y2 = 1
 const SCROLL_DURATION = 650
+
+function BeforeAfterContainer({
+  beforeSrc,
+  afterSrc,
+  beforeLayout = 'fill',
+}: {
+  beforeSrc: string
+  afterSrc: string
+  beforeLayout?: 'inset' | 'fill'
+}) {
+  const [active, setActive] = useState<'before' | 'after'>('after')
+
+  return (
+    <div className="fcs-ba">
+      <div className="fcs-ba-tabs">
+        <button
+          className="fcs-ba-tab"
+          onClick={() => setActive('before')}
+          aria-pressed={active === 'before'}
+        >
+          BEFORE
+        </button>
+        <div className="fcs-ba-tab-divider" aria-hidden />
+        <button
+          className="fcs-ba-tab"
+          onClick={() => setActive('after')}
+          aria-pressed={active === 'after'}
+        >
+          AFTER
+        </button>
+        <div
+          className={`fcs-ba-indicator${active === 'after' ? ' fcs-ba-indicator--right' : ''}`}
+          aria-hidden
+        />
+      </div>
+
+      <div className="fcs-ba-mockup">
+        <img src={afterSrc} alt="" className="fcs-ba-sizer" draggable={false} />
+
+        {/* AFTER panel */}
+        <div className={`fcs-ba-panel${active === 'after' ? ' fcs-ba-panel--active' : ''}`}>
+          <img src={afterSrc} alt="" className="fcs-ba-fill-img" draggable={false} />
+          <div className="fcs-ba-inset" aria-hidden />
+        </div>
+
+        {/* BEFORE panel */}
+        <div className={`fcs-ba-panel${beforeLayout === 'inset' ? ' fcs-ba-panel--inset' : ''}${active === 'before' ? ' fcs-ba-panel--active' : ''}`}>
+          {beforeLayout === 'inset' ? (
+            <div className="fcs-ba-before-frame">
+              <img src={beforeSrc} alt="" className="fcs-ba-frame-img" draggable={false} />
+            </div>
+          ) : (
+            <img src={beforeSrc} alt="" className="fcs-ba-fill-img" draggable={false} />
+          )}
+          <div className="fcs-ba-inset" aria-hidden />
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function CountUp({ to, decimals = 0 }: { to: number; decimals?: number }) {
   const [val, setVal] = useState(0)
@@ -347,65 +409,73 @@ export default function RocketLawyerCaseStudy() {
             <section className="fcs-section" id="research">
               <span className="fcs-section-label">Research</span>
 
-              <h3 className="fcs-subsection-heading">Automating the Workflow</h3>
-              <p className="fcs-section-body">
-                Beyond traditional methods for developing user tests, I created an AI pipeline to automate
-                the generation of direct comparison usability tests, experimented on throughout the
-                Negotiate &amp; Sign project.
-              </p>
-              <div className="fcs-media-card fcs-media-card--padded">
-                <div className="fcs-media-card-inner fcs-media-card-inner--frame">
-                  <div className="fcs-media-frame-overflow">
-                    <img src={rocketResearch} alt="AI pipeline for building user tests" className="fcs-media-card-img fcs-media-card-img--frame" draggable={false} />
+              <div className="fcs-sub-group">
+
+                <div className="fcs-sub">
+                  <h3 className="fcs-subsection-heading">Automating the Workflow</h3>
+                  <p className="fcs-section-body">
+                    Beyond traditional methods for developing user tests, I created an AI pipeline to automate
+                    the generation of direct comparison usability tests, experimented on throughout the
+                    Negotiate &amp; Sign project.
+                  </p>
+                  <div className="fcs-media-card fcs-media-card--padded">
+                    <div className="fcs-media-card-inner fcs-media-card-inner--frame">
+                      <div className="fcs-media-frame-overflow">
+                        <img src={rocketResearch} alt="AI pipeline for building user tests" className="fcs-media-card-img fcs-media-card-img--frame" draggable={false} />
+                      </div>
+                    </div>
+                    <p className="fcs-media-caption-red">Building User Tests using Claude Cowork and Chrome &amp; Figma MCPs</p>
                   </div>
                 </div>
-                <p className="fcs-media-caption-red">Building User Tests using Claude Cowork and Chrome &amp; Figma MCPs</p>
-              </div>
 
-              <h3 className="fcs-subsection-heading">Quantifying our Users</h3>
-              <p className="fcs-section-body">
-                UserTesting was used to connect with 100+ Rocket Lawyer users, gathering a high-level
-                understanding of the research themes further explored through user interviews.
-              </p>
-              <div className="fcs-media-card fcs-media-card--padded">
-                <div className="fcs-media-card-inner fcs-media-card-inner--chart">
-                  <div className="fcs-media-frame-overflow">
-                    <img src={rocketChart} alt="Building cohorts in Amplitude" className="fcs-media-card-img fcs-media-card-img--chart" draggable={false} />
+                <div className="fcs-sub">
+                  <h3 className="fcs-subsection-heading">Quantifying our Users</h3>
+                  <p className="fcs-section-body">
+                    UserTesting was used to connect with 100+ Rocket Lawyer users, gathering a high-level
+                    understanding of the research themes further explored through user interviews.
+                  </p>
+                  <div className="fcs-media-card fcs-media-card--padded">
+                    <div className="fcs-media-card-inner fcs-media-card-inner--chart">
+                      <div className="fcs-media-frame-overflow">
+                        <img src={rocketChart} alt="Building cohorts in Amplitude" className="fcs-media-card-img fcs-media-card-img--chart" draggable={false} />
+                      </div>
+                    </div>
+                    <p className="fcs-media-caption-red">Building Cohorts in Amplitude to Segment Copilot Use Cases</p>
                   </div>
                 </div>
-                <p className="fcs-media-caption-red">Building Cohorts in Amplitude to Segment Copilot Use Cases</p>
-              </div>
 
-              <h3 className="fcs-subsection-heading">Talking to Customers</h3>
-              <p className="fcs-section-body">
-                By conducting user interviews with both attorneys and Rocket Lawyer users, I surfaced
-                critical research themes that addressed user opinions towards everything from AI use and
-                document generation to case management and workspace organization.
-              </p>
-
-              <div className="fcs-quote-card">
-                <div className="fcs-quote-entry">
-                  <span className="fcs-quote-icon" aria-hidden="true">"</span>
-                  <div className="fcs-quote-content">
-                    <span className="fcs-quote-attr">Small-business owner</span>
-                    <p className="fcs-quote-text">"how do I have to get these pieces of critical information organized and communicated without constantly relying an attorney communication."</p>
+                <div className="fcs-sub">
+                  <h3 className="fcs-subsection-heading">Talking to Customers</h3>
+                  <p className="fcs-section-body">
+                    By conducting user interviews with both attorneys and Rocket Lawyer users, I surfaced
+                    critical research themes that addressed user opinions towards everything from AI use and
+                    document generation to case management and workspace organization.
+                  </p>
+                  <div className="fcs-quote-card">
+                    <div className="fcs-quote-entry">
+                      <span className="fcs-quote-icon" aria-hidden="true">"</span>
+                      <div className="fcs-quote-content">
+                        <span className="fcs-quote-attr">Small-business owner</span>
+                        <p className="fcs-quote-text">"how do I have to get these pieces of critical information organized and communicated without constantly relying an attorney communication."</p>
+                      </div>
+                    </div>
+                    <div className="fcs-quote-divider" />
+                    <div className="fcs-quote-entry">
+                      <span className="fcs-quote-icon" aria-hidden="true">"</span>
+                      <div className="fcs-quote-content">
+                        <span className="fcs-quote-attr">Attorney</span>
+                        <p className="fcs-quote-text">"at what point in the process is the core distinction of legal advice vs. information being communicated by Copilot"</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="fcs-media-card fcs-media-card--padded">
+                    <div className="fcs-media-card-inner">
+                      <img src={rocketAffinityMap} alt="Affinity map of user interview insights" className="fcs-media-card-img" draggable={false} />
+                    </div>
+                    <p className="fcs-media-caption-red">Affinity Map Breaking Down User Interview Insights into Thematic Analysis</p>
                   </div>
                 </div>
-                <div className="fcs-quote-divider" />
-                <div className="fcs-quote-entry">
-                  <span className="fcs-quote-icon" aria-hidden="true">"</span>
-                  <div className="fcs-quote-content">
-                    <span className="fcs-quote-attr">Attorney</span>
-                    <p className="fcs-quote-text">"at what point in the process is the core distinction of legal advice vs. information being communicated by Copilot"</p>
-                  </div>
-                </div>
-              </div>
 
-              <div className="fcs-media-card fcs-media-card--padded">
-                <div className="fcs-media-card-inner">
-                  <img src={rocketAffinityMap} alt="Affinity map of user interview insights" className="fcs-media-card-img" draggable={false} />
-                </div>
-                <p className="fcs-media-caption-red">Affinity Map Breaking Down User Interview Insights into Thematic Analysis</p>
               </div>
             </section>
 
@@ -413,52 +483,53 @@ export default function RocketLawyerCaseStudy() {
             <section className="fcs-section" id="design-recs">
               <span className="fcs-section-label">Design Recommendations</span>
 
-              <div className="fcs-rec-subsection">
-                <h3 className="fcs-rec-heading">Adding Version History to Track Changes over Time</h3>
-                <p className="fcs-section-body">
-                  The following design recommendations were built to help inform potential future directions
-                  for the experience. While not directly implemented, their existence shaped the trajectory
-                  of the iterative project.
-                </p>
-                <div className="fcs-rec-image-wrap">
-                  <img src={rocketVersionHistory} alt="Version history design recommendation" className="fcs-rec-image" draggable={false} />
-                </div>
-              </div>
+              <div className="fcs-sub-group">
 
-              <div className="fcs-rec-subsection">
-                <h3 className="fcs-rec-heading">Communication Timeline Managing Notifications and Statuses</h3>
-                <p className="fcs-section-body">
-                  The following design recommendations were built to help inform potential future directions
-                  for the experience. While not directly implemented, their existence shaped the trajectory
-                  of the iterative project.
-                </p>
-                <div className="fcs-rec-image-group">
-                  <div className="fcs-rec-image-wrap">
-                    <img src={rocketCommsTimeline} alt="Communication timeline design recommendation" className="fcs-rec-image" draggable={false} />
-                  </div>
-                  <div className="fcs-rec-toggle">
-                    <span className="fcs-rec-toggle-opt">old</span>
-                    <span className="fcs-rec-toggle-opt fcs-rec-toggle-opt--active">new</span>
-                  </div>
+                <div className="fcs-rec-subsection">
+                  <h3 className="fcs-rec-heading">Adding Version History to Track Changes over Time</h3>
+                  <p className="fcs-section-body">
+                    The following design recommendations were built to help inform potential future directions
+                    for the experience. While not directly implemented, their existence shaped the trajectory
+                    of the iterative project.
+                  </p>
+                  <BeforeAfterContainer
+                    beforeSrc={rocketVersionHistoryBefore}
+                    afterSrc={rocketVersionHistoryAfter}
+                    beforeLayout="inset"
+                  />
                 </div>
-              </div>
 
-              <div className="fcs-rec-subsection">
-                <h3 className="fcs-rec-heading">Building the Business Center for Information Management</h3>
-                <p className="fcs-section-body">
-                  The following design recommendations were built to help inform potential future directions
-                  for the experience. While not directly implemented, their existence shaped the trajectory
-                  of the iterative project.
-                </p>
-                <div className="fcs-rec-image-group">
-                  <div className="fcs-rec-image-wrap">
-                    <img src={rocketBizCenter} alt="Business center design recommendation" className="fcs-rec-image" draggable={false} />
-                  </div>
-                  <div className="fcs-rec-toggle">
-                    <span className="fcs-rec-toggle-opt">old</span>
-                    <span className="fcs-rec-toggle-opt fcs-rec-toggle-opt--active">new</span>
+                <div className="fcs-rec-subsection">
+                  <h3 className="fcs-rec-heading">Communication Timeline Managing Notifications and Statuses</h3>
+                  <p className="fcs-section-body">
+                    The following design recommendations were built to help inform potential future directions
+                    for the experience. While not directly implemented, their existence shaped the trajectory
+                    of the iterative project.
+                  </p>
+                  <BeforeAfterContainer
+                    beforeSrc={rocketCommsTimelineBefore}
+                    afterSrc={rocketCommsTimelineAfter}
+                  />
+                </div>
+
+                <div className="fcs-rec-subsection">
+                  <h3 className="fcs-rec-heading">Building the Business Center for Information Management</h3>
+                  <p className="fcs-section-body">
+                    The following design recommendations were built to help inform potential future directions
+                    for the experience. While not directly implemented, their existence shaped the trajectory
+                    of the iterative project.
+                  </p>
+                  <div className="fcs-rec-image-group">
+                    <div className="fcs-rec-image-wrap">
+                      <img src={rocketBizCenter} alt="Business center design recommendation" className="fcs-rec-image" draggable={false} />
+                    </div>
+                    <div className="fcs-rec-toggle">
+                      <span className="fcs-rec-toggle-opt">old</span>
+                      <span className="fcs-rec-toggle-opt fcs-rec-toggle-opt--active">new</span>
+                    </div>
                   </div>
                 </div>
+
               </div>
             </section>
 
