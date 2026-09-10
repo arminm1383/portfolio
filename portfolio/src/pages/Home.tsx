@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
@@ -14,10 +14,10 @@ import heroIpod    from '../assets/images/hero-ipod.png'
 import heroBird1   from '../assets/images/hero-bird1.png'
 import heroBird2   from '../assets/images/hero-bird2.png'
 import heroBird3   from '../assets/images/hero-bird3.png'
-import streetsGif from '../assets/images/streetsgif.gif'
-import rocketArtwork from '../assets/images/rocket-artwork-v2.gif'
-import findyGif from '../assets/images/findy-artwork-v2.gif'
-import auraGif from '../assets/images/auragif.gif'
+import rocketArtwork     from '../assets/images/rocket-artwork-v2.gif'
+import findyGif          from '../assets/images/findy-artwork-v2.gif'
+import workStreetsPanel   from '../assets/images/work-streets-projects.jpg'
+import workMementoArtwork from '../assets/images/work-memento-artwork.png'
 import individualStar from '../assets/images/individual-star.svg'
 import amlmSend    from '../assets/images/amlm-send.svg'
 import amlmStarSm  from '../assets/images/nav-topbar-star-sm.svg'
@@ -51,11 +51,22 @@ function AmLMTag({ onClick }: { onClick: (e: React.MouseEvent) => void }) {
 function AmLMPopup({ onStop }: { onStop: (e: React.MouseEvent) => void }) {
   return (
     <div className="amlm-popup" onClick={onStop}>
-      <div className="amlm-popup-header">
-        <span className="amlm-popup-label">ask amLM</span>
-      </div>
-      <div className="amlm-popup-send-row">
-        <img src={amlmSend} alt="send" className="amlm-popup-send-icon" />
+      <span className="amlm-popup-label">ask amLM</span>
+      <div className="amlm-popup-input-row">
+        <input
+          className="amlm-popup-input"
+          type="text"
+          placeholder="ask anything..."
+          onClick={e => e.stopPropagation()}
+          autoFocus
+        />
+        <button
+          className="amlm-popup-send-btn"
+          aria-label="Send"
+          onClick={e => e.stopPropagation()}
+        >
+          <img src={amlmSend} alt="" className="amlm-popup-send-icon" />
+        </button>
       </div>
     </div>
   )
@@ -105,14 +116,12 @@ function useAlphaOutline(
         const { data } = ctx.getImageData(0, 0, cw, ch)
 
         const PR = 247, PG = 247, PB = 245
-        const N = 56
 
         function isFg(x: number, y: number): boolean {
           if (x < 0 || x >= cw || y < 0 || y >= ch) return false
           const i = (y * cw + x) * 4
           const a = data[i + 3]
           if (mode === 'alpha') return a >= 12
-          // 'infer': composite over page bg and check perceptual contrast
           if (a < 10) return false
           const f = a / 255
           const cr = data[i]   * f + PR * (1 - f)
@@ -120,6 +129,8 @@ function useAlphaOutline(
           const cb = data[i+2] * f + PB * (1 - f)
           return (Math.abs(cr - PR) + Math.abs(cg - PG) + Math.abs(cb - PB)) >= 22
         }
+
+        const N = 56
 
         // 2-direction row scan — simple left/right per row.
         // This avoids the self-intersecting 4-edge polygon that produced double outlines.
@@ -199,15 +210,19 @@ function HeroGraphic({ id, src, cls, mode = 'alpha', selected, popupOpen, onSele
 }
 
 interface WorkCardProps {
-  artwork: string
-  artworkAlt: string
+  artwork?: string
+  artworkAlt?: string
   title: string
   description: string
   isGif?: boolean
   to?: string
+  href?: string
+  bgColor?: string
+  panel?: string
+  objectFit?: 'cover' | 'contain'
 }
 
-function WorkCard({ artwork, artworkAlt, title, description, isGif, to }: WorkCardProps) {
+function WorkCard({ artwork, artworkAlt, title, description, isGif, to, href, bgColor, panel, objectFit = 'cover' }: WorkCardProps) {
   const imgRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => {
@@ -228,12 +243,27 @@ function WorkCard({ artwork, artworkAlt, title, description, isGif, to }: WorkCa
     return () => observer.disconnect()
   }, [isGif])
 
-  const cursorVariant = to ? 'case-study' : 'coming-soon'
+  const cursorVariant = to ? 'case-study' : href ? 'devpost' : 'coming-soon'
 
   const content = (
     <>
-      <div className="work-card-artwork">
-        <img ref={imgRef} src={artwork} alt={artworkAlt} />
+      <div className="work-card-artwork" style={bgColor ? { backgroundColor: bgColor } : undefined}>
+        {artwork && (
+          <img
+            ref={imgRef}
+            src={artwork}
+            alt={artworkAlt ?? ''}
+            style={objectFit === 'contain' ? { objectFit: 'contain' } : undefined}
+          />
+        )}
+        {panel && (
+          <div className="work-card-panel">
+            <div className="work-card-panel-inner">
+              <img src={panel} alt="" />
+            </div>
+          </div>
+        )}
+        <div className="work-card-artwork-inset" aria-hidden />
       </div>
       <div className="work-card-content">
         <h2 className="work-card-title">{title}</h2>
@@ -247,6 +277,14 @@ function WorkCard({ artwork, artworkAlt, title, description, isGif, to }: WorkCa
       <Link to={to} className="work-card" data-cursor={cursorVariant}>
         {content}
       </Link>
+    )
+  }
+
+  if (href) {
+    return (
+      <a href={href} target="_blank" rel="noreferrer" className="work-card" data-cursor={cursorVariant}>
+        {content}
+      </a>
     )
   }
 
@@ -337,6 +375,17 @@ export default function Home() {
     return () => section.removeEventListener('scroll', onScroll)
   }, [page])
 
+
+  // Keep hero canvas scaled to fit the viewport while preserving Figma proportions
+  useLayoutEffect(() => {
+    function updateScale() {
+      const scale = Math.min(window.innerWidth / 1648, window.innerHeight / 890)
+      document.documentElement.style.setProperty('--hero-scale', scale.toString())
+    }
+    updateScale()
+    window.addEventListener('resize', updateScale)
+    return () => window.removeEventListener('resize', updateScale)
+  }, [])
 
   // Hero entrance timeline — fires once on mount
   useEffect(() => {
@@ -467,58 +516,60 @@ export default function Home() {
         >
           {/* ── Hero ──────────────────────────────────────────────────────── */}
           <section className="hero" onClick={handleDeselect}>
-            <HeroGraphic id="bird2"    src={heroBird2}   cls="hero-bird2"
-              selected={selectedGraphic} popupOpen={popupOpen}
-              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+            <div className="hero-canvas">
+              <HeroGraphic id="bird2"    src={heroBird2}   cls="hero-bird2"
+                selected={selectedGraphic} popupOpen={popupOpen}
+                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-            <HeroGraphic id="bird1"    src={heroBird1}   cls="hero-bird1"
-              selected={selectedGraphic} popupOpen={popupOpen}
-              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+              <HeroGraphic id="bird1"    src={heroBird1}   cls="hero-bird1"
+                selected={selectedGraphic} popupOpen={popupOpen}
+                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-            <HeroGraphic id="bird3"    src={heroBird3}   cls="hero-bird3"
-              selected={selectedGraphic} popupOpen={popupOpen}
-              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+              <HeroGraphic id="bird3"    src={heroBird3}   cls="hero-bird3"
+                selected={selectedGraphic} popupOpen={popupOpen}
+                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-            <HeroGraphic id="wii"      src={heroWii}     cls="hero-wii"      mode="infer"
-              selected={selectedGraphic} popupOpen={popupOpen}
-              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+              <HeroGraphic id="wii"      src={heroWii}     cls="hero-wii"      mode="infer"
+                selected={selectedGraphic} popupOpen={popupOpen}
+                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-            <HeroGraphic id="me-green" src={heroMeGreen} cls="hero-me-green"
-              selected={selectedGraphic} popupOpen={popupOpen}
-              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+              <HeroGraphic id="me-green" src={heroMeGreen} cls="hero-me-green"
+                selected={selectedGraphic} popupOpen={popupOpen}
+                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-            <HeroGraphic id="ipod"     src={heroIpod}    cls="hero-ipod"    mode="infer"
-              selected={selectedGraphic} popupOpen={popupOpen}
-              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+              <HeroGraphic id="ipod"     src={heroIpod}    cls="hero-ipod"    mode="infer"
+                selected={selectedGraphic} popupOpen={popupOpen}
+                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-            <HeroGraphic id="mac"      src={heroMac}     cls="hero-mac"     mode="infer"
-              selected={selectedGraphic} popupOpen={popupOpen}
-              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+              <HeroGraphic id="mac"      src={heroMac}     cls="hero-mac"     mode="infer"
+                selected={selectedGraphic} popupOpen={popupOpen}
+                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-            <HeroGraphic id="guitar"   src={heroGuitar}  cls="hero-guitar"  mode="infer"
-              selected={selectedGraphic} popupOpen={popupOpen}
-              onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+              <HeroGraphic id="guitar"   src={heroGuitar}  cls="hero-guitar"  mode="infer"
+                selected={selectedGraphic} popupOpen={popupOpen}
+                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-            {/* Star ring */}
-            <div className="hero-stars" aria-hidden>
-              {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
-                <img key={n} className={`hero-star hero-star--${n}`} src={individualStar} alt="" />
-              ))}
-            </div>
+              {/* Star ring */}
+              <div className="hero-stars" aria-hidden>
+                {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
+                  <img key={n} className={`hero-star hero-star--${n}`} src={individualStar} alt="" />
+                ))}
+              </div>
 
-            {/* Name text */}
-            <div className="hero-name-block">
-              <h1 className="hero-name">
-                <span className="first">hi, i'm</span>
-                <span className="last">armin</span>
-              </h1>
+              {/* Name text */}
+              <div className="hero-name-block">
+                <h1 className="hero-name">
+                  <span className="first">hi, i'm</span>
+                  <span className="last">armin</span>
+                </h1>
+              </div>
             </div>
           </section>
 
           {/* ── Works grid ────────────────────────────────────────────────── */}
           <section className="works" ref={worksRef}>
             <div className="works-header">
-              <h2 className="works-heading">Featured work</h2>
+              <h2 className="works-heading">featured work</h2>
               <p className="works-subtitle">a collection of some of my latest projects</p>
             </div>
             <div className="works-grid" key={worksKey}>
@@ -531,11 +582,10 @@ export default function Home() {
                 to="/work/rocket-lawyer"
               />
               <WorkCard
-                artwork={streetsGif}
-                artworkAlt="Streets"
+                bgColor="#369af1"
+                panel={workStreetsPanel}
                 title="Streets"
                 description="design engineering enterprise B2B software"
-                isGif
               />
               <WorkCard
                 artwork={findyGif}
@@ -546,11 +596,13 @@ export default function Home() {
                 to="/work/findy"
               />
               <WorkCard
-                artwork={auraGif}
-                artworkAlt="Aura"
-                title="Aura"
-                description="connecting users with algorithmic accountability and motivation"
-                isGif
+                artwork={workMementoArtwork}
+                artworkAlt="Memento"
+                title="Memento"
+                description="connecting memories through emerging interfaces"
+                bgColor="#1b130f"
+                objectFit="contain"
+                href="https://devpost.com/software/memento-3p1kjl"
               />
             </div>
           </section>

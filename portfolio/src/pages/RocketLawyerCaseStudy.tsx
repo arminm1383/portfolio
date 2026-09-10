@@ -4,15 +4,19 @@ import './FindyCaseStudy.css'
 import CsTopbar from '../components/CsTopbar'
 
 import rocketHeroGif from '../assets/images/rocket-cs-hero-new.gif'
-import rocketDiagram from '../assets/images/rocket-cs-diagram.png'
+import rocketFdsSidebar  from '../assets/images/rocket-cs-fds-sidebar.png'
+import diagClaude      from '../assets/images/rocket-cs-diag-claude.svg'
+import diagFigma       from '../assets/images/rocket-cs-diag-figma.svg'
+import diagArrow1      from '../assets/images/rocket-cs-diag-arrow1.svg'
+import diagUT          from '../assets/images/rocket-cs-diag-ut.svg'
+import diagArrow2      from '../assets/images/rocket-cs-diag-arrow2.svg'
+import diagRL          from '../assets/images/rocket-cs-diag-rl.svg'
 import rocketChart from '../assets/images/rocket-cs-chart.png'
 import rocketAffinityMap from '../assets/images/rocket-cs-affinity-map.png'
 import rocketResearch from '../assets/images/rocket-cs-research.png'
-import rocketVersionHistory from '../assets/images/rocket-cs-version-history.png'
-import rocketCommsTimeline from '../assets/images/rocket-cs-comms-timeline.png'
-import iconSparkles from '../assets/images/icon-sparkles.svg'
-import iconDocument from '../assets/images/icon-document.svg'
-import iconEmail from '../assets/images/icon-email.svg'
+import rocketVersionHistory from '../assets/images/rocket-cs-version-history-new.png'
+import rocketCommsTimeline from '../assets/images/rocket-cs-comms-timeline-new.png'
+import rocketBizCenter from '../assets/images/rocket-cs-biz-center.png'
 import rqIcon1 from '../assets/images/rq-icon-1.svg'
 import rqIcon2 from '../assets/images/rq-icon-2.svg'
 import rqIcon3 from '../assets/images/rq-icon-3.svg'
@@ -27,7 +31,6 @@ const NAV_ITEMS = [
   { id: 'problem',     label: 'Problem',                routable: true  },
   { id: 'research',    label: 'Research',               routable: true  },
   { id: 'design-recs', label: 'Design Recommendations', routable: true  },
-  { id: 'solution',    label: 'Solution & Results',     routable: true  },
   { id: 'reflections', label: 'Reflections',            routable: true  },
 ]
 
@@ -232,7 +235,7 @@ export default function RocketLawyerCaseStudy() {
                 </div>
                 <div className="fcs-tag">
                   <span className="fcs-tag-label">Timeline</span>
-                  <span className="fcs-tag-value">June 2026 – Sep. 2026</span>
+                  <span className="fcs-tag-value">June 2026 - Sep. 2026</span>
                 </div>
                 <div className="fcs-tag">
                   <span className="fcs-tag-label">Team</span>
@@ -265,13 +268,30 @@ export default function RocketLawyerCaseStudy() {
                 UX research but to also build, from the ground up, Claude-powered UX research pipelines
                 that puts customer insights at the forefront of every design project.
               </p>
-              <img src={rocketDiagram} alt="" className="fcs-section-img" draggable={false} />
-              <p className="fcs-media-caption-red">Design System Component for Copilot Sidebar Menu</p>
+
+              {/* Pipeline diagram — inline, no card wrapper */}
+              <div className="fcs-bg-diagram" aria-hidden>
+                <div className="fcs-bg-diagram-left">
+                  <img src={diagClaude} alt="Claude" className="fcs-bg-diag-logo fcs-bg-diag-logo--claude" />
+                  <img src={diagFigma}  alt="Figma"  className="fcs-bg-diag-logo fcs-bg-diag-logo--figma" />
+                </div>
+                <img src={diagArrow1} alt="" className="fcs-bg-diag-arrow fcs-bg-diag-arrow--1" />
+                <img src={diagUT}     alt="UserTesting" className="fcs-bg-diag-logo fcs-bg-diag-logo--ut" />
+                <img src={diagArrow2} alt="" className="fcs-bg-diag-arrow fcs-bg-diag-arrow--2" />
+                <img src={diagRL}     alt="Rocket Lawyer" className="fcs-bg-diag-logo fcs-bg-diag-logo--rl" />
+              </div>
+
               <p className="fcs-section-body">
                 In addition to ux research, AI was used to help integrate connectivity with upgraded
                 design systems, using Claude skills and Design Engineering principles to update the
                 updated visuals, components typography attributes.
               </p>
+
+              {/* Design System Frame card */}
+              <div className="fcs-design-sys-card">
+                <img src={rocketFdsSidebar} alt="Copilot sidebar design system component" className="fcs-design-sys-img" draggable={false} />
+                <p className="fcs-media-caption-red">Design System Component for Copilot Sidebar Menu</p>
+              </div>
             </section>
 
             {/* ── Problem ── */}
@@ -326,6 +346,7 @@ export default function RocketLawyerCaseStudy() {
             {/* ── Research ── */}
             <section className="fcs-section" id="research">
               <span className="fcs-section-label">Research</span>
+
               <h3 className="fcs-subsection-heading">Automating the Workflow</h3>
               <p className="fcs-section-body">
                 Beyond traditional methods for developing user tests, I created an AI pipeline to automate
@@ -346,8 +367,13 @@ export default function RocketLawyerCaseStudy() {
                 UserTesting was used to connect with 100+ Rocket Lawyer users, gathering a high-level
                 understanding of the research themes further explored through user interviews.
               </p>
-              <div className="fcs-media-card">
-                <img src={rocketChart} alt="Survey results chart" className="fcs-media-card-img fcs-media-chart" draggable={false} />
+              <div className="fcs-media-card fcs-media-card--padded">
+                <div className="fcs-media-card-inner fcs-media-card-inner--chart">
+                  <div className="fcs-media-frame-overflow">
+                    <img src={rocketChart} alt="Building cohorts in Amplitude" className="fcs-media-card-img fcs-media-card-img--chart" draggable={false} />
+                  </div>
+                </div>
+                <p className="fcs-media-caption-red">Building Cohorts in Amplitude to Segment Copilot Use Cases</p>
               </div>
 
               <h3 className="fcs-subsection-heading">Talking to Customers</h3>
@@ -362,7 +388,7 @@ export default function RocketLawyerCaseStudy() {
                   <span className="fcs-quote-icon" aria-hidden="true">"</span>
                   <div className="fcs-quote-content">
                     <span className="fcs-quote-attr">Small-business owner</span>
-                    <p className="fcs-quote-text">"how do I have to get these things drafted without calling an attorney."</p>
+                    <p className="fcs-quote-text">"how do I have to get these pieces of critical information organized and communicated without constantly relying an attorney communication."</p>
                   </div>
                 </div>
                 <div className="fcs-quote-divider" />
@@ -370,7 +396,7 @@ export default function RocketLawyerCaseStudy() {
                   <span className="fcs-quote-icon" aria-hidden="true">"</span>
                   <div className="fcs-quote-content">
                     <span className="fcs-quote-attr">Attorney</span>
-                    <p className="fcs-quote-text">"how do I have to get these things drafted without calling an attorney."</p>
+                    <p className="fcs-quote-text">"at what point in the process is the core distinction of legal advice vs. information being communicated by Copilot"</p>
                   </div>
                 </div>
               </div>
@@ -381,47 +407,11 @@ export default function RocketLawyerCaseStudy() {
                 </div>
                 <p className="fcs-media-caption-red">Affinity Map Breaking Down User Interview Insights into Thematic Analysis</p>
               </div>
-
-              <h3 className="fcs-subsection-heading">Synthesizing Findings into Themes</h3>
-              <p className="fcs-section-body">
-                Through the results analyzed, I put together the following key themes that best capture
-                our users' expectations of the Copilot experience within Negotiate &amp; Sign end-to-end flows.
-              </p>
-
-              <div className="fcs-theme-cards">
-                <div className="fcs-theme-card">
-                  <img src={iconSparkles} alt="" className="fcs-theme-icon" aria-hidden="true" />
-                  <div className="fcs-theme-content">
-                    <p className="fcs-theme-title">AI Integrated in the Document Authorship Process</p>
-                    <p className="fcs-theme-body">As long as there is some human making the final confirmation, users want to be able to offload tasks and processes to Copilot.</p>
-                  </div>
-                </div>
-                <div className="fcs-theme-card">
-                  <img src={iconDocument} alt="" className="fcs-theme-icon" aria-hidden="true" />
-                  <div className="fcs-theme-content">
-                    <p className="fcs-theme-title">Document and Templates Organized</p>
-                    <p className="fcs-theme-body">Users struggle with managing, organizing, and editing multiple documents across platform, especially when AI support should be seemingly available.</p>
-                  </div>
-                </div>
-                <div className="fcs-theme-card">
-                  <img src={iconEmail} alt="" className="fcs-theme-icon" aria-hidden="true" />
-                  <div className="fcs-theme-content">
-                    <p className="fcs-theme-title">Communication is a Blocker</p>
-                    <p className="fcs-theme-body">There is a clear need to manage the sending and receiving of information. The generation and deployment of automated emails resonated, and time management systems can help enhance the process further.</p>
-                  </div>
-                </div>
-              </div>
             </section>
 
             {/* ── Design Recommendations ── */}
             <section className="fcs-section" id="design-recs">
               <span className="fcs-section-label">Design Recommendations</span>
-              <h2 className="fcs-section-heading">Designing Features to Address Research Findings</h2>
-              <p className="fcs-section-body">
-                The following design recommendations were built to help inform potential future directions
-                for the experience. While not directly implemented, their existence shaped the trajectory
-                of the iterative project.
-              </p>
 
               <div className="fcs-rec-subsection">
                 <h3 className="fcs-rec-heading">Adding Version History to Track Changes over Time</h3>
@@ -442,8 +432,14 @@ export default function RocketLawyerCaseStudy() {
                   for the experience. While not directly implemented, their existence shaped the trajectory
                   of the iterative project.
                 </p>
-                <div className="fcs-rec-image-wrap">
-                  <img src={rocketCommsTimeline} alt="Communication timeline design recommendation" className="fcs-rec-image" draggable={false} />
+                <div className="fcs-rec-image-group">
+                  <div className="fcs-rec-image-wrap">
+                    <img src={rocketCommsTimeline} alt="Communication timeline design recommendation" className="fcs-rec-image" draggable={false} />
+                  </div>
+                  <div className="fcs-rec-toggle">
+                    <span className="fcs-rec-toggle-opt">old</span>
+                    <span className="fcs-rec-toggle-opt fcs-rec-toggle-opt--active">new</span>
+                  </div>
                 </div>
               </div>
 
@@ -454,23 +450,15 @@ export default function RocketLawyerCaseStudy() {
                   for the experience. While not directly implemented, their existence shaped the trajectory
                   of the iterative project.
                 </p>
-                <div className="fcs-rec-image-wrap">
-                  <img src={rocketVersionHistory} alt="Business center design recommendation" className="fcs-rec-image" draggable={false} />
+                <div className="fcs-rec-image-group">
+                  <div className="fcs-rec-image-wrap">
+                    <img src={rocketBizCenter} alt="Business center design recommendation" className="fcs-rec-image" draggable={false} />
+                  </div>
+                  <div className="fcs-rec-toggle">
+                    <span className="fcs-rec-toggle-opt">old</span>
+                    <span className="fcs-rec-toggle-opt fcs-rec-toggle-opt--active">new</span>
+                  </div>
                 </div>
-              </div>
-            </section>
-
-            {/* ── Solution & Results ── */}
-            <section className="fcs-section" id="solution">
-              <span className="fcs-section-label">Solution &amp; Results</span>
-              <h2 className="fcs-section-heading">Automated Copilot Assistance as the Core of the End-to-End Flow</h2>
-              <p className="fcs-section-body">
-                The following design recommendations were built to help inform potential future directions
-                for the experience. While not directly implemented, their existence shaped the trajectory
-                of the iterative project.
-              </p>
-              <div className="fcs-rec-image-wrap">
-                <img src={rocketVersionHistory} alt="Copilot dashboard solution" className="fcs-rec-image" draggable={false} />
               </div>
             </section>
 
@@ -479,22 +467,22 @@ export default function RocketLawyerCaseStudy() {
               <span className="fcs-section-label">Reflections</span>
               <h2 className="fcs-section-heading">Learning, Growing, and Evolving</h2>
               <p className="fcs-section-body">
-                The following design recommendations were built to help inform potential future directions
-                for the experience. While not directly implemented, their existence shaped the trajectory
-                of the iterative project.
+                Throughout my time at Rocket Lawyer, my skills as a researcher flourished as I integrated
+                human-centric qualitative tasks with AI-powered quantitative methodologies to evolve the
+                core UX research pipeline.
               </p>
               <div className="fcs-reflection-row">
                 <div className="fcs-reflection-num-card">
                   <span className="fcs-reflection-num">01</span>
-                  <p className="fcs-reflection-placeholder-text">lores ipsum</p>
+                  <p className="fcs-reflection-body">Designing for AI through AI, making use of skills like Claude Cowork and Figma Make to ideate and generate scalable tests.</p>
                 </div>
                 <div className="fcs-reflection-num-card">
                   <span className="fcs-reflection-num">02</span>
-                  <p className="fcs-reflection-placeholder-text">lores ipsum</p>
+                  <p className="fcs-reflection-body">Design system engineering workflows allowed me to build up the skills working in expansive design workspaces optimized for MCP integration and cross-functional handoff.</p>
                 </div>
                 <div className="fcs-reflection-num-card">
                   <span className="fcs-reflection-num">03</span>
-                  <p className="fcs-reflection-placeholder-text">lores ipsum</p>
+                  <p className="fcs-reflection-body">Product analytics tools like Amplitude allowed me to break down specific use cases and cohorts, expanding my research approaches and product thinking.</p>
                 </div>
               </div>
             </section>

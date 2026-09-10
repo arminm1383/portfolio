@@ -192,7 +192,7 @@
 .fcs-inner {
   max-width: 900px;
   margin: 0;
-  padding: 0 var(--space-12) 0 164px;
+  padding: 0 96px;
 }
 
 /* ── Header / Hero ── */
@@ -203,12 +203,12 @@
   margin-bottom: 0;
 }
 
-/* Hero frame image — bleeds out of fcs-inner's padding to fill the full container width */
+/* Hero frame image — bleeds out of fcs-inner's 96px padding to fill the full container width */
 .fcs-hero-frame {
   display: block;
-  width: calc(100% + 164px + var(--space-12));
-  margin-left: -164px;
-  margin-right: calc(-1 * var(--space-12));
+  width: calc(100% + 192px);
+  margin-left: -96px;
+  margin-right: -96px;
   margin-bottom: var(--space-9);
   aspect-ratio: 860 / 396;
   object-fit: cover;
@@ -220,9 +220,9 @@
 .fcs-hero-frame-container {
   position: relative;
   display: block;
-  width: calc(100% + 164px + var(--space-12));
-  margin-left: -164px;
-  margin-right: calc(-1 * var(--space-12));
+  width: calc(100% + 192px);
+  margin-left: -96px;
+  margin-right: -96px;
   margin-bottom: var(--space-9);
   aspect-ratio: 860 / 396;
   overflow: hidden;
@@ -680,6 +680,424 @@
   letter-spacing: -0.34px;
 }
 
+/* ══════════════════════════════════════════════════════════
+   FINDY-SPECIFIC COMPONENTS
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Findy page accent — blue replaces red throughout ── */
+.fcs-page--findy .fcs-nav-item--active { color: #205dfd; }
+
+/* ── Findy: header layout ── */
+.fcs-header--findy {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-bottom: var(--space-12);
+}
+
+.fcs-header--findy .fcs-name-org { display: flex; flex-direction: column; gap: var(--space-3); }
+.fcs-header--findy .fcs-org-row  { margin-bottom: 0; }
+.fcs-header--findy .fcs-title    { margin: 0; }
+.fcs-header--findy .fcs-tags     { border-top: none; padding-top: 0; }
+
+/* ── Findy: hero illustration card ── */
+.findy-hero-card {
+  position: relative;
+  width: 100%;
+  height: 473px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.findy-hero-mokker {
+  position: absolute;
+  left: 366px;
+  top: -180px;
+  width: 680px;
+  height: auto;
+  transform: rotate(20.29deg);
+  transform-origin: top left;
+  pointer-events: none;
+  object-fit: cover;
+  opacity: 0.9;
+}
+
+.findy-hero-bubble-wrap {
+  position: absolute;
+  left: -4px;
+  top: 290px;
+  width: 137px;
+  height: 135px;
+}
+
+.findy-hero-bubble-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.findy-hero-guy {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: auto;
+}
+
+.findy-hero-speech {
+  position: absolute;
+  left: 107px;
+  top: 299px;
+  background: #ebebeb;
+  border-radius: 32px;
+  padding: 25px 48px;
+  display: flex;
+  align-items: center;
+}
+
+.findy-hero-speech-text {
+  font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: #007ce7;
+  letter-spacing: -0.575px;
+  line-height: 1.29;
+  white-space: nowrap;
+}
+
+/* ── Findy: Research Question card (blue accent) ── */
+.fcs-rq-card--findy .fcs-rq-label { color: #205dfd; }
+
+/* ── Findy: 2-column photo grid ── */
+.findy-photo-grid {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.findy-photo-grid--wide {
+  gap: 120px;
+  margin-top: 8px;
+}
+
+.findy-photo-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.findy-photo-frame {
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 443 / 253;
+  width: 100%;
+}
+
+.findy-photo-frame--reflection {
+  aspect-ratio: 449 / 265;
+}
+
+.findy-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.findy-photo-caption {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: #000;
+  line-height: 32px;
+  letter-spacing: -0.32px;
+  text-align: center;
+  margin: 0;
+}
+
+/* ── Findy: 3-column insight card grid ── */
+.findy-insight-grid {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.findy-insight-card {
+  position: relative;
+  flex: 1;
+  height: 404px;
+  border-radius: 16px;
+  background: #fdfdfd;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 12px 24px;
+}
+
+.findy-insight-inset {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.04);
+}
+
+.findy-insight-mascot {
+  position: absolute;
+  pointer-events: none;
+}
+
+.findy-insight-mascot--detective {
+  left: 72px;
+  top: 45px;
+  width: 149px;
+  height: 226px;
+}
+
+.findy-insight-mascot--detective img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.findy-insight-mascot--guy {
+  left: 17px;
+  top: -40px;
+  width: 220px;
+  height: 260px;
+}
+
+.findy-insight-mascot--guy img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.findy-insight-mascot--zen {
+  left: 62px;
+  top: 63px;
+  width: 170px;
+  height: 208px;
+}
+
+.findy-listening-bubble {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.findy-listening-zen {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 52px;
+  height: auto;
+}
+
+.findy-listening-headphones {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  object-fit: contain;
+}
+
+.findy-insight-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.findy-insight-label {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
+  letter-spacing: -0.32px;
+  line-height: 1.2;
+}
+
+.findy-insight-heading {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: #000;
+  letter-spacing: -0.32px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.findy-insight-link {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  color: #4b91de;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+/* ── Findy: Design Rec section ── */
+.findy-rec {
+  margin-bottom: 48px;
+}
+
+.findy-rec-heading {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: var(--text-xl);
+  font-weight: 400;
+  color: #205dfd;
+  line-height: 1.2;
+  letter-spacing: -0.48px;
+  margin: 0 0 12px;
+}
+
+/* ── Findy: Phone bezel section ── */
+.findy-phone-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 48px;
+  width: 100%;
+}
+
+.findy-phone-ellipse {
+  position: absolute;
+  left: calc(50% - 128px - 69px);
+  top: 96px;
+  width: 346px;
+  height: 402px;
+  pointer-events: none;
+}
+
+/* ── Findy: iOS Phone Bezel ── */
+.findy-phone {
+  position: relative;
+  width: 257px;
+  height: 510px;
+  flex-shrink: 0;
+}
+
+.findy-phone-btn {
+  position: absolute;
+  left: 0;
+  width: 8px;
+  background: #535353;
+  border-radius: 2px;
+  box-shadow: inset 0 0 2.3px rgba(0, 0, 0, 0.51);
+}
+
+.findy-phone-btn--vol-up  { top: 106px; height: 24px; }
+.findy-phone-btn--vol-dn  { top: 149px; height: 39px; }
+.findy-phone-btn--power   { top: 198px; height: 39px; }
+
+.findy-phone-outer-bezel {
+  position: absolute;
+  inset: 0;
+  left: 6px;
+  background: #535353;
+  border-radius: 36px;
+  box-shadow: inset 0 0 2.3px rgba(0, 0, 0, 0.51);
+}
+
+.findy-phone-inner-bezel {
+  position: absolute;
+  inset: 4px;
+  background: #000;
+  border-radius: 32px;
+  overflow: hidden;
+}
+
+.findy-phone-screen {
+  position: absolute;
+  inset: 6px;
+  background: #fff;
+  border-radius: 26px;
+  overflow: hidden;
+}
+
+.findy-phone-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  pointer-events: none;
+}
+
+/* ── Findy: Reflections — blue numbers ── */
+.fcs-reflection-num--findy {
+  color: #205dfd;
+}
+
+/* ── Findy: Stats row (white card, 3 equal cols with vertical dividers) ── */
+.findy-stats-row {
+  display: flex;
+  width: 100%;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), inset 0 4px 4px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.findy-stats-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex: 1;
+  padding: 24px 12px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.findy-stats-col--bordered {
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.findy-stats-num {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: #4b91de;
+  line-height: normal;
+}
+
+.findy-stats-label {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-2xs);
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  line-height: normal;
+}
+
+/* ── Up Next: dark artwork variant (Memento) ── */
+.fcs-upnext-card-artwork--dark {
+  background: #1b130f;
+}
+
+.fcs-upnext-card-artwork--dark img {
+  object-fit: contain;
+}
+
 /* ── Up Next ── */
 .fcs-upnext {
   padding-top: var(--space-16);
@@ -847,6 +1265,12 @@
   overflow: visible;
 }
 
+.fcs-media-card-inner--chart {
+  position: relative;
+  aspect-ratio: 719 / 362;
+  overflow: visible;
+}
+
 .fcs-media-frame-overflow {
   position: absolute;
   inset: 0;
@@ -995,6 +1419,57 @@
   margin: 0;
 }
 
+/* ── Rocket Lawyer: Background pipeline diagram (inline, no card) ── */
+.fcs-bg-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 16px 0;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.fcs-bg-diagram-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.fcs-bg-diag-logo { display: block; height: auto; flex-shrink: 0; }
+.fcs-bg-diag-logo--claude { width: 126px; }
+.fcs-bg-diag-logo--figma  { width: 120px; }
+.fcs-bg-diag-logo--ut     { width: 132px; }
+.fcs-bg-diag-logo--rl     { width: 160px; }
+
+.fcs-bg-diag-arrow { display: block; flex-shrink: 0; }
+.fcs-bg-diag-arrow--1 { width: 158px; height: 100px; }
+.fcs-bg-diag-arrow--2 { width: 87px;  height: 14px; transform: rotate(180deg); }
+
+/* ── Rocket Lawyer: Design System Frame card ── */
+.fcs-design-sys-card {
+  width: 100%;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  filter: drop-shadow(0 4px 2px rgba(0, 0, 0, 0.08));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 32px 0;
+  margin-bottom: 16px;
+}
+
+.fcs-design-sys-img {
+  display: block;
+  width: 84.7%;  /* 762 / 900 per Figma */
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
 /* ── Rocket Lawyer: Design Recommendations subsection ── */
 .fcs-rec-subsection {
   margin-bottom: var(--space-11);
@@ -1011,20 +1486,67 @@
 }
 
 .fcs-rec-image-wrap {
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
   overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+/* Recs with a toggle use fixed aspect ratio; Rec 1 (no toggle) is free-height */
+.fcs-rec-image-group .fcs-rec-image-wrap {
   aspect-ratio: 1013 / 720;
 }
 
 .fcs-rec-image {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: cover;
   pointer-events: none;
   user-select: none;
+}
+
+.fcs-rec-image-group .fcs-rec-image {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+/* ── Rec image + toggle: flex column with 12px gap ── */
+.fcs-rec-image-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+/* ── Before/after toggle — separate card below image ── */
+.fcs-rec-toggle {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  padding: 8px 32px;
+  overflow: hidden;
+}
+
+.fcs-rec-toggle-opt {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: #000;
+  line-height: 28px;
+}
+
+.fcs-rec-toggle-opt--active {
+  font-weight: 700;
+  color: #872d2d;
 }
 
 /* ── Rocket Lawyer: Solution placeholder ── */
@@ -1036,23 +1558,25 @@
   margin-bottom: var(--space-9);
 }
 
-/* ── Rocket Lawyer: Reflection numbered cards ── */
+/* ── Rocket Lawyer: Reflection numbered cards — vertical stack, horizontal inner ── */
 .fcs-reflection-row {
   display: flex;
-  gap: var(--space-3);
+  flex-direction: column;
+  gap: 26px;
   margin-bottom: var(--space-12);
 }
 
 .fcs-reflection-num-card {
-  flex: 1;
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 12px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
-  padding: var(--space-6) var(--space-8);
+  filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.12));
+  overflow: hidden;
+  padding: 16px 32px;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 32px;
+  min-height: 96px;
+  box-sizing: border-box;
 }
 
 .fcs-reflection-num {
@@ -1060,18 +1584,35 @@
   font-size: var(--text-lg);
   color: #991b1d;
   opacity: 0.75;
-  line-height: 1.2;
+  line-height: 32px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
-.fcs-reflection-placeholder-text {
+.fcs-reflection-body {
+  flex: 1;
+  min-width: 0;
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
   font-size: var(--text-base);
   font-weight: 400;
   color: #000;
   opacity: 0.75;
+  line-height: 32px;
   margin: 0;
-  line-height: 1.5;
 }
+
+/* ── Rocket Lawyer: section-to-section spacing (Figma Core gap: 56px, header→core: 72px) ── */
+.fcs-page--rocket .fcs-section              { padding-top: 56px; }
+.fcs-page--rocket .fcs-header + .fcs-section { padding-top: 72px; }
+
+/* ── Rocket Lawyer: consistent 16px gaps between content elements ── */
+.fcs-page--rocket .fcs-section-body   { margin-bottom: 16px; }
+.fcs-page--rocket .fcs-media-card     { margin-bottom: 16px; }
+.fcs-page--rocket .fcs-quote-card     { margin-bottom: 16px; }
+.fcs-page--rocket .fcs-rq-card        { margin-bottom: 16px; }
+.fcs-page--rocket .fcs-subsection-heading { margin-bottom: 12px; }
+.fcs-page--rocket .fcs-rec-subsection { margin-bottom: 48px; }
+.fcs-page--rocket .fcs-problem-stats  { margin: 16px 0; }
 
 /* ── Rocket Lawyer typography scale ── */
 .fcs-page--rocket .fcs-org-name {

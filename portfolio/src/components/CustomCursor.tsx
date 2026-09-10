@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import './CustomCursor.css'
 import cursorCsIcon from '../assets/images/cursor-cs-icon.svg'
 import cursorSoonIcon from '../assets/images/cursor-soon-icon.svg'
+import cursorDevpostIcon from '../assets/images/cursor-devpost-icon.svg'
 
 const EASE = 0.18
 
@@ -55,6 +56,10 @@ export default function CustomCursor() {
         <div className="cursor-layer cursor-layer--soon">
           <img src={cursorSoonIcon} className="cursor-icon" alt="" />
           <span className="cursor-label">coming soon</span>
+        </div>
+        <div className="cursor-layer cursor-layer--devpost">
+          <img src={cursorDevpostIcon} className="cursor-icon" alt="" />
+          <span className="cursor-label">view devpost</span>
         </div>
       </div>
     </div>

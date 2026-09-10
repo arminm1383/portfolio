@@ -28,6 +28,18 @@
   overflow: hidden;
 }
 
+/* Fixed 1648×890 canvas — scaled uniformly via JS-computed --hero-scale so the
+   composition always matches the Figma frame regardless of viewport aspect ratio. */
+.hero-canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1648px;
+  height: 890px;
+  transform-origin: center center;
+  transform: translate(-50%, -50%) scale(var(--hero-scale, 1));
+}
+
 /* Top navbar — full-width positioning container, no background */
 .hero-topnav {
   position: fixed;
@@ -130,22 +142,24 @@
   pointer-events: none;
 }
 
+/* Positions are raw Figma px values (canvas: 1648×890). The .hero-canvas transform
+   scales the whole composition uniformly — no need for vw/vh here. */
 /* bird3 — medium seagull */
-.hero-selectable[data-graphic="bird3"] { left: 1.2vw; top: 20.11vh; width: 11.81vw; z-index: 1; }
+.hero-selectable[data-graphic="bird3"]    { left:   20px; top: 179px; width: 195px; z-index: 1; }
 /* bird2 — two small birds */
-.hero-selectable[data-graphic="bird2"] { left: 3.14vw; top: 0;       width: 12.5vw;  z-index: 2; }
+.hero-selectable[data-graphic="bird2"]    { left:   52px; top:   0;   width: 206px; z-index: 2; }
 /* bird1 — large seagull */
-.hero-selectable[data-graphic="bird1"] { left: 0;      top: 1.46vh;  width: 16.16vw; z-index: 3; }
+.hero-selectable[data-graphic="bird1"]    { left:    0;   top:  13px; width: 266px; z-index: 3; }
 /* iPod */
-.hero-selectable[data-graphic="ipod"]  { left: 86.51vw; top: 17.73vh; width: 13.49vw; z-index: 4; }
-/* Wii Remote */
-.hero-selectable[data-graphic="wii"]   { left: 0;       top: 24.7vh;  width: 14.85vw; z-index: 6; }
+.hero-selectable[data-graphic="ipod"]     { left: 1426px; top: 158px; width: 222px; z-index: 4; }
+/* Wii Remote — x=-144 in Figma, full SVG width 434px; left portion intentionally bleeds off-canvas */
+.hero-selectable[data-graphic="wii"]      { left: -144px; top: 220px; width: 434px; z-index: 6; }
 /* meGreen */
-.hero-selectable[data-graphic="me-green"] { left: 0; top: 46.02vh; width: 26.94vw; z-index: 7; }
+.hero-selectable[data-graphic="me-green"] { left:    0;   top: 410px; width: 444px; z-index: 7; }
 /* Mac */
-.hero-selectable[data-graphic="mac"]   { left: 73.19vw; top: 67.6vh; width: 26.82vw; z-index: 8; }
+.hero-selectable[data-graphic="mac"]      { left: 1206px; top: 602px; width: 442px; z-index: 8; }
 /* Guitar */
-.hero-selectable[data-graphic="guitar"]{ left: 86.2vw;  top: 67.2vh; width: 13.8vw;  z-index: 9; }
+.hero-selectable[data-graphic="guitar"]   { left: 1420px; top: 598px; width: 227px; z-index: 9; }
 
 /* ── Hover tilt (disabled when selected) ── */
 .hero-selectable:not(.is-selected):hover { transform: rotate(-2deg) translateY(-6px); }
@@ -168,13 +182,23 @@
   opacity: 0;
   transition: opacity 0.2s ease;
 }
-.is-selected .hero-sel-svg { opacity: 1; }
+.is-selected .hero-sel-svg {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(24, 103, 31, 0.55));
+}
+
+@keyframes sel-march {
+  to { stroke-dashoffset: -8; }
+}
+.is-selected .hero-sel-svg polygon {
+  animation: sel-march 0.5s linear infinite;
+}
 
 /* ── amLM Tag (20×20 green sparkle button) ── */
 .amlm-tag {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 4px;
+  right: 4px;
   width: 20px;
   height: 20px;
   background: #2b6e2a;
@@ -215,21 +239,20 @@
 .amlm-tag-star--lg { left: 4.66px; top: 2.2px;  width: 11.343px; height: 10.96px; transform: rotate(10.93deg); }
 .amlm-tag-star--md { left: 1.51px; top: 0px;    width: 6.334px; height: 6.178px; transform: rotate(-18.87deg); }
 
-/* ── amLM Popup (165×70 chat widget) ── */
+/* ── amLM Popup ── */
 .amlm-popup {
   position: absolute;
-  top: 32px; /* below the 20px tag + 4px gap + 8px tag offset */
-  right: 8px;
-  width: 165px;
-  height: 70px;
+  top: 28px; /* 4px tag-top + 20px tag-height + 4px gap */
+  right: 4px;
+  width: 220px;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 12px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.12);
-  padding: 8px 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   z-index: 11;
   animation: amlm-popup-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
@@ -237,34 +260,57 @@
   from { opacity: 0; transform: translateY(-6px) scale(0.96); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
-.amlm-popup-header {
-  height: 20px;
-  padding: 0 10px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
 .amlm-popup-label {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 400;
-  color: #000;
+  color: rgba(0, 0, 0, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   line-height: normal;
 }
-.amlm-popup-send-row {
-  height: 22px;
+.amlm-popup-input-row {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  padding-right: 8px;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  padding: 0 4px 0 10px;
+  height: 32px;
+  gap: 4px;
 }
-.amlm-popup-send-icon {
-  width: 16px;
-  height: 16px;
-  display: block;
+.amlm-popup-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 11px;
+  color: #000;
+}
+.amlm-popup-input::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+.amlm-popup-send-btn {
+  width: 24px;
+  height: 24px;
+  background: #2b6e2a;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  flex-shrink: 0;
+  transition: background 0.15s;
 }
-.amlm-popup-send-icon:hover { opacity: 0.8; }
+.amlm-popup-send-btn:hover { background: #1e5c1e; }
+.amlm-popup-send-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
 
 /* Keep arrow img absolutely positioned (not wrapped) */
 .hero-arrow {
@@ -280,19 +326,20 @@
 /* Text block — Figma: x=508,y=305 on 1648×890 canvas */
 .hero-name-block {
   position: absolute;
-  left: 30.85vw;    /* 508/1648 */
-  top: 34.27vh;     /* 305/890 */
-  width: 29.55vw;   /* 487/1648 — spans from x=508 to x=995 */
+  left: 508px;
+  top: 305px;
+  width: 487px;
   z-index: 2;
 }
 
-/* Stars ring — Figma: x=943,y=368, 197×217 on 1648×890 canvas */
+/* Stars ring — Figma: x=943,y=368, 197×217 on 1648×890 canvas.
+   Shifted up ~45px from Figma y to wrap naturally around name text. */
 .hero-stars {
   position: absolute;
-  left: 57.22vw;    /* 943/1648 */
-  top: 36vh;        /* shifted up ~5vh to wrap naturally around name text */
-  width: 11.95vw;   /* 197/1648 */
-  height: 13vw;
+  left: 943px;
+  top: 323px;
+  width: 197px;
+  height: 217px;
   pointer-events: none;
   z-index: 1;
 }
@@ -316,8 +363,8 @@
 
 .hero-name {
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: var(--fluid-heading-8xl);
-  line-height: 1.07;  /* 94px gap / 88px font-size at design scale */
+  font-size: 88px; /* raw Figma value — canvas transform handles all scaling */
+  line-height: 1.07;
   color: #000;
   margin: 0;
 }
@@ -373,7 +420,7 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  column-gap: 93px;
+  column-gap: 96px;
   row-gap: 100px;
 }
 
@@ -408,9 +455,7 @@ a.work-card {
   flex-shrink: 0;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow:
-    0 4px 4px rgba(0, 0, 0, 0.12),
-    inset 0 4px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
 }
 
 .work-card-artwork img {
@@ -420,10 +465,44 @@ a.work-card {
   object-position: top center;
 }
 
+/* Streets layered panel overlay — shadow on outer div, overflow-clip on inner */
+.work-card-panel {
+  position: absolute;
+  top: 53px;
+  left: 6%;
+  width: 94%;
+  height: 330px;
+  border-radius: 12px 0 12px 0;
+  border: 2px solid rgba(0, 0, 0, 0.06);
+  box-shadow: -6px 3px 3px 0 rgba(0, 0, 0, 0.08);
+}
+
+.work-card-panel-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.work-card-panel-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+}
+
+/* Inset shadow overlay — sits on top of artwork children so it's always visible */
+.work-card-artwork-inset {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.04);
+}
+
 
 .work-card-content {
-  width: 389px;
-  flex-shrink: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -596,4 +675,51 @@ a.work-card {
   height: 100%;
   border: none;
   display: block;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────────── */
+
+/* Tablet: tighten works grid gaps */
+@media (max-width: 1280px) {
+  .works-grid {
+    column-gap: 48px;
+    row-gap: 64px;
+  }
+  .work-card-artwork {
+    height: 280px;
+  }
+}
+
+/* Narrow tablet / large mobile: single-column works, stack footer */
+@media (max-width: 900px) {
+  .works {
+    padding: calc(90px + var(--space-6)) var(--space-8) 120px;
+  }
+  .works-grid {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 40px;
+  }
+  .work-card-artwork {
+    height: 240px;
+  }
+  .footer-left,
+  .footer-tagline {
+    width: 100%;
+  }
+  .footer-content {
+    flex-direction: column;
+    gap: 48px;
+    margin-top: 48px;
+  }
+}
+
+/* Mobile: compact padding */
+@media (max-width: 640px) {
+  .works {
+    padding: calc(90px + var(--space-4)) var(--space-6) 80px;
+  }
+  .work-card-artwork {
+    height: 200px;
+  }
 }
