@@ -16,9 +16,8 @@ import rocketAffinityMap from '../assets/images/rocket-cs-affinity-map.png'
 import rocketResearch from '../assets/images/rocket-cs-research.png'
 import rocketVersionHistoryBefore from '../assets/images/rocket-cs-version-history-before.png'
 import rocketVersionHistoryAfter  from '../assets/images/version-history.gif'
-import rocketCommsTimelineBefore  from '../assets/images/rocket-cs-comms-timeline.png'
-import rocketCommsTimelineAfter   from '../assets/images/rocket-cs-comms-timeline-new.png'
-import rocketBizCenter from '../assets/images/rocket-cs-biz-center.png'
+import rocketBizCenterBefore from '../assets/images/rocket-cs-dashboard.png'
+import documentsGif from '../assets/images/documents.gif'
 import rqIcon1 from '../assets/images/rq-icon-1.svg'
 import rqIcon2 from '../assets/images/rq-icon-2.svg'
 import rqIcon3 from '../assets/images/rq-icon-3.svg'
@@ -481,52 +480,62 @@ export default function RocketLawyerCaseStudy() {
 
             {/* ── Design Recommendations ── */}
             <section className="fcs-section" id="design-recs">
-              <span className="fcs-section-label">Design Recommendations</span>
+              <span className="fcs-section-label">PROCESS</span>
+              <h2 className="fcs-section-heading">Informing Design Reccomendations</h2>
 
-              <div className="fcs-sub-group">
+              <div className="fcs-rec-cards">
 
-                <div className="fcs-rec-subsection">
-                  <h3 className="fcs-rec-heading">Adding Version History to Track Changes over Time</h3>
-                  <p className="fcs-section-body">
-                    The following design recommendations were built to help inform potential future directions
-                    for the experience. While not directly implemented, their existence shaped the trajectory
-                    of the iterative project.
-                  </p>
-                  <BeforeAfterContainer
-                    beforeSrc={rocketVersionHistoryBefore}
-                    afterSrc={rocketVersionHistoryAfter}
-                    beforeLayout="inset"
-                  />
+                <div className="fcs-numbered-card">
+                  <span className="fcs-numbered-card-num">01</span>
+                  <div className="fcs-numbered-card-content">
+                    <h3 className="fcs-rec-heading">Experimenting with Validated Features in the Current Workspace</h3>
+                    <p className="fcs-section-body">
+                      Version control was consistently requested in user interviews, so as part of my design
+                      recommendations to stakeholders, I designed the feature's integration using the current
+                      design system.
+                    </p>
+                    <BeforeAfterContainer
+                      beforeSrc={rocketVersionHistoryBefore}
+                      afterSrc={rocketVersionHistoryAfter}
+                      beforeLayout="inset"
+                    />
+                  </div>
                 </div>
 
-                <div className="fcs-rec-subsection">
-                  <h3 className="fcs-rec-heading">Communication Timeline Managing Notifications and Statuses</h3>
-                  <p className="fcs-section-body">
-                    The following design recommendations were built to help inform potential future directions
-                    for the experience. While not directly implemented, their existence shaped the trajectory
-                    of the iterative project.
-                  </p>
-                  <BeforeAfterContainer
-                    beforeSrc={rocketCommsTimelineBefore}
-                    afterSrc={rocketCommsTimelineAfter}
-                  />
+                <div className="fcs-numbered-card">
+                  <span className="fcs-numbered-card-num">02</span>
+                  <div className="fcs-numbered-card-content">
+                    <h3 className="fcs-rec-heading">Shifting Focus over to the Business Center Dashboard</h3>
+                    <p className="fcs-section-body">
+                      As I informed recommendations to PMs, our focus shifted from the Negotiate &amp; Sign
+                      pipeline to a fully-fleshed out Business Center dashboard, built and ideated in
+                      conjunction with engineering teams.
+                    </p>
+                    <BeforeAfterContainer
+                      beforeSrc={rocketBizCenterBefore}
+                      afterSrc={documentsGif}
+                    />
+                  </div>
                 </div>
 
-                <div className="fcs-rec-subsection">
-                  <h3 className="fcs-rec-heading">Building the Business Center for Information Management</h3>
-                  <p className="fcs-section-body">
-                    The following design recommendations were built to help inform potential future directions
-                    for the experience. While not directly implemented, their existence shaped the trajectory
-                    of the iterative project.
-                  </p>
-                  <div className="fcs-rec-image-group">
-                    <div className="fcs-rec-image-wrap">
-                      <img src={rocketBizCenter} alt="Business center design recommendation" className="fcs-rec-image" draggable={false} />
-                    </div>
-                    <div className="fcs-rec-toggle">
-                      <span className="fcs-rec-toggle-opt">old</span>
-                      <span className="fcs-rec-toggle-opt fcs-rec-toggle-opt--active">new</span>
-                    </div>
+                <div className="fcs-numbered-card">
+                  <span className="fcs-numbered-card-num">03</span>
+                  <div className="fcs-numbered-card-content">
+                    <h3 className="fcs-rec-heading">Building and Testing the Business Center Core Feature: AI-Guided Workflows</h3>
+                    <p className="fcs-section-body">
+                      The Business Center experience became the emphasis of the small business user experience,
+                      aiming to better alleviate the core problem surfaced in interviews. As we built out this
+                      experience, I made use of AI-powered UX research pipelines to optimize the iterative process.
+                    </p>
+                    <p className="fcs-section-body">
+                      Through automated user testing, I validated and built an AI-powered guided, autonomous
+                      workflows serving as the new core value proposition of the evolving project.
+                    </p>
+                    <BeforeAfterContainer
+                      beforeSrc={rocketVersionHistoryBefore}
+                      afterSrc={rocketVersionHistoryAfter}
+                      beforeLayout="inset"
+                    />
                   </div>
                 </div>
 

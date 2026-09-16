@@ -1785,6 +1785,42 @@
 }
 .fcs-page--rocket .fcs-rec-subsection > * { margin: 0; }
 
+/* ── Rocket: numbered design-rec card layout ── */
+.fcs-rec-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.fcs-numbered-card {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  padding: 16px 32px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.fcs-numbered-card-num {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #991b1d;
+  opacity: 0.75;
+  line-height: 32px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.fcs-numbered-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
 /* ── Rocket Lawyer typography scale ── */
 .fcs-page--rocket .fcs-org-name {
   font-size: var(--text-base);
