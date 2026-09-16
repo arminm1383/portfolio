@@ -1252,6 +1252,10 @@
   padding: var(--space-8) var(--space-8) var(--space-7);
 }
 
+.fcs-media-card--grey {
+  background: #eae9e9;
+}
+
 .fcs-media-card-inner {
   width: 100%;
   border-radius: 4px;
@@ -1866,6 +1870,16 @@
 .fcs-page--rocket .fcs-rec-heading {
   font-size: var(--text-xl);
   letter-spacing: -0.48px;
+}
+
+.fcs-research-callout {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: #991b1d;
+  line-height: 1.2;
+  letter-spacing: -0.32px;
+  margin: 0;
 }
 
 /* ── Rocket Lawyer: header flex layout ── */

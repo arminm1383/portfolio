@@ -411,44 +411,33 @@ export default function RocketLawyerCaseStudy() {
               <div className="fcs-sub-group">
 
                 <div className="fcs-sub">
-                  <h3 className="fcs-subsection-heading">Automating the Workflow</h3>
-                  <p className="fcs-section-body">
-                    Beyond traditional methods for developing user tests, I created an AI pipeline to automate
-                    the generation of direct comparison usability tests, experimented on throughout the
-                    Negotiate &amp; Sign project.
-                  </p>
-                  <div className="fcs-media-card fcs-media-card--padded">
-                    <div className="fcs-media-card-inner fcs-media-card-inner--frame">
-                      <div className="fcs-media-frame-overflow">
-                        <img src={rocketResearch} alt="AI pipeline for building user tests" className="fcs-media-card-img fcs-media-card-img--frame" draggable={false} />
-                      </div>
-                    </div>
-                    <p className="fcs-media-caption-red">Building User Tests using Claude Cowork and Chrome &amp; Figma MCPs</p>
-                  </div>
-                </div>
-
-                <div className="fcs-sub">
                   <h3 className="fcs-subsection-heading">Quantifying our Users</h3>
                   <p className="fcs-section-body">
                     UserTesting was used to connect with 100+ Rocket Lawyer users, gathering a high-level
                     understanding of the research themes further explored through user interviews.
                   </p>
-                  <div className="fcs-media-card fcs-media-card--padded">
+                  <div className="fcs-media-card fcs-media-card--padded fcs-media-card--grey">
                     <div className="fcs-media-card-inner fcs-media-card-inner--chart">
                       <div className="fcs-media-frame-overflow">
-                        <img src={rocketChart} alt="Building cohorts in Amplitude" className="fcs-media-card-img fcs-media-card-img--chart" draggable={false} />
+                        <img src={rocketChart} alt="Defining cohorts in Amplitude" className="fcs-media-card-img fcs-media-card-img--chart" draggable={false} />
                       </div>
                     </div>
-                    <p className="fcs-media-caption-red">Building Cohorts in Amplitude to Segment Copilot Use Cases</p>
+                    <p className="fcs-media-caption-red">Defining Cohorts in Amplitude to Segment Copilot Use Cases</p>
                   </div>
                 </div>
 
                 <div className="fcs-sub">
                   <h3 className="fcs-subsection-heading">Talking to Customers</h3>
                   <p className="fcs-section-body">
-                    By conducting user interviews with both attorneys and Rocket Lawyer users, I surfaced
-                    critical research themes that addressed user opinions towards everything from AI use and
-                    document generation to case management and workspace organization.
+                    Despite prior data consistently validating the need for small business users to streamline
+                    legal workflows, our analytics simply weren't upholding as expected.
+                  </p>
+                  <p className="fcs-research-callout">
+                    How might we understand specific use cases at a way finer level?
+                  </p>
+                  <p className="fcs-section-body">
+                    I started by talking to customers right away, recognizing that through in-depth, engaging,
+                    genuine conversations, I could only then truly understand the barriers to negotiation.
                   </p>
                   <div className="fcs-quote-card">
                     <div className="fcs-quote-entry">
@@ -472,6 +461,29 @@ export default function RocketLawyerCaseStudy() {
                       <img src={rocketAffinityMap} alt="Affinity map of user interview insights" className="fcs-media-card-img" draggable={false} />
                     </div>
                     <p className="fcs-media-caption-red">Affinity Map Breaking Down User Interview Insights into Thematic Analysis</p>
+                  </div>
+                  <p className="fcs-section-body">
+                    Moving beyond the designs, I explored how my research findings and themes could be applied
+                    to our current iterations.
+                  </p>
+                  <div className="fcs-media-card fcs-media-card--padded fcs-media-card--grey">
+                    <div className="fcs-media-card-inner fcs-media-card-inner--frame">
+                      <div className="fcs-media-frame-overflow">
+                        <img src={rocketResearch} alt="Breaking down design iterations" className="fcs-media-card-img fcs-media-card-img--frame" draggable={false} />
+                      </div>
+                    </div>
+                    <p className="fcs-media-caption-red">Breaking Down Iterations</p>
+                  </div>
+                  <p className="fcs-section-body">
+                    In addition to ux research, AI was used to help integrate connectivity with upgraded
+                    design systems, using Claude skills and Design Engineering principles to update the
+                    updated visuals, components typography attributes.
+                  </p>
+                  <div className="fcs-media-card fcs-media-card--padded fcs-media-card--grey">
+                    <div className="fcs-media-card-inner">
+                      <img src={rocketFdsSidebar} alt="Design system component for Copilot sidebar" className="fcs-media-card-img" draggable={false} />
+                    </div>
+                    <p className="fcs-media-caption-red">Design System Component for Copilot Sidebar Menu</p>
                   </div>
                 </div>
 
