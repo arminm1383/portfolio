@@ -16,7 +16,7 @@ import heroBird2   from '../assets/images/hero-bird2.png'
 import heroBird3   from '../assets/images/hero-bird3.png'
 import rocketArtwork     from '../assets/images/rocket-artwork-v2.gif'
 import findyGif          from '../assets/images/findy-artwork-v2.gif'
-import workStreetsPanel   from '../assets/images/work-streets-projects.jpg'
+import workStreetsPanel   from '../assets/images/work-streets-projects.png'
 import workMementoArtwork from '../assets/images/work-memento-artwork.png'
 import individualStar from '../assets/images/individual-star.svg'
 import amlmSend    from '../assets/images/amlm-send.svg'
@@ -579,8 +579,8 @@ export default function Home() {
               {/* Name text */}
               <div className="hero-name-block">
                 <h1 className="hero-name">
-                  <span className="first">hi, i'm</span>
-                  <span className="last">armin</span>
+                  <span className="first">Hi, I'm</span>
+                  <span className="last">Armin</span>
                 </h1>
               </div>
             </div>
@@ -589,15 +589,15 @@ export default function Home() {
           {/* ── Works grid ────────────────────────────────────────────────── */}
           <section className="works" ref={worksRef}>
             <div className="works-header">
-              <h2 className="works-heading">featured work</h2>
-              <p className="works-subtitle">a collection of some of my latest projects</p>
+              <h2 className="works-heading">Featured Work</h2>
+              <p className="works-subtitle">A collection of some of my latest projects</p>
             </div>
             <div className="works-grid" key={worksKey}>
               <WorkCard
                 artwork={rocketArtwork}
                 artworkAlt="Rocket Lawyer"
                 title="Rocket Lawyer"
-                description="redefining AI software through data-driven research"
+                description="Redefining AI software through data-driven research"
                 isGif
                 to="/work/rocket-lawyer"
               />
@@ -605,13 +605,13 @@ export default function Home() {
                 bgColor="#369af1"
                 panel={workStreetsPanel}
                 title="Streets"
-                description="design engineering enterprise B2B software"
+                description="Design engineering enterprise B2B software"
               />
               <WorkCard
                 artwork={findyGif}
                 artworkAlt="Findy"
                 title="Findy"
-                description="a case-competition winning solution built for elders, tested by elders"
+                description="A case-competition winning solution built for elders, tested by elders"
                 isGif
                 to="/work/findy"
               />
@@ -619,7 +619,7 @@ export default function Home() {
                 artwork={workMementoArtwork}
                 artworkAlt="Memento"
                 title="Memento"
-                description="connecting memories through emerging interfaces"
+                description="Connecting memories through emerging interfaces"
                 bgColor="#1b130f"
                 objectFit="contain"
                 href="https://devpost.com/software/memento-3p1kjl"
