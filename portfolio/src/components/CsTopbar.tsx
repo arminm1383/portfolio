@@ -6,8 +6,14 @@ import starLg from '../assets/images/nav-topbar-star-lg.svg'
 import starMd from '../assets/images/nav-topbar-star-md.svg'
 import starTexture from '../assets/images/nav-topbar-star-texture.png'
 
-export default function CsTopbar({ showAtTop = false }: { showAtTop?: boolean }) {
-  const [visible, setVisible] = useState(showAtTop)
+export default function CsTopbar({
+  showAtTop = false,
+  visible: visibleProp,
+}: {
+  showAtTop?: boolean
+  visible?: boolean
+}) {
+  const [scrollVisible, setScrollVisible] = useState(showAtTop)
   const lastY = useRef(0)
 
   useEffect(() => {
@@ -16,13 +22,15 @@ export default function CsTopbar({ showAtTop = false }: { showAtTop?: boolean })
     function onScroll() {
       const y = window.scrollY
       const scrollingUp = y < lastY.current
-      setVisible(showAtTop ? (y <= 80 || (y > 120 && scrollingUp)) : (y > 120 && scrollingUp))
+      setScrollVisible(showAtTop ? (y <= 80 || (y > 120 && scrollingUp)) : (y > 120 && scrollingUp))
       lastY.current = y
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [showAtTop])
+
+  const visible = visibleProp !== undefined ? visibleProp : scrollVisible
 
   return (
     <div className={`cs-topbar${visible ? ' cs-topbar--visible' : ''}`}>
@@ -42,7 +50,7 @@ export default function CsTopbar({ showAtTop = false }: { showAtTop?: boolean })
             <img src={starTexture} alt="" className="cs-star-texture" />
           </div>
         </div>
-        <span className="cs-topbar-handle">arminLM</span>
+        <span className="cs-topbar-handle">amLM</span>
       </div>
     </div>
   )

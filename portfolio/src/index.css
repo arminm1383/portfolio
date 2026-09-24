@@ -6,6 +6,63 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'PP Kyoto';
+  src: url('./assets/fonts/PPKyoto-Thin.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Kyoto';
+  src: url('./assets/fonts/PPKyoto-ThinItalic.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Kyoto';
+  src: url('./assets/fonts/PPKyoto-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Kyoto';
+  src: url('./assets/fonts/PPKyoto-LightItalic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Kyoto';
+  src: url('./assets/fonts/PPKyoto-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Kyoto';
+  src: url('./assets/fonts/PPKyoto-MediumItalic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Kyoto';
+  src: url('./assets/fonts/PPKyoto-Extrabold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Kyoto';
+  src: url('./assets/fonts/PPKyoto-ExtraboldItalic.otf') format('opentype');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   /* Spacing scale — --space-N = N × 4px, enforces the grid by construction */
   --space-1: 4px;

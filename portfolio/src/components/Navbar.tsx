@@ -1,61 +1,47 @@
 import { Link, useLocation } from 'react-router-dom'
 import './Navbar.css'
 
-import navStar from '../assets/images/nav-star.svg'
-import navPerson from '../assets/images/nav-person.svg'
-import navPaintbrush from '../assets/images/nav-paintbrush.svg'
+import navIconWork  from '../assets/images/nav-icon-work.svg'
+import navIconAbout from '../assets/images/nav-icon-about.svg'
 
 
 interface NavbarProps {
-  /** On the home page, these override Link navigation with scroll-based goTo() calls */
   onWork?: () => void
   onAbout?: () => void
-  onResume?: () => void
+  hidden?: boolean
 }
 
-export default function Navbar({ onWork, onAbout, onResume }: NavbarProps) {
+export default function Navbar({ onWork, onAbout, hidden }: NavbarProps) {
   const { pathname } = useLocation()
 
   return (
-    <nav className="navbar">
+    <nav className="navbar" style={hidden ? { opacity: 0, pointerEvents: 'none' } : undefined}>
       <div className="navbar-pill">
-        <div className="navbar-pill-blur" />
 
         {onWork ? (
           <button className="nav-tab" onClick={onWork}>
-            <img src={navStar} alt="" className="nav-tab-icon nav-tab-icon--star" />
-            work
+            <img src={navIconWork} alt="" className="nav-tab-icon" width={20} height={20} />
+            <span className="nav-tab-label">work</span>
           </button>
         ) : (
           <Link to="/work/aura" className={`nav-tab${pathname.startsWith('/work') ? ' nav-tab--active' : ''}`}>
-            <img src={navStar} alt="" className="nav-tab-icon nav-tab-icon--star" />
-            work
+            <img src={navIconWork} alt="" className="nav-tab-icon" width={20} height={20} />
+            <span className="nav-tab-label">work</span>
           </Link>
         )}
 
         {onAbout ? (
           <button className="nav-tab" onClick={onAbout}>
-            <img src={navPerson} alt="" className="nav-tab-icon nav-tab-icon--person" />
-            about
+            <img src={navIconAbout} alt="" className="nav-tab-icon" width={20} height={20} />
+            <span className="nav-tab-label">about</span>
           </button>
         ) : (
           <Link to="/" className="nav-tab">
-            <img src={navPerson} alt="" className="nav-tab-icon nav-tab-icon--person" />
-            about
+            <img src={navIconAbout} alt="" className="nav-tab-icon" width={20} height={20} />
+            <span className="nav-tab-label">about</span>
           </Link>
         )}
 
-        {onResume ? (
-          <button className="nav-tab" onClick={onResume}>
-            <img src={navPaintbrush} alt="" className="nav-tab-icon nav-tab-icon--paintbrush" />
-            resume
-          </button>
-        ) : (
-          <Link to="/" className="nav-tab">
-            <img src={navPaintbrush} alt="" className="nav-tab-icon nav-tab-icon--paintbrush" />
-            resume
-          </Link>
-        )}
       </div>
     </nav>
   )

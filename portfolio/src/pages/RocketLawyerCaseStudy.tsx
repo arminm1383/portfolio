@@ -19,6 +19,7 @@ import rocketChart from '../assets/images/rocket-cs-chart.png'
 import rocketAffinityMap from '../assets/images/rocket-cs-affinity-map.png'
 import rocketVersionHistoryBefore from '../assets/images/rocket-cs-version-history-before.png'
 import rocketVersionHistoryAfter  from '../assets/images/version-history.gif'
+import rocketBizCenterBreakdown from '../assets/images/rocket-cs-business-center-breakdown.png'
 import rocketBizCenter from '../assets/images/rocket-cs-biz-center.gif'
 import rocketBizCenterBefore from '../assets/images/rocket-cs-dashboard.png'
 import rqIcon1 from '../assets/images/rq-icon-1.svg'
@@ -175,17 +176,17 @@ export default function RocketLawyerCaseStudy() {
   const targetYRef = useRef(0)
   const currentYRef = useRef(0)
   const rafRef = useRef<number | null>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+  const [activeCard, setActiveCard] = useState(0)
 
   useEffect(() => {
+    history.scrollRestoration = 'manual'
+    window.scrollTo(0, 0)
     document.documentElement.style.overflow = 'auto'
     document.documentElement.style.height = 'auto'
-    document.body.style.overflow = 'auto'
-    document.body.style.height = 'auto'
     return () => {
       document.documentElement.style.overflow = ''
       document.documentElement.style.height = ''
-      document.body.style.overflow = ''
-      document.body.style.height = ''
     }
   }, [])
 
@@ -235,6 +236,36 @@ export default function RocketLawyerCaseStudy() {
     window.addEventListener('scroll', update, { passive: true })
     update()
     return () => window.removeEventListener('scroll', update)
+  }, [])
+
+  useEffect(() => {
+    function updateActiveCard() {
+      const trigger = window.innerHeight * 0.5
+      let active = 0
+      cardRefs.current.forEach((ref, i) => {
+        if (!ref) return
+        if (ref.getBoundingClientRect().top <= trigger) active = i
+      })
+      setActiveCard(active)
+    }
+    window.addEventListener('scroll', updateActiveCard, { passive: true })
+    updateActiveCard()
+    return () => window.removeEventListener('scroll', updateActiveCard)
+  }, [])
+
+  useEffect(() => {
+    function checkArrows() {
+      document.querySelectorAll<HTMLElement>('.fcs-diag-arrow-wrap, .fcs-stats-connector-wrap').forEach(el => {
+        if (el.classList.contains('fcs-arrow--drawn')) return
+        const { top, bottom } = el.getBoundingClientRect()
+        if (top < window.innerHeight * 0.9 && bottom > 0) {
+          el.classList.add('fcs-arrow--drawn')
+        }
+      })
+    }
+    window.addEventListener('scroll', checkArrows, { passive: true })
+    checkArrows()
+    return () => window.removeEventListener('scroll', checkArrows)
   }, [])
 
   const scrollTo = useCallback((id: string) => {
@@ -373,9 +404,13 @@ export default function RocketLawyerCaseStudy() {
                       <img src={diagClaude} alt="Claude" className="fcs-bg-diag-logo fcs-bg-diag-logo--claude" />
                       <img src={diagFigma}  alt="Figma"  className="fcs-bg-diag-logo fcs-bg-diag-logo--figma" />
                     </div>
-                    <img src={diagArrow1} alt="" className="fcs-bg-diag-arrow fcs-bg-diag-arrow--1" />
+                    <div className="fcs-diag-arrow-wrap">
+                      <img src={diagArrow1} alt="" className="fcs-bg-diag-arrow fcs-bg-diag-arrow--1" />
+                    </div>
                     <img src={diagUT}     alt="UserTesting" className="fcs-bg-diag-logo fcs-bg-diag-logo--ut" />
-                    <img src={diagArrow2} alt="" className="fcs-bg-diag-arrow fcs-bg-diag-arrow--2" />
+                    <div className="fcs-diag-arrow-wrap fcs-diag-arrow-wrap--seq">
+                      <img src={diagArrow2} alt="" className="fcs-bg-diag-arrow fcs-bg-diag-arrow--2" />
+                    </div>
                     <img src={diagRL}     alt="Rocket Lawyer" className="fcs-bg-diag-logo fcs-bg-diag-logo--rl" />
                   </div>
                 </div>
@@ -500,78 +535,90 @@ export default function RocketLawyerCaseStudy() {
 
               <div className="fcs-rec-cards">
 
-                <div className="fcs-numbered-card">
-                  <span className="fcs-numbered-card-num">01</span>
-                  <div className="fcs-numbered-card-content">
-                    <h3 className="fcs-rec-heading fcs-rec-heading--lg">Experimenting with Validated Features in the Current Workspace</h3>
-                    <p className="fcs-section-body">
-                      Version control was consistently requested in user interviews, so as part of my design
-                      recommendations to stakeholders, I designed the feature's integration using the current
-                      design system.
-                    </p>
-                    <BeforeAfterContainer
-                      beforeSrc={rocketVersionHistoryBefore}
-                      afterSrc={rocketVersionHistoryAfter}
-                      beforeLayout="inset"
-                    />
-                  </div>
+                <div className="fcs-rec-cards-numcol">
+                  <div className="fcs-num-row"><span className="fcs-numbered-card-num">01</span></div>
+                  <div className="fcs-num-row"><span className="fcs-numbered-card-num">02</span></div>
+                  <div className="fcs-num-row"><span className="fcs-numbered-card-num">03</span></div>
                 </div>
 
-                <div className="fcs-numbered-card">
-                  <span className="fcs-numbered-card-num">02</span>
-                  <div className="fcs-numbered-card-content">
-                    <h3 className="fcs-rec-heading fcs-rec-heading--lg">Shifting Focus over to the Business Center Dashboard</h3>
-                    <p className="fcs-section-body">
-                      As I informed recommendations to PMs, our focus shifted from the Negotiate &amp; Sign
-                      pipeline to a fully-fleshed out Business Center dashboard, built and ideated in
-                      conjunction with engineering teams.
-                    </p>
-                    <BeforeAfterContainer
-                      beforeSrc={rocketBizCenterBefore}
-                      afterSrc={rocketBizCenter}
-                    />
-                  </div>
-                </div>
+                <div className="fcs-rec-cards-contentcol">
 
-                <div className="fcs-numbered-card">
-                  <span className="fcs-numbered-card-num">03</span>
-                  <div className="fcs-numbered-card-content">
-                    <h3 className="fcs-rec-heading fcs-rec-heading--lg">Testing and Iterating the Business Center's Core Feature: AI-Guided Workflows</h3>
-                    <p className="fcs-section-body">
-                      The Business Center experience became the emphasis of the small business user experience,
-                      aiming to better alleviate the core problem surfaced in interviews. As we built out this
-                      experience, I made use of AI-powered UX research pipelines to optimize the iterative process.
-                    </p>
-                    <div className="fcs-media-card fcs-media-card--padded">
-                      <div className="fcs-media-card-inner--usability">
-                        <img src={rocketUsabilityTest} alt="" className="fcs-media-card-img" draggable={false} />
-                      </div>
-                      <p className="fcs-media-caption-subtle">Launching a Usability Test using Custom Claude Skills</p>
-                    </div>
-                    <p className="fcs-section-body">
-                      In addition to ux research, AI was used to help integrate connectivity with upgraded design
-                      systems, using Claude skills and Design Engineering principles to update the visuals,
-                      components, and typography attributes.
-                    </p>
-                    <div className="fcs-media-card fcs-media-card--padded">
-                      <div className="fcs-media-card-inner fcs-media-card-inner--sidebar">
-                        <img src={rocketFdsSidebar} alt="" className="fcs-media-card-img--sidebar" draggable={false} />
-                      </div>
-                      <p className="fcs-media-caption-red">Design System Component for Copilot Sidebar Menu</p>
-                    </div>
-                    <p className="fcs-section-body">
-                      Through automated user testing, I validated and built an AI-powered guided, autonomous
-                      workflows serving as the new core value proposition of the evolving project.
-                    </p>
-                    <div className="fcs-media-card fcs-media-card--padded">
-                      <p className="fcs-media-card-label">TEST RESULTS INFORMING AN AI-DRIVEN DESIGN PROCESS</p>
-                      <div className="fcs-media-card-inner fcs-media-card-inner--results">
-                        <img src={rocketTestResults} alt="" className="fcs-media-card-img--results" draggable={false} />
-                      </div>
+                  <div className="fcs-numbered-card" ref={el => { cardRefs.current[0] = el }}>
+                    <div className="fcs-numbered-card-content">
+                      <h3 className="fcs-rec-heading fcs-rec-heading--lg">Experimenting with Validated Features in the Current Workspace</h3>
+                      <p className="fcs-section-body">
+                        Version control was consistently requested in user interviews, so as part of my design
+                        recommendations to stakeholders, I designed the feature's integration using the current
+                        design system.
+                      </p>
+                      <BeforeAfterContainer
+                        beforeSrc={rocketVersionHistoryBefore}
+                        afterSrc={rocketVersionHistoryAfter}
+                        beforeLayout="inset"
+                      />
                     </div>
                   </div>
-                </div>
 
+                  <div className="fcs-numbered-card" ref={el => { cardRefs.current[1] = el }}>
+                    <div className="fcs-numbered-card-content">
+                      <h3 className="fcs-rec-heading fcs-rec-heading--lg">Shifting Focus over to the Business Center Dashboard</h3>
+                      <p className="fcs-section-body">
+                        As I informed recommendations to PMs, our focus shifted from the Negotiate &amp; Sign
+                        pipeline to a fully-fleshed out Business Center dashboard, built and ideated in
+                        conjunction with engineering teams.2
+                      </p>
+                      <div className="fcs-media-card fcs-media-card--padded fcs-media-card--borderless">
+                        <p className="fcs-media-card-label">TEST RESULTS INFORMING AN AI-DRIVEN DESIGN PROCESS</p>
+                        <div className="fcs-media-card-inner fcs-media-card-inner--results">
+                          <img src={rocketBizCenterBreakdown} alt="" className="fcs-media-card-img--results" draggable={false} />
+                        </div>
+                      </div>
+                      <BeforeAfterContainer
+                        beforeSrc={rocketBizCenterBefore}
+                        afterSrc={rocketBizCenter}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="fcs-numbered-card" ref={el => { cardRefs.current[2] = el }}>
+                    <div className="fcs-numbered-card-content">
+                      <h3 className="fcs-rec-heading fcs-rec-heading--lg">Testing and Iterating the Business Center's Core Feature: AI-Guided Workflows</h3>
+                      <p className="fcs-section-body">
+                        The Business Center experience became the emphasis of the small business user experience,
+                        aiming to better alleviate the core problem surfaced in interviews. As we built out this
+                        experience, I made use of AI-powered UX research pipelines to optimize the iterative process.
+                      </p>
+                      <div className="fcs-media-card fcs-media-card--padded">
+                        <div className="fcs-media-card-inner--usability">
+                          <img src={rocketUsabilityTest} alt="" className="fcs-media-card-img" draggable={false} />
+                        </div>
+                        <p className="fcs-media-caption-subtle">Launching a Usability Test using Custom Claude Skills</p>
+                      </div>
+                      <p className="fcs-section-body">
+                        In addition to ux research, AI was used to help integrate connectivity with upgraded design
+                        systems, using Claude skills and Design Engineering principles to update the visuals,
+                        components, and typography attributes.
+                      </p>
+                      <div className="fcs-media-card fcs-media-card--padded">
+                        <div className="fcs-media-card-inner fcs-media-card-inner--sidebar">
+                          <img src={rocketFdsSidebar} alt="" className="fcs-media-card-img--sidebar" draggable={false} />
+                        </div>
+                        <p className="fcs-media-caption-red">Design System Component for Copilot Sidebar Menu</p>
+                      </div>
+                      <p className="fcs-section-body">
+                        Through automated user testing, I validated and built an AI-powered guided, autonomous
+                        workflows serving as the new core value proposition of the evolving project.
+                      </p>
+                      <div className="fcs-media-card fcs-media-card--padded">
+                        <p className="fcs-media-card-label">TEST RESULTS INFORMING AN AI-DRIVEN DESIGN PROCESS</p>
+                        <div className="fcs-media-card-inner fcs-media-card-inner--results">
+                          <img src={rocketTestResults} alt="" className="fcs-media-card-img--results" draggable={false} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
               </div>
             </section>
 

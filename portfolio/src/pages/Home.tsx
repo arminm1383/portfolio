@@ -1,29 +1,50 @@
 import { useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react'
-import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import './Home.css'
 import Navbar from '../components/Navbar'
 import CsTopbar from '../components/CsTopbar'
 
-import heroGuitar  from '../assets/images/hero-guitar.png'
 import heroMac     from '../assets/images/hero-mac.png'
 import heroMeGreen from '../assets/images/hero-me-green.png'
-import heroWii     from '../assets/images/hero-wii.svg'
+import heroWii     from '../assets/images/hero-wii.png'
 import heroIpod    from '../assets/images/hero-ipod.png'
 import heroBird1   from '../assets/images/hero-bird1.png'
 import heroBird2   from '../assets/images/hero-bird2.png'
 import heroBird3   from '../assets/images/hero-bird3.png'
+import heroYosemite    from '../assets/images/hero-yosemite.png'
+import heroIconFigma   from '../assets/images/hero-icon-figma.png'
+import heroIconReact   from '../assets/images/hero-icon-react.png'
+import heroIconClaude  from '../assets/images/hero-icon-claude.png'
+import heroMusicNote   from '../assets/images/hero-music-note.png'
+import heroKoi         from '../assets/images/koi.gif'
+import heroKoiMask     from '../assets/images/hero-koi-mask.png'
+import heroKoiBorder   from '../assets/images/hero-koi-border.png'
+import heroBoy         from '../assets/images/hero-boy.png'
+import heroStarLg      from '../assets/images/hero-star-lg.png'
+import heroStarMd      from '../assets/images/hero-star-md.png'
+import heroStarSm      from '../assets/images/hero-star-sm.png'
 import rocketArtwork     from '../assets/images/rocket-artwork-v2.gif'
 import findyGif          from '../assets/images/findy-artwork-v2.gif'
 import workStreetsPanel   from '../assets/images/work-streets-projects.png'
 import workMementoArtwork from '../assets/images/work-memento-artwork.png'
-import individualStar from '../assets/images/individual-star.svg'
 import amlmSend    from '../assets/images/amlm-send.svg'
 import amlmStarSm  from '../assets/images/nav-topbar-star-sm.svg'
 import amlmStarLg  from '../assets/images/nav-topbar-star-lg.svg'
 import amlmStarMd  from '../assets/images/nav-topbar-star-md.svg'
 import amlmStarTex from '../assets/images/nav-topbar-star-texture.png'
+import aboutPhonePaper from '../assets/images/about-phone-paper.png'
+import aboutPhoto1  from '../assets/images/about-photo-1.png'
+import aboutPhoto2  from '../assets/images/about-photo-2.png'
+import aboutPhoto3  from '../assets/images/about-photo-3.png'
+import aboutPhoto4  from '../assets/images/about-photo-4.png'
+import aboutPhoto5  from '../assets/images/about-photo-5.png'
+import aboutPhoto6  from '../assets/images/about-photo-6.png'
+import aboutPhoto7  from '../assets/images/about-photo-7.png'
+import aboutPhoto8  from '../assets/images/about-photo-8.png'
+import aboutPhoto9  from '../assets/images/about-photo-9.png'
+import aboutPhoto10 from '../assets/images/about-photo-10.png'
+import aboutPhoto11 from '../assets/images/about-photo-11.png'
 
 // ── amLM: sparkle badge (AI Tag) ─────────────────────────────────────────────
 function AmLMTag({ onClick }: { onClick: (e: React.MouseEvent) => void }) {
@@ -82,12 +103,24 @@ function AmLMPopup({ onStop }: { onStop: (e: React.MouseEvent) => void }) {
 //            self-intersecting polygon that caused the "double outline" bug.
 interface OutlineBbox { minX: number; minY: number; maxX: number; maxY: number }
 
+// WCAG relative luminance + contrast ratio — used to pick the highest-contrast anchor corner
+function _wcagLum(r: number, g: number, b: number): number {
+  const lin = (c: number) => { const v = c / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4) }
+  return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
+}
+function _contrast(r1: number, g1: number, b1: number, r2: number, g2: number, b2: number): number {
+  const l1 = _wcagLum(r1, g1, b1), l2 = _wcagLum(r2, g2, b2)
+  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05)
+}
+const BADGE_R = 43, BADGE_G = 110, BADGE_B = 42 // #2b6e2a
+
 function useAlphaOutline(
   ref: React.RefObject<HTMLImageElement | null>,
   mode: 'alpha' | 'infer' = 'alpha',
-): { pts: string; bbox: OutlineBbox | null } {
+): { pts: string; bbox: OutlineBbox | null; anchorPos: [number, number] | null } {
   const [pts, setPts] = useState('')
   const [bbox, setBbox] = useState<OutlineBbox | null>(null)
+  const [anchorPos, setAnchorPos] = useState<[number, number] | null>(null)
 
   useEffect(() => {
     const img = ref.current
@@ -154,15 +187,51 @@ function useAlphaOutline(
           const allPts = [...left, ...right]
           const xs = allPts.map(([x]) => x)
           const ys = allPts.map(([, y]) => y)
-          setBbox({
-            minX: Math.min(...xs),
-            minY: Math.min(...ys),
-            maxX: Math.max(...xs),
-            maxY: Math.max(...ys),
-          })
+          const minX = Math.min(...xs), minY = Math.min(...ys)
+          const maxX = Math.max(...xs), maxY = Math.max(...ys)
+          setBbox({ minX, minY, maxX, maxY })
           setPts([...left, ...right.reverse()]
             .map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`)
             .join(','))
+
+          // ── Contrast-based anchor placement ──────────────────────────────
+          // Sample background pixels just outside each bbox corner, then pick
+          // the corner where badge green (#2b6e2a) has the highest WCAG contrast.
+          const PAD = Math.max(3, Math.round(Math.min(cw, ch) * 0.06))
+
+          function sampleBgAt(cx: number, cy: number): [number, number, number] {
+            let sr = 0, sg = 0, sb = 0, n = 0
+            for (let dy = -PAD; dy <= PAD; dy++) {
+              for (let dx = -PAD; dx <= PAD; dx++) {
+                const px = cx + dx, py = cy + dy
+                if (px < 0 || px >= cw || py < 0 || py >= ch) continue
+                if (isFg(px, py)) continue
+                const i = (py * cw + px) * 4
+                const a = data[i + 3], f = a / 255
+                sr += data[i]   * f + PR * (1 - f)
+                sg += data[i+1] * f + PG * (1 - f)
+                sb += data[i+2] * f + PB * (1 - f)
+                n++
+              }
+            }
+            return n > 0 ? [sr / n, sg / n, sb / n] : [PR, PG, PB]
+          }
+
+          // Four candidates: [pctX, pctY, samplePixelX, samplePixelY]
+          const candidates: Array<[number, number, number, number]> = [
+            [maxX, minY, Math.round(maxX / 100 * cw) + PAD, Math.round(minY / 100 * ch) - PAD],
+            [minX, minY, Math.round(minX / 100 * cw) - PAD, Math.round(minY / 100 * ch) - PAD],
+            [maxX, maxY, Math.round(maxX / 100 * cw) + PAD, Math.round(maxY / 100 * ch) + PAD],
+            [minX, maxY, Math.round(minX / 100 * cw) - PAD, Math.round(maxY / 100 * ch) + PAD],
+          ]
+
+          let bestX = maxX, bestY = minY, bestContrast = 0
+          for (const [px, py, cpx, cpy] of candidates) {
+            const [r, g, b] = sampleBgAt(cpx, cpy)
+            const cr = _contrast(BADGE_R, BADGE_G, BADGE_B, r, g, b)
+            if (cr > bestContrast) { bestContrast = cr; bestX = px; bestY = py }
+          }
+          setAnchorPos([bestX, bestY])
         }
       } catch (_) { /* CORS / tainted canvas */ }
     }
@@ -174,29 +243,35 @@ function useAlphaOutline(
     }
   }, [ref, mode])
 
-  return { pts, bbox }
+  return { pts, bbox, anchorPos }
 }
 
 // ── Selectable hero graphic wrapper ──────────────────────────────────────────
 interface HeroGraphicProps {
   id: string
-  src: string
-  cls: string
+  src?: string
+  cls?: string
+  // For complex children (e.g. koi): supply the image to use for outline tracing
+  outlineSrc?: string
   mode?: 'alpha' | 'infer'
   selected: string | null
   popupOpen: boolean
   onSelect: (id: string) => void
   onTag: (e: React.MouseEvent) => void
   onPopupStop: (e: React.MouseEvent) => void
+  children?: React.ReactNode
 }
 
-function HeroGraphic({ id, src, cls, mode = 'alpha', selected, popupOpen, onSelect, onTag, onPopupStop }: HeroGraphicProps) {
-  const imgRef = useRef<HTMLImageElement>(null)
-  const { pts: outlinePts, bbox } = useAlphaOutline(imgRef, mode)
+function HeroGraphic({ id, src, cls, outlineSrc, mode = 'alpha', selected, popupOpen, onSelect, onTag, onPopupStop, children }: HeroGraphicProps) {
+  const outlineRef = useRef<HTMLImageElement>(null)
+  const displayRef = useRef<HTMLImageElement>(null)
+  // When children are provided, trace from a dedicated hidden img; otherwise trace the display img
+  const tracingRef = (children || outlineSrc) ? outlineRef : displayRef
+  const { pts: outlinePts, anchorPos } = useAlphaOutline(tracingRef, mode)
   const isSelected = selected === id
 
-  const anchorStyle: React.CSSProperties = bbox
-    ? { left: `${bbox.maxX}%`, top: `${bbox.minY}%`, transform: 'translate(-50%, -50%)' }
+  const anchorStyle: React.CSSProperties = anchorPos
+    ? { left: `${anchorPos[0]}%`, top: `${anchorPos[1]}%`, transform: 'translate(-50%, -50%)' }
     : { right: '4px', top: '4px' }
 
   return (
@@ -205,7 +280,17 @@ function HeroGraphic({ id, src, cls, mode = 'alpha', selected, popupOpen, onSele
       data-graphic={id}
       onClick={(e) => { e.stopPropagation(); onSelect(id) }}
     >
-      <img ref={imgRef} className={cls} src={src} alt="" aria-hidden />
+      {/* Hidden tracing image — used when display content differs from what to trace */}
+      {(children || outlineSrc) && (
+        <img
+          ref={outlineRef}
+          src={outlineSrc ?? src}
+          alt=""
+          aria-hidden
+          style={{ position: 'absolute', opacity: 0, inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }}
+        />
+      )}
+      {children ?? <img ref={displayRef} className={cls} src={src} alt="" aria-hidden />}
       <svg className="hero-sel-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
         {outlinePts && (
           <polygon
@@ -316,10 +401,9 @@ function WorkCard({ artwork, artworkAlt, title, description, isGif, to, href, bg
 }
 
 export default function Home() {
-  // 0 = hero, 1 = works, 2 = footer
+  // 0 = hero, 1 = works, 2 = about
   const [page, setPage] = useState(0)
   const [worksKey, setWorksKey] = useState(0)
-  const [resumeOpen, setResumeOpen] = useState(false)
   const [selectedGraphic, setSelectedGraphic] = useState<string | null>(null)
   const [popupOpen, setPopupOpen] = useState(false)
 
@@ -333,8 +417,7 @@ export default function Home() {
   const handleTag = useCallback((e: React.MouseEvent) => { e.stopPropagation(); setPopupOpen(p => !p) }, [])
   const stopProp = useCallback((e: React.MouseEvent) => e.stopPropagation(), [])
 
-  const worksRef        = useRef<HTMLElement>(null)
-  const resumeFooterRef = useRef<HTMLElement>(null)
+  const worksRef = useRef<HTMLElement>(null)
 
   const transitioning = useRef(false)
   const atTopSince    = useRef<number | null>(null)
@@ -350,7 +433,7 @@ export default function Home() {
     if (transitioning.current) return
     transitioning.current = true
     arrivedAt.current = Date.now()
-    atTopSince.current = (p === 1 || p === 2) ? Date.now() : null
+    atTopSince.current = (p === 1) ? Date.now() : null
     atBottomSince.current = null
     if (p === 1) setWorksKey(k => k + 1)
     setPage(p)
@@ -380,53 +463,59 @@ export default function Home() {
     return () => works.removeEventListener('scroll', onScroll)
   }, [page])
 
-  // Resume+footer internal-scroll tracking — only gates the go-back-to-works transition
-  useEffect(() => {
-    const section = resumeFooterRef.current
-    if (!section || page !== 2) return
-    const onScroll = () => {
-      if (section.scrollTop === 0) {
-        if (atTopSince.current === null) atTopSince.current = Date.now()
-      } else {
-        atTopSince.current = null
-      }
-    }
-    section.addEventListener('scroll', onScroll, { passive: true })
-    return () => section.removeEventListener('scroll', onScroll)
-  }, [page])
+  // Canvas is aspect-ratio based — no JS scale needed
 
-
-  // Keep hero canvas scaled to fit the viewport while preserving Figma proportions
+  // Hero — one-shot entrance animation. Elements start bunched at center, fly to natural positions.
   useLayoutEffect(() => {
-    function updateScale() {
-      const scale = Math.min(window.innerWidth / 1648, window.innerHeight / 890)
-      document.documentElement.style.setProperty('--hero-scale', scale.toString())
-    }
-    updateScale()
-    window.addEventListener('resize', updateScale)
-    return () => window.removeEventListener('resize', updateScale)
-  }, [])
-
-  // Hero entrance timeline — fires once on mount
-  useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-      tl.from('.hero-topnav',       { opacity: 0, y: -10, duration: 0.75 }, 0.05)
-      tl.from(['.hero-bird1', '.hero-bird2', '.hero-bird3'],
-                                    { opacity: 0, y: -10, duration: 0.7, stagger: 0.07 }, 0.08)
-      tl.from('.hero-me-green',      { opacity: 0, x: -20, duration: 0.8 }, 0.15)
-      tl.from('.hero-wii',          { opacity: 0, x: -20, duration: 0.8 }, 0.18)
-      tl.from('.hero-ipod',         { opacity: 0, x: 20,  duration: 0.8 }, 0.18)
-      tl.from(['.hero-mac', '.hero-guitar'],
-                                    { opacity: 0, y: 20,  duration: 0.8, stagger: 0.05 }, 0.22)
-      tl.from('.hero-arrow',        { opacity: 0, scale: 0.5, duration: 0.5 }, 0.55)
-      tl.from('.hero-name-block',   { opacity: 0, y: 10,  duration: 0.75 }, 0.2)
-      tl.fromTo('.hero-star',
-        { opacity: 0, scale: 0.3 },
-        { opacity: 1, scale: 1, duration: 0.4, stagger: 0.1, ease: 'back.out(2)' },
-        0.45
-      )
-      tl.from('.navbar', { opacity: 0, y: 12, duration: 0.75 }, 0.68)
+      const leftEl = document.querySelector('.hero-left-side') as HTMLElement
+      const S = leftEl ? leftEl.offsetWidth * 0.58 : 328.5
+
+      // Snap everything to starting positions immediately (before any animation)
+      gsap.set('.hero-star-lg, .hero-star-md, .hero-star-sm, .hero-bird3, .hero-bird2, .hero-bird1, .hero-me-green, .hero-mac, .hero-wii', { x: S })
+      gsap.set('.hero-koi-wrap, .hero-yosemite, .hero-ipod, .hero-boy, .hero-music-note--1, .hero-music-note--2', { x: -S })
+      gsap.set('.hero-selectable[data-graphic="icon-figma"] .hero-icon, .hero-selectable[data-graphic="icon-react"] .hero-icon, .hero-selectable[data-graphic="icon-claude"] .hero-icon', { x: -S })
+      gsap.set('.hero-name-block', { opacity: 0 })
+      gsap.set('.cs-topbar', { y: -80 })
+      gsap.set('.navbar',    { opacity: 0 })
+
+      // t = [0, holdEnd, flyEnd, settleEnd, 1], D = 2s. holdEnd becomes start delay.
+      function enter(sel: string, mid: number, t: number[]) {
+        const D = 2
+        const tl = gsap.timeline({ delay: t[1] * D })
+        tl.to(sel, { x: mid, duration: (t[2] - t[1]) * D, ease: 'expo.out'     })
+        tl.to(sel, { x: 0,   duration: (t[3] - t[2]) * D, ease: 'power2.inOut' })
+      }
+
+      // ── Left side: slide in from the right ───────────────────────────────────────
+      enter('.hero-star-lg',  10, [0, 0.0155, 0.37, 0.49, 1])
+      enter('.hero-star-md',  13, [0, 0.0155, 0.38, 0.50, 1])
+      enter('.hero-star-sm',  16, [0, 0.0155, 0.39, 0.51, 1])
+      enter('.hero-bird3',    10, [0, 0.05,   0.40, 0.52, 1])
+      enter('.hero-bird2',    13, [0, 0.05,   0.41, 0.53, 1])
+      enter('.hero-bird1',    16, [0, 0.05,   0.42, 0.54, 1])
+      enter('.hero-me-green', 10, [0, 0.056,  0.43, 0.55, 1])
+      enter('.hero-mac',      13, [0, 0.067,  0.44, 0.56, 1])
+      enter('.hero-wii',      16, [0, 0.056,  0.45, 0.57, 1])
+
+      // ── Right side: slide in from the left ───────────────────────────────────────
+      enter('.hero-koi-wrap',      -10, [0, 0.03,   0.375, 0.495, 1])
+      enter('.hero-yosemite',      -13, [0, 0.015,  0.39,  0.51,  1])
+      enter('.hero-ipod',          -16, [0, 0.0355, 0.405, 0.525, 1])
+      enter('.hero-boy',           -10, [0, 0.0355, 0.42,  0.54,  1])
+      enter('.hero-music-note--1', -13, [0, 0.0355, 0.435, 0.555, 1])
+      enter('.hero-music-note--2', -13, [0, 0.0355, 0.435, 0.555, 1])
+      const IT = [0, 0.02, 0.45, 0.57, 1]
+      enter('.hero-selectable[data-graphic="icon-figma"]  .hero-icon',  -16, IT)
+      enter('.hero-selectable[data-graphic="icon-react"]  .hero-icon',  -16, IT)
+      enter('.hero-selectable[data-graphic="icon-claude"] .hero-icon',  -16, IT)
+
+      // ── Name: fade in while elements are mid-flight ───────────────────────────────
+      gsap.to('.hero-name-block', { opacity: 1, duration: 0.76, ease: 'power3.out', delay: 0.4 })
+
+      // ── Navbars: reveal after elements settle (~1.15s) ────────────────────────────
+      gsap.to('.cs-topbar', { y: 0,      duration: 0.55, ease: 'power3.out',  delay: 1.4 })
+      gsap.to('.navbar',    { opacity: 1, duration: 0.60, ease: 'power2.out', delay: 1.4 })
     })
     return () => ctx.revert()
   }, [])
@@ -472,14 +561,11 @@ export default function Home() {
         return
       }
 
+      // About page has no internal scroll — use gap-based debounce like hero
       if (page === 2 && e.deltaY < 0) {
-        const section = resumeFooterRef.current
-        if (!section) return
-        const settled = atTopSince.current
-        if (section.scrollTop === 0 && settled !== null && Date.now() - settled >= TOP_COOLDOWN) goTo(1)
-        return
+        if (gap < SCROLL_GAP && !dirChanged) return
+        goTo(1); return
       }
-      // page 2 scrolling down: native scroll handles showing footer — no snap target beyond
     }
     window.addEventListener('wheel', onWheel, { passive: true })
     return () => window.removeEventListener('wheel', onWheel)
@@ -498,11 +584,6 @@ export default function Home() {
         startedAtTop    = works.scrollTop === 0
         startedAtBottom = works.scrollTop + works.clientHeight >= works.scrollHeight - 1
       }
-      const rf = resumeFooterRef.current
-      if (page === 2 && rf) {
-        startedAtTop    = rf.scrollTop === 0
-        startedAtBottom = rf.scrollTop + rf.clientHeight >= rf.scrollHeight - 1
-      }
     }
 
     const onTouchEnd = (e: TouchEvent) => {
@@ -510,8 +591,7 @@ export default function Home() {
       if (page === 0 && dy > 40)                     { goTo(1); return }
       if (page === 1 && dy < -40 && startedAtTop)    { goTo(0); return }
       if (page === 1 && dy > 40  && startedAtBottom) { goTo(2); return }
-      if (page === 2 && dy < -40 && startedAtTop)    { goTo(1) }
-      // page 2 swipe down at bottom: no more pages
+      if (page === 2 && dy < -40) { goTo(1); return }
     }
 
     window.addEventListener('touchstart', onTouchStart, { passive: true })
@@ -525,7 +605,7 @@ export default function Home() {
 
   return (
     <>
-      <CsTopbar />
+      <CsTopbar showAtTop visible={page === 0} />
       <div className="home-clip">
         <div
           className="home"
@@ -537,61 +617,103 @@ export default function Home() {
           {/* ── Hero ──────────────────────────────────────────────────────── */}
           <section className="hero" onClick={handleDeselect}>
             <div className="hero-canvas">
-              <HeroGraphic id="bird2"    src={heroBird2}   cls="hero-bird2"
-                selected={selectedGraphic} popupOpen={popupOpen}
-                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+              {/* Content — mirrors Figma auto-layout row: Left Side | Name | Right Side, gap 20 */}
+              <div className="hero-content">
 
-              <HeroGraphic id="bird1"    src={heroBird1}   cls="hero-bird1"
-                selected={selectedGraphic} popupOpen={popupOpen}
-                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                {/* ── Left Side column (565×548) ── */}
+                <div className="hero-left-side">
+                  <img src={heroStarLg} alt="" className="hero-star-lg" aria-hidden />
+                  <img src={heroStarMd} alt="" className="hero-star-md" aria-hidden />
+                  <img src={heroStarSm} alt="" className="hero-star-sm" aria-hidden />
 
-              <HeroGraphic id="bird3"    src={heroBird3}   cls="hero-bird3"
-                selected={selectedGraphic} popupOpen={popupOpen}
-                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                  <HeroGraphic id="bird3" src={heroBird3} cls="hero-bird3"
+                    selected={selectedGraphic} popupOpen={popupOpen}
+                    onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-              <HeroGraphic id="wii"      src={heroWii}     cls="hero-wii"      mode="infer"
-                selected={selectedGraphic} popupOpen={popupOpen}
-                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                  <img src={heroBird2} alt="" className="hero-bird2" aria-hidden />
 
-              <HeroGraphic id="me-green" src={heroMeGreen} cls="hero-me-green"
-                selected={selectedGraphic} popupOpen={popupOpen}
-                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                  <HeroGraphic id="bird1" src={heroBird1} cls="hero-bird1"
+                    selected={selectedGraphic} popupOpen={popupOpen}
+                    onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-              <HeroGraphic id="ipod"     src={heroIpod}    cls="hero-ipod"    mode="infer"
-                selected={selectedGraphic} popupOpen={popupOpen}
-                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                  <HeroGraphic id="me-green" src={heroMeGreen} cls="hero-me-green"
+                    selected={selectedGraphic} popupOpen={popupOpen}
+                    onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-              <HeroGraphic id="mac"      src={heroMac}     cls="hero-mac"     mode="infer"
-                selected={selectedGraphic} popupOpen={popupOpen}
-                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                  <HeroGraphic id="mac" src={heroMac} cls="hero-mac" mode="infer"
+                    selected={selectedGraphic} popupOpen={popupOpen}
+                    onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-              <HeroGraphic id="guitar"   src={heroGuitar}  cls="hero-guitar"  mode="infer"
-                selected={selectedGraphic} popupOpen={popupOpen}
-                onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                  <HeroGraphic id="wii" src={heroWii} cls="hero-wii" mode="infer"
+                    selected={selectedGraphic} popupOpen={popupOpen}
+                    onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                </div>
 
-              {/* Star ring */}
-              <div className="hero-stars" aria-hidden>
-                {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
-                  <img key={n} className={`hero-star hero-star--${n}`} src={individualStar} alt="" />
-                ))}
+                {/* ── Name — vertically centered by parent align-items: center ── */}
+                <div className="hero-name-block">
+                  <h1 className="hero-name">
+                    <span className="first">Hi, I'm</span>
+                    <span className="last">Armin</span>
+                  </h1>
+                </div>
+
+                {/* ── Right Side column (565×548) ── */}
+                <div className="hero-right-side">
+                  <img src={heroMusicNote} alt="" className="hero-music-note hero-music-note--1" aria-hidden />
+                  <img src={heroMusicNote} alt="" className="hero-music-note hero-music-note--2" aria-hidden />
+
+                  <HeroGraphic id="yosemite" src={heroYosemite} cls="hero-yosemite" mode="infer"
+                    selected={selectedGraphic} popupOpen={popupOpen}
+                    onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+
+                  <HeroGraphic id="boy" src={heroBoy} cls="hero-boy" mode="infer"
+                    selected={selectedGraphic} popupOpen={popupOpen}
+                    onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+
+                  <HeroGraphic id="ipod" src={heroIpod} cls="hero-ipod" mode="infer"
+                    selected={selectedGraphic} popupOpen={popupOpen}
+                    onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+
+                  <HeroGraphic id="koi" outlineSrc={heroKoiBorder} mode="alpha"
+                    selected={selectedGraphic} popupOpen={popupOpen}
+                    onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp}>
+                    <div className="hero-koi-wrap">
+                      {/* Koi gif — clipped to torn-paper shape by mask, no paper backdrop */}
+                      <div
+                        className="hero-koi-gif-layer"
+                        style={{
+                          maskImage: `url(${heroKoiMask})`,
+                          WebkitMaskImage: `url(${heroKoiMask})`,
+                          maskSize: 'cover',
+                          WebkitMaskSize: 'cover',
+                          maskRepeat: 'no-repeat',
+                          WebkitMaskRepeat: 'no-repeat',
+                          maskPosition: 'center',
+                          WebkitMaskPosition: 'center',
+                        }}
+                      >
+                        <img src={heroKoi} alt="" aria-hidden />
+                      </div>
+                    </div>
+                  </HeroGraphic>
+
+                  <HeroGraphic id="icon-figma" src={heroIconFigma} cls="hero-icon" mode="infer"
+                    selected={selectedGraphic} popupOpen={popupOpen}
+                    onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                  <HeroGraphic id="icon-react" src={heroIconReact} cls="hero-icon" mode="infer"
+                    selected={selectedGraphic} popupOpen={popupOpen}
+                    onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                  <HeroGraphic id="icon-claude" src={heroIconClaude} cls="hero-icon" mode="infer"
+                    selected={selectedGraphic} popupOpen={popupOpen}
+                    onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                </div>
               </div>
 
-              {/* Name text */}
-              <div className="hero-name-block">
-                <h1 className="hero-name">
-                  <span className="first">Hi, I'm</span>
-                  <span className="last">Armin</span>
-                </h1>
-              </div>
             </div>
           </section>
 
           {/* ── Works grid ────────────────────────────────────────────────── */}
           <section className="works" ref={worksRef}>
-            <div className="works-header">
-              <h2 className="works-heading">Featured Work</h2>
-              <p className="works-subtitle">A collection of some of my latest projects</p>
-            </div>
             <div className="works-grid" key={worksKey}>
               <WorkCard
                 artwork={rocketArtwork}
@@ -605,7 +727,7 @@ export default function Home() {
                 bgColor="#369af1"
                 panel={workStreetsPanel}
                 title="Streets"
-                description="Design engineering enterprise B2B software"
+                description="Design-engineering enterprise B2B software"
               />
               <WorkCard
                 artwork={findyGif}
@@ -627,54 +749,77 @@ export default function Home() {
             </div>
           </section>
 
-          {/* ── Footer section ────────────────────────────────────────────── */}
-          <section className="footer-section" ref={resumeFooterRef}>
-            <div className="footer-inner">
-              <div className="footer-sep" aria-hidden />
-              <div className="footer-content">
-                <div className="footer-left">
-                  <h2 className="footer-tagline">Designing Connection through Collaboration</h2>
-                  <p className="footer-copy">@ Armin Mohammadi 2026</p>
+          {/* ── About Me ──────────────────────────────────────────────── */}
+          <section className="about-section">
+            <div className="about-inner">
+              <div className="about-main">
+
+                {/* Left: heading + bio */}
+                <div className="about-text">
+                  <div className="about-heading-wrap">
+                    <h2 className="about-heading">About Me</h2>
+                    <div className="about-heading-stars" aria-hidden>
+                      <div className="about-star about-star--sm">
+                        <img src={amlmStarSm} alt="" className="about-star-outline" />
+                        <img src={amlmStarTex} alt="" className="about-star-tex" />
+                      </div>
+                      <div className="about-star about-star--lg">
+                        <img src={amlmStarLg} alt="" className="about-star-outline" />
+                        <img src={amlmStarTex} alt="" className="about-star-tex" />
+                      </div>
+                      <div className="about-star about-star--md">
+                        <img src={amlmStarMd} alt="" className="about-star-outline" />
+                        <img src={amlmStarTex} alt="" className="about-star-tex" />
+                      </div>
+                    </div>
+                  </div>
+                  <p className="about-bio">
+                    From the stories 6-year old me used to doodle in my journal to the case study stories I inspire my audience to connect with, I've always been a story teller. This imaginative and creative side has always been innate to me, and it is this natural passion that made me fall in love with product design.
+                  </p>
+                  <p className="about-bio about-bio--2">
+                    Living around such diverse perspectives, I want my stories to not just reflect my craft but to also reflect the journeys, culture, and individuality that continues to excite me to connect with others every single day.
+                  </p>
                 </div>
-                <nav className="footer-nav" aria-label="Footer navigation">
-                  <div className="footer-nav-col">
-                    <button className="footer-nav-link" onClick={() => goTo(0)}>Home</button>
-                    <button className="footer-nav-link" onClick={() => goTo(1)}>Works</button>
+
+                {/* Right: phone + torn paper */}
+                <div className="about-graphics">
+                  <img src={aboutPhonePaper} alt="" className="about-phone-paper" aria-hidden />
+                  <div className="about-phone">
+                    <div className="about-phone-btn about-phone-btn--vol-up"  aria-hidden />
+                    <div className="about-phone-btn about-phone-btn--vol-down" aria-hidden />
+                    <div className="about-phone-btn about-phone-btn--power"    aria-hidden />
+                    <div className="about-phone-outer" aria-hidden />
+                    <div className="about-phone-inner" aria-hidden />
+                    <div className="about-phone-screen">
+                      <div className="about-camera-roll" aria-label="Photo collage">
+                        <img src={aboutPhoto1}  alt="" className="acp acp--1"  />
+                        <img src={aboutPhoto6}  alt="" className="acp acp--6"  />
+                        <img src={aboutPhoto5}  alt="" className="acp acp--5"  />
+                        <img src={aboutPhoto2}  alt="" className="acp acp--2"  />
+                        <img src={aboutPhoto3}  alt="" className="acp acp--3"  />
+                        <img src={aboutPhoto4}  alt="" className="acp acp--4"  />
+                        <img src={aboutPhoto11} alt="" className="acp acp--11" />
+                        <img src={aboutPhoto8}  alt="" className="acp acp--8"  />
+                        <img src={aboutPhoto7}  alt="" className="acp acp--7"  />
+                        <img src={aboutPhoto10} alt="" className="acp acp--10" />
+                        <img src={aboutPhoto9}  alt="" className="acp acp--9"  />
+                      </div>
+                    </div>
                   </div>
-                  <div className="footer-nav-col">
-                    <a href="mailto:arminmohammadi1342@gmail.com" className="footer-nav-link">Email</a>
-                    <button className="footer-nav-link" onClick={() => setResumeOpen(true)}>Resume</button>
-                    <a href="https://www.linkedin.com/in/arminmoh" target="_blank" rel="noreferrer" className="footer-nav-link">LinkedIn</a>
-                  </div>
-                </nav>
+                </div>
+
               </div>
             </div>
           </section>
+
         </div>
       </div>
 
-      {/* ── Fixed top nav ────────────────────────────────────────────────── */}
-
+      {/* Navbar — fixed at bottom-center, always visible */}
       <Navbar
         onWork={() => goTo(1)}
         onAbout={() => goTo(2)}
-        onResume={() => setResumeOpen(true)}
       />
-
-      {resumeOpen && createPortal(
-        <div className="resume-overlay" onClick={() => setResumeOpen(false)}>
-          <div className="resume-modal" onClick={e => e.stopPropagation()}>
-            <button className="resume-modal-close" onClick={() => setResumeOpen(false)}>×</button>
-            <iframe
-              className="resume-iframe"
-              src="https://embed.figma.com/proto/leZEBxJorC3mH2RtuKTTQN/Resume?node-id=1-3&viewport=-3405%2C1260%2C1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share"
-              allowFullScreen
-              title="Resume"
-            />
-          </div>
-        </div>,
-        document.body
-      )}
     </>
   )
 }

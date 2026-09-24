@@ -423,10 +423,11 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 24px 36px;
+  padding: 24px 32px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.75);
-  box-shadow: 0 2px 10px rgba(28, 28, 26, 0.08), inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.04));
   margin-bottom: var(--space-12);
 }
 
@@ -1258,10 +1259,15 @@
 .fcs-media-card {
   border-radius: 12px;
   background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.04));
   overflow: hidden;
   margin-bottom: var(--space-9);
+}
+
+.fcs-media-card--borderless {
+  border: none;
+  filter: none;
 }
 
 .fcs-media-card--padded {
@@ -1269,11 +1275,14 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-6);
-  padding: var(--space-8) var(--space-8) var(--space-7);
+  padding: var(--space-8) var(--space-6);
 }
 
 .fcs-media-card--grey {
   background: #eae9e9;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.02));
 }
 
 .fcs-media-card--canvas {
@@ -1283,7 +1292,7 @@
 .fcs-media-card-inner {
   width: 100%;
   border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
@@ -1340,22 +1349,15 @@
 
 /* Short wide results card */
 .fcs-media-card-inner--results {
-  position: relative;
   width: 100%;
-  aspect-ratio: 728 / 186;
-  overflow: visible;
 }
 
 .fcs-media-card-img--results {
-  position: absolute;
-  top: 0.6%;
-  left: 0;
+  display: block;
   width: 100%;
-  height: 99.25%;
-  max-width: none;
+  height: auto;
   pointer-events: none;
   user-select: none;
-  display: block;
 }
 
 .fcs-media-frame-overflow {
@@ -1423,8 +1425,9 @@
 .fcs-quote-card {
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 5px rgba(28, 28, 26, 0.08);
-  padding: var(--space-6) var(--space-7);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.04));
+  padding: var(--space-6) var(--space-8);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
@@ -1554,7 +1557,34 @@
 
 .fcs-bg-diag-arrow { display: block; flex-shrink: 0; }
 .fcs-bg-diag-arrow--1 { width: 158px; height: 100px; }
-.fcs-bg-diag-arrow--2 { width: 87px;  height: 14px; transform: rotate(180deg); }
+.fcs-bg-diag-arrow--2 { width: 87px;  height: 14px; }
+
+@keyframes fcs-arrow-draw {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+
+@keyframes fcs-arrow-draw-seq {
+  from { clip-path: inset(0 0 0 100%); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+.fcs-diag-arrow-wrap {
+  display: flex;
+  flex-shrink: 0;
+  clip-path: inset(0 100% 0 0);
+}
+.fcs-diag-arrow-wrap--seq {
+  transform: rotate(180deg);
+  clip-path: inset(0 0 0 100%);
+}
+.fcs-diag-arrow-wrap.fcs-arrow--drawn {
+  animation: fcs-arrow-draw 0.7s linear forwards;
+}
+.fcs-diag-arrow-wrap--seq.fcs-arrow--drawn {
+  animation: fcs-arrow-draw-seq 0.7s linear forwards;
+  animation-delay: 0.55s;
+}
 
 /* ── Rocket Lawyer: Design System Frame card ── */
 .fcs-design-sys-card {
@@ -1821,7 +1851,7 @@
 
 .fcs-reflection-num-card {
   border-radius: 12px;
-  filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.12));
+  filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.08));
   overflow: hidden;
   padding: 16px 32px;
   display: flex;
@@ -1894,40 +1924,58 @@
 }
 .fcs-page--rocket .fcs-rec-subsection > * { margin: 0; }
 
-/* ── Rocket: numbered design-rec card layout ── */
+/* ── Rocket: numbered process card layout ── */
 .fcs-rec-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  grid-template-rows: auto auto auto;
+  row-gap: 16px;
+  align-items: start;
   width: 100%;
 }
 
-.fcs-numbered-card {
-  display: flex;
-  gap: 32px;
-  align-items: flex-start;
-  padding: 16px 32px;
-  border-radius: 12px;
-  overflow: hidden;
+.fcs-rec-cards-numcol {
+  grid-column: 1;
+  grid-row: 1 / 4;
+  display: grid;
+  grid-template-rows: subgrid;
+}
+
+.fcs-rec-cards-contentcol {
+  grid-column: 2;
+  grid-row: 1 / 4;
+  display: grid;
+  grid-template-rows: subgrid;
+}
+
+.fcs-num-row {
+  display: block;
+  padding-top: 16px;
 }
 
 .fcs-numbered-card-num {
+  display: block;
+  position: sticky;
+  top: 16px;
   font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 20px;
+  font-size: 32px;
   font-weight: 400;
   color: #991b1d;
   opacity: 0.75;
   line-height: 32px;
-  flex-shrink: 0;
   white-space: nowrap;
+}
+
+.fcs-numbered-card {
+  padding: 16px 32px;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .fcs-numbered-card-content {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  flex: 1;
-  min-width: 0;
 }
 
 /* ── Rocket Lawyer typography scale ── */
@@ -2085,7 +2133,6 @@
 .fcs-bg-sub {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 .fcs-bg-sub > * { margin: 0; }
@@ -2131,6 +2178,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  clip-path: inset(0 100% 0 0);
+}
+.fcs-stats-connector-wrap.fcs-arrow--drawn {
+  animation: fcs-arrow-draw 0.9s linear forwards;
 }
 
 .fcs-stats-connector {
