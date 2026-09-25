@@ -488,34 +488,34 @@ export default function Home() {
       }
 
       // ── Left side: slide in from the right ───────────────────────────────────────
-      enter('.hero-star-lg',  10, [0, 0.0155, 0.37, 0.49, 1])
-      enter('.hero-star-md',  13, [0, 0.0155, 0.38, 0.50, 1])
-      enter('.hero-star-sm',  16, [0, 0.0155, 0.39, 0.51, 1])
-      enter('.hero-bird3',    10, [0, 0.05,   0.40, 0.52, 1])
-      enter('.hero-bird2',    13, [0, 0.05,   0.41, 0.53, 1])
-      enter('.hero-bird1',    16, [0, 0.05,   0.42, 0.54, 1])
-      enter('.hero-me-green', 10, [0, 0.056,  0.43, 0.55, 1])
-      enter('.hero-mac',      13, [0, 0.067,  0.44, 0.56, 1])
-      enter('.hero-wii',      16, [0, 0.056,  0.45, 0.57, 1])
+      enter('.hero-star-lg',  10, [0, 0.5655, 0.92, 1.04, 1])
+      enter('.hero-star-md',  13, [0, 0.5655, 0.93, 1.05, 1])
+      enter('.hero-star-sm',  16, [0, 0.5655, 0.94, 1.06, 1])
+      enter('.hero-bird3',    10, [0, 0.60,   0.95, 1.07, 1])
+      enter('.hero-bird2',    13, [0, 0.60,   0.96, 1.08, 1])
+      enter('.hero-bird1',    16, [0, 0.60,   0.97, 1.09, 1])
+      enter('.hero-me-green', 10, [0, 0.606,  0.98, 1.10, 1])
+      enter('.hero-mac',      13, [0, 0.617,  0.99, 1.11, 1])
+      enter('.hero-wii',      16, [0, 0.606,  1.00, 1.12, 1])
 
       // ── Right side: slide in from the left ───────────────────────────────────────
-      enter('.hero-koi-wrap',      -10, [0, 0.03,   0.375, 0.495, 1])
-      enter('.hero-yosemite',      -13, [0, 0.015,  0.39,  0.51,  1])
-      enter('.hero-ipod',          -16, [0, 0.0355, 0.405, 0.525, 1])
-      enter('.hero-boy',           -10, [0, 0.0355, 0.42,  0.54,  1])
-      enter('.hero-music-note--1', -13, [0, 0.0355, 0.435, 0.555, 1])
-      enter('.hero-music-note--2', -13, [0, 0.0355, 0.435, 0.555, 1])
-      const IT = [0, 0.02, 0.45, 0.57, 1]
+      enter('.hero-koi-wrap',      -10, [0, 0.58,   0.925, 1.045, 1])
+      enter('.hero-yosemite',      -13, [0, 0.565,  0.94,  1.06,  1])
+      enter('.hero-ipod',          -16, [0, 0.5855, 0.955, 1.075, 1])
+      enter('.hero-boy',           -10, [0, 0.5855, 0.97,  1.09,  1])
+      enter('.hero-music-note--1', -13, [0, 0.5855, 0.985, 1.105, 1])
+      enter('.hero-music-note--2', -13, [0, 0.5855, 0.985, 1.105, 1])
+      const IT = [0, 0.57, 1.00, 1.12, 1]
       enter('.hero-selectable[data-graphic="icon-figma"]  .hero-icon',  -16, IT)
       enter('.hero-selectable[data-graphic="icon-react"]  .hero-icon',  -16, IT)
       enter('.hero-selectable[data-graphic="icon-claude"] .hero-icon',  -16, IT)
 
       // ── Name: fade in while elements are mid-flight ───────────────────────────────
-      gsap.to('.hero-name-block', { opacity: 1, duration: 0.76, ease: 'power3.out', delay: 0.4 })
+      gsap.to('.hero-name-block', { opacity: 1, duration: 0.76, ease: 'power3.out', delay: 1.3 })
 
-      // ── Navbars: reveal after elements settle (~1.15s) ────────────────────────────
-      gsap.to('.cs-topbar', { y: 0,      duration: 0.55, ease: 'power3.out',  delay: 1.4 })
-      gsap.to('.navbar',    { opacity: 1, duration: 0.60, ease: 'power2.out', delay: 1.4 })
+      // ── Navbars: reveal after elements settle (~2.24s) ────────────────────────────
+      gsap.to('.cs-topbar', { y: 0,      duration: 0.55, ease: 'power3.out',  delay: 2.35 })
+      gsap.to('.navbar',    { opacity: 1, duration: 0.60, ease: 'power2.out', delay: 2.35 })
     })
     return () => ctx.revert()
   }, [])
@@ -678,7 +678,7 @@ export default function Home() {
                     selected={selectedGraphic} popupOpen={popupOpen}
                     onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp}>
                     <div className="hero-koi-wrap">
-                      {/* Koi gif — clipped to torn-paper shape by mask, no paper backdrop */}
+                      <img src={heroKoiBorder} alt="" className="hero-koi-border-bg" aria-hidden />
                       <div
                         className="hero-koi-gif-layer"
                         style={{
@@ -694,6 +694,7 @@ export default function Home() {
                       >
                         <img src={heroKoi} alt="" aria-hidden />
                       </div>
+
                     </div>
                   </HeroGraphic>
 
