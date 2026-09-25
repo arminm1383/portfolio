@@ -176,8 +176,6 @@ export default function RocketLawyerCaseStudy() {
   const targetYRef = useRef(0)
   const currentYRef = useRef(0)
   const rafRef = useRef<number | null>(null)
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
-  const [activeCard, setActiveCard] = useState(0)
 
   useEffect(() => {
     history.scrollRestoration = 'manual'
@@ -236,21 +234,6 @@ export default function RocketLawyerCaseStudy() {
     window.addEventListener('scroll', update, { passive: true })
     update()
     return () => window.removeEventListener('scroll', update)
-  }, [])
-
-  useEffect(() => {
-    function updateActiveCard() {
-      const trigger = window.innerHeight * 0.5
-      let active = 0
-      cardRefs.current.forEach((ref, i) => {
-        if (!ref) return
-        if (ref.getBoundingClientRect().top <= trigger) active = i
-      })
-      setActiveCard(active)
-    }
-    window.addEventListener('scroll', updateActiveCard, { passive: true })
-    updateActiveCard()
-    return () => window.removeEventListener('scroll', updateActiveCard)
   }, [])
 
   useEffect(() => {
@@ -543,7 +526,7 @@ export default function RocketLawyerCaseStudy() {
 
                 <div className="fcs-rec-cards-contentcol">
 
-                  <div className="fcs-numbered-card" ref={el => { cardRefs.current[0] = el }}>
+                  <div className="fcs-numbered-card">
                     <div className="fcs-numbered-card-content">
                       <h3 className="fcs-rec-heading fcs-rec-heading--lg">Experimenting with Validated Features in the Current Workspace</h3>
                       <p className="fcs-section-body">
@@ -559,7 +542,7 @@ export default function RocketLawyerCaseStudy() {
                     </div>
                   </div>
 
-                  <div className="fcs-numbered-card" ref={el => { cardRefs.current[1] = el }}>
+                  <div className="fcs-numbered-card">
                     <div className="fcs-numbered-card-content">
                       <h3 className="fcs-rec-heading fcs-rec-heading--lg">Shifting Focus over to the Business Center Dashboard</h3>
                       <p className="fcs-section-body">
@@ -580,7 +563,7 @@ export default function RocketLawyerCaseStudy() {
                     </div>
                   </div>
 
-                  <div className="fcs-numbered-card" ref={el => { cardRefs.current[2] = el }}>
+                  <div className="fcs-numbered-card">
                     <div className="fcs-numbered-card-content">
                       <h3 className="fcs-rec-heading fcs-rec-heading--lg">Testing and Iterating the Business Center's Core Feature: AI-Guided Workflows</h3>
                       <p className="fcs-section-body">
