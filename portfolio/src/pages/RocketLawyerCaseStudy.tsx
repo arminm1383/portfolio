@@ -15,7 +15,7 @@ import diagArrow1      from '../assets/images/rocket-cs-diag-arrow1.svg'
 import diagUT          from '../assets/images/rocket-cs-diag-ut.svg'
 import diagArrow2      from '../assets/images/rocket-cs-diag-arrow2.svg'
 import diagRL          from '../assets/images/rocket-cs-diag-rl.svg'
-import rocketChart from '../assets/images/rocket-cs-chart.png'
+import rocketChart from '../assets/images/rocket-cs-chart.gif'
 import rocketAffinityMap from '../assets/images/rocket-cs-affinity-map.png'
 import rocketVersionHistoryBefore from '../assets/images/rocket-cs-version-history-before.png'
 import rocketVersionHistoryAfter  from '../assets/images/version-history.gif'
@@ -405,7 +405,7 @@ export default function RocketLawyerCaseStudy() {
               <span className="fcs-section-label">Problem</span>
               <h2 className="fcs-section-heading">Negotiate &amp; Sign felt Disconnected from User Needs</h2>
               <p className="fcs-section-body">
-                Users' business needs were not quite captured by the existing E2E flows, with Copilot
+                Users' business needs were not quite captured by the existing E2E flows, with Copilot, Rocket Lawyer's AI-powered legal assistant,
                 seemingly feeling misaligned with what small business cohorts need to continue using
                 the platform.
               </p>
@@ -422,6 +422,11 @@ export default function RocketLawyerCaseStudy() {
 
               <p className="fcs-problem-statement">
                 How can we design a platform centered around the use cases, experiences, and hyper-specific legal needs small business users with limited legal knowledge face every single day?
+              </p>
+
+              <p className="fcs-section-body">
+                To address this, we centered our study around addressing user concerns in hopes 
+                of better optimizing Rocket Lawyer for the aforementioned business metrics.
               </p>
 
               <div className="fcs-rq-card">
@@ -451,16 +456,12 @@ export default function RocketLawyerCaseStudy() {
                 <div className="fcs-sub">
                   <h3 className="fcs-subsection-heading">Quantifying our Users</h3>
                   <p className="fcs-section-body">
-                    UserTesting was used to connect with 100+ Rocket Lawyer users, gathering a high-level
-                    understanding of the research themes further explored through user interviews.
+                    To start, we broke down our users into distinct use cases, segmenting document receivers,
+                    document authors, and legal professionals to better understand how pain points varied across these groups.
                   </p>
                   <div className="fcs-media-card fcs-media-card--padded">
-                    <div className="fcs-media-card-inner fcs-media-card-inner--chart">
-                      <div className="fcs-media-frame-overflow">
-                        <img src={rocketChart} alt="Defining cohorts in Amplitude" className="fcs-media-card-img fcs-media-card-img--chart" draggable={false} />
-                      </div>
-                    </div>
-                    <p className="fcs-media-caption-subtle">Defining Cohorts in Amplitude to Segment Copilot Use Cases</p>
+                    <p className="fcs-media-card-label">DEFINING COHORTS TO SEGMENT COPILOT USE CASES IN AMPLITUDE</p>
+                    <img src={rocketChart} alt="" className="fcs-media-card-img" draggable={false} />
                   </div>
                 </div>
 
@@ -495,12 +496,12 @@ export default function RocketLawyerCaseStudy() {
                     </div>
                   </div>
                   <div className="fcs-media-card fcs-media-card--padded">
-                    <img src={rocketAffinityMap} alt="Affinity map of user interview insights" className="fcs-media-card-img" draggable={false} />
-                    <p className="fcs-media-caption-subtle">Affinity Map Breaking Down User Interview Insights into Thematic Analysis</p>
+                    <p className="fcs-media-card-label">TRANSLATING INTERVIEW INSIGHTS INTO THEMES</p>
+                    <img src={rocketAffinityMap} alt="" className="fcs-media-card-img" draggable={false} />
                   </div>
                   <p className="fcs-section-body">
                     Moving beyond the designs, I explored how my research findings and themes could be applied
-                    to our current iterations.
+                    to current iterations of Negotiate &amp; Sign components.
                   </p>
                   <div className="fcs-media-card fcs-media-card--padded">
                     <p className="fcs-media-card-label">MOCKUPS + APPLIED RESEARCH</p>

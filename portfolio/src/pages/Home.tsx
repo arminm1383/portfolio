@@ -33,18 +33,30 @@ import amlmStarSm  from '../assets/images/nav-topbar-star-sm.svg'
 import amlmStarLg  from '../assets/images/nav-topbar-star-lg.svg'
 import amlmStarMd  from '../assets/images/nav-topbar-star-md.svg'
 import amlmStarTex from '../assets/images/nav-topbar-star-texture.png'
-import aboutPhonePaper from '../assets/images/about-phone-paper.png'
-import aboutPhoto1  from '../assets/images/about-photo-1.png'
-import aboutPhoto2  from '../assets/images/about-photo-2.png'
-import aboutPhoto3  from '../assets/images/about-photo-3.png'
-import aboutPhoto4  from '../assets/images/about-photo-4.png'
-import aboutPhoto5  from '../assets/images/about-photo-5.png'
-import aboutPhoto6  from '../assets/images/about-photo-6.png'
-import aboutPhoto7  from '../assets/images/about-photo-7.png'
-import aboutPhoto8  from '../assets/images/about-photo-8.png'
-import aboutPhoto9  from '../assets/images/about-photo-9.png'
-import aboutPhoto10 from '../assets/images/about-photo-10.png'
-import aboutPhoto11 from '../assets/images/about-photo-11.png'
+import resumePdf from '../assets/images/Armin Mohammadi - Resume.pdf'
+
+import ab2TreeFrame    from '../assets/images/ab2-tree-frame.png'
+import ab2TreePhoto    from '../assets/images/ab2-tree-photo.png'
+import ab2JumpingFrame from '../assets/images/ab2-jumping-frame.png'
+import ab2JumpingPhoto from '../assets/images/ab2-jumping-photo.png'
+import ab2TeamFrame    from '../assets/images/ab2-team-frame.png'
+import ab2TeamPhoto    from '../assets/images/ab2-team-photo.png'
+import ab2MeFrame      from '../assets/images/ab2-me-frame.png'
+import ab2MePhoto      from '../assets/images/ab2-me-photo.png'
+import ab2CarFrame     from '../assets/images/ab2-car-frame.png'
+import ab2CarPhoto1    from '../assets/images/ab2-car-photo1.png'
+import ab2CarPhoto2    from '../assets/images/ab2-car-photo2.png'
+import ab2FoodFrame    from '../assets/images/ab2-food-frame.png'
+import ab2FoodPhoto    from '../assets/images/ab2-food-photo.png'
+import ab2AlbumFrame   from '../assets/images/ab2-album-frame.png'
+import ab2AlbumPhoto   from '../assets/images/ab2-album-photo.png'
+import ab2LucasFrame   from '../assets/images/ab2-lucas-frame.png'
+import ab2LucasPhoto1  from '../assets/images/ab2-lucas-photo1.png'
+import ab2LucasPhoto2  from '../assets/images/ab2-lucas-photo2.png'
+import ab2StarSm       from '../assets/images/ab2-star-sm.svg'
+import ab2StarLg       from '../assets/images/ab2-star-lg.svg'
+import ab2StarMd       from '../assets/images/ab2-star-md.svg'
+import ab2StarTex      from '../assets/images/ab2-star-texture.png'
 
 // ── amLM: sparkle badge (AI Tag) ─────────────────────────────────────────────
 function AmLMTag({ onClick }: { onClick: (e: React.MouseEvent) => void }) {
@@ -406,6 +418,8 @@ export default function Home() {
   const [worksKey, setWorksKey] = useState(0)
   const [selectedGraphic, setSelectedGraphic] = useState<string | null>(null)
   const [popupOpen, setPopupOpen] = useState(false)
+  const [navbarRevealed, setNavbarRevealed] = useState(false)
+  const [resumeOpen, setResumeOpen] = useState(false)
 
   const handleSelect = useCallback((id: string) => {
     setSelectedGraphic(prev => {
@@ -418,6 +432,7 @@ export default function Home() {
   const stopProp = useCallback((e: React.MouseEvent) => e.stopPropagation(), [])
 
   const worksRef = useRef<HTMLElement>(null)
+  const aboutScaleRef = useRef<HTMLDivElement>(null)
 
   const transitioning = useRef(false)
   const atTopSince    = useRef<number | null>(null)
@@ -477,7 +492,6 @@ export default function Home() {
       gsap.set('.hero-selectable[data-graphic="icon-figma"] .hero-icon, .hero-selectable[data-graphic="icon-react"] .hero-icon, .hero-selectable[data-graphic="icon-claude"] .hero-icon', { x: -S })
       gsap.set('.hero-name-block', { opacity: 0 })
       gsap.set('.cs-topbar', { y: -80 })
-      gsap.set('.navbar',    { opacity: 0 })
 
       // t = [0, holdEnd, flyEnd, settleEnd, 1], D = 2s. holdEnd becomes start delay.
       function enter(sel: string, mid: number, t: number[]) {
@@ -488,36 +502,41 @@ export default function Home() {
       }
 
       // ── Left side: slide in from the right ───────────────────────────────────────
-      enter('.hero-star-lg',  10, [0, 0.5655, 0.92, 1.04, 1])
-      enter('.hero-star-md',  13, [0, 0.5655, 0.93, 1.05, 1])
-      enter('.hero-star-sm',  16, [0, 0.5655, 0.94, 1.06, 1])
-      enter('.hero-bird3',    10, [0, 0.60,   0.95, 1.07, 1])
-      enter('.hero-bird2',    13, [0, 0.60,   0.96, 1.08, 1])
-      enter('.hero-bird1',    16, [0, 0.60,   0.97, 1.09, 1])
-      enter('.hero-me-green', 10, [0, 0.606,  0.98, 1.10, 1])
-      enter('.hero-mac',      13, [0, 0.617,  0.99, 1.11, 1])
-      enter('.hero-wii',      16, [0, 0.606,  1.00, 1.12, 1])
+      enter('.hero-star-lg',  10, [0, 0.4905, 0.92, 1.04, 1])
+      enter('.hero-star-md',  13, [0, 0.4905, 0.93, 1.05, 1])
+      enter('.hero-star-sm',  16, [0, 0.4905, 0.94, 1.06, 1])
+      enter('.hero-bird3',    10, [0, 0.525,  0.95, 1.07, 1])
+      enter('.hero-bird2',    13, [0, 0.525,  0.96, 1.08, 1])
+      enter('.hero-bird1',    16, [0, 0.525,  0.97, 1.09, 1])
+      enter('.hero-me-green', 10, [0, 0.531,  0.98, 1.10, 1])
+      enter('.hero-mac',      13, [0, 0.542,  0.99, 1.11, 1])
+      enter('.hero-wii',      16, [0, 0.531,  1.00, 1.12, 1])
 
       // ── Right side: slide in from the left ───────────────────────────────────────
-      enter('.hero-koi-wrap',      -10, [0, 0.58,   0.925, 1.045, 1])
-      enter('.hero-yosemite',      -13, [0, 0.565,  0.94,  1.06,  1])
-      enter('.hero-ipod',          -16, [0, 0.5855, 0.955, 1.075, 1])
-      enter('.hero-boy',           -10, [0, 0.5855, 0.97,  1.09,  1])
-      enter('.hero-music-note--1', -13, [0, 0.5855, 0.985, 1.105, 1])
-      enter('.hero-music-note--2', -13, [0, 0.5855, 0.985, 1.105, 1])
-      const IT = [0, 0.57, 1.00, 1.12, 1]
+      enter('.hero-koi-wrap',      -10, [0, 0.505,  0.925, 1.045, 1])
+      enter('.hero-yosemite',      -13, [0, 0.49,   0.94,  1.06,  1])
+      enter('.hero-ipod',          -16, [0, 0.5105, 0.955, 1.075, 1])
+      enter('.hero-boy',           -10, [0, 0.5105, 0.97,  1.09,  1])
+      enter('.hero-music-note--1', -13, [0, 0.5105, 0.985, 1.105, 1])
+      enter('.hero-music-note--2', -13, [0, 0.5105, 0.985, 1.105, 1])
+      const IT = [0, 0.495, 1.00, 1.12, 1]
       enter('.hero-selectable[data-graphic="icon-figma"]  .hero-icon',  -16, IT)
       enter('.hero-selectable[data-graphic="icon-react"]  .hero-icon',  -16, IT)
       enter('.hero-selectable[data-graphic="icon-claude"] .hero-icon',  -16, IT)
 
       // ── Name: fade in while elements are mid-flight ───────────────────────────────
-      gsap.to('.hero-name-block', { opacity: 1, duration: 0.76, ease: 'power3.out', delay: 1.3 })
+      gsap.to('.hero-name-block', { opacity: 1, duration: 0.76, ease: 'power3.out', delay: 1.15 })
 
-      // ── Navbars: reveal after elements settle (~2.24s) ────────────────────────────
-      gsap.to('.cs-topbar', { y: 0,      duration: 0.55, ease: 'power3.out',  delay: 2.35 })
-      gsap.to('.navbar',    { opacity: 1, duration: 0.60, ease: 'power2.out', delay: 2.35 })
+      // ── Top navbar: reveal after elements settle ─────────────────────────────────
+      gsap.to('.cs-topbar', { y: 0, duration: 0.55, ease: 'power3.out', delay: 2.20 })
     })
     return () => ctx.revert()
+  }, [])
+
+  // Bottom navbar — reveal in sync with cs-topbar (2.20s delay, 0.60s fade)
+  useEffect(() => {
+    const t = setTimeout(() => setNavbarRevealed(true), 2200)
+    return () => clearTimeout(t)
   }, [])
 
   // Work cards animate in each time Works becomes active
@@ -530,6 +549,21 @@ export default function Home() {
   }, [page, worksKey])
 
 
+  // About section — scale to fit viewport, leaving room for the fixed topbar
+  useEffect(() => {
+    const update = () => {
+      const el = aboutScaleRef.current
+      if (!el) return
+      // 64px = topbar (top:12 + height:44) + 8px gap
+      const navH = 64
+      const scale = Math.min(1, (window.innerWidth - 176) / 1472, (window.innerHeight - navH) / 887)
+      el.style.zoom = String(scale)
+    }
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
+
   // Wheel handler — drives page transitions
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
@@ -541,6 +575,7 @@ export default function Home() {
       lastWheelDir.current = dir
 
       if (now - arrivedAt.current < WHEEL_SETTLE) return
+
       // Hero is non-scrollable — only advance on fresh gestures (not trackpad momentum)
       if (page === 0 && gap < SCROLL_GAP && !dirChanged) return
 
@@ -750,77 +785,164 @@ export default function Home() {
             </div>
           </section>
 
-          {/* ── About Me ──────────────────────────────────────────────── */}
+          {/* ── About Me ─────────────────────────────────────────────── */}
           <section className="about-section">
-            <div className="about-inner">
-              <div className="about-main">
+            <div className="ab2-nav-spacer" />
+            <div className="ab2-scale-wrap" ref={aboutScaleRef}>
+            <div className="ab2-main">
+              <div className="ab2-content">
 
-                {/* Left: heading + bio */}
-                <div className="about-text">
-                  <div className="about-heading-wrap">
-                    <h2 className="about-heading">About Me</h2>
-                    <div className="about-heading-stars" aria-hidden>
-                      <div className="about-star about-star--sm">
-                        <img src={amlmStarSm} alt="" className="about-star-outline" />
-                        <img src={amlmStarTex} alt="" className="about-star-tex" />
-                      </div>
-                      <div className="about-star about-star--lg">
-                        <img src={amlmStarLg} alt="" className="about-star-outline" />
-                        <img src={amlmStarTex} alt="" className="about-star-tex" />
-                      </div>
-                      <div className="about-star about-star--md">
-                        <img src={amlmStarMd} alt="" className="about-star-outline" />
-                        <img src={amlmStarTex} alt="" className="about-star-tex" />
+                {/* Graphics */}
+                <div className="ab2-graphics">
+                  <div className="ab2-images">
+
+                    {/* jumping — z:1/2 */}
+                    <div className="ab2-frame-wrap ab2-jumping-frame-wrap">
+                      <div className="ab2-frame-inner ab2-jumping-frame-inner">
+                        <img src={ab2JumpingFrame} alt="" />
                       </div>
                     </div>
+                    <div className="ab2-photo ab2-jumping-photo">
+                      <img src={ab2JumpingPhoto} alt="" />
+                    </div>
+
+                    {/* findy-team — z:3/4 */}
+                    <div className="ab2-frame-wrap ab2-team-frame-wrap">
+                      <div className="ab2-frame-inner ab2-team-frame-inner">
+                        <img src={ab2TeamFrame} alt="" />
+                      </div>
+                    </div>
+                    <div className="ab2-photo ab2-team-photo">
+                      <img src={ab2TeamPhoto} alt="" />
+                    </div>
+
+                    {/* me — z:5/6 */}
+                    <div className="ab2-frame-wrap ab2-me-frame-wrap">
+                      <div className="ab2-frame-inner ab2-me-frame-inner">
+                        <img src={ab2MeFrame} alt="" />
+                      </div>
+                    </div>
+                    <div className="ab2-photo ab2-me-photo">
+                      <img src={ab2MePhoto} alt="" />
+                    </div>
+
+                    {/* car — z:7/8/9 */}
+                    <div className="ab2-frame-wrap ab2-car-frame-wrap">
+                      <div className="ab2-frame-inner ab2-car-frame-inner">
+                        <img src={ab2CarFrame} alt="" />
+                      </div>
+                    </div>
+                    <div className="ab2-photo ab2-car-photo1">
+                      <img src={ab2CarPhoto1} alt="" />
+                    </div>
+                    <div className="ab2-photo ab2-car-photo2">
+                      <img src={ab2CarPhoto2} alt="" />
+                    </div>
+
+                    {/* food — z:10/11 */}
+                    <div className="ab2-frame-wrap ab2-food-frame-wrap">
+                      <div className="ab2-frame-inner ab2-food-frame-inner">
+                        <img src={ab2FoodFrame} alt="" />
+                      </div>
+                    </div>
+                    <div className="ab2-photo ab2-food-photo">
+                      <img src={ab2FoodPhoto} alt="" />
+                    </div>
+
+                    {/* tree — z:12/13 — above me/selfie and food */}
+                    <div className="ab2-frame-wrap ab2-tree-frame-wrap">
+                      <div className="ab2-frame-inner ab2-tree-frame-inner">
+                        <img src={ab2TreeFrame} alt="" />
+                      </div>
+                    </div>
+                    <div className="ab2-photo ab2-tree-photo">
+                      <img src={ab2TreePhoto} alt="" />
+                    </div>
+
+                    {/* album — z:16/17 */}
+                    <div className="ab2-frame-wrap ab2-album-frame-wrap">
+                      <div className="ab2-frame-inner ab2-album-frame-inner">
+                        <img src={ab2AlbumFrame} alt="" />
+                      </div>
+                    </div>
+                    <div className="ab2-photo ab2-album-photo">
+                      <img src={ab2AlbumPhoto} alt="" />
+                    </div>
+
+                    {/* lucas — z:16/17/18 */}
+                    <div className="ab2-frame-wrap ab2-lucas-frame-wrap">
+                      <div className="ab2-frame-inner ab2-lucas-frame-inner">
+                        <img src={ab2LucasFrame} alt="" />
+                      </div>
+                    </div>
+                    <div className="ab2-photo ab2-lucas-photo1">
+                      <img src={ab2LucasPhoto1} alt="" />
+                    </div>
+                    <div className="ab2-photo ab2-lucas-photo2">
+                      <img src={ab2LucasPhoto2} alt="" />
+                    </div>
+
+                    {/* Stars — z:20 */}
+                    <div className="ab2-star ab2-star-sm" aria-hidden>
+                      <img src={ab2StarSm} alt="" />
+                      <img src={ab2StarTex} alt="" className="ab2-star-tex" />
+                    </div>
+                    <div className="ab2-star ab2-star-lg" aria-hidden>
+                      <img src={ab2StarLg} alt="" />
+                      <img src={ab2StarTex} alt="" className="ab2-star-tex" />
+                    </div>
+                    <div className="ab2-star ab2-star-md" aria-hidden>
+                      <img src={ab2StarMd} alt="" />
+                      <img src={ab2StarTex} alt="" className="ab2-star-tex" />
+                    </div>
+
                   </div>
-                  <p className="about-bio">
+                </div>
+
+                {/* Text */}
+                <div className="ab2-text">
+                  <p className="ab2-heading">About Me</p>
+                  <p className="ab2-bio">
                     From the stories 6-year old me used to doodle in my journal to the case study stories I inspire my audience to connect with, I've always been a story teller. This imaginative and creative side has always been innate to me, and it is this natural passion that made me fall in love with product design.
                   </p>
-                  <p className="about-bio about-bio--2">
+                  <p className="ab2-bio">
                     Living around such diverse perspectives, I want my stories to not just reflect my craft but to also reflect the journeys, culture, and individuality that continues to excite me to connect with others every single day.
                   </p>
                 </div>
 
-                {/* Right: phone + torn paper */}
-                <div className="about-graphics">
-                  <img src={aboutPhonePaper} alt="" className="about-phone-paper" aria-hidden />
-                  <div className="about-phone">
-                    <div className="about-phone-btn about-phone-btn--vol-up"  aria-hidden />
-                    <div className="about-phone-btn about-phone-btn--vol-down" aria-hidden />
-                    <div className="about-phone-btn about-phone-btn--power"    aria-hidden />
-                    <div className="about-phone-outer" aria-hidden />
-                    <div className="about-phone-inner" aria-hidden />
-                    <div className="about-phone-screen">
-                      <div className="about-camera-roll" aria-label="Photo collage">
-                        <img src={aboutPhoto1}  alt="" className="acp acp--1"  />
-                        <img src={aboutPhoto6}  alt="" className="acp acp--6"  />
-                        <img src={aboutPhoto5}  alt="" className="acp acp--5"  />
-                        <img src={aboutPhoto2}  alt="" className="acp acp--2"  />
-                        <img src={aboutPhoto3}  alt="" className="acp acp--3"  />
-                        <img src={aboutPhoto4}  alt="" className="acp acp--4"  />
-                        <img src={aboutPhoto11} alt="" className="acp acp--11" />
-                        <img src={aboutPhoto8}  alt="" className="acp acp--8"  />
-                        <img src={aboutPhoto7}  alt="" className="acp acp--7"  />
-                        <img src={aboutPhoto10} alt="" className="acp acp--10" />
-                        <img src={aboutPhoto9}  alt="" className="acp acp--9"  />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
               </div>
             </div>
+
+            {/* Footer */}
+            {/* <div className="ab2-footer">
+              <div className="ab2-footer-divider" />
+              <p className="ab2-footer-email">arminmohammadi1342@gmail.com</p>
+            </div> */}
+            </div> {/* ab2-scale-wrap */}
           </section>
 
         </div>
       </div>
 
-      {/* Navbar — fixed at bottom-center, always visible */}
       <Navbar
         onWork={() => goTo(1)}
         onAbout={() => goTo(2)}
+        onResume={() => setResumeOpen(true)}
+        revealed={navbarRevealed}
       />
+
+      {resumeOpen && (
+        <div className="resume-modal-overlay" onClick={() => setResumeOpen(false)}>
+          <div className="resume-modal" onClick={e => e.stopPropagation()}>
+            <button className="resume-modal-close" onClick={() => setResumeOpen(false)} aria-label="Close resume">✕</button>
+            <iframe
+              className="resume-modal-frame"
+              src={resumePdf}
+              title="Armin Mohammadi Resume"
+            />
+          </div>
+        </div>
+      )}
     </>
   )
 }

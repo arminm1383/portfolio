@@ -405,6 +405,7 @@
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
   font-size: var(--text-lg);
   line-height: 36px;
+  font-weight: 375;
   color: #000;
   margin: 0 0 var(--space-9);
   max-width: 900px;
@@ -1258,7 +1259,7 @@
 /* ── Rocket Lawyer: Media card — white card container for images ── */
 .fcs-media-card {
   border-radius: 12px;
-  background: #fff;
+  background: #EAE9E9;
   border: 1px solid rgba(0, 0, 0, 0.1);
   filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.04));
   overflow: hidden;

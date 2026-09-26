@@ -3,19 +3,21 @@ import './Navbar.css'
 
 import navIconWork  from '../assets/images/nav-icon-work.svg'
 import navIconAbout from '../assets/images/nav-icon-about.svg'
-
+import navIconResume from '../assets/images/nav-icon-resume.svg'
 
 interface NavbarProps {
   onWork?: () => void
   onAbout?: () => void
+  onResume?: () => void
   hidden?: boolean
+  revealed?: boolean
 }
 
-export default function Navbar({ onWork, onAbout, hidden }: NavbarProps) {
+export default function Navbar({ onWork, onAbout, onResume, hidden, revealed }: NavbarProps) {
   const { pathname } = useLocation()
 
   return (
-    <nav className="navbar" style={hidden ? { opacity: 0, pointerEvents: 'none' } : undefined}>
+    <nav className={`navbar${revealed ? ' navbar--revealed' : ''}${hidden ? ' navbar--hidden' : ''}`}>
       <div className="navbar-pill">
 
         {onWork ? (
@@ -39,6 +41,18 @@ export default function Navbar({ onWork, onAbout, hidden }: NavbarProps) {
           <Link to="/" className="nav-tab">
             <img src={navIconAbout} alt="" className="nav-tab-icon" width={20} height={20} />
             <span className="nav-tab-label">about</span>
+          </Link>
+        )}
+
+        {onResume ? (
+          <button className="nav-tab" onClick={onResume}>
+            <img src={navIconResume} alt="" className="nav-tab-icon" width={20} height={20} />
+            <span className="nav-tab-label">resume</span>
+          </button>
+        ) : (
+          <Link to="https://www.figma.com/design/leZEBxJorC3mH2RtuKTTQN/Resume?node-id=584-141&t=ZfFIT3eLaupRh3KZ-1" className="nav-tab">
+            <img src={navIconResume} alt="" className="nav-tab-icon" width={20} height={20} />
+            <span className="nav-tab-label">resume</span>
           </Link>
         )}
 

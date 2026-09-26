@@ -6,7 +6,17 @@
   transform: translateX(-50%);
   z-index: 1000;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  opacity: 0;
+  transition: opacity 0.60s ease;
+}
+
+.navbar--revealed {
+  opacity: 1;
+}
+
+.navbar--hidden {
+  opacity: 0 !important;
+  pointer-events: none;
 }
 
 /* ── Floating pill container ── */
