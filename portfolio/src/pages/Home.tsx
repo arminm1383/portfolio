@@ -263,6 +263,7 @@ interface HeroGraphicProps {
   id: string
   src?: string
   cls?: string
+  wrapperCls?: string
   // For complex children (e.g. koi): supply the image to use for outline tracing
   outlineSrc?: string
   mode?: 'alpha' | 'infer'
@@ -274,7 +275,7 @@ interface HeroGraphicProps {
   children?: React.ReactNode
 }
 
-function HeroGraphic({ id, src, cls, outlineSrc, mode = 'alpha', selected, popupOpen, onSelect, onTag, onPopupStop, children }: HeroGraphicProps) {
+function HeroGraphic({ id, src, cls, wrapperCls, outlineSrc, mode = 'alpha', selected, popupOpen, onSelect, onTag, onPopupStop, children }: HeroGraphicProps) {
   const outlineRef = useRef<HTMLImageElement>(null)
   const displayRef = useRef<HTMLImageElement>(null)
   // When children are provided, trace from a dedicated hidden img; otherwise trace the display img
@@ -288,7 +289,7 @@ function HeroGraphic({ id, src, cls, outlineSrc, mode = 'alpha', selected, popup
 
   return (
     <div
-      className={`hero-selectable${isSelected ? ' is-selected' : ''}`}
+      className={`hero-selectable${isSelected ? ' is-selected' : ''}${wrapperCls ? ` ${wrapperCls}` : ''}`}
       data-graphic={id}
       onClick={(e) => { e.stopPropagation(); onSelect(id) }}
     >
@@ -337,10 +338,24 @@ interface WorkCardProps {
   bgColor?: string
   panel?: string
   objectFit?: 'cover' | 'contain'
+  objectPosition?: string
+  graphicId?: string
+  selected?: string | null
+  popupOpen?: boolean
+  onSelect?: (id: string) => void
+  onTag?: (e: React.MouseEvent) => void
+  onPopupStop?: (e: React.MouseEvent) => void
 }
 
-function WorkCard({ artwork, artworkAlt, title, description, isGif, to, href, bgColor, panel, objectFit = 'cover' }: WorkCardProps) {
+function WorkCard({ artwork, artworkAlt, title, description, isGif, to, href, bgColor, panel, objectFit = 'cover', objectPosition, graphicId, selected, popupOpen, onSelect, onTag, onPopupStop }: WorkCardProps) {
   const imgRef = useRef<HTMLImageElement>(null)
+  const nullRef = useRef<HTMLImageElement | null>(null)
+  const isSelected = Boolean(graphicId && selected === graphicId)
+  const { pts: outlinePts, anchorPos } = useAlphaOutline(graphicId ? imgRef : nullRef, 'infer')
+
+  const anchorStyle: React.CSSProperties = anchorPos
+    ? { left: `${anchorPos[0]}%`, top: `${anchorPos[1]}%`, transform: 'translate(-50%, -50%)' }
+    : { right: '4px', top: '4px' }
 
   useEffect(() => {
     if (!isGif) return
@@ -364,13 +379,20 @@ function WorkCard({ artwork, artworkAlt, title, description, isGif, to, href, bg
 
   const content = (
     <>
-      <div className="work-card-artwork" style={bgColor ? { backgroundColor: bgColor } : undefined}>
+      <div
+        className={`work-card-artwork${isSelected ? ' is-selected' : ''}`}
+        style={bgColor ? { backgroundColor: bgColor } : undefined}
+        {...(graphicId && onSelect ? {
+          'data-graphic': graphicId,
+          onClick: (e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); onSelect(graphicId) },
+        } : {})}
+      >
         {artwork && (
           <img
             ref={imgRef}
             src={artwork}
             alt={artworkAlt ?? ''}
-            style={objectFit === 'contain' ? { objectFit: 'contain' } : undefined}
+            style={{ objectFit, objectPosition: objectPosition ?? undefined }}
           />
         )}
         {panel && (
@@ -381,6 +403,20 @@ function WorkCard({ artwork, artworkAlt, title, description, isGif, to, href, bg
           </div>
         )}
         <div className="work-card-artwork-inset" aria-hidden />
+        {graphicId && (
+          <svg className="hero-sel-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
+            {outlinePts && (
+              <polygon points={outlinePts} fill="none" stroke="#18671F" strokeWidth="2"
+                strokeDasharray="5 3" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+            )}
+          </svg>
+        )}
+        {isSelected && graphicId && (
+          <div className="amlm-anchor" style={anchorStyle}>
+            <AmLMTag onClick={onTag!} />
+            {popupOpen && <AmLMPopup onStop={onPopupStop!} />}
+          </div>
+        )}
       </div>
       <div className="work-card-content">
         <h2 className="work-card-title">{title}</h2>
@@ -749,7 +785,7 @@ export default function Home() {
           </section>
 
           {/* ── Works grid ────────────────────────────────────────────────── */}
-          <section className="works" ref={worksRef}>
+          <section className="works" ref={worksRef} onClick={handleDeselect}>
             <div className="works-nav-spacer" />
             <div className="works-grid" key={worksKey}>
               <WorkCard
@@ -759,6 +795,13 @@ export default function Home() {
                 description="Redefining AI software through data-driven research"
                 isGif
                 to="/work/rocket-lawyer"
+                objectPosition="center"
+                graphicId="work-rocket"
+                selected={selectedGraphic}
+                popupOpen={popupOpen}
+                onSelect={handleSelect}
+                onTag={handleTag}
+                onPopupStop={stopProp}
               />
               <WorkCard
                 bgColor="#369af1"
@@ -773,6 +816,13 @@ export default function Home() {
                 description="A case-competition winning solution built for elders, tested by elders"
                 isGif
                 to="/work/findy"
+                objectPosition="center"
+                graphicId="work-findy"
+                selected={selectedGraphic}
+                popupOpen={popupOpen}
+                onSelect={handleSelect}
+                onTag={handleTag}
+                onPopupStop={stopProp}
               />
               <WorkCard
                 artwork={workMementoArtwork}
@@ -782,12 +832,18 @@ export default function Home() {
                 bgColor="#1b130f"
                 objectFit="contain"
                 href="https://devpost.com/software/memento-3p1kjl"
+                graphicId="work-memento"
+                selected={selectedGraphic}
+                popupOpen={popupOpen}
+                onSelect={handleSelect}
+                onTag={handleTag}
+                onPopupStop={stopProp}
               />
             </div>
           </section>
 
           {/* ── About Me ─────────────────────────────────────────────── */}
-          <section className="about-section">
+          <section className="about-section" onClick={handleDeselect}>
             <div className="ab2-nav-spacer" />
             <div className="ab2-scale-wrap" ref={aboutScaleRef}>
             <div className="ab2-main">
@@ -803,9 +859,7 @@ export default function Home() {
                         <img src={ab2JumpingFrame} alt="" />
                       </div>
                     </div>
-                    <div className="ab2-photo ab2-jumping-photo">
-                      <img src={ab2JumpingPhoto} alt="" />
-                    </div>
+                    <HeroGraphic id="ab2-jumping" src={ab2JumpingPhoto} mode="infer" wrapperCls="ab2-photo ab2-jumping-photo" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
                     {/* findy-team — z:3/4 */}
                     <div className="ab2-frame-wrap ab2-team-frame-wrap">
@@ -813,9 +867,7 @@ export default function Home() {
                         <img src={ab2TeamFrame} alt="" />
                       </div>
                     </div>
-                    <div className="ab2-photo ab2-team-photo">
-                      <img src={ab2TeamPhoto} alt="" />
-                    </div>
+                    <HeroGraphic id="ab2-team" src={ab2TeamPhoto} mode="infer" wrapperCls="ab2-photo ab2-team-photo" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
                     {/* me — z:5/6 */}
                     <div className="ab2-frame-wrap ab2-me-frame-wrap">
@@ -823,9 +875,7 @@ export default function Home() {
                         <img src={ab2MeFrame} alt="" />
                       </div>
                     </div>
-                    <div className="ab2-photo ab2-me-photo">
-                      <img src={ab2MePhoto} alt="" />
-                    </div>
+                    <HeroGraphic id="ab2-me" src={ab2MePhoto} mode="infer" wrapperCls="ab2-photo ab2-me-photo" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
                     {/* car — z:7/8/9 */}
                     <div className="ab2-frame-wrap ab2-car-frame-wrap">
@@ -833,12 +883,8 @@ export default function Home() {
                         <img src={ab2CarFrame} alt="" />
                       </div>
                     </div>
-                    <div className="ab2-photo ab2-car-photo1">
-                      <img src={ab2CarPhoto1} alt="" />
-                    </div>
-                    <div className="ab2-photo ab2-car-photo2">
-                      <img src={ab2CarPhoto2} alt="" />
-                    </div>
+                    <HeroGraphic id="ab2-car1" src={ab2CarPhoto1} mode="infer" wrapperCls="ab2-photo ab2-car-photo1" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                    <HeroGraphic id="ab2-car2" src={ab2CarPhoto2} mode="infer" wrapperCls="ab2-photo ab2-car-photo2" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
                     {/* food — z:10/11 */}
                     <div className="ab2-frame-wrap ab2-food-frame-wrap">
@@ -846,9 +892,7 @@ export default function Home() {
                         <img src={ab2FoodFrame} alt="" />
                       </div>
                     </div>
-                    <div className="ab2-photo ab2-food-photo">
-                      <img src={ab2FoodPhoto} alt="" />
-                    </div>
+                    <HeroGraphic id="ab2-food" src={ab2FoodPhoto} mode="infer" wrapperCls="ab2-photo ab2-food-photo" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
                     {/* tree — z:12/13 — above me/selfie and food */}
                     <div className="ab2-frame-wrap ab2-tree-frame-wrap">
@@ -856,9 +900,7 @@ export default function Home() {
                         <img src={ab2TreeFrame} alt="" />
                       </div>
                     </div>
-                    <div className="ab2-photo ab2-tree-photo">
-                      <img src={ab2TreePhoto} alt="" />
-                    </div>
+                    <HeroGraphic id="ab2-tree" src={ab2TreePhoto} mode="infer" wrapperCls="ab2-photo ab2-tree-photo" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
                     {/* album — z:16/17 */}
                     <div className="ab2-frame-wrap ab2-album-frame-wrap">
@@ -866,9 +908,7 @@ export default function Home() {
                         <img src={ab2AlbumFrame} alt="" />
                       </div>
                     </div>
-                    <div className="ab2-photo ab2-album-photo">
-                      <img src={ab2AlbumPhoto} alt="" />
-                    </div>
+                    <HeroGraphic id="ab2-album" src={ab2AlbumPhoto} mode="infer" wrapperCls="ab2-photo ab2-album-photo" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
                     {/* lucas — z:16/17/18 */}
                     <div className="ab2-frame-wrap ab2-lucas-frame-wrap">
@@ -876,12 +916,8 @@ export default function Home() {
                         <img src={ab2LucasFrame} alt="" />
                       </div>
                     </div>
-                    <div className="ab2-photo ab2-lucas-photo1">
-                      <img src={ab2LucasPhoto1} alt="" />
-                    </div>
-                    <div className="ab2-photo ab2-lucas-photo2">
-                      <img src={ab2LucasPhoto2} alt="" />
-                    </div>
+                    <HeroGraphic id="ab2-lucas1" src={ab2LucasPhoto1} mode="infer" wrapperCls="ab2-photo ab2-lucas-photo1" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                    <HeroGraphic id="ab2-lucas2" src={ab2LucasPhoto2} mode="infer" wrapperCls="ab2-photo ab2-lucas-photo2" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
                     {/* Stars — z:20 */}
                     <div className="ab2-star ab2-star-sm" aria-hidden>

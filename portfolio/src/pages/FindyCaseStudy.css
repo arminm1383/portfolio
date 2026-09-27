@@ -1178,6 +1178,7 @@
   pointer-events: none;
 }
 
+
 .fcs-upnext-card-info {
   padding: var(--space-4) var(--space-6) var(--space-5);
   display: flex;
@@ -1211,6 +1212,7 @@
   letter-spacing: -0.44px;
   line-height: 1.2;
 }
+
 
 /* ── Rocket Lawyer: Core Task card — two-column layout ── */
 .fcs-core-task-row {
@@ -1277,6 +1279,10 @@
   align-items: center;
   gap: var(--space-6);
   padding: var(--space-8) var(--space-6);
+}
+.fcs-media-card--padded img,
+.fcs-media-card--padded video {
+  border-radius: 4px;
 }
 
 .fcs-media-card--grey {
@@ -1793,6 +1799,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
   display: block;
   pointer-events: none;
   user-select: none;
@@ -1842,6 +1849,72 @@
 }
 
 /* ── Rocket Lawyer: Reflection numbered cards — vertical stack, horizontal inner ── */
+/* ── Next Steps cards (3-column, mirrors stat-cards layout) ── */
+.fcs-next-steps-cards {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.fcs-next-steps-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.fcs-next-steps-title {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #991b1d;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.fcs-next-steps-body {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(0, 0, 0, 0.65);
+  margin: 0;
+}
+
+.fcs-reflection-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.fcs-reflection-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fcs-reflection-item-title {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #991b1d;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.fcs-reflection-item-body {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.65);
+  margin: 0;
+}
+
 .fcs-reflection-row {
   display: flex;
   flex-direction: column;
@@ -1897,6 +1970,9 @@
 .fcs-page--rocket .fcs-rq-card         { margin-bottom: 16px; }
 .fcs-page--rocket .fcs-subsection-heading { margin-bottom: 0; }
 .fcs-page--rocket .fcs-problem-stats   { margin: 0; }
+.fcs-page--rocket .fcs-stat-cards           { margin-bottom: 16px; }
+.fcs-page--rocket .fcs-stats-connector-wrap { margin-bottom: 16px; }
+.fcs-page--rocket .fcs-problem-statement    { margin-bottom: 16px; }
 
 /* ── Subsection grouping — 56px between subsections, 16px within ── */
 /* Used inside both the Research and Design Recs sections */
@@ -1977,6 +2053,9 @@
   flex-direction: column;
   gap: 16px;
 }
+.fcs-numbered-card-content > *:last-child {
+  margin-bottom: 0;
+}
 
 /* ── Rocket Lawyer typography scale ── */
 .fcs-page--rocket .fcs-org-name {
@@ -2033,6 +2112,7 @@
   line-height: 1.2;
   letter-spacing: -0.32px;
   margin: 0;
+  border-radius: 4px;
 }
 
 /* ── Rocket Lawyer: header flex layout ── */
@@ -2041,6 +2121,10 @@
   flex-direction: column;
   gap: 32px;
   padding-bottom: var(--space-12);
+  border-bottom: none;
+}
+.fcs-page--rocket .fcs-sidebar {
+  border-right: none;
 }
 
 .fcs-page--rocket .fcs-title {
@@ -2213,6 +2297,7 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: none;
   filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.04));
+  border-radius: 4px;
 }
 
 /* Quote card: design-system padding + shadow */
@@ -2240,7 +2325,7 @@
   width: 78%;
   aspect-ratio: 518 / 352;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 8px;
   flex-shrink: 0;
 }
 
@@ -2326,4 +2411,122 @@
 
 .rl-carousel-chip:hover::after {
   opacity: 1;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Scroll reveal — fade-up (default) and pop-in (cards)
+   ───────────────────────────────────────────────────────────── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity   0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-reveal].reveal--visible {
+  opacity: 1;
+  transform: none;
+}
+[data-reveal="pop"] {
+  transform: translateY(8px) scale(0.985);
+  transition:
+    opacity   0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+[data-reveal="pop"].reveal--visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Rocket Lawyer — Up Next (clean rebuild, Figma node 1536:179731)
+   ───────────────────────────────────────────────────────────── */
+.rl-upnext {
+  padding-top: 64px;
+  padding-bottom: 80px;
+}
+
+.rl-upnext-heading {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 38px;
+  font-weight: 400;
+  color: #000;
+  letter-spacing: -0.6px;
+  line-height: 1;
+  margin: 0 0 56px;
+}
+
+/* Cards row — 53px side padding, 48px gap (from Figma coordinates) */
+.rl-upnext-row {
+  display: flex;
+  gap: 48px;
+  padding: 0 53px;
+}
+
+.rl-upnext-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rl-upnext-card:nth-child(1):hover {
+  transform: translateY(-10px) rotate(-1deg);
+}
+
+.rl-upnext-card:nth-child(2):hover {
+  transform: translateY(-10px) rotate(1deg);
+}
+
+/* Artwork — 373×217 ratio from Figma */
+.rl-upnext-artwork {
+  width: 100%;
+  aspect-ratio: 373 / 217;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.rl-upnext-artwork img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  display: block;
+  pointer-events: none;
+}
+
+.rl-upnext-artwork--streets {
+  background: #369af1;
+}
+
+.rl-upnext-artwork--findy {
+  background: #f0f0ee;
+}
+
+.rl-upnext-artwork--findy img {
+  object-fit: contain;
+  object-position: center;
+}
+
+.rl-upnext-title {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #000;
+  letter-spacing: -0.4px;
+  line-height: 1.27;
+  margin: 0;
+}
+
+.rl-upnext-desc {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.55);
+  line-height: 1.5;
+  margin: 0;
 }
