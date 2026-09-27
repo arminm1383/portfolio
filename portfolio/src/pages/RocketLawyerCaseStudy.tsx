@@ -39,6 +39,31 @@ const NAV_ITEMS = [
   { id: 'reflections', label: 'Reflections',            routable: true  },
 ]
 
+// ── Rocket Lawyer design-system color palette (carousel) ─────────────────────
+const RL_COLORS = [
+  '#7A0000', '#C41C1C', '#E05252',
+  '#FFFDE7', '#F5D200', '#C8A000',
+  '#1B5E20', '#2E7D32', '#43A047', '#1565C0',
+]
+
+function ColorCarousel() {
+  const doubled = [...RL_COLORS, ...RL_COLORS]
+  return (
+    <div className="rl-carousel-outer">
+      <div className="rl-carousel-track">
+        {doubled.map((color, i) => (
+          <div
+            key={i}
+            className="rl-carousel-chip"
+            style={{ backgroundColor: color, '--chip-color': color } as React.CSSProperties}
+            data-hex={color}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function cubicBezierEase(t: number, x1: number, y1: number, x2: number, y2: number): number {
   const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx
   const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by
@@ -461,7 +486,9 @@ export default function RocketLawyerCaseStudy() {
                   </p>
                   <div className="fcs-media-card fcs-media-card--padded">
                     <p className="fcs-media-card-label">DEFINING COHORTS TO SEGMENT COPILOT USE CASES IN AMPLITUDE</p>
-                    <img src={rocketChart} alt="" className="fcs-media-card-img" draggable={false} />
+                    <div className="fcs-chart-crop">
+                      <img src={rocketChart} alt="" className="fcs-media-card-img" draggable={false} />
+                    </div>
                   </div>
                 </div>
 
@@ -583,11 +610,15 @@ export default function RocketLawyerCaseStudy() {
                         systems, using Claude skills and Design Engineering principles to update the visuals,
                         components, and typography attributes.
                       </p>
-                      <div className="fcs-media-card fcs-media-card--padded">
-                        <div className="fcs-media-card-inner fcs-media-card-inner--sidebar">
-                          <img src={rocketFdsSidebar} alt="" className="fcs-media-card-img--sidebar" draggable={false} />
+                      <div className="fcs-media-card fcs-media-card--padded fcs-media-card--borderless">
+                        <p className="fcs-media-card-label">DESIGN SYSTEM USED TO POWER AI-DESIGN WORKFLOWS</p>
+                        <div className="fcs-media-card-inner fcs-media-card-inner--results">
+                          <img src={rocketFdsSidebar} alt="" className="fcs-media-card-img--results" draggable={false} />
                         </div>
-                        <p className="fcs-media-caption-red">Design System Component for Copilot Sidebar Menu</p>
+                      </div>
+                      <div className="fcs-media-card fcs-media-card--padded rl-color-sys-card">
+                        <p className="fcs-media-card-label">COLOR SYSTEM</p>
+                        <ColorCarousel />
                       </div>
                       <p className="fcs-section-body">
                         Through automated user testing, I validated and built an AI-powered guided, autonomous

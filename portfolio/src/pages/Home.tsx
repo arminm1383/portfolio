@@ -750,6 +750,7 @@ export default function Home() {
 
           {/* ── Works grid ────────────────────────────────────────────────── */}
           <section className="works" ref={worksRef}>
+            <div className="works-nav-spacer" />
             <div className="works-grid" key={worksKey}>
               <WorkCard
                 artwork={rocketArtwork}

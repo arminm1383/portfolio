@@ -471,6 +471,16 @@
   overscroll-behavior-y: contain;
   box-sizing: border-box;
   padding: 72px 92px; /* Figma: py-72 px-92 on Featured Work outer frame */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Topbar clearance — mirrors ab2-nav-spacer: top(12) + height(44) + gap(8) = 64px */
+.works-nav-spacer {
+  height: 64px;
+  flex-shrink: 0;
+  width: 0;
 }
 
 .works-header {
