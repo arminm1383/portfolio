@@ -707,7 +707,88 @@
    ══════════════════════════════════════════════════════════ */
 
 /* ── Findy page accent — blue replaces red throughout ── */
-.fcs-page--findy .fcs-nav-item--active { color: #205dfd; }
+.fcs-page--findy .fcs-nav-item--active  { color: #205dfd; }
+.fcs-page--findy .fcs-numbered-card-num { color: #205dfd; }
+.fcs-page--findy .fcs-rec-heading       { color: #205dfd; }
+
+/* ── Findy: numbered-card grid — 3 rows (override shared 4-row RL default) ── */
+.findy-rec-cards                    { grid-template-rows: auto auto auto; }
+.findy-rec-cards .fcs-rec-cards-numcol     { grid-row: 1 / 4; }
+.findy-rec-cards .fcs-rec-cards-contentcol { grid-row: 1 / 4; }
+
+/* ── Findy: spacing overrides (match RL rhythm) ── */
+.fcs-page--findy .fcs-section              { padding-top: 56px; }
+.fcs-page--findy .fcs-header + .fcs-section { padding-top: 64px; }
+.fcs-page--findy .fcs-section-label        { margin-bottom: 16px; }
+.fcs-page--findy .fcs-section-heading      { margin: 0 0 16px; }
+.fcs-page--findy .fcs-section-body         { margin-bottom: 16px; }
+.fcs-page--findy .fcs-media-card           { margin-bottom: 16px; }
+.fcs-page--findy .fcs-subsection-heading   { margin-bottom: 0; }
+
+/* ── Findy: background section stat pills ── */
+.findy-stat-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: var(--space-9);
+}
+
+.findy-stat-pill {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #205dfd;
+  letter-spacing: -0.28px;
+  line-height: 1.2;
+  background: rgba(32, 93, 253, 0.08);
+  border: 1px solid rgba(32, 93, 253, 0.2);
+  border-radius: 100px;
+  padding: 8px 16px;
+  white-space: nowrap;
+}
+
+/* ── Findy: research portrait photos ── */
+.findy-research-photos {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.findy-research-photo {
+  width: 163px;
+  height: 336px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Findy: focus group image frame ── */
+.findy-focus-group {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.findy-focus-group-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Up Next: Rocket Lawyer artwork ── */
+.rl-upnext-artwork--rocket {
+  background: #cc1a1d;
+}
+
+.rl-upnext-artwork--rocket img {
+  object-fit: cover;
+  object-position: top center;
+}
 
 /* ── Findy: header layout ── */
 .fcs-header--findy {
@@ -2004,7 +2085,7 @@
 .fcs-rec-cards {
   display: grid;
   grid-template-columns: 48px 1fr;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto auto auto auto;
   row-gap: 16px;
   align-items: start;
   width: 100%;
@@ -2012,14 +2093,14 @@
 
 .fcs-rec-cards-numcol {
   grid-column: 1;
-  grid-row: 1 / 4;
+  grid-row: 1 / 5;
   display: grid;
   grid-template-rows: subgrid;
 }
 
 .fcs-rec-cards-contentcol {
   grid-column: 2;
-  grid-row: 1 / 4;
+  grid-row: 1 / 5;
   display: grid;
   grid-template-rows: subgrid;
 }

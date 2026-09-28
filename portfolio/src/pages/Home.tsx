@@ -796,18 +796,6 @@ export default function Home() {
                 isGif
                 to="/work/rocket-lawyer"
                 objectPosition="center"
-                graphicId="work-rocket"
-                selected={selectedGraphic}
-                popupOpen={popupOpen}
-                onSelect={handleSelect}
-                onTag={handleTag}
-                onPopupStop={stopProp}
-              />
-              <WorkCard
-                bgColor="#369af1"
-                panel={workStreetsPanel}
-                title="Streets"
-                description="Design-engineering enterprise B2B software"
               />
               <WorkCard
                 artwork={findyGif}
@@ -817,12 +805,12 @@ export default function Home() {
                 isGif
                 to="/work/findy"
                 objectPosition="center"
-                graphicId="work-findy"
-                selected={selectedGraphic}
-                popupOpen={popupOpen}
-                onSelect={handleSelect}
-                onTag={handleTag}
-                onPopupStop={stopProp}
+              />
+              <WorkCard
+                bgColor="#369af1"
+                panel={workStreetsPanel}
+                title="Streets"
+                description="Design-engineering enterprise B2B software"
               />
               <WorkCard
                 artwork={workMementoArtwork}
@@ -832,12 +820,6 @@ export default function Home() {
                 bgColor="#1b130f"
                 objectFit="contain"
                 href="https://devpost.com/software/memento-3p1kjl"
-                graphicId="work-memento"
-                selected={selectedGraphic}
-                popupOpen={popupOpen}
-                onSelect={handleSelect}
-                onTag={handleTag}
-                onPopupStop={stopProp}
               />
             </div>
           </section>
@@ -859,7 +841,7 @@ export default function Home() {
                         <img src={ab2JumpingFrame} alt="" />
                       </div>
                     </div>
-                    <HeroGraphic id="ab2-jumping" src={ab2JumpingPhoto} mode="infer" wrapperCls="ab2-photo ab2-jumping-photo" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                    <div className="ab2-photo ab2-jumping-photo"><img src={ab2JumpingPhoto} alt="" aria-hidden /></div>
 
                     {/* findy-team — z:3/4 */}
                     <div className="ab2-frame-wrap ab2-team-frame-wrap">
@@ -867,7 +849,7 @@ export default function Home() {
                         <img src={ab2TeamFrame} alt="" />
                       </div>
                     </div>
-                    <HeroGraphic id="ab2-team" src={ab2TeamPhoto} mode="infer" wrapperCls="ab2-photo ab2-team-photo" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                    <div className="ab2-photo ab2-team-photo"><img src={ab2TeamPhoto} alt="" aria-hidden /></div>
 
                     {/* me — z:5/6 */}
                     <div className="ab2-frame-wrap ab2-me-frame-wrap">
@@ -875,7 +857,7 @@ export default function Home() {
                         <img src={ab2MeFrame} alt="" />
                       </div>
                     </div>
-                    <HeroGraphic id="ab2-me" src={ab2MePhoto} mode="infer" wrapperCls="ab2-photo ab2-me-photo" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                    <div className="ab2-photo ab2-me-photo"><img src={ab2MePhoto} alt="" aria-hidden /></div>
 
                     {/* car — z:7/8/9 */}
                     <div className="ab2-frame-wrap ab2-car-frame-wrap">
@@ -883,8 +865,8 @@ export default function Home() {
                         <img src={ab2CarFrame} alt="" />
                       </div>
                     </div>
-                    <HeroGraphic id="ab2-car1" src={ab2CarPhoto1} mode="infer" wrapperCls="ab2-photo ab2-car-photo1" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
-                    <HeroGraphic id="ab2-car2" src={ab2CarPhoto2} mode="infer" wrapperCls="ab2-photo ab2-car-photo2" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                    <div className="ab2-photo ab2-car-photo1"><img src={ab2CarPhoto1} alt="" aria-hidden /></div>
+                    <div className="ab2-photo ab2-car-photo2"><img src={ab2CarPhoto2} alt="" aria-hidden /></div>
 
                     {/* food — z:10/11 */}
                     <div className="ab2-frame-wrap ab2-food-frame-wrap">
@@ -892,7 +874,7 @@ export default function Home() {
                         <img src={ab2FoodFrame} alt="" />
                       </div>
                     </div>
-                    <HeroGraphic id="ab2-food" src={ab2FoodPhoto} mode="infer" wrapperCls="ab2-photo ab2-food-photo" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                    <div className="ab2-photo ab2-food-photo"><img src={ab2FoodPhoto} alt="" aria-hidden /></div>
 
                     {/* tree — z:12/13 — above me/selfie and food */}
                     <div className="ab2-frame-wrap ab2-tree-frame-wrap">
@@ -900,7 +882,7 @@ export default function Home() {
                         <img src={ab2TreeFrame} alt="" />
                       </div>
                     </div>
-                    <HeroGraphic id="ab2-tree" src={ab2TreePhoto} mode="infer" wrapperCls="ab2-photo ab2-tree-photo" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                    <div className="ab2-photo ab2-tree-photo"><img src={ab2TreePhoto} alt="" aria-hidden /></div>
 
                     {/* album — z:16/17 */}
                     <div className="ab2-frame-wrap ab2-album-frame-wrap">
@@ -908,7 +890,7 @@ export default function Home() {
                         <img src={ab2AlbumFrame} alt="" />
                       </div>
                     </div>
-                    <HeroGraphic id="ab2-album" src={ab2AlbumPhoto} mode="infer" wrapperCls="ab2-photo ab2-album-photo" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                    <div className="ab2-photo ab2-album-photo"><img src={ab2AlbumPhoto} alt="" aria-hidden /></div>
 
                     {/* lucas — z:16/17/18 */}
                     <div className="ab2-frame-wrap ab2-lucas-frame-wrap">
@@ -916,8 +898,8 @@ export default function Home() {
                         <img src={ab2LucasFrame} alt="" />
                       </div>
                     </div>
-                    <HeroGraphic id="ab2-lucas1" src={ab2LucasPhoto1} mode="infer" wrapperCls="ab2-photo ab2-lucas-photo1" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
-                    <HeroGraphic id="ab2-lucas2" src={ab2LucasPhoto2} mode="infer" wrapperCls="ab2-photo ab2-lucas-photo2" selected={selectedGraphic} popupOpen={popupOpen} onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
+                    <div className="ab2-photo ab2-lucas-photo1"><img src={ab2LucasPhoto1} alt="" aria-hidden /></div>
+                    <div className="ab2-photo ab2-lucas-photo2"><img src={ab2LucasPhoto2} alt="" aria-hidden /></div>
 
                     {/* Stars — z:20 */}
                     <div className="ab2-star ab2-star-sm" aria-hidden>

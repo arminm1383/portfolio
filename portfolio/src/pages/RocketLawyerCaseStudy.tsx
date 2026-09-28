@@ -26,6 +26,7 @@ import rqIcon1 from '../assets/images/rq-icon-1.svg'
 import rqIcon2 from '../assets/images/rq-icon-2.svg'
 import rqIcon3 from '../assets/images/rq-icon-3.svg'
 import orgRocket from '../assets/images/org-rocket.png'
+import rocketFinalDeliverable from '../assets/images/rocket-cs-final-deliverable.png'
 import upnextStreets from '../assets/images/upnext-streets.gif'
 import upnextFindy   from '../assets/images/upnext-findy.png'
 
@@ -570,6 +571,7 @@ export default function RocketLawyerCaseStudy() {
                   <div className="fcs-num-row"><span className="fcs-numbered-card-num">01</span></div>
                   <div className="fcs-num-row"><span className="fcs-numbered-card-num">02</span></div>
                   <div className="fcs-num-row"><span className="fcs-numbered-card-num">03</span></div>
+                  <div className="fcs-num-row"><span className="fcs-numbered-card-num">04</span></div>
                 </div>
 
                 <div className="fcs-rec-cards-contentcol">
@@ -661,6 +663,23 @@ export default function RocketLawyerCaseStudy() {
                     </div>
                   </div>
 
+                  <div className="fcs-numbered-card" data-reveal="pop" data-reveal-delay="240">
+                    <div className="fcs-numbered-card-content">
+                      <h3 className="fcs-rec-heading fcs-rec-heading--lg">The Final Deliverable</h3>
+                      <p className="fcs-section-body">
+                        As iterative research connected us with our users' actual needs, the agentic guided flow
+                        feature became the heart of the workspace, serving as my final deliverable to this
+                        ever-growing project.
+                      </p>
+                      <div className="fcs-media-card fcs-media-card--padded" style={{ borderRadius: '4px', background: 'rgba(234,233,233,0.5)', border: '1px solid rgba(0,0,0,0.08)' }}>
+                        <p className="fcs-media-card-label">RESEARCH-BACKED DESIGN ENGINEERED SOLUTIONS SHIPPED TO DEV</p>
+                        <div className="fcs-media-card-inner fcs-media-card-inner--results">
+                          <img src={rocketFinalDeliverable} alt="" className="fcs-media-card-img--results" draggable={false} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </section>
@@ -719,7 +738,7 @@ export default function RocketLawyerCaseStudy() {
             <section className="rl-upnext">
               <h2 className="rl-upnext-heading" data-reveal="">Up Next</h2>
               <div className="rl-upnext-row">
-                <Link to="/work/streets" className="rl-upnext-card" data-reveal="pop" data-reveal-delay="50">
+                <div className="rl-upnext-card" data-cursor="coming-soon" data-reveal="pop" data-reveal-delay="50">
                   <div className="rl-upnext-artwork rl-upnext-artwork--streets">
                     <img src={upnextStreets} alt="Streets" draggable={false} />
                   </div>
@@ -727,8 +746,8 @@ export default function RocketLawyerCaseStudy() {
                     <p className="rl-upnext-title">Streets</p>
                     <p className="rl-upnext-desc">design engineering enterprise B2B software</p>
                   </div>
-                </Link>
-                <Link to="/work/findy" className="rl-upnext-card" data-reveal="pop" data-reveal-delay="150">
+                </div>
+                <Link to="/work/findy" className="rl-upnext-card" data-cursor="case-study" data-reveal="pop" data-reveal-delay="150">
                   <div className="rl-upnext-artwork rl-upnext-artwork--findy">
                     <img src={upnextFindy} alt="Findy" draggable={false} />
                   </div>

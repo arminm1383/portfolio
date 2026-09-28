@@ -557,14 +557,6 @@ a.work-card {
   object-position: top center;
 }
 
-/* Work card artwork selectable */
-.work-card-artwork[data-graphic] {
-  cursor: pointer;
-}
-.work-card-artwork[data-graphic]:not(.is-selected):hover {
-  filter: brightness(1.04);
-  transition: filter 0.25s ease;
-}
 
 /* Streets layered panel overlay — Figma: top-[113px] left-[23px] w-[817px] h-[452px] */
 .work-card-panel {
@@ -717,12 +709,6 @@ a.work-card {
   transform: translateY(-50%);
 }
 
-/* When ab2-photo is also a hero-selectable, enable interaction */
-.ab2-photo.hero-selectable {
-  pointer-events: auto;
-  cursor: pointer;
-}
-
 .ab2-photo img {
   position: absolute;
   inset: 0;
@@ -730,21 +716,6 @@ a.work-card {
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-/* hero-selectable inside ab2-photo — fill the container, don't use absolute layout */
-.ab2-photo .hero-selectable {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  pointer-events: auto;
-}
-
-/* Override hero-selectable img rules for photo context */
-.ab2-photo .hero-selectable img,
-.ab2-photo.hero-selectable img {
-  height: 100%;
-  object-fit: cover;
 }
 
 /* ── jumping ── (z: 1 & 2) */
