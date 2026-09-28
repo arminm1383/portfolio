@@ -33,7 +33,7 @@ import amlmStarSm  from '../assets/images/nav-topbar-star-sm.svg'
 import amlmStarLg  from '../assets/images/nav-topbar-star-lg.svg'
 import amlmStarMd  from '../assets/images/nav-topbar-star-md.svg'
 import amlmStarTex from '../assets/images/nav-topbar-star-texture.png'
-import resumePdf from '../assets/images/Armin Mohammadi - Resume.pdf'
+
 
 import ab2TreeFrame    from '../assets/images/ab2-tree-frame.png'
 import ab2TreePhoto    from '../assets/images/ab2-tree-photo.png'
@@ -455,7 +455,7 @@ export default function Home() {
   const [selectedGraphic, setSelectedGraphic] = useState<string | null>(null)
   const [popupOpen, setPopupOpen] = useState(false)
   const [navbarRevealed, setNavbarRevealed] = useState(false)
-  const [resumeOpen, setResumeOpen] = useState(false)
+  const RESUME_URL = 'https://www.figma.com/design/leZEBxJorC3mH2RtuKTTQN/Resume?node-id=584-141&t=gvJsNKknEK5Om8b1-1'
 
   const handleSelect = useCallback((id: string) => {
     setSelectedGraphic(prev => {
@@ -946,22 +946,11 @@ export default function Home() {
       <Navbar
         onWork={() => goTo(1)}
         onAbout={() => goTo(2)}
-        onResume={() => setResumeOpen(true)}
+        onResume={() => window.open(RESUME_URL, '_blank', 'noopener noreferrer')}
         revealed={navbarRevealed}
       />
 
-      {resumeOpen && (
-        <div className="resume-modal-overlay" onClick={() => setResumeOpen(false)}>
-          <div className="resume-modal" onClick={e => e.stopPropagation()}>
-            <button className="resume-modal-close" onClick={() => setResumeOpen(false)} aria-label="Close resume">✕</button>
-            <iframe
-              className="resume-modal-frame"
-              src={resumePdf}
-              title="Armin Mohammadi Resume"
-            />
-          </div>
-        </div>
-      )}
+
     </>
   )
 }

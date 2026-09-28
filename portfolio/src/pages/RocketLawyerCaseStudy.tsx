@@ -4,6 +4,8 @@ import './FindyCaseStudy.css'
 import CsTopbar from '../components/CsTopbar'
 
 import rocketHeroGif from '../assets/images/rocket-cs-hero-new.gif'
+import workStreetsPanel   from '../assets/images/work-streets-projects.png'
+import findyGif          from '../assets/images/findy-artwork-v2.gif'
 import rocketFdsSidebar  from '../assets/images/rocket-cs-fds-sidebar.png'
 import rocketUsabilityTest from '../assets/images/rocket-cs-usability-test.png'
 import rocketTestResults from '../assets/images/rocket-cs-test-results.png'
@@ -27,8 +29,6 @@ import rqIcon2 from '../assets/images/rq-icon-2.svg'
 import rqIcon3 from '../assets/images/rq-icon-3.svg'
 import orgRocket from '../assets/images/org-rocket.png'
 import rocketFinalDeliverable from '../assets/images/rocket-cs-final-deliverable.png'
-import upnextStreets from '../assets/images/upnext-streets.gif'
-import upnextFindy   from '../assets/images/upnext-findy.png'
 
 const NAV_ITEMS = [
   { id: '',            label: 'Background',             routable: false },
@@ -667,8 +667,8 @@ export default function RocketLawyerCaseStudy() {
                     <div className="fcs-numbered-card-content">
                       <h3 className="fcs-rec-heading fcs-rec-heading--lg">The Final Deliverable</h3>
                       <p className="fcs-section-body">
-                        As iterative research connected us with our users' actual needs, the agentic guided flow
-                        feature became the heart of the workspace, serving as my final deliverable to this
+                        As iterative research connected us with our users' actual needs, the guided flow
+                        mockups designed for agentic integration became the heart of the workspace, serving as my final deliverable to this
                         ever-growing project.
                       </p>
                       <div className="fcs-media-card fcs-media-card--padded" style={{ borderRadius: '4px', background: 'rgba(234,233,233,0.5)', border: '1px solid rgba(0,0,0,0.08)' }}>
@@ -713,11 +713,6 @@ export default function RocketLawyerCaseStudy() {
             <section className="fcs-section" id="reflections">
               <span className="fcs-section-label" data-reveal="">Reflections</span>
               <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Learning, Growing, and Evolving</h2>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
-                Throughout my time at Rocket Lawyer, my skills as a researcher flourished as I integrated
-                human-centric qualitative tasks with AI-powered quantitative methodologies to evolve the
-                core UX research pipeline.
-              </p>
               <div className="fcs-reflection-list">
                 <div className="fcs-reflection-item" data-reveal="">
                   <p className="fcs-reflection-item-title">Experimenting with Validated Features in the Current Workspace</p>
@@ -735,25 +730,25 @@ export default function RocketLawyerCaseStudy() {
             </section>
 
             {/* ── Up Next ── */}
-            <section className="rl-upnext">
+            <section className="fcs-section">
               <h2 className="rl-upnext-heading" data-reveal="">Up Next</h2>
               <div className="rl-upnext-row">
                 <div className="rl-upnext-card" data-cursor="coming-soon" data-reveal="pop" data-reveal-delay="50">
                   <div className="rl-upnext-artwork rl-upnext-artwork--streets">
-                    <img src={upnextStreets} alt="Streets" draggable={false} />
+                    <img src={workStreetsPanel} alt="Streets" draggable={false} />
                   </div>
                   <div>
                     <p className="rl-upnext-title">Streets</p>
-                    <p className="rl-upnext-desc">design engineering enterprise B2B software</p>
+                    <p className="rl-upnext-desc">Design-engineering enterprise B2B software</p>
                   </div>
                 </div>
                 <Link to="/work/findy" className="rl-upnext-card" data-cursor="case-study" data-reveal="pop" data-reveal-delay="150">
                   <div className="rl-upnext-artwork rl-upnext-artwork--findy">
-                    <img src={upnextFindy} alt="Findy" draggable={false} />
+                    <img src={findyGif} alt="Findy" draggable={false} />
                   </div>
                   <div>
                     <p className="rl-upnext-title">Findy</p>
-                    <p className="rl-upnext-desc">a case-competition winning solution built for elders, tested by elders</p>
+                    <p className="rl-upnext-desc">A case-competition winning solution built for elders, tested by elders</p>
                   </div>
                 </Link>
               </div>

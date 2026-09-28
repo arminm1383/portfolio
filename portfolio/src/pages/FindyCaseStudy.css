@@ -711,40 +711,122 @@
 .fcs-page--findy .fcs-numbered-card-num { color: #205dfd; }
 .fcs-page--findy .fcs-rec-heading       { color: #205dfd; }
 
-/* ── Findy: numbered-card grid — 3 rows (override shared 4-row RL default) ── */
-.findy-rec-cards                    { grid-template-rows: auto auto auto; }
-.findy-rec-cards .fcs-rec-cards-numcol     { grid-row: 1 / 4; }
-.findy-rec-cards .fcs-rec-cards-contentcol { grid-row: 1 / 4; }
+/* ── Findy: numbered-card grid — 3 cards ── */
+.fcs-page--findy .fcs-rec-cards { grid-template-rows: auto auto auto; }
 
 /* ── Findy: spacing overrides (match RL rhythm) ── */
 .fcs-page--findy .fcs-section              { padding-top: 56px; }
-.fcs-page--findy .fcs-header + .fcs-section { padding-top: 64px; }
+.fcs-page--findy .fcs-header + .fcs-section { padding-top: 72px; }
 .fcs-page--findy .fcs-section-label        { margin-bottom: 16px; }
 .fcs-page--findy .fcs-section-heading      { margin: 0 0 16px; }
 .fcs-page--findy .fcs-section-body         { margin-bottom: 16px; }
 .fcs-page--findy .fcs-media-card           { margin-bottom: 16px; }
 .fcs-page--findy .fcs-subsection-heading   { margin-bottom: 0; }
 
-/* ── Findy: background section stat pills ── */
-.findy-stat-pills {
+/* ── Findy: header + sidebar layout (mirrors .fcs-page--rocket) ── */
+.fcs-page--findy .fcs-header {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: var(--space-9);
+  flex-direction: column;
+  gap: 32px;
+  padding-bottom: var(--space-12);
+  border-bottom: none;
+}
+.fcs-page--findy .fcs-sidebar  { border-right: none; }
+.fcs-page--findy .fcs-title    { margin: 0; }
+.fcs-page--findy .fcs-org-row  { margin-bottom: 0; }
+.fcs-page--findy .fcs-tags     { border-top: none; padding-top: 0; }
+
+/* ── Findy: typography scale (mirrors .fcs-page--rocket) ── */
+.fcs-page--findy .fcs-org-name {
+  font-size: var(--text-base);
+  letter-spacing: -0.32px;
+}
+.fcs-page--findy .fcs-title {
+  font-size: var(--text-3xl);
+  letter-spacing: -0.64px;
+}
+.fcs-page--findy .fcs-tag-label {
+  font-size: var(--text-base);
+  letter-spacing: -0.32px;
+}
+.fcs-page--findy .fcs-tag-value {
+  font-size: var(--text-base);
+  letter-spacing: -0.32px;
+}
+.fcs-page--findy .fcs-section-label {
+  font-size: var(--text-base);
+  letter-spacing: -0.32px;
+}
+.fcs-page--findy .fcs-section-heading {
+  font-size: var(--text-xl);
+  letter-spacing: -0.48px;
+}
+.fcs-page--findy .fcs-section-body {
+  font-size: var(--text-base);
+  line-height: 32px;
+  letter-spacing: 0;
+}
+.fcs-page--findy .fcs-subsection-heading {
+  font-size: var(--text-xl);
+  letter-spacing: -0.48px;
+}
+.fcs-page--findy .fcs-rec-heading {
+  font-size: var(--text-xl);
+  letter-spacing: -0.48px;
 }
 
-.findy-stat-pill {
+/* ── Findy: media card container styling (mirrors .fcs-page--rocket) ── */
+.fcs-page--findy .fcs-media-card {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: none;
+  filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.04));
+  border-radius: 4px;
+}
+
+/* ── Findy: Background stat card (Figma node 1657:189478) ── */
+.findy-bg-card {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.04);
+  padding: 32px 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.findy-bg-card-text {
+  flex: 1 0 0;
   font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: #205dfd;
-  letter-spacing: -0.28px;
-  line-height: 1.2;
-  background: rgba(32, 93, 253, 0.08);
-  border: 1px solid rgba(32, 93, 253, 0.2);
-  border-radius: 100px;
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: #000;
+  line-height: 32px;
+  letter-spacing: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.findy-bg-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.findy-bg-pill {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  color: #4b91de;
+  background: rgba(75, 145, 222, 0.12);
+  border: 1px solid rgba(75, 145, 222, 0.04);
+  border-radius: 4px;
   padding: 8px 16px;
   white-space: nowrap;
+  line-height: normal;
 }
 
 /* ── Findy: research portrait photos ── */
@@ -939,13 +1021,14 @@
   height: 404px;
   border-radius: 16px;
   background: #fdfdfd;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.04);
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   justify-content: flex-end;
   gap: 12px;
-  padding: 12px 24px;
+  padding: 24px 12px;
 }
 
 .findy-insight-inset {
@@ -976,15 +1059,16 @@
 
 .findy-insight-mascot--guy {
   left: 17px;
-  top: -40px;
-  width: 220px;
-  height: 260px;
+  top: -75px;
+  width: 260px;
+  height: 292px;
 }
 
 .findy-insight-mascot--guy img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transform: rotate(180deg);
 }
 
 .findy-insight-mascot--zen {
@@ -994,27 +1078,9 @@
   height: 208px;
 }
 
-.findy-listening-bubble {
-  position: relative;
+.findy-insight-mascot--zen img {
   width: 100%;
   height: 100%;
-}
-
-.findy-listening-zen {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 52px;
-  height: auto;
-}
-
-.findy-listening-headphones {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 55%;
   object-fit: contain;
 }
 
@@ -2093,14 +2159,14 @@
 
 .fcs-rec-cards-numcol {
   grid-column: 1;
-  grid-row: 1 / 5;
+  grid-row: 1 / -1;
   display: grid;
   grid-template-rows: subgrid;
 }
 
 .fcs-rec-cards-contentcol {
   grid-column: 2;
-  grid-row: 1 / 5;
+  grid-row: 1 / -1;
   display: grid;
   grid-template-rows: subgrid;
 }
@@ -2346,7 +2412,7 @@
   clip-path: inset(0 100% 0 0);
 }
 .fcs-stats-connector-wrap.fcs-arrow--drawn {
-  animation: fcs-arrow-draw 0.9s linear forwards;
+  animation: fcs-arrow-draw 0.7s linear forwards;
 }
 
 .fcs-stats-connector {
@@ -2364,6 +2430,16 @@
   font-size: var(--text-base);
   font-weight: 400;
   color: #991b1d;
+  line-height: 1.66;
+  letter-spacing: -0.32px;
+  margin: 0;
+}
+
+.fcs-problem-statement-alt {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: #205DFD;
   line-height: 1.66;
   letter-spacing: -0.32px;
   margin: 0;
