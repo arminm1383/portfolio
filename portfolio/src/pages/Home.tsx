@@ -455,7 +455,9 @@ export default function Home() {
   const [selectedGraphic, setSelectedGraphic] = useState<string | null>(null)
   const [popupOpen, setPopupOpen] = useState(false)
   const [navbarRevealed, setNavbarRevealed] = useState(false)
+  const [resumeOpen, setResumeOpen] = useState(false)
   const RESUME_URL = 'https://www.figma.com/design/leZEBxJorC3mH2RtuKTTQN/Resume?node-id=601-2&t=vdyJ9xRD5AjN6ltP-1'
+  const RESUME_EMBED_URL = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(RESUME_URL)}`
 
   const handleSelect = useCallback((id: string) => {
     setSelectedGraphic(prev => {
@@ -946,10 +948,18 @@ export default function Home() {
       <Navbar
         onWork={() => goTo(1)}
         onAbout={() => goTo(2)}
-        onResume={() => window.open(RESUME_URL, '_blank', 'noopener noreferrer')}
+        onResume={() => setResumeOpen(true)}
         revealed={navbarRevealed}
       />
 
+      {resumeOpen && (
+        <div className="resume-modal-overlay" onClick={() => setResumeOpen(false)}>
+          <div className="resume-modal" onClick={e => e.stopPropagation()}>
+            <button className="resume-modal-close" onClick={() => setResumeOpen(false)} aria-label="Close resume">✕</button>
+            <iframe className="resume-modal-frame" src={RESUME_EMBED_URL} allowFullScreen title="Resume" />
+          </div>
+        </div>
+      )}
 
     </>
   )
