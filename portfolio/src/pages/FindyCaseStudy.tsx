@@ -28,7 +28,6 @@ const NAV_ITEMS = [
   { id: '',             label: 'Background',            routable: false },
   { id: 'problem',      label: 'Problem',               routable: true  },
   { id: 'research',     label: 'Initial Research',      routable: true  },
-  { id: 'approach',     label: 'Shifting the Approach', routable: true  },
   { id: 'design-recs',  label: 'Design Recs',           routable: true  },
   // { id: 'user-testing', label: 'User Testing',          routable: true  },
   { id: 'reflections',  label: 'Reflection',            routable: true  },
@@ -378,12 +377,8 @@ export default function FindyCaseStudy() {
                 group was. Instead of simply making assumptions about how elderly users act, we now
                 understood the specific pain points they come across every day.
               </p>
-            </section>
 
-            {/* ── Shifting the Approach ── */}
-            <section className="fcs-section" id="approach">
-              <span className="fcs-section-label" data-reveal="">Insights</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Shifting the Approach</h2>
+              <h3 className="fcs-subsection-heading" data-reveal="">Shifting the Approach</h3>
               <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
                 Three core insights from our research redefined how we approached the design,
                 moving away from a one-size-fits-all assistive tool to a personalized, non-intrusive companion.
