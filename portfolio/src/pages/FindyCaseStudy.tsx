@@ -19,6 +19,10 @@ import teamPhoto          from '../assets/images/findy-cs-team-photo.png'
 import surveyPhoto        from '../assets/images/findy-cs-survey-photo.png'
 import upnextStreets      from '../assets/images/work-streets-projects.png'
 import projectTeams      from '../assets/images/org-uci.png'
+import bgPhoto1          from '../assets/images/findy-cs-bg-photo1.png'
+import bgPhoto2          from '../assets/images/findy-cs-bg-photo2.png'
+import bgPhoto3          from '../assets/images/findy-cs-bg-photo3.png'
+import bgMascot          from '../assets/images/findy-cs-bg-mascot.svg'
 
 const NAV_ITEMS = [
   { id: '',             label: 'Background',            routable: false },
@@ -292,34 +296,49 @@ export default function FindyCaseStudy() {
             {/* ── Background ── */}
             <section className="fcs-section">
               <span className="fcs-section-label" data-reveal="">Background</span>
-              <div className="findy-bg-card" data-reveal="pop" data-reveal-delay="50">
-                <p className="findy-bg-card-text">
-                  Findy is an AI companion built into iOS to assist elderly users. Grounded in hands-on
-                  research, Findy takes on an innovative approach towards addressing elderly care through
-                  its AI-powered native integration into local devices.
-                </p>
-                <div className="findy-bg-pills">
-                  <span className="findy-bg-pill">5+ Research-Informed Use Cases Developed</span>
-                  <span className="findy-bg-pill">15 Elderly Users' Feedback Incorporated</span>
-                  <span className="findy-bg-pill">1st Place, Project Teams '26</span>
-                </div>
-              </div>
-            </section>
-
-            {/* ── Problem ── */}
-            <section className="fcs-section" id="problem">
-              <span className="fcs-section-label" data-reveal="">Problem</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Taking on the Unknown</h2>
+              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">
+                Addressing Accessibility Barriers for Elderly Users
+              </h2>
               <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
+                Findy is an AI companion built into iOS to assist elderly users. Grounded in hands-on
+                research, Findy takes on an innovative approach towards addressing elderly care through
+                its AI-powered native integration into local devices.
+              </p>
+              <div className="findy-bg-gallery" data-reveal="" data-reveal-delay="120">
+                <div className="findy-bg-photo-wrap findy-bg-photo-wrap--1">
+                  <div className="findy-bg-photo-card">
+                    <img src={bgPhoto1} alt="" draggable={false} />
+                  </div>
+                </div>
+                <div className="findy-bg-photo-wrap findy-bg-photo-wrap--2">
+                  <div className="findy-bg-photo-card">
+                    <img src={bgPhoto2} alt="" draggable={false} />
+                  </div>
+                </div>
+                <div className="findy-bg-photo-wrap findy-bg-photo-wrap--3">
+                  <div className="findy-bg-photo-card">
+                    <img src={bgPhoto3} alt="" draggable={false} />
+                  </div>
+                </div>
+                <img src={bgMascot} alt="" className="findy-bg-mascot" draggable={false} aria-hidden />
+              </div>
+              <h3 className="fcs-subsection-heading" data-reveal="">Tackling the Unfamiliar</h3>
+              <p className="fcs-section-body" data-reveal="" data-reveal-delay="50">
                 As our team ideated concepts towards helping others navigate the unknown, we shared
                 memories helping out our grandparents with their phones. Whenever faced with trouble,
                 the nurturing support of another individual patiently guiding them resonated, and we
                 were inspired to scale that experience for those without nearby family or support.
               </p>
               <p className="fcs-problem-statement-alt" data-reveal="">
-                How could we bring that feeling of hands-on care to elderly users without complicating
-                already confusing user interfaces?
-              </p>           
+                How could we bring that feeling of hands-on care to elderly users without
+                complicating already confusing user interfaces?
+              </p>
+            </section>
+
+            {/* ── Problem ── */}
+            <section className="fcs-section" id="problem">
+              <span className="fcs-section-label" data-reveal="">Problem</span>
+              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Taking on the Unknown</h2>
             </section>
 
             {/* ── Initial Research ── */}
