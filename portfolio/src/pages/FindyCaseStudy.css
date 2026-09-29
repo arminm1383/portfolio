@@ -840,6 +840,111 @@
   user-select: none;
 }
 
+/* ── Findy: Problem section ── */
+.findy-problem-statement {
+  text-align: center;
+  padding: 0 38px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.findy-problem-headline {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 24px;
+  line-height: 1.66;
+  letter-spacing: -0.48px;
+  color: #000;
+  margin: 0;
+  width: 100%;
+}
+
+.findy-problem-headline--blue {
+  color: #205dfd;
+}
+
+.findy-problem-subtext {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 32px;
+  color: #000;
+  margin: 0;
+  width: 100%;
+}
+
+.findy-problem-lead {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 32px;
+  color: #000;
+  margin: 0 0 16px;
+  text-align: center;
+  width: 100%;
+}
+
+.findy-problem-illustration {
+  position: relative;
+  width: 708px;
+  max-width: 100%;
+  height: 230px;
+  margin: 0 auto 8px;
+}
+
+.findy-prob-mascot {
+  position: absolute;
+}
+
+.findy-prob-mascot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Scale factor ~0.787 from Figma's 900px to our 708px content column */
+.findy-prob-mascot--happy   { left: 47px;  top: 0;  width: 142px; height: 176px; }
+.findy-prob-mascot--walking { left: 285px; top: 7px; width: 127px; height: 163px; }
+.findy-prob-mascot--wave    { left: 508px; top: 3px; width: 135px; height: 166px; }
+
+.findy-prob-arrow {
+  position: absolute;
+  display: block;
+  height: 46px;
+  pointer-events: none;
+  user-select: none;
+  top: 162px;
+}
+
+.findy-prob-arrow--1 { left: 0;    width: 240px; }
+.findy-prob-arrow--2 { left: 232px; width: 243px; }
+.findy-prob-arrow--3 { left: 468px; width: 240px; }
+
+.findy-prob-label {
+  position: absolute;
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.44;
+  letter-spacing: -0.34px;
+  color: #000;
+  margin: 0;
+  top: 197px;
+  white-space: nowrap;
+}
+
+.findy-prob-label--1 { left: 39px;  }
+.findy-prob-label--2 { left: 290px; }
+.findy-prob-label--3 { left: 512px; }
+
 /* ── Findy: research portrait photos ── */
 .findy-research-photos {
   display: flex;

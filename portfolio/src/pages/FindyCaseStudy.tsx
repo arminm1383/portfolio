@@ -23,6 +23,12 @@ import bgPhoto1          from '../assets/images/findy-cs-bg-photo1.png'
 import bgPhoto2          from '../assets/images/findy-cs-bg-photo2.png'
 import bgPhoto3          from '../assets/images/findy-cs-bg-photo3.png'
 import bgMascot          from '../assets/images/findy-cs-bg-mascot.svg'
+import probMascotHappy   from '../assets/images/findy-cs-prob-mascot-happy.svg'
+import probMascotWalking from '../assets/images/findy-cs-prob-mascot-walking.svg'
+import probMascotWave    from '../assets/images/findy-cs-prob-mascot-wave.svg'
+import probArrow1        from '../assets/images/findy-cs-prob-arrow1.svg'
+import probArrow2        from '../assets/images/findy-cs-prob-arrow2.svg'
+import probArrow3        from '../assets/images/findy-cs-prob-arrow3.svg'
 
 const NAV_ITEMS = [
   { id: '',             label: 'Background',            routable: false },
@@ -337,7 +343,36 @@ export default function FindyCaseStudy() {
             {/* ── Problem ── */}
             <section className="fcs-section" id="problem">
               <span className="fcs-section-label" data-reveal="">Problem</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Taking on the Unknown</h2>
+
+              <div className="findy-problem-statement" data-reveal="">
+                <p className="findy-problem-headline">
+                  <span>As technology grows more powerful and deeply embedded in society, </span>
+                  <span className="findy-problem-headline--blue">seniors are left to navigate unfamiliar systems on their own.</span>
+                </p>
+                <p className="findy-problem-subtext">
+                  Seniors are constantly left facing feelings of <em>confusion</em>, <em>exclusion</em>, and <em>frustration</em>
+                </p>
+              </div>
+
+              <p className="findy-problem-lead" data-reveal="">We needed a solution that could...</p>
+
+              <div className="findy-problem-illustration" data-reveal="pop" data-reveal-delay="80">
+                <div className="findy-prob-mascot findy-prob-mascot--happy">
+                  <img src={probMascotHappy} alt="" draggable={false} />
+                </div>
+                <div className="findy-prob-mascot findy-prob-mascot--walking">
+                  <img src={probMascotWalking} alt="" draggable={false} />
+                </div>
+                <div className="findy-prob-mascot findy-prob-mascot--wave">
+                  <img src={probMascotWave} alt="" draggable={false} />
+                </div>
+                <img src={probArrow1} alt="" className="findy-prob-arrow findy-prob-arrow--1" aria-hidden draggable={false} />
+                <img src={probArrow2} alt="" className="findy-prob-arrow findy-prob-arrow--2" aria-hidden draggable={false} />
+                <img src={probArrow3} alt="" className="findy-prob-arrow findy-prob-arrow--3" aria-hidden draggable={false} />
+                <p className="findy-prob-label findy-prob-label--1">Clarify and Explain</p>
+                <p className="findy-prob-label findy-prob-label--2">Guide Direction</p>
+                <p className="findy-prob-label findy-prob-label--3">Enhance Autonomy</p>
+              </div>
             </section>
 
             {/* ── Initial Research ── */}
