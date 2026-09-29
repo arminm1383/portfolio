@@ -50,7 +50,7 @@ export default function Navbar({ onWork, onAbout, onResume, hidden, revealed }: 
             <span className="nav-tab-label">resume</span>
           </button>
         ) : (
-          <Link to="https://www.figma.com/design/leZEBxJorC3mH2RtuKTTQN/Resume?node-id=584-141&t=gvJsNKknEK5Om8b1-1" className="nav-tab">
+          <Link to="https://www.figma.com/design/leZEBxJorC3mH2RtuKTTQN/Resume?node-id=601-2&t=vdyJ9xRD5AjN6ltP-1" className="nav-tab">
             <img src={navIconResume} alt="" className="nav-tab-icon" width={20} height={20} />
             <span className="nav-tab-label">resume</span>
           </Link>

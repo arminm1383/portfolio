@@ -455,7 +455,7 @@ export default function Home() {
   const [selectedGraphic, setSelectedGraphic] = useState<string | null>(null)
   const [popupOpen, setPopupOpen] = useState(false)
   const [navbarRevealed, setNavbarRevealed] = useState(false)
-  const RESUME_URL = 'https://www.figma.com/design/leZEBxJorC3mH2RtuKTTQN/Resume?node-id=584-141&t=gvJsNKknEK5Om8b1-1'
+  const RESUME_URL = 'https://www.figma.com/design/leZEBxJorC3mH2RtuKTTQN/Resume?node-id=601-2&t=vdyJ9xRD5AjN6ltP-1'
 
   const handleSelect = useCallback((id: string) => {
     setSelectedGraphic(prev => {
