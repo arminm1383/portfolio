@@ -686,6 +686,10 @@ a.work-card {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.ab2-frame-wrap:not(.is-selected):hover {
+  transform: translateY(-6px) scale(1.02);
 }
 
 /* Shared: inner rotating element holding the frame image */

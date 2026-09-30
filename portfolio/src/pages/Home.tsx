@@ -271,12 +271,12 @@ function Ab2Card({ id, frameSrc, wrapCls, innerCls, selected, popupOpen, onSelec
     ? { left: `${anchorPos[0]}%`, top: `${anchorPos[1]}%`, transform: 'translate(-50%, -50%)' }
     : { right: '4px', top: '4px' }
   return (
-    <div className={`ab2-frame-wrap ${wrapCls}`} onClick={(e) => { e.stopPropagation(); onSelect(id) }}>
+    <div className={`ab2-frame-wrap ${wrapCls}${isSelected ? ' is-selected' : ''}`} onClick={(e) => { e.stopPropagation(); onSelect(id) }}>
       <img ref={traceRef} src={frameSrc} alt="" aria-hidden
         style={{ position: 'absolute', opacity: 0, inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
       <div className={`ab2-frame-inner ${innerCls}`}><img src={frameSrc} alt="" /></div>
       <svg className="hero-sel-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
-        {pts && isSelected && (
+        {pts && (
           <polygon points={pts} fill="none" stroke="#18671F" strokeWidth="2"
             strokeDasharray="5 3" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
         )}
