@@ -258,6 +258,39 @@ function useAlphaOutline(
   return { pts, bbox, anchorPos }
 }
 
+// ── Selectable About Me photo card ───────────────────────────────────────────
+function Ab2Card({ id, frameSrc, wrapCls, innerCls, selected, popupOpen, onSelect, onTag, onPopupStop }: {
+  id: string; frameSrc: string; wrapCls: string; innerCls: string
+  selected: string | null; popupOpen: boolean
+  onSelect: (id: string) => void; onTag: (e: React.MouseEvent) => void; onPopupStop: (e: React.MouseEvent) => void
+}) {
+  const traceRef = useRef<HTMLImageElement>(null)
+  const { pts, anchorPos } = useAlphaOutline(traceRef, 'alpha')
+  const isSelected = selected === id
+  const anchorStyle: React.CSSProperties = anchorPos
+    ? { left: `${anchorPos[0]}%`, top: `${anchorPos[1]}%`, transform: 'translate(-50%, -50%)' }
+    : { right: '4px', top: '4px' }
+  return (
+    <div className={`ab2-frame-wrap ${wrapCls}`} onClick={(e) => { e.stopPropagation(); onSelect(id) }}>
+      <img ref={traceRef} src={frameSrc} alt="" aria-hidden
+        style={{ position: 'absolute', opacity: 0, inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
+      <div className={`ab2-frame-inner ${innerCls}`}><img src={frameSrc} alt="" /></div>
+      <svg className="hero-sel-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
+        {pts && isSelected && (
+          <polygon points={pts} fill="none" stroke="#18671F" strokeWidth="2"
+            strokeDasharray="5 3" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+        )}
+      </svg>
+      {isSelected && (
+        <div className="amlm-anchor" style={anchorStyle}>
+          <AmLMTag onClick={onTag} />
+          {popupOpen && <AmLMPopup onStop={onPopupStop} />}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Selectable hero graphic wrapper ──────────────────────────────────────────
 interface HeroGraphicProps {
   id: string
@@ -838,68 +871,60 @@ export default function Home() {
                   <div className="ab2-images">
 
                     {/* jumping — z:1/2 */}
-                    <div className="ab2-frame-wrap ab2-jumping-frame-wrap">
-                      <div className="ab2-frame-inner ab2-jumping-frame-inner">
-                        <img src={ab2JumpingFrame} alt="" />
-                      </div>
-                    </div>
+                    <Ab2Card id="ab2-jumping" frameSrc={ab2JumpingFrame}
+                      wrapCls="ab2-jumping-frame-wrap" innerCls="ab2-jumping-frame-inner"
+                      selected={selectedGraphic} popupOpen={popupOpen}
+                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
                     <div className="ab2-photo ab2-jumping-photo"><img src={ab2JumpingPhoto} alt="" aria-hidden /></div>
 
                     {/* findy-team — z:3/4 */}
-                    <div className="ab2-frame-wrap ab2-team-frame-wrap">
-                      <div className="ab2-frame-inner ab2-team-frame-inner">
-                        <img src={ab2TeamFrame} alt="" />
-                      </div>
-                    </div>
+                    <Ab2Card id="ab2-team" frameSrc={ab2TeamFrame}
+                      wrapCls="ab2-team-frame-wrap" innerCls="ab2-team-frame-inner"
+                      selected={selectedGraphic} popupOpen={popupOpen}
+                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
                     <div className="ab2-photo ab2-team-photo"><img src={ab2TeamPhoto} alt="" aria-hidden /></div>
 
                     {/* me — z:5/6 */}
-                    <div className="ab2-frame-wrap ab2-me-frame-wrap">
-                      <div className="ab2-frame-inner ab2-me-frame-inner">
-                        <img src={ab2MeFrame} alt="" />
-                      </div>
-                    </div>
+                    <Ab2Card id="ab2-me" frameSrc={ab2MeFrame}
+                      wrapCls="ab2-me-frame-wrap" innerCls="ab2-me-frame-inner"
+                      selected={selectedGraphic} popupOpen={popupOpen}
+                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
                     <div className="ab2-photo ab2-me-photo"><img src={ab2MePhoto} alt="" aria-hidden /></div>
 
                     {/* car — z:7/8/9 */}
-                    <div className="ab2-frame-wrap ab2-car-frame-wrap">
-                      <div className="ab2-frame-inner ab2-car-frame-inner">
-                        <img src={ab2CarFrame} alt="" />
-                      </div>
-                    </div>
+                    <Ab2Card id="ab2-car" frameSrc={ab2CarFrame}
+                      wrapCls="ab2-car-frame-wrap" innerCls="ab2-car-frame-inner"
+                      selected={selectedGraphic} popupOpen={popupOpen}
+                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
                     <div className="ab2-photo ab2-car-photo1"><img src={ab2CarPhoto1} alt="" aria-hidden /></div>
                     <div className="ab2-photo ab2-car-photo2"><img src={ab2CarPhoto2} alt="" aria-hidden /></div>
 
                     {/* food — z:10/11 */}
-                    <div className="ab2-frame-wrap ab2-food-frame-wrap">
-                      <div className="ab2-frame-inner ab2-food-frame-inner">
-                        <img src={ab2FoodFrame} alt="" />
-                      </div>
-                    </div>
+                    <Ab2Card id="ab2-food" frameSrc={ab2FoodFrame}
+                      wrapCls="ab2-food-frame-wrap" innerCls="ab2-food-frame-inner"
+                      selected={selectedGraphic} popupOpen={popupOpen}
+                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
                     <div className="ab2-photo ab2-food-photo"><img src={ab2FoodPhoto} alt="" aria-hidden /></div>
 
-                    {/* tree — z:12/13 — above me/selfie and food */}
-                    <div className="ab2-frame-wrap ab2-tree-frame-wrap">
-                      <div className="ab2-frame-inner ab2-tree-frame-inner">
-                        <img src={ab2TreeFrame} alt="" />
-                      </div>
-                    </div>
+                    {/* tree — z:12/13 */}
+                    <Ab2Card id="ab2-tree" frameSrc={ab2TreeFrame}
+                      wrapCls="ab2-tree-frame-wrap" innerCls="ab2-tree-frame-inner"
+                      selected={selectedGraphic} popupOpen={popupOpen}
+                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
                     <div className="ab2-photo ab2-tree-photo"><img src={ab2TreePhoto} alt="" aria-hidden /></div>
 
                     {/* album — z:16/17 */}
-                    <div className="ab2-frame-wrap ab2-album-frame-wrap">
-                      <div className="ab2-frame-inner ab2-album-frame-inner">
-                        <img src={ab2AlbumFrame} alt="" />
-                      </div>
-                    </div>
+                    <Ab2Card id="ab2-album" frameSrc={ab2AlbumFrame}
+                      wrapCls="ab2-album-frame-wrap" innerCls="ab2-album-frame-inner"
+                      selected={selectedGraphic} popupOpen={popupOpen}
+                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
                     <div className="ab2-photo ab2-album-photo"><img src={ab2AlbumPhoto} alt="" aria-hidden /></div>
 
                     {/* lucas — z:16/17/18 */}
-                    <div className="ab2-frame-wrap ab2-lucas-frame-wrap">
-                      <div className="ab2-frame-inner ab2-lucas-frame-inner">
-                        <img src={ab2LucasFrame} alt="" />
-                      </div>
-                    </div>
+                    <Ab2Card id="ab2-lucas" frameSrc={ab2LucasFrame}
+                      wrapCls="ab2-lucas-frame-wrap" innerCls="ab2-lucas-frame-inner"
+                      selected={selectedGraphic} popupOpen={popupOpen}
+                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
                     <div className="ab2-photo ab2-lucas-photo1"><img src={ab2LucasPhoto1} alt="" aria-hidden /></div>
                     <div className="ab2-photo ab2-lucas-photo2"><img src={ab2LucasPhoto2} alt="" aria-hidden /></div>
 

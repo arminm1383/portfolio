@@ -685,6 +685,7 @@ a.work-card {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 /* Shared: inner rotating element holding the frame image */
