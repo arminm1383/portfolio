@@ -520,7 +520,7 @@ export default function RocketLawyerCaseStudy() {
                     legal workflows, our analytics simply weren't upholding as expected.
                   </p>
                   <p className="fcs-research-callout" data-reveal="">
-                    How might we understand specific use cases at a way finer level?
+                    How might we understand the exact use cases and role Rocket Lawyer plays in small business users' existing workflows?
                   </p>
                   <p className="fcs-section-body" data-reveal="" data-reveal-delay="80">
                     I started by talking to customers right away, recognizing that through in-depth, engaging,
