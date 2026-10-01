@@ -15,6 +15,12 @@ import researchPhoto2     from '../assets/images/findy-cs-research-photo2.png'
 import mascotDetective    from '../assets/images/findy-cs-mascot-detective.svg'
 import mascotGuy          from '../assets/images/findy-cs-mascot-guy.svg'
 import listeningBubble    from '../assets/images/findy-cs-listening-bubble.svg'
+import problemBubbleHappy   from '../assets/images/problem-bubble-happy.svg'
+import problemBubbleWalking from '../assets/images/problem-bubble-walking.svg'
+import problemGroup5        from '../assets/images/problem-group5.svg'
+import problemArrow1        from '../assets/images/problem-arrow1.svg'
+import problemArrow2        from '../assets/images/problem-arrow2.svg'
+import problemArrow3        from '../assets/images/problem-arrow3.svg'
 import teamPhoto          from '../assets/images/findy-cs-team-photo.png'
 import surveyPhoto        from '../assets/images/findy-cs-survey-photo.png'
 import upnextStreets      from '../assets/images/work-streets-projects.png'
@@ -72,7 +78,7 @@ function FindyPhone({ src, alt }: { src: string; alt: string }) {
 
 function InsightCard({
   label, heading, link, mascotSrc, mascotClass, mascotAlt,
-  extraMascot,
+  extraMascot, onLinkClick,
 }: {
   label: string
   heading: string
@@ -81,6 +87,7 @@ function InsightCard({
   mascotClass: string
   mascotAlt: string
   extraMascot?: React.ReactNode
+  onLinkClick?: () => void
 }) {
   return (
     <div className="findy-insight-card">
@@ -90,7 +97,9 @@ function InsightCard({
       <div className="findy-insight-body">
         <span className="findy-insight-label">{label}</span>
         <p className="findy-insight-heading">{heading}</p>
-        <span className="findy-insight-link">{link} →</span>
+        <button className="findy-insight-link" onClick={onLinkClick}>
+          {link}<span className="findy-insight-link-arrow">→</span>
+        </button>
       </div>
       <div className="findy-insight-inset" aria-hidden />
     </div>
@@ -102,6 +111,7 @@ export default function FindyCaseStudy() {
   const targetYRef = useRef(0)
   const currentYRef = useRef(0)
   const rafRef = useRef<number | null>(null)
+  const diagramRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     history.scrollRestoration = 'manual'
@@ -182,6 +192,21 @@ export default function FindyCaseStudy() {
     )
     els.forEach(el => obs.observe(el))
     return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    function checkArrows() {
+      document.querySelectorAll<HTMLElement>('.findy-pd-arrow-wrap').forEach(el => {
+        if (el.classList.contains('fcs-arrow--drawn')) return
+        const { top, bottom } = el.getBoundingClientRect()
+        if (top < window.innerHeight * 0.9 && bottom > 0) {
+          el.classList.add('fcs-arrow--drawn')
+        }
+      })
+    }
+    window.addEventListener('scroll', checkArrows, { passive: true })
+    checkArrows()
+    return () => window.removeEventListener('scroll', checkArrows)
   }, [])
 
   const scrollTo = useCallback((id: string) => {
@@ -337,7 +362,47 @@ export default function FindyCaseStudy() {
             {/* ── Problem ── */}
             <section className="fcs-section" id="problem">
               <span className="fcs-section-label" data-reveal="">Problem</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Taking on the Unknown</h2>
+
+              <div className="findy-problem-card">
+                <p className="findy-problem-heading">
+                  As technology grows more powerful and deeply embedded in society,{' '}
+                  <span className="findy-problem-heading--blue">seniors are left to navigate unfamiliar systems on their own.</span>
+                </p>
+                <p className="findy-problem-subtext">
+                  Seniors are constantly left facing feelings of <em>confusion</em>, <em>exclusion</em>, and <em>frustration</em>
+                </p>
+              </div>
+
+              <p className="findy-problem-bridge">
+                We needed a solution that could...
+              </p>
+
+              <div className="findy-pd" ref={diagramRef} data-reveal="pop" data-reveal-delay="100">
+                {/* Characters */}
+                <div className="findy-pd-char findy-pd-char--happy">
+                  <img src={problemBubbleHappy} alt="" aria-hidden draggable={false} />
+                </div>
+                <div className="findy-pd-char findy-pd-char--walking">
+                  <img src={problemBubbleWalking} alt="" aria-hidden draggable={false} />
+                </div>
+                <div className="findy-pd-char findy-pd-char--group">
+                  <img src={problemGroup5} alt="" aria-hidden draggable={false} />
+                </div>
+                {/* Arrows — h:0 wrap + overflow inner, matching Figma's vertical centering */}
+                <div className="findy-pd-arrow-wrap findy-pd-arrow-wrap--1">
+                  <div className="findy-pd-arrow-inner"><img src={problemArrow1} alt="" aria-hidden draggable={false} /></div>
+                </div>
+                <div className="findy-pd-arrow-wrap findy-pd-arrow-wrap--2">
+                  <div className="findy-pd-arrow-inner"><img src={problemArrow2} alt="" aria-hidden draggable={false} /></div>
+                </div>
+                <div className="findy-pd-arrow-wrap findy-pd-arrow-wrap--3">
+                  <div className="findy-pd-arrow-inner"><img src={problemArrow3} alt="" aria-hidden draggable={false} /></div>
+                </div>
+                {/* Labels */}
+                <p className="findy-pd-label findy-pd-label--1">Clarify and Explain</p>
+                <p className="findy-pd-label findy-pd-label--2">Guide Direction</p>
+                <p className="findy-pd-label findy-pd-label--3">Enhance Autonomy</p>
+              </div>
             </section>
 
             {/* ── Initial Research ── */}
@@ -392,6 +457,7 @@ export default function FindyCaseStudy() {
                   mascotSrc={mascotDetective}
                   mascotClass="findy-insight-mascot--detective"
                   mascotAlt=""
+                  onLinkClick={() => scrollTo('design-rec-3')}
                 />
                 <InsightCard
                   label="INSIGHT #2"
@@ -400,6 +466,7 @@ export default function FindyCaseStudy() {
                   mascotSrc={listeningBubble}
                   mascotClass="findy-insight-mascot--zen"
                   mascotAlt=""
+                  onLinkClick={() => scrollTo('design-rec-2')}
                 />
                 <InsightCard
                   label="INSIGHT #3"
@@ -408,6 +475,7 @@ export default function FindyCaseStudy() {
                   mascotSrc={mascotGuy}
                   mascotClass="findy-insight-mascot--guy"
                   mascotAlt=""
+                  onLinkClick={() => scrollTo('design-rec-1')}
                 />
               </div>
             </section>
@@ -427,7 +495,7 @@ export default function FindyCaseStudy() {
 
                 <div className="fcs-rec-cards-contentcol">
 
-                  <div className="fcs-numbered-card" data-reveal="pop">
+                  <div className="fcs-numbered-card" data-reveal="pop" id="design-rec-1">
                     <div className="fcs-numbered-card-content">
                       <h3 className="fcs-rec-heading fcs-rec-heading--lg">Findy Lives within iOS</h3>
                       <p className="fcs-section-body">
@@ -441,7 +509,7 @@ export default function FindyCaseStudy() {
                     </div>
                   </div>
 
-                  <div className="fcs-numbered-card" data-reveal="pop" data-reveal-delay="80">
+                  <div className="fcs-numbered-card" data-reveal="pop" data-reveal-delay="80" id="design-rec-2">
                     <div className="fcs-numbered-card-content">
                       <h3 className="fcs-rec-heading fcs-rec-heading--lg">Spotlighting &amp; Dimming Guides User Focus</h3>
                       <p className="fcs-section-body">
@@ -456,7 +524,7 @@ export default function FindyCaseStudy() {
                     </div>
                   </div>
 
-                  <div className="fcs-numbered-card" data-reveal="pop" data-reveal-delay="160">
+                  <div className="fcs-numbered-card" data-reveal="pop" data-reveal-delay="160" id="design-rec-3">
                     <div className="fcs-numbered-card-content">
                       <h3 className="fcs-rec-heading fcs-rec-heading--lg">Synchronization Across Applications</h3>
                       <p className="fcs-section-body">

@@ -17,8 +17,7 @@ import heroIconFigma   from '../assets/images/hero-icon-figma.png'
 import heroIconReact   from '../assets/images/hero-icon-react.png'
 import heroIconClaude  from '../assets/images/hero-icon-claude.png'
 import heroMusicNote   from '../assets/images/hero-music-note.png'
-import heroKoi         from '../assets/images/koi.gif'
-import heroKoiMask     from '../assets/images/hero-koi-mask.png'
+import heroKoiComposite from '../assets/images/koi-composite.webp'
 import heroKoiBorder   from '../assets/images/hero-koi-border.png'
 import heroBoy         from '../assets/images/hero-boy.png'
 import heroStarLg      from '../assets/images/hero-star-lg.png'
@@ -783,25 +782,7 @@ export default function Home() {
                   <HeroGraphic id="koi" outlineSrc={heroKoiBorder} mode="alpha"
                     selected={selectedGraphic} popupOpen={popupOpen}
                     onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp}>
-                    <div className="hero-koi-wrap">
-                      <img src={heroKoiBorder} alt="" className="hero-koi-border-bg" aria-hidden />
-                      <div
-                        className="hero-koi-gif-layer"
-                        style={{
-                          maskImage: `url(${heroKoiMask})`,
-                          WebkitMaskImage: `url(${heroKoiMask})`,
-                          maskSize: 'cover',
-                          WebkitMaskSize: 'cover',
-                          maskRepeat: 'no-repeat',
-                          WebkitMaskRepeat: 'no-repeat',
-                          maskPosition: 'center',
-                          WebkitMaskPosition: 'center',
-                        }}
-                      >
-                        <img src={heroKoi} alt="" aria-hidden />
-                      </div>
-
-                    </div>
+                    <img src={heroKoiComposite} alt="" className="hero-koi-composite" aria-hidden draggable={false} />
                   </HeroGraphic>
 
                   <HeroGraphic id="icon-figma" src={heroIconFigma} cls="hero-icon" mode="infer"

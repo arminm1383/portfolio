@@ -1205,6 +1205,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  align-items: flex-start;
   position: relative;
   z-index: 1;
 }
@@ -1228,14 +1229,7 @@
   margin: 0;
 }
 
-.findy-insight-link {
-  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: var(--text-2xs);
-  font-weight: 700;
-  color: #4b91de;
-  letter-spacing: 0;
-  line-height: normal;
-}
+/* .findy-insight-link styles consolidated into button reset at bottom of file */
 
 /* ── Findy: Design Rec section ── */
 .findy-rec {
@@ -2803,4 +2797,181 @@
   color: rgba(0, 0, 0, 0.55);
   line-height: 1.5;
   margin: 0;
+}
+
+/* ─── Problem Section ──────────────────────────────────────────── */
+
+.findy-problem-card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 2px rgba(0,0,0,0.04);
+  padding: 32px 24px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.findy-problem-heading {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 24px;
+  letter-spacing: -0.48px;
+  line-height: 1.66;
+  color: #000;
+  margin: 0 0 10px;
+}
+
+.findy-problem-heading--blue {
+  color: #205dfd;
+}
+
+.findy-problem-subtext {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 32px;
+  color: #000;
+  margin: 0;
+}
+
+.findy-problem-bridge {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-style: italic;
+  font-size: 16px;
+  line-height: 32px;
+  color: #000;
+  margin: 0 0 16px;
+}
+
+/* ── Problem diagram — Figma 1717:36313 ── */
+.findy-pd {
+  position: relative;
+  width: 820px;
+  height: 260px;
+  margin-top: 8px;
+  overflow: visible;
+}
+
+/* Characters — hidden; pop in staggered when parent gets reveal--visible */
+@keyframes findy-pd-char-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.85); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+.findy-pd-char {
+  position: absolute;
+  opacity: 0;
+}
+.findy-pd-char img { display: block; width: 100%; height: 100%; object-fit: contain; }
+
+.findy-pd-char--happy   { left: 59.15px;  top: 0;      width: 180.389px; height: 223.349px; }
+.findy-pd-char--walking { left: 362.13px; top: 9.45px;  width: 161.149px; height: 206.848px; }
+.findy-pd-char--group   { left: 645.8px;  top: 4.21px;  width: 172.013px; height: 211.21px;  }
+
+.reveal--visible .findy-pd-char--happy   {
+  animation: findy-pd-char-in 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s forwards;
+}
+.reveal--visible .findy-pd-char--walking {
+  animation: findy-pd-char-in 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s forwards;
+}
+.reveal--visible .findy-pd-char--group {
+  animation: findy-pd-char-in 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 0.31s forwards;
+}
+
+/* Arrow wrappers: h:0 + overflow:visible */
+.findy-pd-arrow-wrap {
+  position: absolute;
+  top: 212.45px;
+  height: 0;
+  overflow: visible;
+}
+
+/* Arrow inner — hidden via clip-path; drawn by fcs-arrow--drawn */
+.findy-pd-arrow-inner {
+  position: absolute;
+  top: -28.87px;
+  bottom: -28.87px;
+  left: 0;
+  right: 0;
+  clip-path: inset(0 100% 0 0);
+}
+.findy-pd-arrow-inner img { display: block; width: 100%; height: 100%; }
+
+.findy-pd-arrow-wrap--1 { left: 0px;       width: 304.848px; }
+.findy-pd-arrow-wrap--2 { left: 295.18px;  width: 308.815px; }
+.findy-pd-arrow-wrap--3 { left: 595.15px;  width: 304.848px; }
+
+/* Arrow draw — uses existing fcs-arrow-draw keyframe, staggered per arrow */
+.findy-pd-arrow-wrap.fcs-arrow--drawn .findy-pd-arrow-inner {
+  animation: fcs-arrow-draw 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.findy-pd-arrow-wrap--2.fcs-arrow--drawn .findy-pd-arrow-inner { animation-delay: 0.3s; }
+.findy-pd-arrow-wrap--3.fcs-arrow--drawn .findy-pd-arrow-inner { animation-delay: 0.6s; }
+
+/* Labels — fade up after arrows */
+@keyframes findy-pd-label-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+.findy-pd-label {
+  position: absolute;
+  top: 230.32px;
+  margin: 0;
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.44;
+  letter-spacing: -0.4px;
+  color: #000;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.findy-pd-label--1 { left: 50px;  }
+.findy-pd-label--2 { left: 369px; }
+.findy-pd-label--3 { left: 650px; }
+
+.reveal--visible .findy-pd-label--1 {
+  animation: findy-pd-label-in 0.45s ease 0.6s forwards;
+}
+.reveal--visible .findy-pd-label--2 {
+  animation: findy-pd-label-in 0.45s ease 0.85s forwards;
+}
+.reveal--visible .findy-pd-label--3 {
+  animation: findy-pd-label-in 0.45s ease 1.1s forwards;
+}
+
+/* Insight link — button reset + styles */
+.findy-insight-link {
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  margin: 0 -8px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #4b91de;
+  line-height: normal;
+  letter-spacing: 0;
+  border-radius: 6px;
+  transition: background 0.18s ease, color 0.18s ease, gap 0.18s ease;
+}
+
+.findy-insight-link:hover {
+  background: rgba(75, 145, 222, 0.1);
+  color: #2a6fc4;
+  gap: 7px;
+}
+
+.findy-insight-link-arrow {
+  display: inline-block;
+  transition: transform 0.18s ease;
+}
+
+.findy-insight-link:hover .findy-insight-link-arrow {
+  transform: translateX(3px);
 }
