@@ -208,8 +208,8 @@
 .hero-selectable[data-graphic="boy"]      { left: -7.876%; top: 40.876%; width: 45.795%; z-index: 5; }
 /* iPod  — RS local (85.94, 229.76, w=275.115) */
 .hero-selectable[data-graphic="ipod"]     { left: 15.209%; top: 41.934%; width: 48.694%; z-index: 4; }
-/* Koi   — sized to paper boundary, ~10% smaller, center held constant */
-.hero-selectable[data-graphic="koi"]      { left: 48.476%; top: 49.114%; width: 38.000%; height: 42.000%; z-index: 1; }
+/* Koi   — sized to paper boundary, ~23% smaller than Figma, center held constant */
+.hero-selectable[data-graphic="koi"]      { left: 50.976%; top: 51.814%; width: 33.000%; height: 36.600%; z-index: 1; }
 /* Skill icons — rotation on wrapper; RS local coords */
 .hero-selectable[data-graphic="icon-figma"]  { left: 76.460%; top: 49.453%; width: 14.009%; z-index: 8; transform: rotate(-15.98deg); }
 .hero-selectable[data-graphic="icon-react"]  { left: 76.814%; top: 65.511%; width: 12.925%; z-index: 8; transform: rotate(-8.79deg);  }
@@ -402,6 +402,12 @@
 }
 .hero-music-note--1 { left: 17.434%; top: 35.219%; width: 10.760%; height: auto; }
 .hero-music-note--2 { left: 14.071%; top: 40.604%; width:  6.788%; height: auto; }
+
+/* Koi inner wrap — GSAP target; no CSS transitions here unlike the outer .hero-selectable */
+.hero-koi-wrap {
+  width: 100%;
+  height: 100%;
+}
 
 /* Koi composite — pre-composited webp (gif frames + paper frame baked in) */
 .hero-koi-composite {

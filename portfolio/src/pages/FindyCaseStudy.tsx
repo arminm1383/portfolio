@@ -430,7 +430,7 @@ export default function FindyCaseStudy() {
                 down their pain points.
               </p>
 
-              <div className="fcs-media-card fcs-media-card--padded" data-reveal="" data-reveal-delay="80">
+              <div className="fcs-media-card fcs-media-card--padded fcs-media-card--transparent" data-reveal="" data-reveal-delay="80">
                 <p className="fcs-media-card-label">FOCUS GROUP SESSION WITH THE HUNTINGTON BEACH COUNCIL ON AGING</p>
                 <div className="findy-focus-group">
                   <img src={researchCard} alt="" className="findy-focus-group-img" draggable={false} />

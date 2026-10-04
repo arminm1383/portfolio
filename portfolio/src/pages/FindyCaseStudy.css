@@ -1531,6 +1531,12 @@
   filter: none;
 }
 
+.fcs-media-card--transparent {
+  background: transparent;
+  border: none;
+  filter: none;
+}
+
 .fcs-media-card--padded {
   display: flex;
   flex-direction: column;

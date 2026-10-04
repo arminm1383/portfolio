@@ -782,7 +782,9 @@ export default function Home() {
                   <HeroGraphic id="koi" outlineSrc={heroKoiBorder} mode="alpha"
                     selected={selectedGraphic} popupOpen={popupOpen}
                     onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp}>
-                    <img src={heroKoiComposite} alt="" className="hero-koi-composite" aria-hidden draggable={false} />
+                    <div className="hero-koi-wrap">
+                      <img src={heroKoiComposite} alt="" className="hero-koi-composite" aria-hidden draggable={false} />
+                    </div>
                   </HeroGraphic>
 
                   <HeroGraphic id="icon-figma" src={heroIconFigma} cls="hero-icon" mode="infer"
