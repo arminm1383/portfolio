@@ -163,6 +163,7 @@
 /* Left Side column — 565×548, children absolutely positioned within */
 .hero-left-side {
   flex: 0 0 34.282cqi;  /* 565/1648×100 */
+  height: 33.252cqi;    /* 548/1648×100 — explicit so top:% on abs children resolves */
   position: relative;
   align-self: stretch;
   overflow: visible;
@@ -171,6 +172,7 @@
 /* Right Side column — same dimensions as Left Side */
 .hero-right-side {
   flex: 0 0 34.282cqi;
+  height: 33.252cqi;
   position: relative;
   align-self: stretch;
   overflow: visible;
