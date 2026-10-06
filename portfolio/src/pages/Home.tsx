@@ -19,6 +19,7 @@ import heroIconClaude  from '../assets/images/hero-icon-claude.png'
 import heroMusicNote   from '../assets/images/hero-music-note.png'
 import heroKoiComposite from '../assets/images/koi-composite.webp'
 import heroKoiBorder   from '../assets/images/hero-koi-border.png'
+import heroKoiClipMask from '../assets/images/hero-koi-clip-mask.png'
 import heroBoy         from '../assets/images/hero-boy.png'
 import heroStarLg      from '../assets/images/hero-star-lg.png'
 import heroStarMd      from '../assets/images/hero-star-md.png'
@@ -782,7 +783,7 @@ export default function Home() {
                   <HeroGraphic id="koi" outlineSrc={heroKoiBorder} mode="alpha"
                     selected={selectedGraphic} popupOpen={popupOpen}
                     onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp}>
-                    <div className="hero-koi-wrap">
+                    <div className="hero-koi-wrap" style={{ '--koi-mask': `url(${heroKoiClipMask})` } as React.CSSProperties}>
                       <img src={heroKoiComposite} alt="" className="hero-koi-composite" aria-hidden draggable={false} />
                     </div>
                   </HeroGraphic>
