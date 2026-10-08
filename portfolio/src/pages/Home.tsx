@@ -17,9 +17,8 @@ import heroIconFigma   from '../assets/images/hero-icon-figma.png'
 import heroIconReact   from '../assets/images/hero-icon-react.png'
 import heroIconClaude  from '../assets/images/hero-icon-claude.png'
 import heroMusicNote   from '../assets/images/hero-music-note.png'
-import heroKoiComposite from '../assets/images/koi-composite.webp'
 import heroKoiBorder   from '../assets/images/hero-koi-border.png'
-import heroKoiClipMask from '../assets/images/hero-koi-clip-mask.png'
+import heroKoiGif      from '../assets/images/koi.gif'
 import heroBoy         from '../assets/images/hero-boy.png'
 import heroStarLg      from '../assets/images/hero-star-lg.png'
 import heroStarMd      from '../assets/images/hero-star-md.png'
@@ -35,28 +34,9 @@ import amlmStarMd  from '../assets/images/nav-topbar-star-md.svg'
 import amlmStarTex from '../assets/images/nav-topbar-star-texture.png'
 
 
-import ab2TreeFrame    from '../assets/images/ab2-tree-frame.png'
-import ab2TreePhoto    from '../assets/images/ab2-tree-photo.png'
-import ab2JumpingFrame from '../assets/images/ab2-jumping-frame.png'
-import ab2JumpingPhoto from '../assets/images/ab2-jumping-photo.png'
-import ab2TeamFrame    from '../assets/images/ab2-team-frame.png'
-import ab2TeamPhoto    from '../assets/images/ab2-team-photo.png'
-import ab2MeFrame      from '../assets/images/ab2-me-frame.png'
-import ab2MePhoto      from '../assets/images/ab2-me-photo.png'
-import ab2CarFrame     from '../assets/images/ab2-car-frame.png'
-import ab2CarPhoto1    from '../assets/images/ab2-car-photo1.png'
-import ab2CarPhoto2    from '../assets/images/ab2-car-photo2.png'
-import ab2FoodFrame    from '../assets/images/ab2-food-frame.png'
-import ab2FoodPhoto    from '../assets/images/ab2-food-photo.png'
-import ab2AlbumFrame   from '../assets/images/ab2-album-frame.png'
-import ab2AlbumPhoto   from '../assets/images/ab2-album-photo.png'
-import ab2LucasFrame   from '../assets/images/ab2-lucas-frame.png'
-import ab2LucasPhoto1  from '../assets/images/ab2-lucas-photo1.png'
-import ab2LucasPhoto2  from '../assets/images/ab2-lucas-photo2.png'
-import ab2StarSm       from '../assets/images/ab2-star-sm.svg'
-import ab2StarLg       from '../assets/images/ab2-star-lg.svg'
-import ab2StarMd       from '../assets/images/ab2-star-md.svg'
-import ab2StarTex      from '../assets/images/ab2-star-texture.png'
+import ab2PhotoHorse from '../assets/images/ab2-photo-horse.jpg'
+import ab2PhotoClimb from '../assets/images/ab2-photo-climb.jpg'
+import ab2PhotoTeam  from '../assets/images/ab2-photo-team.jpg'
 
 // ── amLM: sparkle badge (AI Tag) ─────────────────────────────────────────────
 function AmLMTag({ onClick }: { onClick: (e: React.MouseEvent) => void }) {
@@ -256,39 +236,6 @@ function useAlphaOutline(
   }, [ref, mode])
 
   return { pts, bbox, anchorPos }
-}
-
-// ── Selectable About Me photo card ───────────────────────────────────────────
-function Ab2Card({ id, frameSrc, wrapCls, innerCls, selected, popupOpen, onSelect, onTag, onPopupStop }: {
-  id: string; frameSrc: string; wrapCls: string; innerCls: string
-  selected: string | null; popupOpen: boolean
-  onSelect: (id: string) => void; onTag: (e: React.MouseEvent) => void; onPopupStop: (e: React.MouseEvent) => void
-}) {
-  const traceRef = useRef<HTMLImageElement>(null)
-  const { pts, anchorPos } = useAlphaOutline(traceRef, 'alpha')
-  const isSelected = selected === id
-  const anchorStyle: React.CSSProperties = anchorPos
-    ? { left: `${anchorPos[0]}%`, top: `${anchorPos[1]}%`, transform: 'translate(-50%, -50%)' }
-    : { right: '4px', top: '4px' }
-  return (
-    <div className={`ab2-frame-wrap ${wrapCls}${isSelected ? ' is-selected' : ''}`} onClick={(e) => { e.stopPropagation(); onSelect(id) }}>
-      <img ref={traceRef} src={frameSrc} alt="" aria-hidden
-        style={{ position: 'absolute', opacity: 0, inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
-      <div className={`ab2-frame-inner ${innerCls}`}><img src={frameSrc} alt="" /></div>
-      <svg className="hero-sel-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
-        {pts && (
-          <polygon points={pts} fill="none" stroke="#18671F" strokeWidth="2"
-            strokeDasharray="5 3" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-        )}
-      </svg>
-      {isSelected && (
-        <div className="amlm-anchor" style={anchorStyle}>
-          <AmLMTag onClick={onTag} />
-          {popupOpen && <AmLMPopup onStop={onPopupStop} />}
-        </div>
-      )}
-    </div>
-  )
 }
 
 // ── Selectable hero graphic wrapper ──────────────────────────────────────────
@@ -559,8 +506,20 @@ export default function Home() {
 
       // Snap everything to starting positions immediately (before any animation)
       gsap.set('.hero-star-lg, .hero-star-md, .hero-star-sm, .hero-bird3, .hero-bird2, .hero-bird1, .hero-me-green, .hero-mac, .hero-wii', { x: S })
-      gsap.set('.hero-koi-wrap, .hero-yosemite, .hero-ipod, .hero-boy, .hero-music-note--1, .hero-music-note--2', { x: -S })
-      gsap.set('.hero-selectable[data-graphic="icon-figma"] .hero-icon, .hero-selectable[data-graphic="icon-react"] .hero-icon, .hero-selectable[data-graphic="icon-claude"] .hero-icon', { x: -S })
+      // hero-koi-entrance is a non-rotated wrapper — targeting it keeps the x offset in screen space
+      // (targeting .hero-koi-wrap directly would move it along the parent's rotated axis)
+      gsap.set('.hero-koi-entrance, .hero-yosemite, .hero-ipod, .hero-boy, .hero-music-note--1, .hero-music-note--2', { x: -S })
+      // Target outer wrappers so x offset stays in screen space (inner .hero-icon is in rotated parent space)
+      // Suppress CSS transition first — these elements have a CSS transform:rotate() defined, and the
+      // .hero-selectable transition:transform rule would otherwise animate them TO the off-screen start position.
+      const iconEls = Array.from(document.querySelectorAll<HTMLElement>(
+        '.hero-selectable[data-graphic="icon-figma"],' +
+        '.hero-selectable[data-graphic="icon-react"],' +
+        '.hero-selectable[data-graphic="icon-claude"]'
+      ))
+      iconEls.forEach(el => { el.style.transition = 'none' })
+      gsap.set('.hero-selectable[data-graphic="icon-figma"], .hero-selectable[data-graphic="icon-react"], .hero-selectable[data-graphic="icon-claude"]', { x: -S })
+      requestAnimationFrame(() => iconEls.forEach(el => { el.style.transition = '' }))
       gsap.set('.hero-name-block', { opacity: 0 })
       gsap.set('.cs-topbar', { y: -80 })
 
@@ -584,16 +543,26 @@ export default function Home() {
       enter('.hero-wii',      16, [0, 0.531,  1.00, 1.12, 1])
 
       // ── Right side: slide in from the left ───────────────────────────────────────
-      enter('.hero-koi-wrap',      -10, [0, 0.505,  0.925, 1.045, 1])
+      enter('.hero-koi-entrance',  -10, [0, 0.505,  0.925, 1.045, 1])
       enter('.hero-yosemite',      -13, [0, 0.49,   0.94,  1.06,  1])
       enter('.hero-ipod',          -16, [0, 0.5105, 0.955, 1.075, 1])
       enter('.hero-boy',           -10, [0, 0.5105, 0.97,  1.09,  1])
       enter('.hero-music-note--1', -13, [0, 0.5105, 0.985, 1.105, 1])
       enter('.hero-music-note--2', -13, [0, 0.5105, 0.985, 1.105, 1])
+      // Icons: animate outer wrapper so motion is horizontal in screen space.
+      // clearProps restores CSS transform ownership so the hover scale/tilt rules work after landing.
       const IT = [0, 0.495, 1.00, 1.12, 1]
-      enter('.hero-selectable[data-graphic="icon-figma"]  .hero-icon',  -16, IT)
-      enter('.hero-selectable[data-graphic="icon-react"]  .hero-icon',  -16, IT)
-      enter('.hero-selectable[data-graphic="icon-claude"] .hero-icon',  -16, IT)
+      const D = 2
+      const iconSelectors = [
+        '.hero-selectable[data-graphic="icon-figma"]',
+        '.hero-selectable[data-graphic="icon-react"]',
+        '.hero-selectable[data-graphic="icon-claude"]',
+      ]
+      for (const sel of iconSelectors) {
+        const tl = gsap.timeline({ delay: IT[1] * D })
+        tl.to(sel, { x: -16, duration: (IT[2] - IT[1]) * D, ease: 'expo.out' })
+        tl.to(sel, { x: 0,   duration: (IT[3] - IT[2]) * D, ease: 'power2.inOut', clearProps: 'transform' })
+      }
 
       // ── Name: fade in while elements are mid-flight ───────────────────────────────
       gsap.to('.hero-name-block', { opacity: 1, duration: 0.76, ease: 'power3.out', delay: 1.15 })
@@ -618,6 +587,44 @@ export default function Home() {
       { opacity: 1, duration: 0.45, stagger: 0.07, ease: 'power2.out', delay: 0.15 }
     )
   }, [page, worksKey])
+
+  // About section — card throw animation each time About becomes active
+  useEffect(() => {
+    if (page !== 2) return
+
+    // Suppress CSS transitions so GSAP can snap to the from state without triggering them
+    const cardEls = Array.from(document.querySelectorAll<HTMLElement>('.ab2-polaroid-card'))
+    cardEls.forEach(el => { el.style.transition = 'none' })
+
+    // Cards thrown onto the table — each one flies in from above and lands with a bounce
+    gsap.fromTo(
+      [
+        '.ab2-polaroid--horse .ab2-polaroid-card',
+        '.ab2-polaroid--team .ab2-polaroid-card',
+        '.ab2-polaroid--climb .ab2-polaroid-card',
+      ],
+      { y: -380, scale: 0.82, opacity: 0 },
+      {
+        y: 0,
+        scale: 1,
+        opacity: 1,
+        duration: 0.62,
+        ease: 'back.out(1.75)',
+        stagger: 0.13,
+        clearProps: 'transform,opacity',
+        onComplete: () => {
+          requestAnimationFrame(() => cardEls.forEach(el => { el.style.transition = '' }))
+        },
+      }
+    )
+
+    // Text fades up after cards land
+    gsap.fromTo(
+      '.ab2-text > *',
+      { opacity: 0, y: 14 },
+      { opacity: 1, y: 0, duration: 0.42, stagger: 0.09, ease: 'power2.out', delay: 0.28, clearProps: 'opacity,transform' }
+    )
+  }, [page])
 
 
   // About section — scale to fit viewport, leaving room for the fixed topbar
@@ -711,7 +718,7 @@ export default function Home() {
 
   return (
     <>
-      <CsTopbar showAtTop visible={page === 0} />
+      <CsTopbar showAtTop visible={page === 0} onNameClick={() => goTo(0)} />
       <div className="home-clip">
         <div
           className="home"
@@ -780,13 +787,16 @@ export default function Home() {
                     selected={selectedGraphic} popupOpen={popupOpen}
                     onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
 
-                  <HeroGraphic id="koi" outlineSrc={heroKoiBorder} mode="alpha"
-                    selected={selectedGraphic} popupOpen={popupOpen}
-                    onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp}>
-                    <div className="hero-koi-wrap" style={{ '--koi-mask': `url(${heroKoiClipMask})` } as React.CSSProperties}>
-                      <img src={heroKoiComposite} alt="" className="hero-koi-composite" aria-hidden draggable={false} />
-                    </div>
-                  </HeroGraphic>
+                  <div className="hero-koi-entrance">
+                    <HeroGraphic id="koi" outlineSrc={heroKoiBorder} mode="alpha"
+                      selected={selectedGraphic} popupOpen={popupOpen}
+                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp}>
+                      <div className="hero-koi-wrap">
+                        <img src={heroKoiBorder} alt="" className="hero-koi-paper" aria-hidden draggable={false} />
+                        <img src={heroKoiGif} alt="" className="hero-koi-gif" aria-hidden draggable={false} />
+                      </div>
+                    </HeroGraphic>
+                  </div>
 
                   <HeroGraphic id="icon-figma" src={heroIconFigma} cls="hero-icon" mode="infer"
                     selected={selectedGraphic} popupOpen={popupOpen}
@@ -850,94 +860,65 @@ export default function Home() {
             <div className="ab2-main">
               <div className="ab2-content">
 
-                {/* Graphics */}
-                <div className="ab2-graphics">
-                  <div className="ab2-images">
-
-                    {/* jumping — z:1/2 */}
-                    <Ab2Card id="ab2-jumping" frameSrc={ab2JumpingFrame}
-                      wrapCls="ab2-jumping-frame-wrap" innerCls="ab2-jumping-frame-inner"
-                      selected={selectedGraphic} popupOpen={popupOpen}
-                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
-                    <div className="ab2-photo ab2-jumping-photo"><img src={ab2JumpingPhoto} alt="" aria-hidden /></div>
-
-                    {/* findy-team — z:3/4 */}
-                    <Ab2Card id="ab2-team" frameSrc={ab2TeamFrame}
-                      wrapCls="ab2-team-frame-wrap" innerCls="ab2-team-frame-inner"
-                      selected={selectedGraphic} popupOpen={popupOpen}
-                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
-                    <div className="ab2-photo ab2-team-photo"><img src={ab2TeamPhoto} alt="" aria-hidden /></div>
-
-                    {/* me — z:5/6 */}
-                    <Ab2Card id="ab2-me" frameSrc={ab2MeFrame}
-                      wrapCls="ab2-me-frame-wrap" innerCls="ab2-me-frame-inner"
-                      selected={selectedGraphic} popupOpen={popupOpen}
-                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
-                    <div className="ab2-photo ab2-me-photo"><img src={ab2MePhoto} alt="" aria-hidden /></div>
-
-                    {/* car — z:7/8/9 */}
-                    <Ab2Card id="ab2-car" frameSrc={ab2CarFrame}
-                      wrapCls="ab2-car-frame-wrap" innerCls="ab2-car-frame-inner"
-                      selected={selectedGraphic} popupOpen={popupOpen}
-                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
-                    <div className="ab2-photo ab2-car-photo1"><img src={ab2CarPhoto1} alt="" aria-hidden /></div>
-                    <div className="ab2-photo ab2-car-photo2"><img src={ab2CarPhoto2} alt="" aria-hidden /></div>
-
-                    {/* food — z:10/11 */}
-                    <Ab2Card id="ab2-food" frameSrc={ab2FoodFrame}
-                      wrapCls="ab2-food-frame-wrap" innerCls="ab2-food-frame-inner"
-                      selected={selectedGraphic} popupOpen={popupOpen}
-                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
-                    <div className="ab2-photo ab2-food-photo"><img src={ab2FoodPhoto} alt="" aria-hidden /></div>
-
-                    {/* tree — z:12/13 */}
-                    <Ab2Card id="ab2-tree" frameSrc={ab2TreeFrame}
-                      wrapCls="ab2-tree-frame-wrap" innerCls="ab2-tree-frame-inner"
-                      selected={selectedGraphic} popupOpen={popupOpen}
-                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
-                    <div className="ab2-photo ab2-tree-photo"><img src={ab2TreePhoto} alt="" aria-hidden /></div>
-
-                    {/* album — z:16/17 */}
-                    <Ab2Card id="ab2-album" frameSrc={ab2AlbumFrame}
-                      wrapCls="ab2-album-frame-wrap" innerCls="ab2-album-frame-inner"
-                      selected={selectedGraphic} popupOpen={popupOpen}
-                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
-                    <div className="ab2-photo ab2-album-photo"><img src={ab2AlbumPhoto} alt="" aria-hidden /></div>
-
-                    {/* lucas — z:16/17/18 */}
-                    <Ab2Card id="ab2-lucas" frameSrc={ab2LucasFrame}
-                      wrapCls="ab2-lucas-frame-wrap" innerCls="ab2-lucas-frame-inner"
-                      selected={selectedGraphic} popupOpen={popupOpen}
-                      onSelect={handleSelect} onTag={handleTag} onPopupStop={stopProp} />
-                    <div className="ab2-photo ab2-lucas-photo1"><img src={ab2LucasPhoto1} alt="" aria-hidden /></div>
-                    <div className="ab2-photo ab2-lucas-photo2"><img src={ab2LucasPhoto2} alt="" aria-hidden /></div>
-
-                    {/* Stars — z:20 */}
-                    <div className="ab2-star ab2-star-sm" aria-hidden>
-                      <img src={ab2StarSm} alt="" />
-                      <img src={ab2StarTex} alt="" className="ab2-star-tex" />
+                {/* ── Text — left column, flex:1 ── */}
+                <div className="ab2-text">
+                  <p className="ab2-heading">About Me</p>
+                  <div className="ab2-body">
+                    <p className="ab2-bio">
+                      From the stories 6-year old me used to doodle in my journal to the case study stories I inspire my audience to connect with, I've always been a story teller. This imaginative and creative side has always been innate, and it is this natural passion that made me fall in love with product design.
+                    </p>
+                    <p className="ab2-bio">
+                      I want my stories to not just reflect my craft but to also reflect the journeys, culture, and individuality that continues to excite me to connect with others every single day.
+                    </p>
+                  </div>
+                  <div className="ab2-stat-cards">
+                    <div className="ab2-stat">
+                      <p className="ab2-stat-label">currently...</p>
+                      <p className="ab2-stat-value">Business Administration &amp; Computer Science @ University of California, Irvine</p>
                     </div>
-                    <div className="ab2-star ab2-star-lg" aria-hidden>
-                      <img src={ab2StarLg} alt="" />
-                      <img src={ab2StarTex} alt="" className="ab2-star-tex" />
+                    <div className="ab2-stat">
+                      <p className="ab2-stat-label">exploring...</p>
+                      <p className="ab2-stat-value">Design Engineering, 3D Modeling, and Brand Design</p>
                     </div>
-                    <div className="ab2-star ab2-star-md" aria-hidden>
-                      <img src={ab2StarMd} alt="" />
-                      <img src={ab2StarTex} alt="" className="ab2-star-tex" />
-                    </div>
-
                   </div>
                 </div>
 
-                {/* Text */}
-                <div className="ab2-text">
-                  <p className="ab2-heading">About Me</p>
-                  <p className="ab2-bio">
-                    From the stories 6-year old me used to doodle in my journal to the case study stories I inspire my audience to connect with, I've always been a story teller. This imaginative and creative side has always been innate to me, and it is this natural passion that made me fall in love with product design.
-                  </p>
-                  <p className="ab2-bio">
-                    Living around such diverse perspectives, I want my stories to not just reflect my craft but to also reflect the journeys, culture, and individuality that continues to excite me to connect with others every single day.
-                  </p>
+                {/* ── Graphics — right column, fixed 655×615 ── */}
+                <div className="ab2-graphics">
+                  <div className="ab2-images">
+
+                    {/* Card 1 — horse (top-left, −8°) */}
+                    <div className="ab2-polaroid ab2-polaroid--horse">
+                      <div className="ab2-polaroid-card">
+                        <div className="ab2-polaroid-frame">
+                          <div className="ab2-photo-crop">
+                            <img src={ab2PhotoHorse} alt="" aria-hidden draggable={false} className="ab2-photo-horse" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 2 — climb (bottom-left, −14°) */}
+                    <div className="ab2-polaroid ab2-polaroid--climb">
+                      <div className="ab2-polaroid-card">
+                        <div className="ab2-polaroid-frame">
+                          <img src={ab2PhotoClimb} alt="" aria-hidden draggable={false} className="ab2-photo-fill" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 3 — team (right, +10°) */}
+                    <div className="ab2-polaroid ab2-polaroid--team">
+                      <div className="ab2-polaroid-card">
+                        <div className="ab2-polaroid-frame">
+                          <div className="ab2-photo-crop">
+                            <img src={ab2PhotoTeam} alt="" aria-hidden draggable={false} className="ab2-photo-team" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
 
               </div>

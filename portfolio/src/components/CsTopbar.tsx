@@ -9,9 +9,11 @@ import starTexture from '../assets/images/nav-topbar-star-texture.png'
 export default function CsTopbar({
   showAtTop = false,
   visible: visibleProp,
+  onNameClick,
 }: {
   showAtTop?: boolean
   visible?: boolean
+  onNameClick?: () => void
 }) {
   const [scrollVisible, setScrollVisible] = useState(showAtTop)
   const lastY = useRef(0)
@@ -34,7 +36,7 @@ export default function CsTopbar({
 
   return (
     <div className={`cs-topbar${visible ? ' cs-topbar--visible' : ''}`}>
-      <Link to="/" className="cs-topbar-name">armin mohammadi</Link>
+      <Link to="/" className="cs-topbar-name" onClick={onNameClick}>armin mohammadi</Link>
       <div className="cs-topbar-right">
         <div className="cs-topbar-stars">
           <div className="cs-star cs-star--sm">
