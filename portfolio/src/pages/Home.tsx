@@ -24,7 +24,7 @@ import heroStarLg      from '../assets/images/hero-star-lg.png'
 import heroStarMd      from '../assets/images/hero-star-md.png'
 import heroStarSm      from '../assets/images/hero-star-sm.png'
 import rocketArtwork     from '../assets/images/rocket-artwork-v2.gif'
-import findyGif          from '../assets/images/FindyGif.gif'
+import findyGif          from '../assets/images/findy-work-artwork.gif'
 import workStreetsGif     from '../assets/images/streetsgif.gif'
 import workMementoArtwork from '../assets/images/work-memento-artwork.png'
 import amlmSend    from '../assets/images/amlm-send.svg'
@@ -829,15 +829,6 @@ export default function Home() {
                 objectPosition="center"
               />
               <WorkCard
-                artwork={workStreetsGif}
-                artworkAlt="Streets"
-                title="Streets"
-                description="Design-engineering enterprise B2B software"
-                isGif
-                objectPosition="center"
-                artworkStyle={{ height: '410px' }}
-              />
-              <WorkCard
                 artwork={findyGif}
                 artworkAlt="Findy"
                 title="Findy"
@@ -845,6 +836,15 @@ export default function Home() {
                 isGif
                 to="/work/findy"
                 objectPosition="center"
+              />
+              <WorkCard
+                artwork={workStreetsGif}
+                artworkAlt="Streets"
+                title="Streets"
+                description="Design-engineering enterprise B2B software"
+                isGif
+                objectPosition="center"
+                artworkStyle={{ height: '410px' }}
               />
               <WorkCard
                 artwork={workMementoArtwork}
