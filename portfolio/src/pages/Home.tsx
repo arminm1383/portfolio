@@ -25,7 +25,7 @@ import heroStarMd      from '../assets/images/hero-star-md.png'
 import heroStarSm      from '../assets/images/hero-star-sm.png'
 import rocketArtwork     from '../assets/images/rocket-artwork-v2.gif'
 import findyGif          from '../assets/images/FindyGif.gif'
-import workStreetsPanel   from '../assets/images/work-streets-projects.png'
+import workStreetsGif     from '../assets/images/streetsgif.gif'
 import workMementoArtwork from '../assets/images/work-memento-artwork.png'
 import amlmSend    from '../assets/images/amlm-send.svg'
 import amlmStarSm  from '../assets/images/nav-topbar-star-sm.svg'
@@ -319,6 +319,7 @@ interface WorkCardProps {
   panel?: string
   objectFit?: 'cover' | 'contain'
   objectPosition?: string
+  artworkStyle?: React.CSSProperties
   graphicId?: string
   selected?: string | null
   popupOpen?: boolean
@@ -327,7 +328,7 @@ interface WorkCardProps {
   onPopupStop?: (e: React.MouseEvent) => void
 }
 
-function WorkCard({ artwork, artworkAlt, title, description, isGif, to, href, bgColor, panel, objectFit = 'cover', objectPosition, graphicId, selected, popupOpen, onSelect, onTag, onPopupStop }: WorkCardProps) {
+function WorkCard({ artwork, artworkAlt, title, description, isGif, to, href, bgColor, panel, objectFit = 'cover', objectPosition, artworkStyle, graphicId, selected, popupOpen, onSelect, onTag, onPopupStop }: WorkCardProps) {
   const imgRef = useRef<HTMLImageElement>(null)
   const nullRef = useRef<HTMLImageElement | null>(null)
   const isSelected = Boolean(graphicId && selected === graphicId)
@@ -361,7 +362,7 @@ function WorkCard({ artwork, artworkAlt, title, description, isGif, to, href, bg
     <>
       <div
         className={`work-card-artwork${isSelected ? ' is-selected' : ''}`}
-        style={bgColor ? { backgroundColor: bgColor } : undefined}
+        style={{ ...(bgColor ? { backgroundColor: bgColor } : {}), ...artworkStyle }}
         {...(graphicId && onSelect ? {
           'data-graphic': graphicId,
           onClick: (e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); onSelect(graphicId) },
@@ -567,8 +568,9 @@ export default function Home() {
       // ── Name: fade in while elements are mid-flight ───────────────────────────────
       gsap.to('.hero-name-block', { opacity: 1, duration: 0.76, ease: 'power3.out', delay: 1.15 })
 
-      // ── Top navbar: reveal after elements settle ─────────────────────────────────
-      gsap.to('.cs-topbar', { y: 0, duration: 0.55, ease: 'power3.out', delay: 2.20 })
+      // ── Top navbar: reveal after elements settle, then hand off to CSS class ───────
+      gsap.to('.cs-topbar', { y: 0, duration: 0.55, ease: 'power3.out', delay: 2.20,
+        onComplete: () => gsap.set('.cs-topbar', { clearProps: 'transform' }) })
     })
     return () => ctx.revert()
   }, [])
@@ -827,6 +829,15 @@ export default function Home() {
                 objectPosition="center"
               />
               <WorkCard
+                artwork={workStreetsGif}
+                artworkAlt="Streets"
+                title="Streets"
+                description="Design-engineering enterprise B2B software"
+                isGif
+                objectPosition="center"
+                artworkStyle={{ height: '410px' }}
+              />
+              <WorkCard
                 artwork={findyGif}
                 artworkAlt="Findy"
                 title="Findy"
@@ -834,12 +845,6 @@ export default function Home() {
                 isGif
                 to="/work/findy"
                 objectPosition="center"
-              />
-              <WorkCard
-                bgColor="#369af1"
-                panel={workStreetsPanel}
-                title="Streets"
-                description="Design-engineering enterprise B2B software"
               />
               <WorkCard
                 artwork={workMementoArtwork}
@@ -924,12 +929,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Footer */}
-            {/* <div className="ab2-footer">
-              <div className="ab2-footer-divider" />
-              <p className="ab2-footer-email">arminmohammadi1342@gmail.com</p>
-            </div> */}
             </div> {/* ab2-scale-wrap */}
+
+
           </section>
 
         </div>

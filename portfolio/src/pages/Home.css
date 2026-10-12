@@ -582,13 +582,13 @@ a.work-card {
 }
 
 
-/* Streets layered panel overlay — Figma: top-[113px] left-[23px] w-[817px] h-[452px] */
+/* Streets layered panel overlay — Figma: top-[52px] left-[34px] w-[882px] h-[488px] */
 .work-card-panel {
   position: absolute;
-  top: 113px;
-  left: 23px;
-  width: 817px;   /* overflows the 710px card; clipped by artwork overflow:hidden */
-  height: 452px;
+  top: 52px;
+  left: 34px;
+  width: 882px;   /* overflows the 710px card; clipped by artwork overflow:hidden */
+  height: 488px;
   border-radius: 12px 0 12px 0;
   border: 2px solid rgba(0, 0, 0, 0.06);
   box-shadow: -6px 3px 3px 0 rgba(0, 0, 0, 0.08);
@@ -643,6 +643,7 @@ a.work-card {
 
 /* ── About Me v2 — full-viewport page ── */
 .about-section {
+  position: relative;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -878,14 +879,19 @@ a.work-card {
 }
 
 /* ── Footer ── */
+/* Pinned to the bottom of the about section, above the fixed navbar pill.
+   Not inside ab2-scale-wrap so it is never zoomed. */
 .ab2-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  align-items: flex-start;
-  padding: 72px 0;
-  width: 100%;
-  flex-shrink: 0;
+  gap: 12px;
+  align-items: center;
+  /* top padding: small breathing room; bottom padding: clears navbar pill */
+  padding: 16px 32px calc(clamp(28px, 5.3vh, 60px) + 88px);
 }
 
 .ab2-footer-divider {
@@ -901,9 +907,12 @@ a.work-card {
   font-size: 20px;
   line-height: normal;
   color: #000;
-  margin: 0;
   text-align: center;
   width: 100%;
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-underline-position: from-font;
+  cursor: pointer;
 }
 
 /* ── Shared section header ── */
