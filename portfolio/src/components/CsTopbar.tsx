@@ -52,7 +52,7 @@ export default function CsTopbar({
             <img src={starTexture} alt="" className="cs-star-texture" />
           </div>
         </div>
-        <span className="cs-topbar-handle">amLM</span>
+        {/* <span className="cs-topbar-handle">amLM</span> */}
       </div>
     </div>
   )
