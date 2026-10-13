@@ -373,6 +373,8 @@ function WorkCard({ artwork, artworkAlt, title, description, isGif, to, href, bg
             ref={imgRef}
             src={artwork}
             alt={artworkAlt ?? ''}
+            loading="lazy"
+            decoding="async"
             style={{ objectFit, objectPosition: objectPosition ?? undefined }}
           />
         )}
