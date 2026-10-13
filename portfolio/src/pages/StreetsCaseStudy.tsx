@@ -112,7 +112,21 @@ function SearchFlowDemo() {
     <div className="scs-flow" data-reveal="pop" data-reveal-delay="100">
       <div className="scs-flow-top">
         <p className="scs-flow-label">The core search flow, rebuilt with library components</p>
-        <span className="scs-flow-hint" aria-hidden>click to step through →</span>
+      </div>
+
+      <div className="scs-flow-steps" role="tablist">
+        {FLOW_STEPS.map((s, i) => (
+          <button
+            key={i}
+            role="tab"
+            aria-selected={i === step}
+            className={`scs-flow-step${i === step ? ' is-active' : ''}`}
+            onClick={() => setStep(i)}
+          >
+            <span className="scs-flow-step-num">{String(i + 1).padStart(2, '0')}</span>
+            <span className="scs-flow-step-label">{s.label}</span>
+          </button>
+        ))}
       </div>
 
       <button
@@ -130,21 +144,6 @@ function SearchFlowDemo() {
           />
         ))}
       </button>
-
-      <div className="scs-flow-steps" role="tablist">
-        {FLOW_STEPS.map((s, i) => (
-          <button
-            key={i}
-            role="tab"
-            aria-selected={i === step}
-            className={`scs-flow-step${i === step ? ' is-active' : ''}`}
-            onClick={() => setStep(i)}
-          >
-            <span className="scs-flow-step-num">{String(i + 1).padStart(2, '0')}</span>
-            <span className="scs-flow-step-label">{s.label}</span>
-          </button>
-        ))}
-      </div>
     </div>
   )
 }
