@@ -11,7 +11,9 @@ import streetsPipeline from '../assets/images/streets-cs-pipeline.png'
 import streetsTokens from '../assets/images/streets-cs-tokens.png'
 import streetsCode from '../assets/images/streets-cs-code.png'
 import streetsLibrary from '../assets/images/streets-cs-library.png'
-import streetsSearchFlow from '../assets/images/streets-cs-searchflow.png'
+import streetsFlow01 from '../assets/images/streets-cs-flow-01.png'
+import streetsFlow02 from '../assets/images/streets-cs-flow-02.png'
+import streetsFlow03 from '../assets/images/streets-cs-flow-03.png'
 import rocketGif from '../assets/images/rocket-work-artwork.gif'
 import findyGif from '../assets/images/findy-work-artwork.gif'
 
@@ -92,6 +94,57 @@ function StatCard({ to, text, delay }: { to: number; text: string; delay: number
     >
       <span className="scs-stat-num"><CountUp to={to} /></span>
       <p className="scs-stat-text">{text}</p>
+    </div>
+  )
+}
+
+const FLOW_STEPS = [
+  { img: streetsFlow01, label: 'Start from a project on the map' },
+  { img: streetsFlow02, label: 'Search, filter by distance, and compare block groups' },
+  { img: streetsFlow03, label: 'Open a block group for key details, stats, and similar personas' },
+]
+
+function SearchFlowDemo() {
+  const [step, setStep] = useState(0)
+  const advance = () => setStep(s => (s + 1) % FLOW_STEPS.length)
+
+  return (
+    <div className="scs-flow" data-reveal="pop" data-reveal-delay="100">
+      <div className="scs-flow-top">
+        <p className="scs-flow-label">The core search flow, rebuilt with library components</p>
+        <span className="scs-flow-hint" aria-hidden>click to step through →</span>
+      </div>
+
+      <button
+        className="scs-flow-stage"
+        onClick={advance}
+        aria-label={`Search flow step ${step + 1} of ${FLOW_STEPS.length}: ${FLOW_STEPS[step].label}. Click to advance.`}
+      >
+        {FLOW_STEPS.map((s, i) => (
+          <img
+            key={i}
+            src={s.img}
+            alt=""
+            className={`scs-flow-screen${i === step ? ' is-active' : ''}`}
+            draggable={false}
+          />
+        ))}
+      </button>
+
+      <div className="scs-flow-steps" role="tablist">
+        {FLOW_STEPS.map((s, i) => (
+          <button
+            key={i}
+            role="tab"
+            aria-selected={i === step}
+            className={`scs-flow-step${i === step ? ' is-active' : ''}`}
+            onClick={() => setStep(i)}
+          >
+            <span className="scs-flow-step-num">{String(i + 1).padStart(2, '0')}</span>
+            <span className="scs-flow-step-label">{s.label}</span>
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
@@ -357,7 +410,7 @@ export default function StreetsCaseStudy() {
                 screens moved to the new design language with the same steps and features, and the sidebar and
                 search bar became reusable components along the way.
               </p>
-              <img src={streetsSearchFlow} alt="The core search flow, rebuilt with library components" className="scs-figure" draggable={false} data-reveal="pop" data-reveal-delay="150" />
+              <SearchFlowDemo />
             </section>
 
             {/* ── Takeaways ── */}

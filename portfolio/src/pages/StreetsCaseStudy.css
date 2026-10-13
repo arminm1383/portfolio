@@ -46,3 +46,137 @@
   line-height: 1.5;
   margin: 0;
 }
+
+/* ══════════════════════════════════════════════════════════
+   IN PRODUCT — semi-interactive search-flow walkthrough
+   Click the stage (or a step) to advance through the 3 screens.
+   ══════════════════════════════════════════════════════════ */
+.scs-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #ebeae9;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.04);
+}
+
+.scs-flow-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.scs-flow-label {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.45);
+  margin: 0;
+}
+
+.scs-flow-hint {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #897c5f;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Screen stage — fixed aspect, stacked crossfading screenshots */
+.scs-flow-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1576 / 1140;
+  border: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  display: block;
+}
+
+.scs-flow-screen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  opacity: 0;
+  transform: scale(1.01);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.scs-flow-screen.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Step tabs */
+.scs-flow-steps {
+  display: flex;
+  gap: 12px;
+}
+
+.scs-flow-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  padding: 14px 16px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.scs-flow-step:hover {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.scs-flow-step.is-active {
+  background: #fff;
+  box-shadow: inset 0 0 0 1.5px #897c5f, 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.scs-flow-step-num {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.3);
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.scs-flow-step.is-active .scs-flow-step-num {
+  color: #897c5f;
+}
+
+.scs-flow-step-label {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.scs-flow-step.is-active .scs-flow-step-label {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+@media (max-width: 680px) {
+  .scs-flow-steps { flex-direction: column; }
+  .scs-flow-hint { display: none; }
+}
