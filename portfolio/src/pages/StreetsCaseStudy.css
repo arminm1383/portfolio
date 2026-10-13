@@ -1,0 +1,48 @@
+/* ══════════════════════════════════════════════════════════
+   STREETS CASE STUDY — Streets-specific overrides
+   Shell + typography inherit from .fcs-page--rocket (FindyCaseStudy.css);
+   this file only adds what's unique to the Streets design-system page.
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Figure blocks — self-contained gray cards exported from Figma ── */
+.scs-figure {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.04);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Nested subsection (Building Screens from Shared Pieces) ── */
+.scs-subsection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 56px;
+}
+.scs-subsection > * { margin: 0; }
+
+/* Brown accent heading — Figma #897C5F */
+.scs-subsection-heading {
+  color: #897c5f;
+}
+
+/* ── Takeaways stat cards — big count-up numeral + description ── */
+.fcs-page--streets .scs-stat-num {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 48px;
+  font-weight: 400;
+  color: #1a1a1a;
+  line-height: 1;
+}
+
+.fcs-page--streets .scs-stat-text {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1.5;
+  margin: 0;
+}

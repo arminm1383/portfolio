@@ -6,7 +6,7 @@ import auraBg from '../assets/images/aura-bg.png'
 import auraMockup from '../assets/images/aura-mockup.png'
 import findyBg from '../assets/images/findy-bg.png'
 import findyMockup from '../assets/images/findy-mockup.png'
-import mementoArtwork from '../assets/images/memento-artwork.png'
+import mementoArtwork from '../assets/images/memento-work-artwork.gif'
 
 type Project = {
   title: string

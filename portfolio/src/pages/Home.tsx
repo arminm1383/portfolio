@@ -23,10 +23,10 @@ import heroBoy         from '../assets/images/hero-boy.png'
 import heroStarLg      from '../assets/images/hero-star-lg.png'
 import heroStarMd      from '../assets/images/hero-star-md.png'
 import heroStarSm      from '../assets/images/hero-star-sm.png'
-import rocketArtwork     from '../assets/images/rocket-artwork-v2.gif'
+import rocketArtwork     from '../assets/images/rocket-work-artwork.gif'
 import findyGif          from '../assets/images/findy-work-artwork.gif'
 import workStreetsGif     from '../assets/images/streetsgif.gif'
-import workMementoArtwork from '../assets/images/work-memento-artwork.png'
+import mementoGif from '../assets/images/memento-work-artwork.gif'
 import amlmSend    from '../assets/images/amlm-send.svg'
 import amlmStarSm  from '../assets/images/nav-topbar-star-sm.svg'
 import amlmStarLg  from '../assets/images/nav-topbar-star-lg.svg'
@@ -843,16 +843,17 @@ export default function Home() {
                 title="Streets"
                 description="Design-engineering enterprise B2B software"
                 isGif
+                to="/work/streets"
                 objectPosition="center"
                 artworkStyle={{ height: '410px' }}
               />
               <WorkCard
-                artwork={workMementoArtwork}
+                artwork={mementoGif}
                 artworkAlt="Memento"
                 title="Memento"
                 description="Connecting memories through emerging interfaces"
-                bgColor="#1b130f"
-                objectFit="contain"
+                isGif
+                objectPosition="center"
                 href="https://devpost.com/software/memento-3p1kjl"
               />
             </div>
