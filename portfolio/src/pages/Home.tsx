@@ -845,7 +845,6 @@ export default function Home() {
                 isGif
                 to="/work/streets"
                 objectPosition="center"
-                artworkStyle={{ height: '410px' }}
               />
               <WorkCard
                 artwork={mementoGif}
