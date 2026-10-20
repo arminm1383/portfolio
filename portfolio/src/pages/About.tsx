@@ -32,7 +32,7 @@ const COLUMNS: { width: number; photos: Photo[] }[] = [
   {
     width: 432,
     photos: [
-      { src: photoYosemite, caption: 'bouldering in Yosemite', date: '09.2026', frame: [432, 458.341] },
+      { src: photoYosemite, caption: 'bouldering in yosemite', date: '09.2026', frame: [432, 458.341] },
       { src: photoHuntington, caption: 'the huntington library', date: '05.2026', frame: [432, 246], crop: [114.55, 136.85, -10.95, -14.75] },
       { src: photoJapan, caption: 'jumping in japan', date: '01.2025', frame: [432, 140], crop: [103.73, 116.57, -2.29, -9.89] },
     ],

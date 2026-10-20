@@ -8,6 +8,14 @@ export const PAGE_CONTENT = ['.pixel-title > span', '.pixel-page-intro', '.pixel
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+// How long the sprite gif is on screen alone before the rest of the page arrives — on first load and
+// on every page transition.
+const GIF_SOLO = 0.38
+
+// When an exit finished fading the old content out. The next entrance only waits for whatever is left
+// of GIF_SOLO, so the time spent finishing the exit and swapping routes counts toward the solo moment.
+let gifAloneSince: number | null = null
+
 // Entrance — the gif is visible from the first frame; after a short solo moment the rest arrives
 export function runPageEntrance(): gsap.Context | null {
   if (prefersReducedMotion()) return null
@@ -18,9 +26,12 @@ export function runPageEntrance(): gsap.Context | null {
   const restore = () => requestAnimationFrame(() => { if (topbar) topbar.style.transition = '' })
 
   return gsap.context(() => {
-    const REVEAL = 0.3 // the sprite gif's solo moment
+    const alreadyAlone = gifAloneSince === null ? 0 : (performance.now() - gifAloneSince) / 1000
+    const REVEAL = Math.max(0, GIF_SOLO - alreadyAlone)
     const EASE = 'power2.out'
     const tl = gsap.timeline({ onComplete: restore })
+    // Cleared once content starts arriving (not up front, so a re-run of this effect keeps the timestamp)
+    tl.call(() => { gifAloneSince = null }, undefined, REVEAL)
 
     gsap.set(PAGE_CONTENT, { opacity: 0 })
     gsap.set('.top-navbar', { y: -80 })
@@ -52,6 +63,7 @@ function runPageExit(): Promise<void> {
     if (topbar) topbar.style.transition = 'none'
     const tl = gsap.timeline({ onComplete: resolve })
     tl.to(PAGE_CONTENT, { opacity: 0, duration: 0.25, ease: 'power2.in' }, 0)
+    tl.call(() => { gifAloneSince = performance.now() }, undefined, 0.25)
     if (topbar) tl.to(topbar, { y: -80, duration: 0.3, ease: 'power2.in' }, 0)
   })
 }

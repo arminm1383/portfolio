@@ -1,6 +1,5 @@
 /* ── Top navbar (Figma "Top Navbar" component 2042:155940; Landing instance x=24 y=24, 1586×56, no side
-   padding so "armin mohammadi" lines up with the side navbar's text at x=24). No fill, stroke or shadow —
-   only the background blur. ── */
+   padding). Left-aligned row: pixel Poké Ball, 8px, "armin mohammadi". No fill, stroke, shadow or blur. ── */
 .top-navbar {
   position: fixed;
   top: 24px;
@@ -11,11 +10,9 @@
   height: 56px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
   padding: 12px 0;
   overflow: clip;
-  backdrop-filter: blur(6.25px); /* Figma background blur radius 12.5 */
-  -webkit-backdrop-filter: blur(6.25px);
   border-radius: 12px;
   pointer-events: none;
   transform: translateY(calc(-100% - 24px));
@@ -38,14 +35,6 @@
 
 .top-navbar-name {
   flex-shrink: 0;
-}
-
-.top-navbar-lm {
-  flex: 1 0 0;
-  min-width: 1px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
 }
 
 .top-navbar-pokeball {

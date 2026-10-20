@@ -100,9 +100,9 @@ Pixel values in CSS are **taken directly from Figma** — do not round or adjust
 Stateless helpers (e.g. `CornerDots`, `AuraCard`, `FindyCard`, `MementoCard`) are defined in the same file as their page and exported only if reused elsewhere.
 
 ### Top navbar (`components/TopNavbar.tsx`) — used on the landing and every case study
-- Figma "Top Navbar" component `2042:155940`: fixed at x=24 / y=24, 1586×56 (right edge at 1610), padding 12px 0 — no side padding, so "armin mohammadi" starts at x=24 in line with the side navbar's text. Radius 12.
-- **No fill, stroke or shadow** — only a backdrop blur of 6.25px (Figma radius 12.5).
-- Left: "armin mohammadi" (`--font-pixel` 24px, links home via the page transition); right: Poké Ball icon only (arminLM, not wired up yet).
+- Figma "Top Navbar" component `2042:155940`: fixed at x=24 / y=24, 1586×56 (right edge at 1610), padding 12px 0 — no side padding, so it starts at x=24 in line with the side navbar's text. Radius 12.
+- **No fill, stroke, shadow or blur** (the Figma component still lists a background blur; it was removed on request).
+- One left-aligned row, gap 8: 16×16 pixel Poké Ball (`topnav-pokeball-pixel.svg`), then "armin mohammadi" (`--font-pixel` 24px, links home via the page transition).
 - Scroll behaviour from `lib/useScrollReveal.ts`: shown near the top, hides on scroll-down, reveals on scroll-up.
 - The landing entrance slides it down from `y: -80` (0.55s). `CsTopbar` is the legacy bar — kept, but only `/alt` uses it.
 
@@ -114,7 +114,7 @@ Stateless helpers (e.g. `CornerDots`, `AuraCard`, `FindyCard`, `MementoCard`) ar
 - Shared shell: top navbar, side navbar, pixel title row ("word [sprite gif] word"), intro, body, `SiteFooter` (links + resume popup).
 - The title row is anchored at the Main origin (Figma x=314 / y=213) on every page and the word before the gif is a fixed 0.75em, so the gif (x=413) never moves between pages. The intro text beside the gif (landing tagline, About bio) is Open Sans 20px.
 - Work artwork (landing) and About photos use a 2px corner radius; About photos zoom 3% on hover but aren't links.
-- Page transition (`lib/pageTransition.ts`, via `useTransitionNavigate`): everything except the gif fades out (top navbar slides up), the route changes, then the new page's entrance plays (0.3s gif-only moment, then content). Use it for links between pixel pages.
+- Page transition (`lib/pageTransition.ts`, via `useTransitionNavigate`): everything except the gif fades out (top navbar slides up), the route changes, then the new page's entrance plays (0.38s gif-only moment, then content). Use it for links between pixel pages.
 
 ### Custom cursor (`components/CustomCursor.tsx`) — work cards only
 - Figma "Cursor" component set `2042:155868`: 20×20 `#fe8a09` square, radius 4; on hover expands to a 24px-tall pill with icon + `--font-pixel` 16px label: `case-study` (155px, "view case study"), `devpost` (135px), `coming-soon` (135px).
