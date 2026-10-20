@@ -1,111 +1,51 @@
-/* ── Navbar shell — fixed bottom-center ── */
+/* ── Navbar — fixed left-edge stack (Figma "Side Navbar" component 2042:156000; Landing x=0, y=250).
+   No fill or stroke; background blur 18.3 → 9.15px. ── */
 .navbar {
   position: fixed;
-  bottom: clamp(28px, 5.3vh, 60px);
-  left: 50%;
-  transform: translateX(-50%);
+  top: 250px;
+  left: 0;
   z-index: 1000;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.60s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  overflow: clip;
+  backdrop-filter: blur(9.15px);
+  -webkit-backdrop-filter: blur(9.15px);
 }
 
-.navbar--revealed {
+/* Figma Landing instance: no drop shadow (blur only) */
+.nav-item {
+  font-family: var(--font-pixel);
+  font-size: 24px;
+  line-height: normal;
+  color: #000;
+  white-space: nowrap;
+  text-decoration: none;
+  opacity: 0.5; /* Figma: everything but the current page is greyed */
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.25s ease;
+}
+
+/* The page you're on fills to black */
+.nav-item--current {
   opacity: 1;
 }
 
-.navbar--hidden {
-  opacity: 0 !important;
-  pointer-events: none;
+/* Only live pages (home, about me) react on hover; unbuilt ones stay inert */
+.nav-item--link:hover {
+  transform: translateX(4px);
 }
 
-/* ── Floating pill container ── */
-.navbar-pill {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 12px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(6.25px);
-  -webkit-backdrop-filter: blur(6.25px);
-  pointer-events: all;
-}
-
-/* ── Individual tab chip ── */
-.nav-tab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 8px;
-  width: 63px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.45);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  color: #000;
-  text-decoration: none;
-  white-space: nowrap;
-  cursor: pointer;
-  border: none;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-              box-shadow 0.18s ease;
-}
-
-.nav-tab:is(button) {
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-.nav-tab:hover {
-  transform: scale(1.06);
-  box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.12);
-}
-
-/* ── Icon ── */
-.nav-tab-icon {
-  display: block;
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
-/* ── Label ── */
-.nav-tab-label {
-  display: block;
-  line-height: normal;
-  text-align: center;
-  width: 47px;
-}
-
-/* ── Active state ── */
-.nav-tab--active {
-  background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08),
-              inset 0 0 0 1.5px rgba(0, 0, 0, 0.12);
-}
-
-@media (max-width: 520px) {
+@media (max-width: 900px) {
   .navbar {
-    bottom: var(--space-5);
-  }
-  .navbar-pill {
-    gap: 10px;
-    padding: 10px;
-  }
-  .nav-tab {
-    width: 54px;
-    padding: 6px;
-    font-size: 10px;
-  }
-  .nav-tab-label {
-    width: 38px;
+    position: absolute;
+    top: 84px; /* clears the 16 + 56px mobile top navbar */
+    flex-direction: row;
+    gap: 24px;
   }
 }

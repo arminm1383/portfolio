@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import './FindyCaseStudy.css'
-import CsTopbar from '../components/CsTopbar'
+import TopNavbar from '../components/TopNavbar'
 
 import auraBg from '../assets/images/aura-bg.png'
 import auraMockup from '../assets/images/aura-mockup.png'
@@ -154,7 +154,7 @@ export default function AuraCaseStudy() {
   return (
     <div className="fcs-page">
 
-      <CsTopbar showAtTop />
+      <TopNavbar />
 
       <div className="fcs-body">
 

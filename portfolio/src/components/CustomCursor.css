@@ -8,13 +8,14 @@
   will-change: transform;
 }
 
-/* Single pill — collapses to a 20×20 circle, expands on hover */
+/* Single pill (Figma "Cursor" component set, node 2042:155868) — a 20×20 square that expands
+   into a labelled pill when hovering a work card */
 .cursor-pill {
   position: relative;
   height: 20px;
   width: 20px;
-  background: rgba(44, 110, 43, 0.9);
-  border-radius: 100px;
+  background: #fe8a09;
+  border-radius: 4px;
   overflow: hidden;
   transform: translateY(0);
   transition:
@@ -79,8 +80,8 @@
 }
 
 .cursor-label {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
-  font-size: 12px;
+  font-family: var(--font-pixel);
+  font-size: 16px;
   font-weight: 400;
   line-height: normal;
   color: rgba(255, 255, 255, 0.98);

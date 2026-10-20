@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import './FindyCaseStudy.css'
-import CsTopbar from '../components/CsTopbar'
+import TopNavbar from '../components/TopNavbar'
 
 import rocketHeroGif from '../assets/images/rocket-cs-hero-new.gif'
 import workStreetsPanel   from '../assets/images/work-streets-projects.png'
@@ -276,26 +276,6 @@ export default function RocketLawyerCaseStudy() {
     return () => window.removeEventListener('scroll', checkArrows)
   }, [])
 
-  useEffect(() => {
-    const els = document.querySelectorAll<HTMLElement>('[data-reveal]')
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return
-          const delay = Number((entry.target as HTMLElement).dataset.revealDelay ?? 0)
-          if (delay) {
-            setTimeout(() => entry.target.classList.add('reveal--visible'), delay)
-          } else {
-            entry.target.classList.add('reveal--visible')
-          }
-          obs.unobserve(entry.target)
-        })
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -60px 0px' }
-    )
-    els.forEach((el) => obs.observe(el))
-    return () => obs.disconnect()
-  }, [])
 
   const scrollTo = useCallback((id: string) => {
     if (!id) {
@@ -342,7 +322,7 @@ export default function RocketLawyerCaseStudy() {
   return (
     <div className="fcs-page fcs-page--rocket">
 
-      <CsTopbar showAtTop />
+      <TopNavbar />
 
       <div className="fcs-body">
 
@@ -376,8 +356,8 @@ export default function RocketLawyerCaseStudy() {
                 </div>
                 <h1 className="fcs-title">Rocket Copilot</h1>
               </div>
-              <img src={rocketHeroGif} alt="" className="fcs-hero-single" draggable={false} data-reveal="" />
-              <div className="fcs-tags" data-reveal="" data-reveal-delay="150">
+              <img src={rocketHeroGif} alt="" className="fcs-hero-single" draggable={false} />
+              <div className="fcs-tags">
                 <div className="fcs-tag">
                   <span className="fcs-tag-label">Role</span>
                   <span className="fcs-tag-value">UX Research Intern</span>
@@ -409,7 +389,7 @@ export default function RocketLawyerCaseStudy() {
             {/* ── Background ── */}
             <section className="fcs-section">
               <div className="fcs-bg-group">
-                <div className="fcs-bg-sub" data-reveal="">
+                <div className="fcs-bg-sub">
                   <span className="fcs-section-label">Background</span>
                   <h2 className="fcs-section-heading">About Rocket Copilot</h2>
                   <p className="fcs-section-body">
@@ -420,7 +400,7 @@ export default function RocketLawyerCaseStudy() {
                   </p>
                 </div>
 
-                <div className="fcs-bg-sub" data-reveal="" data-reveal-delay="100">
+                <div className="fcs-bg-sub">
                   <h2 className="fcs-section-heading">Redefining Legal Tech with AI</h2>
                   <p className="fcs-section-body">
                     In pursuit of evolving the legal-tech experience to incorporate AI tools for customers,
@@ -448,9 +428,9 @@ export default function RocketLawyerCaseStudy() {
 
             {/* ── Problem ── */}
             <section className="fcs-section" id="problem">
-              <span className="fcs-section-label" data-reveal="">Problem</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Negotiate &amp; Sign felt Disconnected from User Needs</h2>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
+              <span className="fcs-section-label">Problem</span>
+              <h2 className="fcs-section-heading">Negotiate &amp; Sign felt Disconnected from User Needs</h2>
+              <p className="fcs-section-body">
                 Users' business needs were not quite captured by the existing E2E flows, with Copilot, Rocket Lawyer's AI-powered legal assistant,
                 seemingly feeling misaligned with what small business cohorts need to continue using
                 the platform.
@@ -466,16 +446,16 @@ export default function RocketLawyerCaseStudy() {
                 <img src={rocketStatsConnector} alt="" className="fcs-stats-connector" />
               </div>
 
-              <p className="fcs-problem-statement" data-reveal="">
+              <p className="fcs-problem-statement">
                 How can we design a platform centered around the use cases, experiences, and hyper-specific legal needs small business users with limited legal knowledge face every single day?
               </p>
 
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="50">
+              <p className="fcs-section-body">
                 To address this, we centered our study around addressing user concerns in hopes 
                 of better optimizing Rocket Lawyer for the aforementioned business metrics.
               </p>
 
-              <div className="fcs-rq-card" data-reveal="pop">
+              <div className="fcs-rq-card">
                 <span className="fcs-rq-label">Research Questions</span>
                 <div className="fcs-rq-item">
                   <img src={rqIcon1} alt="" className="fcs-rq-icon-img" aria-hidden="true" />
@@ -496,16 +476,16 @@ export default function RocketLawyerCaseStudy() {
 
             {/* ── Research ── */}
             <section className="fcs-section" id="research">
-              <span className="fcs-section-label" data-reveal="">Research</span>
+              <span className="fcs-section-label">Research</span>
 
               <div className="fcs-sub-group">
                 <div className="fcs-sub">
-                  <h3 className="fcs-subsection-heading" data-reveal="">Quantifying our Users</h3>
-                  <p className="fcs-section-body" data-reveal="" data-reveal-delay="50">
+                  <h3 className="fcs-subsection-heading">Quantifying our Users</h3>
+                  <p className="fcs-section-body">
                     To start, we broke down our users into distinct use cases, segmenting document receivers,
                     document authors, and legal professionals to better understand how pain points varied across these groups.
                   </p>
-                  <div className="fcs-media-card fcs-media-card--padded" data-reveal="pop" data-reveal-delay="100">
+                  <div className="fcs-media-card fcs-media-card--padded">
                     <p className="fcs-media-card-label">DEFINING COHORTS TO SEGMENT COPILOT USE CASES IN AMPLITUDE</p>
                     <div className="fcs-chart-crop">
                       <img src={rocketChart} alt="" className="fcs-media-card-img" draggable={false} />
@@ -514,19 +494,19 @@ export default function RocketLawyerCaseStudy() {
                 </div>
 
                 <div className="fcs-sub">
-                  <h3 className="fcs-subsection-heading" data-reveal="">Talking to Customers</h3>
-                  <p className="fcs-section-body" data-reveal="" data-reveal-delay="50">
+                  <h3 className="fcs-subsection-heading">Talking to Customers</h3>
+                  <p className="fcs-section-body">
                     Despite prior data consistently validating the need for small business users to streamline
                     legal workflows, our analytics simply weren't upholding as expected.
                   </p>
-                  <p className="fcs-research-callout" data-reveal="">
+                  <p className="fcs-research-callout">
                     How might we understand the exact use cases and role Rocket Lawyer plays in small business users' existing workflows?
                   </p>
-                  <p className="fcs-section-body" data-reveal="" data-reveal-delay="80">
+                  <p className="fcs-section-body">
                     I started by talking to customers right away, recognizing that through in-depth, engaging,
                     genuine conversations, I could only then truly understand the barriers to negotiation.
                   </p>
-                  <div className="fcs-quote-card" data-reveal="pop">
+                  <div className="fcs-quote-card">
                     <div className="fcs-quote-entry">
                       <span className="fcs-quote-icon" aria-hidden="true">"</span>
                       <div className="fcs-quote-content">
@@ -543,15 +523,15 @@ export default function RocketLawyerCaseStudy() {
                       </div>
                     </div>
                   </div>
-                  <div className="fcs-media-card fcs-media-card--padded" data-reveal="pop">
+                  <div className="fcs-media-card fcs-media-card--padded">
                     <p className="fcs-media-card-label">TRANSLATING INTERVIEW INSIGHTS INTO THEMES</p>
                     <img src={rocketAffinityMap} alt="" className="fcs-media-card-img" draggable={false} />
                   </div>
-                  <p className="fcs-section-body" data-reveal="">
+                  <p className="fcs-section-body">
                     Moving beyond the designs, I explored how my research findings and themes could be applied
                     to current iterations of Negotiate &amp; Sign components.
                   </p>
-                  <div className="fcs-media-card fcs-media-card--padded" data-reveal="pop">
+                  <div className="fcs-media-card fcs-media-card--padded">
                     <p className="fcs-media-card-label">MOCKUPS + APPLIED RESEARCH</p>
                     <img src={appliedResearch} alt="" className="fcs-media-card-img" draggable={false} />
                   </div>
@@ -562,8 +542,8 @@ export default function RocketLawyerCaseStudy() {
 
             {/* ── Process ── */}
             <section className="fcs-section" id="process">
-              <span className="fcs-section-label" data-reveal="">Process</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Transitioning from Design Recommendations to a New Project</h2>
+              <span className="fcs-section-label">Process</span>
+              <h2 className="fcs-section-heading">Transitioning from Design Recommendations to a New Project</h2>
 
               <div className="fcs-rec-cards">
 
@@ -576,7 +556,7 @@ export default function RocketLawyerCaseStudy() {
 
                 <div className="fcs-rec-cards-contentcol">
 
-                  <div className="fcs-numbered-card" data-reveal="pop">
+                  <div className="fcs-numbered-card">
                     <div className="fcs-numbered-card-content">
                       <h3 className="fcs-rec-heading fcs-rec-heading--lg">Experimenting with Validated Features in the Current Workspace</h3>
                       <p className="fcs-section-body">
@@ -595,7 +575,7 @@ export default function RocketLawyerCaseStudy() {
                     </div>
                   </div>
 
-                  <div className="fcs-numbered-card" data-reveal="pop" data-reveal-delay="80">
+                  <div className="fcs-numbered-card">
                     <div className="fcs-numbered-card-content">
                       <h3 className="fcs-rec-heading fcs-rec-heading--lg">Shifting Focus over to the Business Center Dashboard</h3>
                       <p className="fcs-section-body">
@@ -621,7 +601,7 @@ export default function RocketLawyerCaseStudy() {
                     </div>
                   </div>
 
-                  <div className="fcs-numbered-card" data-reveal="pop" data-reveal-delay="160">
+                  <div className="fcs-numbered-card">
                     <div className="fcs-numbered-card-content">
                       <h3 className="fcs-rec-heading fcs-rec-heading--lg">Testing and Iterating the Business Center's Core Feature: AI-Guided Workflows</h3>
                       <p className="fcs-section-body">
@@ -663,7 +643,7 @@ export default function RocketLawyerCaseStudy() {
                     </div>
                   </div>
 
-                  <div className="fcs-numbered-card" data-reveal="pop" data-reveal-delay="240">
+                  <div className="fcs-numbered-card">
                     <div className="fcs-numbered-card-content">
                       <h3 className="fcs-rec-heading fcs-rec-heading--lg">The Final Deliverable</h3>
                       <p className="fcs-section-body">
@@ -686,14 +666,14 @@ export default function RocketLawyerCaseStudy() {
 
             {/* ── Next Steps ── */}
             <section className="fcs-section" id="next-steps">
-              <span className="fcs-section-label" data-reveal="">Next Steps</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Expanding the Business Center</h2>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
+              <span className="fcs-section-label">Next Steps</span>
+              <h2 className="fcs-section-heading">Expanding the Business Center</h2>
+              <p className="fcs-section-body">
                 Throughout my time at Rocket Lawyer, my skills as a researcher flourished as I integrated
                 human-centric qualitative tasks with AI-powered quantitative methodologies to evolve the
                 core UX research pipeline.
               </p>
-              <div className="fcs-next-steps-cards" data-reveal="pop" data-reveal-delay="150">
+              <div className="fcs-next-steps-cards">
                 <div className="fcs-next-steps-card">
                   <p className="fcs-next-steps-title">Continue to Build the Business Center</p>
                   <p className="fcs-next-steps-body">Design engineering components built by me are to be continuously iterated upon and tested for future business center versions.</p>
@@ -711,18 +691,18 @@ export default function RocketLawyerCaseStudy() {
 
             {/* ── Reflections ── */}
             <section className="fcs-section" id="reflections">
-              <span className="fcs-section-label" data-reveal="">Reflections</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Learning, Growing, and Evolving</h2>
+              <span className="fcs-section-label">Reflections</span>
+              <h2 className="fcs-section-heading">Learning, Growing, and Evolving</h2>
               <div className="fcs-reflection-list">
-                <div className="fcs-reflection-item" data-reveal="">
+                <div className="fcs-reflection-item">
                   <p className="fcs-reflection-item-title">Experimenting with Validated Features in the Current Workspace</p>
                   <p className="fcs-reflection-item-body">Design engineering components built by me are to be continuously iterated upon and tested for future business center versions.</p>
                 </div>
-                <div className="fcs-reflection-item" data-reveal="" data-reveal-delay="80">
+                <div className="fcs-reflection-item">
                   <p className="fcs-reflection-item-title">Shifting Focus over to the Business Center Dashboard</p>
                   <p className="fcs-reflection-item-body">With version control and the document management system being validated, their functionality should be further explored by engineering teams.</p>
                 </div>
-                <div className="fcs-reflection-item" data-reveal="" data-reveal-delay="160">
+                <div className="fcs-reflection-item">
                   <p className="fcs-reflection-item-title">Connection and Communication are Key to a Remote Environment</p>
                   <p className="fcs-reflection-item-body">With 6 different Claude skills shipped by me to the team, Rocket Lawyer is ready to overhaul their design process with a data-driven emphasis.</p>
                 </div>
@@ -731,9 +711,9 @@ export default function RocketLawyerCaseStudy() {
 
             {/* ── Up Next ── */}
             <section className="fcs-section">
-              <h2 className="rl-upnext-heading" data-reveal="">Up Next</h2>
+              <h2 className="rl-upnext-heading">Up Next</h2>
               <div className="rl-upnext-row">
-                <div className="rl-upnext-card" data-cursor="coming-soon" data-reveal="pop" data-reveal-delay="50">
+                <div className="rl-upnext-card" data-cursor="coming-soon">
                   <div className="rl-upnext-artwork rl-upnext-artwork--streets">
                     <img src={workStreetsPanel} alt="Streets" draggable={false} />
                   </div>
@@ -742,7 +722,7 @@ export default function RocketLawyerCaseStudy() {
                     <p className="rl-upnext-desc">Design-engineering enterprise B2B software</p>
                   </div>
                 </div>
-                <Link to="/work/findy" className="rl-upnext-card" data-cursor="case-study" data-reveal="pop" data-reveal-delay="150">
+                <Link to="/work/findy" className="rl-upnext-card" data-cursor="case-study">
                   <div className="rl-upnext-artwork rl-upnext-artwork--findy">
                     <img src={findyGif} alt="Findy" draggable={false} />
                   </div>

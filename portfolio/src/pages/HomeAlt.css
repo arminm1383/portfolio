@@ -1,0 +1,162 @@
+/* ── Alternate landing — one continuous scroll (hero → switcher → body) ──
+   Reuses the hero + work-card visuals from Home.css; this file only owns the
+   new continuous-scroll layout, the shrunk hero sizing, and the section nav. */
+
+.home-alt {
+  position: relative;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding-bottom: 96px;
+  background-color: #f7f7f5;
+  background-image:
+    linear-gradient(#eeeeee 0.5px, transparent 0.5px),
+    linear-gradient(90deg, #eeeeee 0.5px, transparent 0.5px);
+  background-size: 25px 25px;
+}
+
+/* Shared content column — 1286px centered (Figma: 1286 within the 1648 frame) */
+.alt-nav,
+.alt-body {
+  width: min(1286px, 100% - 64px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Hero — full-width collage (matches Figma scale); the canvas carries ~20.85%
+   of built-in vertical padding above and below the content, so negative margins
+   crop that dead space to keep the hero vertically compact (cards still peek). ── */
+.alt-hero {
+  display: flex;
+  justify-content: center;
+  padding: 0 32px;
+  box-sizing: border-box;
+}
+
+.alt-hero .hero-canvas {
+  width: 100%;
+  max-width: 1320px;
+  margin-top: clamp(-48px, -2.4vw, -18px);
+  margin-bottom: clamp(-168px, -9vw, -92px);
+}
+
+/* ── Section switcher (work / about / fun) ── */
+.alt-nav {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.alt-nav-pill {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(247, 247, 245, 0.5);
+  backdrop-filter: blur(6.25px);
+  -webkit-backdrop-filter: blur(6.25px);
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.12);
+}
+
+.alt-nav-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.04);
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.alt-nav-tab:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.alt-nav-tab--active,
+.alt-nav-tab--active:hover {
+  background: rgba(209, 209, 209, 0.65);
+}
+
+.alt-nav-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.alt-nav-label {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 16px;
+  line-height: normal;
+  color: #000;
+}
+
+/* ── Swappable body ── */
+.alt-body {
+  margin-top: 16px;
+}
+
+/* ── Work grid — resized cards (Figma: 601×388 artwork, 84 col gap, 46 row gap) ── */
+.alt-works-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 84px;
+  row-gap: 46px;
+}
+
+.home-alt .work-card {
+  opacity: 1;        /* no paged GSAP reveal here */
+  gap: 16px;
+}
+
+.home-alt .work-card-artwork {
+  height: auto;
+  aspect-ratio: 601 / 388;
+}
+
+/* ── About (reuses ab2-* visuals; flows inline instead of zoom-to-fit) ── */
+.alt-about {
+  display: flex;
+  justify-content: center;
+}
+
+.alt-about .ab2-content {
+  padding: 0;
+  gap: 48px;
+  align-items: center;
+}
+
+.alt-about .ab2-graphics {
+  padding: 0;
+}
+
+/* ── Fun placeholder (no-op for now) ── */
+.alt-fun {
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alt-fun-text {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 24px;
+  color: rgba(0, 0, 0, 0.35);
+  margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1120px) {
+  .alt-works-grid { column-gap: 48px; row-gap: 40px; }
+  .alt-about .ab2-content { flex-direction: column; gap: 40px; align-items: flex-start; }
+}
+
+@media (max-width: 760px) {
+  .alt-hero { padding: 84px 20px 0; }
+  .alt-works-grid { grid-template-columns: 1fr; column-gap: 0; row-gap: 36px; }
+}

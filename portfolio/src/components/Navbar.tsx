@@ -1,62 +1,42 @@
 import { Link, useLocation } from 'react-router-dom'
 import './Navbar.css'
+import { useTransitionNavigate } from '../lib/pageTransition'
 
-import navIconWork  from '../assets/images/nav-icon-work.svg'
-import navIconAbout from '../assets/images/nav-icon-about.svg'
-import navIconResume from '../assets/images/nav-icon-resume.svg'
-
-interface NavbarProps {
-  onWork?: () => void
-  onAbout?: () => void
-  onResume?: () => void
-  hidden?: boolean
-  revealed?: boolean
+interface NavItem {
+  label: string
+  to?: string
 }
 
-export default function Navbar({ onWork, onAbout, onResume, hidden, revealed }: NavbarProps) {
+// The current page's item is black; other live items are greyed but clickable.
+// Items without a `to` don't have a page yet — they render greyed out and inert.
+const ITEMS: NavItem[] = [
+  { label: 'home', to: '/' },
+  { label: 'about me', to: '/about' },
+  { label: 'my inspo' },
+  { label: 'playground' },
+]
+
+export default function Navbar() {
   const { pathname } = useLocation()
+  const go = useTransitionNavigate()
 
   return (
-    <nav className={`navbar${revealed ? ' navbar--revealed' : ''}${hidden ? ' navbar--hidden' : ''}`}>
-      <div className="navbar-pill">
-
-        {onWork ? (
-          <button className="nav-tab" onClick={onWork}>
-            <img src={navIconWork} alt="" className="nav-tab-icon" width={20} height={20} />
-            <span className="nav-tab-label">work</span>
-          </button>
-        ) : (
-          <Link to="/work/aura" className={`nav-tab${pathname.startsWith('/work') ? ' nav-tab--active' : ''}`}>
-            <img src={navIconWork} alt="" className="nav-tab-icon" width={20} height={20} />
-            <span className="nav-tab-label">work</span>
-          </Link>
-        )}
-
-        {onAbout ? (
-          <button className="nav-tab" onClick={onAbout}>
-            <img src={navIconAbout} alt="" className="nav-tab-icon" width={20} height={20} />
-            <span className="nav-tab-label">about</span>
-          </button>
-        ) : (
-          <Link to="/" className="nav-tab">
-            <img src={navIconAbout} alt="" className="nav-tab-icon" width={20} height={20} />
-            <span className="nav-tab-label">about</span>
-          </Link>
-        )}
-
-        {onResume ? (
-          <button className="nav-tab" onClick={onResume}>
-            <img src={navIconResume} alt="" className="nav-tab-icon" width={20} height={20} />
-            <span className="nav-tab-label">resume</span>
-          </button>
-        ) : (
-          <Link to="https://www.figma.com/design/leZEBxJorC3mH2RtuKTTQN/Resume?node-id=601-2&t=vdyJ9xRD5AjN6ltP-1" className="nav-tab">
-            <img src={navIconResume} alt="" className="nav-tab-icon" width={20} height={20} />
-            <span className="nav-tab-label">resume</span>
-          </Link>
-        )}
-
-      </div>
+    <nav className="navbar">
+      {ITEMS.map(item => item.to ? (
+        <Link
+          key={item.label}
+          to={item.to}
+          className={`nav-item nav-item--link${pathname === item.to ? ' nav-item--current' : ''}`}
+          aria-current={pathname === item.to ? 'page' : undefined}
+          onClick={e => { e.preventDefault(); go(item.to!) }}
+        >
+          {item.label}
+        </Link>
+      ) : (
+        <span key={item.label} className="nav-item" aria-disabled="true">
+          {item.label}
+        </span>
+      ))}
     </nav>
   )
 }

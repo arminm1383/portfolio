@@ -1,6 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@500&family=Open+Sans:wght@400;600;700&family=Tiro+Tamil&display=swap');
+
 @font-face {
   font-family: 'Peace Sans';
   src: url('/fonts/PeaceSans.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pokemon Pixel';
+  src: url('./assets/fonts/PokemonPixel.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -64,6 +74,12 @@
 }
 
 :root {
+  /* ── Core design system (Figma Portfolio-v4) ── */
+  --color-canvas: #f7f7f5;                                   /* Figma color/background/canvas */
+  --font-heading: 'Open Sans', system-ui, sans-serif;        /* headings — Open Sans Bold (replaced Peace Sans) */
+  --font-body: 'Open Sans', system-ui, sans-serif;
+  --font-pixel: 'Pokemon Pixel', 'Courier New', monospace;   /* landing title, navbars, footer */
+
   /* Spacing scale — --space-N = N × 4px, enforces the grid by construction */
   --space-1: 4px;
   --space-2: 8px;
@@ -130,8 +146,16 @@
 
 html, body {
   margin: 0;
-  background-color: #f7f7f5;
   cursor: none;
+}
+
+/* Page canvas — Figma Background fill + noise effect (monotone rgb(235,225,216) @ 55%, size 0.5,
+   density 1). CSS has no noise effect, so it's baked into a 256px tile shown at 128px (0.5px grains).
+   Set on body only so it propagates to the whole viewport; pages stay transparent to show it. */
+body {
+  background-color: var(--color-canvas);
+  background-image: url('./assets/images/canvas-noise.png');
+  background-size: 128px 128px;
 }
 
 *, *::before, *::after {

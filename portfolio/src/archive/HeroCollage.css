@@ -1,0 +1,494 @@
+/* Archived landing hero collage — moved verbatim from pages/Home.css. */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@500&family=Open+Sans:wght@400;600&family=Tiro+Tamil&display=swap');
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Aspect-ratio canvas — scales to fill viewport width up to 1648px while
+   maintaining Figma proportions. All children use percentage positions. */
+.hero-canvas {
+  position: relative;
+  width: 100%;
+  max-width: 1648px;
+  aspect-ratio: 1648 / 940;
+  container-type: inline-size;
+}
+
+/* Top navbar — full-width positioning container, no background */
+.hero-topnav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 90px;
+  padding: var(--space-12) var(--fluid-nav-inset) 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+.hero-topnav-logo {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(247, 247, 245, 0.6);
+}
+
+.hero-topnav-cat {
+  width: 57px;
+  height: 38px;
+  object-fit: contain;
+  display: block;
+}
+
+.hero-topnav-identity {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-topnav-name {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: var(--text-base);
+  color: #000;
+  line-height: normal;
+}
+
+.hero-topnav-role {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: var(--text-base);
+  color: rgba(0, 0, 0, 0.65);
+  line-height: normal;
+}
+
+.hero-topnav-contact {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  transition: opacity 0.3s ease;
+}
+
+.hero-topnav-contact--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-topnav-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2);
+  border: none;
+  background: none;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: opacity 0.15s;
+}
+
+.hero-topnav-icon-link:hover {
+  opacity: 1;
+}
+
+/*
+ * ── Hero selectable wrappers ──
+ * Wrappers own position/z-index (Figma absoluteRenderBounds).
+ * Images inside are block 100% width, pointer-events: none.
+ */
+.hero-selectable {
+  position: absolute;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Images fill the wrapper */
+.hero-selectable img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+/* ── Hero Content — mirrors Figma auto-layout row (gap=20, no padding, hug height) ──
+   Content frame: Landing x=10, y=196, w=1628, h=548. Three children: LS(565) | gap(20) | Name(451) | gap(20) | RS(565).
+   left/top on content are % of canvas (1648×940). Flex children use cqi (from hero-canvas container). */
+.hero-content {
+  position: absolute;
+  left:   0.607%;   /* 10/1648  — Content x in Landing      */
+  top:   20.851%;   /* 196/940  — Content y in Landing       */
+  width:  98.79%;   /* 1628/1648                             */
+  height: 58.298%;  /* 548/940                               */
+  display: flex;
+  flex-direction: row;
+  align-items: center;     /* vertically center Name within LS/RS height */
+  justify-content: center; /* absorbs the ~3.5px padding on each side    */
+  gap: 1.214cqi;           /* 20/1648×100 — Figma gap                    */
+  overflow: visible;
+}
+
+/* Left Side column — 565×548, children absolutely positioned within */
+.hero-left-side {
+  flex: 0 0 34.282cqi;  /* 565/1648×100 */
+  height: 33.252cqi;    /* 548/1648×100 — explicit so top:% on abs children resolves */
+  position: relative;
+  align-self: stretch;
+  overflow: visible;
+}
+
+/* Right Side column — same dimensions as Left Side */
+.hero-right-side {
+  flex: 0 0 34.282cqi;
+  height: 33.252cqi;
+  position: relative;
+  align-self: stretch;
+  overflow: visible;
+}
+
+/* Name block — flex child, auto-centered by parent; no absolute positioning */
+.hero-name-block {
+  flex: 0 0 27.367cqi;  /* 451/1648×100 */
+  position: relative;
+  z-index: 10;
+}
+
+/* ── Left Side cluster — all % relative to the 565×548 container ── */
+/* bird3 — canvas-adjusted (left≈88px, top≈203.5px) → container (88/565, 203.5/548) */
+.hero-selectable[data-graphic="bird3"]    { left: 15.575%; top: 37.135%; width: 25.779%; z-index: 2; }
+/* bird2 — LS local (302.37, 0, w=206) → container */
+.hero-bird2 {
+  position: absolute;
+  left: 53.517%; top: 0%; width: 36.460%;
+  z-index: 3; pointer-events: none; display: block; height: auto;
+}
+/* bird1 — positioned left of meGreen */
+.hero-selectable[data-graphic="bird1"]    { left: -2%; top: 19.790%; width: 63.074%; z-index: 4; }
+/* meGreen — LS local (151.43, 120, w=349.22) */
+.hero-selectable[data-graphic="me-green"] { left: 26.803%; top: 21.898%; width: 61.808%; z-index: 5; }
+/* Mac    — LS local (309.65, 312, w=283) */
+.hero-selectable[data-graphic="mac"]      { left: 54.805%; top: 56.934%; width: 50.088%; z-index: 6; }
+/* Wii   — canvas-adjusted (left≈2.98px) → container (2.98/565) */
+.hero-selectable[data-graphic="wii"]      { left:  0.527%; top: 37.132%; width: 67.421%; z-index: 7; }
+
+/* ── Right Side cluster — all % relative to the 565×548 container ── */
+/* Yosemite — RS local (126, 61, w=431) */
+.hero-selectable[data-graphic="yosemite"] { left: 22.301%; top: 11.131%; width: 76.283%; z-index: 2; }
+/* Guitar / young Armin — RS local (−44.5, 224, w=258.74) — negative left overflows left */
+.hero-selectable[data-graphic="boy"]      { left: -7.876%; top: 40.876%; width: 45.795%; z-index: 5; }
+/* iPod  — RS local (85.94, 229.76, w=275.115) */
+.hero-selectable[data-graphic="ipod"]     { left: 15.209%; top: 41.934%; width: 48.694%; z-index: 4; }
+/* Koi   — center-matched to prev iteration (cx=381, cy=384 in RS local), rotated -71.75° */
+.hero-selectable[data-graphic="koi"]      { left: 45.784%; top: 51.339%; width: 43.383%; aspect-ratio: 245.107 / 205.768; transform: rotate(-71.75deg); filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.04)); z-index: 1; }
+.hero-selectable[data-graphic="koi"]:not(.is-selected):hover { transform: rotate(-71.75deg) rotate(-2deg) translateY(-6px); }
+/* Skill icons — rotation on wrapper; RS local coords */
+.hero-selectable[data-graphic="icon-figma"]  { left: 76.460%; top: 49.453%; width: 14.009%; z-index: 8; transform: rotate(-15.98deg); }
+.hero-selectable[data-graphic="icon-react"]  { left: 76.814%; top: 65.511%; width: 12.925%; z-index: 8; transform: rotate(-8.79deg);  }
+.hero-selectable[data-graphic="icon-claude"] { left: 83.186%; top: 56.752%; width: 14.592%; z-index: 8; transform: rotate(20.63deg);  }
+
+/* ── Hover tilt (disabled when selected) ── */
+.hero-selectable:not(.is-selected):hover { transform: rotate(-2deg) translateY(-6px); }
+.hero-selectable[data-graphic="bird1"]:not(.is-selected):hover  { transform: rotate(-5deg) translateY(-9px); }
+.hero-selectable[data-graphic="bird3"]:not(.is-selected):hover  { transform: rotate(-4deg) translateY(-8px); }
+.hero-selectable[data-graphic="wii"]:not(.is-selected):hover    { transform: rotate(4deg)  translateY(-5px); }
+.hero-selectable[data-graphic="me-green"]:not(.is-selected):hover { transform: rotate(-2deg) translateY(-6px); }
+.hero-selectable[data-graphic="ipod"]:not(.is-selected):hover   { transform: rotate(-3deg) translateY(-5px); }
+.hero-selectable[data-graphic="mac"]:not(.is-selected):hover    { transform: rotate(2deg)  translateY(-4px); }
+/* Icons: compose base rotation with hover lift so the angle is preserved */
+.hero-selectable[data-graphic="icon-figma"]:not(.is-selected):hover  { transform: rotate(-15.98deg) translateY(-4px) scale(1.06); }
+.hero-selectable[data-graphic="icon-react"]:not(.is-selected):hover  { transform: rotate(-8.79deg)  translateY(-4px) scale(1.06); }
+.hero-selectable[data-graphic="icon-claude"]:not(.is-selected):hover { transform: rotate(20.63deg)  translateY(-4px) scale(1.06); }
+
+/* ── Selection border SVG ── */
+.hero-sel-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.is-selected .hero-sel-svg {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(24, 103, 31, 0.55));
+}
+
+@keyframes sel-march {
+  to { stroke-dashoffset: -8; }
+}
+.is-selected .hero-sel-svg polygon {
+  animation: sel-march 0.5s linear infinite;
+}
+
+/* ── amLM anchor: positions tag+popup at the outline's top-right corner ── */
+.amlm-anchor {
+  position: absolute;
+  z-index: 10;
+}
+
+/* ── amLM Tag (20×20 green sparkle button) ── */
+.amlm-tag {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  background: #2b6e2a;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 2px;
+  transform: scale(1.3);
+  transform-origin: center;
+  transition:
+    transform  0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background  0.2s ease,
+    box-shadow  0.2s ease;
+}
+.amlm-tag:hover {
+  transform: scale(1.456);
+  background: #378a35;
+  box-shadow: 0 0 0 3px rgba(43, 110, 43, 0.25), 0 4px 10px rgba(43, 110, 43, 0.35);
+}
+
+/* Stars cluster inside tag (Figma AI Tag star positions, px) */
+.amlm-tag-stars {
+  position: relative;
+  width: 16px;
+  height: 13.16px;
+  flex-shrink: 0;
+}
+.amlm-tag-star {
+  position: absolute;
+}
+.amlm-tag-star img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.amlm-star-tex {
+  object-fit: cover;
+  opacity: 0.54;
+}
+.amlm-tag-star--sm { left: 0px;    top: 7.34px; width: 5.411px; height: 5.315px; transform: rotate(13.51deg); }
+.amlm-tag-star--lg { left: 4.66px; top: 2.2px;  width: 11.343px; height: 10.96px; transform: rotate(10.93deg); }
+.amlm-tag-star--md { left: 1.51px; top: 0px;    width: 6.334px; height: 6.178px; transform: rotate(-18.87deg); }
+
+/* ── amLM Popup ── */
+.amlm-popup {
+  position: absolute;
+  top: 24px; /* 20px tag height + 4px gap */
+  right: 0;
+  width: 220px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 11;
+  animation: amlm-popup-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes amlm-popup-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.amlm-popup-label {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: normal;
+}
+.amlm-popup-input-row {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  padding: 0 4px 0 10px;
+  height: 32px;
+  gap: 4px;
+}
+.amlm-popup-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Open Sans', system-ui, sans-serif;
+  font-size: 11px;
+  color: #000;
+}
+.amlm-popup-input::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+.amlm-popup-send-btn {
+  width: 24px;
+  height: 24px;
+  background: #2b6e2a;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.amlm-popup-send-btn:hover { background: #1e5c1e; }
+.amlm-popup-send-btn:disabled { opacity: 0.5; cursor: default; }
+.amlm-popup-send-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+.amlm-popup-answer {
+  font-family: 'Open Sans', system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  padding: 8px 10px;
+  max-height: 160px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  overscroll-behavior: contain;
+}
+.amlm-popup-answer--error { color: #b23b3b; }
+
+/* Name block — flex child of .hero-content; positioning handled by flex layout */
+
+/* ── Static hero elements — all coords from Figma Landing frame 1648×940 ──
+   Right Side offset in Landing: x=1069.5, y=196.
+   Percentages: left = Landing_x/1648, top = Landing_y/940, width = w/1648.  */
+
+/* ── Left side decorations — inside .hero-left-side (565×548 container) ── */
+.hero-star-lg, .hero-star-md, .hero-star-sm {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+/* Star large  — LS local (8.21, 216.51, w=169.01) */
+.hero-star-lg { left:  1.454%; top: 39.508%; width: 29.913%; height: auto; }
+/* Star medium — LS local (83.5, 286, w=114.47) */
+.hero-star-md { left: 14.779%; top: 52.190%; width: 20.261%; height: auto; }
+/* Star small  — LS local (15, 276.32, w=53.53) */
+.hero-star-sm { left:  2.655%; top: 50.421%; width:  9.474%; height: auto; }
+
+/* ── Right side static elements ── */
+
+/* .hero-yosemite and .hero-boy — positioning now on hero-selectable wrapper; img fills 100% */
+
+/* Music notes — inside .hero-right-side (565×548); RS local (98.5, 193) and (79.5, 222.52) */
+.hero-music-note {
+  position: absolute;
+  pointer-events: none;
+  z-index: 6;
+}
+.hero-music-note--1 { left: 17.434%; top: 35.219%; width: 10.760%; height: auto; }
+.hero-music-note--2 { left: 14.071%; top: 40.604%; width:  6.788%; height: auto; }
+
+/* Non-rotated GSAP entrance wrapper — mirrors hero-right-side so koi % positions resolve correctly.
+   pointer-events:none prevents it from blocking sibling elements; koi selectable restores clicks. */
+.hero-koi-entrance {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.hero-koi-entrance .hero-selectable[data-graphic="koi"] {
+  pointer-events: auto;
+}
+
+/* Koi inner wrap */
+.hero-koi-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Paper layer (Vector 42) — slight bleed matching Figma inset [-1.94% -1.63% -3.89% -4.08%] */
+/* .hero-koi-wrap parent raises specificity above .hero-selectable img { width:100%; height:auto } */
+.hero-koi-wrap .hero-koi-paper {
+  position: absolute;
+  top: -1.94%;
+  left: -4.08%;
+  width: 105.71%;  /* 100% + 4.08% + 1.63% */
+  height: 105.83%; /* 100% + 1.94% + 3.89% */
+  display: block;
+  object-fit: fill;
+  opacity: 0.95;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* GIF layer (Vector 44) — centered at 85% × 89% of wrapper, masked to torn shape */
+/* .hero-koi-wrap parent raises specificity above .hero-selectable img { width:100%; height:auto } */
+.hero-koi-wrap .hero-koi-gif {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  height: 89%;
+  display: block;
+  object-fit: cover;
+  opacity: 0.95;
+  pointer-events: none;
+  user-select: none;
+  /* Direct SVG URL — CSS resolves relative to this file; avoids CSS custom-property pitfall */
+  -webkit-mask-image: url('../assets/images/koi-mask.svg');
+  mask-image: url('../assets/images/koi-mask.svg');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-mode: alpha;
+  mask-mode: alpha;
+}
+
+/* .hero-icon — positioning and rotation now on hero-selectable wrapper; img fills 100% */
+
+.hero-name {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 5.340cqi; /* 88/1648 — scales with canvas container width */
+  line-height: 1.07;
+  color: #000;
+  margin: 0;
+}
+
+/* "hi, i'm" left-aligned */
+.hero-name .first {
+  display: block;
+  text-align: left;
+}
+
+/* "armin" right-aligned — right edge at container right (x=1050) */
+.hero-name .last {
+  display: block;
+  text-align: right;
+}
+

@@ -1,0 +1,71 @@
+/* ── Top navbar (Figma "Top Navbar" component 2042:155940; Landing instance x=24 y=24, 1586×56, no side
+   padding so "armin mohammadi" lines up with the side navbar's text at x=24). No fill, stroke or shadow —
+   only the background blur. ── */
+.top-navbar {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  right: 38px; /* Figma: 24 + 1586 = 1610 of 1648 */
+  z-index: 1000;
+  box-sizing: border-box;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  overflow: clip;
+  backdrop-filter: blur(6.25px); /* Figma background blur radius 12.5 */
+  -webkit-backdrop-filter: blur(6.25px);
+  border-radius: 12px;
+  pointer-events: none;
+  transform: translateY(calc(-100% - 24px));
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.top-navbar--visible {
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.top-navbar-name {
+  font-family: var(--font-pixel);
+  font-size: 24px;
+  line-height: normal;
+  color: #000;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.top-navbar-name {
+  flex-shrink: 0;
+}
+
+.top-navbar-lm {
+  flex: 1 0 0;
+  min-width: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.top-navbar-pokeball {
+  display: block;
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .top-navbar {
+    top: 16px;
+    left: 24px; /* aligned with the mobile side navbar's text */
+    right: 24px;
+    height: 56px;
+    padding: 12px 0;
+    transform: translateY(calc(-100% - 16px));
+  }
+  .top-navbar--visible {
+    transform: translateY(0);
+  }
+  .top-navbar-name {
+    font-size: 22px;
+  }
+}

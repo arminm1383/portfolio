@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import './FindyCaseStudy.css'
 import './StreetsCaseStudy.css'
-import CsTopbar from '../components/CsTopbar'
+import TopNavbar from '../components/TopNavbar'
 
 import streetsHeroGif from '../assets/images/streetsgif.gif'
 import orgStreets from '../assets/images/org-streets.png'
@@ -109,7 +109,7 @@ function SearchFlowDemo() {
   const advance = () => setStep(s => (s + 1) % FLOW_STEPS.length)
 
   return (
-    <div className="scs-flow" data-reveal="pop" data-reveal-delay="100">
+    <div className="scs-flow">
       <div className="scs-flow-top">
         <p className="scs-flow-label">The core search flow, rebuilt with library components</p>
       </div>
@@ -213,26 +213,6 @@ export default function StreetsCaseStudy() {
     return () => window.removeEventListener('scroll', update)
   }, [])
 
-  useEffect(() => {
-    const els = document.querySelectorAll<HTMLElement>('[data-reveal]')
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return
-          const delay = Number((entry.target as HTMLElement).dataset.revealDelay ?? 0)
-          if (delay) {
-            setTimeout(() => entry.target.classList.add('reveal--visible'), delay)
-          } else {
-            entry.target.classList.add('reveal--visible')
-          }
-          obs.unobserve(entry.target)
-        })
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -60px 0px' }
-    )
-    els.forEach((el) => obs.observe(el))
-    return () => obs.disconnect()
-  }, [])
 
   const scrollTo = useCallback((id: string) => {
     if (!id) {
@@ -279,7 +259,7 @@ export default function StreetsCaseStudy() {
   return (
     <div className="fcs-page fcs-page--rocket fcs-page--streets">
 
-      <CsTopbar showAtTop />
+      <TopNavbar />
 
       <div className="fcs-body">
 
@@ -313,8 +293,8 @@ export default function StreetsCaseStudy() {
                 </div>
                 <h1 className="fcs-title">Streets Design System</h1>
               </div>
-              <img src={streetsHeroGif} alt="" className="fcs-hero-single" draggable={false} data-reveal="" />
-              <div className="fcs-tags" data-reveal="" data-reveal-delay="150">
+              <img src={streetsHeroGif} alt="" className="fcs-hero-single" draggable={false} />
+              <div className="fcs-tags">
                 <div className="fcs-tag">
                   <span className="fcs-tag-label">Role</span>
                   <span className="fcs-tag-value">Founding Design Engineer</span>
@@ -344,67 +324,67 @@ export default function StreetsCaseStudy() {
 
             {/* ── Overview ── */}
             <section className="fcs-section">
-              <span className="fcs-section-label" data-reveal="">Overview</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Design Engineering Evolving the Workflow</h2>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
+              <span className="fcs-section-label">Overview</span>
+              <h2 className="fcs-section-heading">Design Engineering Evolving the Workflow</h2>
+              <p className="fcs-section-body">
                 Streets builds two products: an enterprise GIS tool for exploring Dallas-Fort Worth census
                 block groups, and a Small Business Portfolio for managing a business's online presence. With
                 our scope shifting week to week, I built our design system around one goal: letting Claude Code
                 read our designs through Figma's MCP server and turn them into Next.js components.
               </p>
-              <img src={streetsOverview} alt="The enterprise GIS view and the Small Business Portfolio, built from one shared library" className="scs-figure" draggable={false} data-reveal="pop" data-reveal-delay="150" />
+              <img src={streetsOverview} alt="The enterprise GIS view and the Small Business Portfolio, built from one shared library" className="scs-figure" draggable={false} />
             </section>
 
             {/* ── Pipeline ── */}
             <section className="fcs-section" id="pipeline">
-              <span className="fcs-section-label" data-reveal="">Pipeline</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Connecting Figma to Code Through MCP</h2>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
+              <span className="fcs-section-label">Pipeline</span>
+              <h2 className="fcs-section-heading">Connecting Figma to Code Through MCP</h2>
+              <p className="fcs-section-body">
                 Through Figma's MCP server, Claude Code pulls the variables and components behind a design and
                 writes them straight into our codebase. When a design changes, the same connection brings the
                 update over.
               </p>
-              <img src={streetsPipeline} alt="The design to code loop" className="scs-figure" draggable={false} data-reveal="pop" data-reveal-delay="150" />
+              <img src={streetsPipeline} alt="The design to code loop" className="scs-figure" draggable={false} />
             </section>
 
             {/* ── Tokens ── */}
             <section className="fcs-section" id="tokens">
-              <span className="fcs-section-label" data-reveal="">Tokens</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Adopting Best Practices for Efficient MCP Integration</h2>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
+              <span className="fcs-section-label">Tokens</span>
+              <h2 className="fcs-section-heading">Adopting Best Practices for Efficient MCP Integration</h2>
+              <p className="fcs-section-body">
                 For Claude to pull accurate values, every token is named for its role and carries its CSS
                 variable as code syntax. 70 primitives feed into 87 semantic tokens, so a color picked in Figma
                 is the exact variable we use in code.
               </p>
-              <img src={streetsTokens} alt="One token, from primitive to code" className="scs-figure" draggable={false} data-reveal="pop" data-reveal-delay="150" />
+              <img src={streetsTokens} alt="One token, from primitive to code" className="scs-figure" draggable={false} />
             </section>
 
             {/* ── Components ── */}
             <section className="fcs-section" id="components">
-              <span className="fcs-section-label" data-reveal="">Components</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Tailoring Components with AI Specifications</h2>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
+              <span className="fcs-section-label">Components</span>
+              <h2 className="fcs-section-heading">Tailoring Components with AI Specifications</h2>
+              <p className="fcs-section-body">
                 I organized our 55 components using the format I learned from Rocket Lawyer's design system, with
                 Category/Component names and a short description on each one. These descriptions double as
                 instructions for Claude, telling it where a component belongs before it writes any code.
               </p>
-              <img src={streetsCode} alt="A component description and its tokens in code (simplified)" className="scs-figure" draggable={false} data-reveal="pop" data-reveal-delay="150" />
+              <img src={streetsCode} alt="A component description and its tokens in code (simplified)" className="scs-figure" draggable={false} />
 
               <div className="scs-subsection">
-                <h3 className="fcs-subsection-heading scs-subsection-heading" data-reveal="">Building Screens from Shared Pieces</h3>
-                <p className="fcs-section-body" data-reveal="" data-reveal-delay="50">
+                <h3 className="fcs-subsection-heading scs-subsection-heading">Building Screens from Shared Pieces</h3>
+                <p className="fcs-section-body">
                   Larger panels are built from the same controls and rows, so Claude can put together a full
                   screen from components it already knows.
                 </p>
-                <img src={streetsLibrary} alt="Controls, patterns, and compositions from the library" className="scs-figure" draggable={false} data-reveal="pop" data-reveal-delay="100" />
+                <img src={streetsLibrary} alt="Controls, patterns, and compositions from the library" className="scs-figure" draggable={false} />
               </div>
             </section>
 
             {/* ── In Product ── */}
             <section className="fcs-section" id="in-product">
-              <span className="fcs-section-label" data-reveal="">In Product</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Restyling the Search Flow with MCP</h2>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
+              <span className="fcs-section-label">In Product</span>
+              <h2 className="fcs-section-heading">Restyling the Search Flow with MCP</h2>
+              <p className="fcs-section-body">
                 To test the system, I used the MCP connection to apply it to our enterprise search flow. All 11
                 screens moved to the new design language with the same steps and features, and the sidebar and
                 search bar became reusable components along the way.
@@ -414,9 +394,9 @@ export default function StreetsCaseStudy() {
 
             {/* ── Takeaways ── */}
             <section className="fcs-section" id="takeaways">
-              <span className="fcs-section-label" data-reveal="">Takeaways</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Adapting and Testing within a Fast-Paced World</h2>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
+              <span className="fcs-section-label">Takeaways</span>
+              <h2 className="fcs-section-heading">Adapting and Testing within a Fast-Paced World</h2>
+              <p className="fcs-section-body">
                 Throughout my time at Streets, designing around MCP changed how I think about handing off design
                 to code.
               </p>
@@ -429,9 +409,9 @@ export default function StreetsCaseStudy() {
 
             {/* ── Up Next ── */}
             <section className="fcs-section">
-              <h2 className="rl-upnext-heading" data-reveal="">Up Next</h2>
+              <h2 className="rl-upnext-heading">Up Next</h2>
               <div className="rl-upnext-row">
-                <Link to="/work/rocket-lawyer" className="rl-upnext-card" data-cursor="case-study" data-reveal="pop" data-reveal-delay="50">
+                <Link to="/work/rocket-lawyer" className="rl-upnext-card" data-cursor="case-study">
                   <div className="rl-upnext-artwork rl-upnext-artwork--rocket">
                     <img src={rocketGif} alt="Rocket Lawyer" draggable={false} />
                   </div>
@@ -440,7 +420,7 @@ export default function StreetsCaseStudy() {
                     <p className="rl-upnext-desc">a Claude-powered UX research pipeline for Rocket Copilot</p>
                   </div>
                 </Link>
-                <Link to="/work/findy" className="rl-upnext-card" data-cursor="case-study" data-reveal="pop" data-reveal-delay="150">
+                <Link to="/work/findy" className="rl-upnext-card" data-cursor="case-study">
                   <div className="rl-upnext-artwork rl-upnext-artwork--findy">
                     <img src={findyGif} alt="Findy" draggable={false} />
                   </div>

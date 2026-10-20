@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import './FindyCaseStudy.css'
-import CsTopbar from '../components/CsTopbar'
+import TopNavbar from '../components/TopNavbar'
 
 import findyGif           from '../assets/images/FindyGif.gif'
 import rocketArtwork     from '../assets/images/rocket-artwork-v2.gif'
@@ -173,26 +173,6 @@ export default function FindyCaseStudy() {
     return () => window.removeEventListener('scroll', update)
   }, [])
 
-  useEffect(() => {
-    const els = document.querySelectorAll<HTMLElement>('[data-reveal]')
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return
-          const delay = Number((entry.target as HTMLElement).dataset.revealDelay ?? 0)
-          if (delay) {
-            setTimeout(() => entry.target.classList.add('reveal--visible'), delay)
-          } else {
-            entry.target.classList.add('reveal--visible')
-          }
-          obs.unobserve(entry.target)
-        })
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -60px 0px' }
-    )
-    els.forEach(el => obs.observe(el))
-    return () => obs.disconnect()
-  }, [])
 
   useEffect(() => {
     function checkArrows() {
@@ -254,7 +234,7 @@ export default function FindyCaseStudy() {
   return (
     <div className="fcs-page fcs-page--findy">
 
-      <CsTopbar showAtTop />
+      <TopNavbar />
 
       <div className="fcs-body">
 
@@ -289,8 +269,8 @@ export default function FindyCaseStudy() {
                 </div>
                 <h1 className="fcs-title">Findy</h1>
               </div>
-              <img src={findyGif} alt="" className="fcs-hero-single" draggable={false} data-reveal="" />
-              <div className="fcs-tags" data-reveal="" data-reveal-delay="150">
+              <img src={findyGif} alt="" className="fcs-hero-single" draggable={false} />
+              <div className="fcs-tags">
                 <div className="fcs-tag">
                   <span className="fcs-tag-label">Role</span>
                   <span className="fcs-tag-value">Lead UI/UX Designer</span>
@@ -319,16 +299,16 @@ export default function FindyCaseStudy() {
 
             {/* ── Background ── */}
             <section className="fcs-section">
-              <span className="fcs-section-label" data-reveal="">Background</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">
+              <span className="fcs-section-label">Background</span>
+              <h2 className="fcs-section-heading">
                 Addressing Accessibility Barriers for Elderly Users
               </h2>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
+              <p className="fcs-section-body">
                 Findy is an AI companion built into iOS to assist elderly users. Grounded in hands-on
                 research, Findy takes on an innovative approach towards addressing elderly care through
                 its AI-powered native integration into local devices.
               </p>
-              <div className="findy-bg-gallery" data-reveal="" data-reveal-delay="120">
+              <div className="findy-bg-gallery">
                 <div className="findy-bg-photo-wrap findy-bg-photo-wrap--1">
                   <div className="findy-bg-photo-card">
                     <img src={bgPhoto1} alt="" draggable={false} />
@@ -346,14 +326,14 @@ export default function FindyCaseStudy() {
                 </div>
                 <img src={bgMascot} alt="" className="findy-bg-mascot" draggable={false} aria-hidden />
               </div>
-              <h3 className="fcs-subsection-heading" data-reveal="">Tackling the Unfamiliar</h3>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="50">
+              <h3 className="fcs-subsection-heading">Tackling the Unfamiliar</h3>
+              <p className="fcs-section-body">
                 As our team ideated concepts towards helping others navigate the unknown, we shared
                 memories helping out our grandparents with their phones. Whenever faced with trouble,
                 the nurturing support of another individual patiently guiding them resonated, and we
                 were inspired to scale that experience for those without nearby family or support.
               </p>
-              <p className="fcs-problem-statement-alt" data-reveal="">
+              <p className="fcs-problem-statement-alt">
                 How could we bring that feeling of hands-on care to elderly users without
                 complicating already confusing user interfaces?
               </p>
@@ -361,7 +341,7 @@ export default function FindyCaseStudy() {
 
             {/* ── Problem ── */}
             <section className="fcs-section" id="problem">
-              <span className="fcs-section-label" data-reveal="">Problem</span>
+              <span className="fcs-section-label">Problem</span>
 
               <div className="findy-problem-card">
                 <p className="findy-problem-heading">
@@ -377,7 +357,7 @@ export default function FindyCaseStudy() {
                 We needed a solution that could...
               </p>
 
-              <div className="findy-pd" ref={diagramRef} data-reveal="pop" data-reveal-delay="100">
+              <div className="findy-pd" ref={diagramRef}>
                 {/* Characters */}
                 <div className="findy-pd-char findy-pd-char--happy">
                   <img src={problemBubbleHappy} alt="" aria-hidden draggable={false} />
@@ -407,15 +387,15 @@ export default function FindyCaseStudy() {
 
             {/* ── Initial Research ── */}
             <section className="fcs-section" id="research">
-              <span className="fcs-section-label" data-reveal="">Research</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Recognizing the Gap</h2>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
+              <span className="fcs-section-label">Research</span>
+              <h2 className="fcs-section-heading">Recognizing the Gap</h2>
+              <p className="fcs-section-body">
                 When it came to support for elderly users, existing integrations were limited. Many
                 accessibility features, such as within the native iOS ecosystem, while valuable, strip
                 away core pieces of functionality from the interaction.
               </p>
 
-              <div className="fcs-media-card fcs-media-card--padded" data-reveal="" data-reveal-delay="120">
+              <div className="fcs-media-card fcs-media-card--padded">
                 <p className="fcs-media-card-label">BREAKING DOWN iOS ACCESSIBILITY FEATURES</p>
                 <div className="findy-research-photos">
                   <img src={researchPhoto1} alt="" className="findy-research-photo" draggable={false} />
@@ -423,33 +403,33 @@ export default function FindyCaseStudy() {
                 </div>
               </div>
 
-              <h3 className="fcs-subsection-heading" data-reveal="">Talking with Elderly Users</h3>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="50">
+              <h3 className="fcs-subsection-heading">Talking with Elderly Users</h3>
+              <p className="fcs-section-body">
                 We knew that if we actually truly wanted to understand this user group, we would need to
                 sit down with them and have genuine, lengthy, and nuanced discussions actually breaking
                 down their pain points.
               </p>
 
-              <div className="fcs-media-card fcs-media-card--padded fcs-media-card--transparent" data-reveal="" data-reveal-delay="80">
+              <div className="fcs-media-card fcs-media-card--padded fcs-media-card--transparent">
                 <p className="fcs-media-card-label">FOCUS GROUP SESSION WITH THE HUNTINGTON BEACH COUNCIL ON AGING</p>
                 <div className="findy-focus-group">
                   <img src={researchCard} alt="" className="findy-focus-group-img" draggable={false} />
                 </div>
               </div>
 
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="50">
+              <p className="fcs-section-body">
                 By actually talking to elderly users, it became clear how beautifully unique this core
                 group was. Instead of simply making assumptions about how elderly users act, we now
                 understood the specific pain points they come across every day.
               </p>
 
-              <h3 className="fcs-subsection-heading" data-reveal="">Shifting the Approach</h3>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
+              <h3 className="fcs-subsection-heading">Shifting the Approach</h3>
+              <p className="fcs-section-body">
                 Three core insights from our research redefined how we approached the design,
                 moving away from a one-size-fits-all assistive tool to a personalized, non-intrusive companion.
               </p>
 
-              <div className="findy-insight-grid" data-reveal="pop" data-reveal-delay="80">
+              <div className="findy-insight-grid">
                 <InsightCard
                   label="INSIGHT #1"
                   heading="There's no general approach to our problem."
@@ -482,8 +462,8 @@ export default function FindyCaseStudy() {
 
             {/* ── Design Recommendations ── */}
             <section className="fcs-section" id="design-recs">
-              <span className="fcs-section-label" data-reveal="">Design Recommendations</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Translating Research into a Living Companion</h2>
+              <span className="fcs-section-label">Design Recommendations</span>
+              <h2 className="fcs-section-heading">Translating Research into a Living Companion</h2>
 
               <div className="fcs-rec-cards">
 
@@ -495,7 +475,7 @@ export default function FindyCaseStudy() {
 
                 <div className="fcs-rec-cards-contentcol">
 
-                  <div className="fcs-numbered-card" data-reveal="pop" id="design-rec-1">
+                  <div className="fcs-numbered-card" id="design-rec-1">
                     <div className="fcs-numbered-card-content">
                       <h3 className="fcs-rec-heading fcs-rec-heading--lg">Findy Lives within iOS</h3>
                       <p className="fcs-section-body">
@@ -509,7 +489,7 @@ export default function FindyCaseStudy() {
                     </div>
                   </div>
 
-                  <div className="fcs-numbered-card" data-reveal="pop" data-reveal-delay="80" id="design-rec-2">
+                  <div className="fcs-numbered-card" id="design-rec-2">
                     <div className="fcs-numbered-card-content">
                       <h3 className="fcs-rec-heading fcs-rec-heading--lg">Spotlighting &amp; Dimming Guides User Focus</h3>
                       <p className="fcs-section-body">
@@ -524,7 +504,7 @@ export default function FindyCaseStudy() {
                     </div>
                   </div>
 
-                  <div className="fcs-numbered-card" data-reveal="pop" data-reveal-delay="160" id="design-rec-3">
+                  <div className="fcs-numbered-card" id="design-rec-3">
                     <div className="fcs-numbered-card-content">
                       <h3 className="fcs-rec-heading fcs-rec-heading--lg">Synchronization Across Applications</h3>
                       <p className="fcs-section-body">
@@ -545,15 +525,15 @@ export default function FindyCaseStudy() {
 
             {/* ── Reflection ── */}
             <section className="fcs-section" id="reflections">
-              <span className="fcs-section-label" data-reveal="">REFLECTION</span>
-              <h2 className="fcs-section-heading" data-reveal="" data-reveal-delay="50">Testing with Real Elderly Users</h2>
-              <p className="fcs-section-body" data-reveal="" data-reveal-delay="100">
+              <span className="fcs-section-label">REFLECTION</span>
+              <h2 className="fcs-section-heading">Testing with Real Elderly Users</h2>
+              <p className="fcs-section-body">
                 Findy was built for a specific user — and validated by that same user. We ran in-person
                 testing sessions with elderly participants at the Huntington Beach Council on Aging,
                 observing directly how they interacted with the prototype.
               </p>
 
-              <div className="findy-stats-row" data-reveal="" data-reveal-delay="120">
+              <div className="findy-stats-row">
                 <div className="findy-stats-col">
                   <span className="findy-stats-num">15</span>
                   <span className="findy-stats-label">In-person interviews</span>
@@ -568,7 +548,7 @@ export default function FindyCaseStudy() {
                 </div>
               </div>
 
-              <div className="findy-photo-grid findy-photo-grid--wide" data-reveal="pop" data-reveal-delay="100">
+              <div className="findy-photo-grid findy-photo-grid--wide">
                 <div className="findy-photo-col">
                   <div className="findy-photo-frame findy-photo-frame--reflection">
                     <img src={teamPhoto} alt="My team and I after placing first in the Spring case competition" draggable={false} />
@@ -586,9 +566,9 @@ export default function FindyCaseStudy() {
 
             {/* ── Up Next ── */}
             <section className="rl-upnext">
-              <h2 className="rl-upnext-heading" data-reveal="">Up Next</h2>
+              <h2 className="rl-upnext-heading">Up Next</h2>
               <div className="rl-upnext-row">
-                <div className="rl-upnext-card" data-cursor="coming-soon" data-reveal="pop" data-reveal-delay="50">
+                <div className="rl-upnext-card" data-cursor="coming-soon">
                   <div className="rl-upnext-artwork rl-upnext-artwork--streets">
                     <img src={upnextStreets} alt="Streets" draggable={false} />
                   </div>
@@ -597,7 +577,7 @@ export default function FindyCaseStudy() {
                     <p className="rl-upnext-desc">Design-engineering enterprise B2B software</p>
                   </div>
                 </div>
-                <Link to="/work/rocket-lawyer" className="rl-upnext-card" data-cursor="case-study" data-reveal="pop" data-reveal-delay="150">
+                <Link to="/work/rocket-lawyer" className="rl-upnext-card" data-cursor="case-study">
                   <div className="rl-upnext-artwork rl-upnext-artwork--rocket">
                     <img src={rocketArtwork} alt="Rocket Copilot" draggable={false} />
                   </div>

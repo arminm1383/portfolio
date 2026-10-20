@@ -1,0 +1,74 @@
+/* ── Pixel page shell (Figma Portfolio-v4 Landing 2021:85606 / About 2042:156118, 1648 wide) ── */
+.pixel-page {
+  --pixel-left: max(158px, calc(50% - 510px)); /* Figma Main x=314 at 1648; 158 = side navbar 134 + 24 */
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding-top: 213px; /* Figma Landing / About Main y=213 */
+}
+
+.pixel-page-main {
+  box-sizing: border-box;
+  width: min(1082px, calc(100% - var(--pixel-left) - 24px));
+  margin-left: var(--pixel-left);
+  margin-bottom: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 96px;
+}
+
+.pixel-page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Anchored at the Main origin (Figma Landing title x=314, y=213) on every page so the gif never moves
+   between pages. (Figma's About title sits 2px further right; the landing position wins.) */
+.pixel-title {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: 100px;
+  font-weight: 400;
+  line-height: normal;
+  color: #000;
+  white-space: nowrap;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Figma: the word before the gif is 75px wide on every page ("hi,", "me") — fixed so the gif's x never shifts */
+.pixel-title > span:first-child {
+  width: 0.75em;
+  flex-shrink: 0;
+}
+
+/* Figma: 234×125 at a 100px title — sized in em so it scales with the title */
+.pixel-sprites {
+  display: block;
+  width: 2.34em;
+  height: 1.25em;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1120px) {
+  .pixel-title { font-size: 80px; }
+}
+
+@media (max-width: 900px) {
+  .pixel-page { padding-top: 172px; }
+  .pixel-page-main {
+    width: auto;
+    margin: 0 24px 72px;
+    gap: 64px;
+  }
+  .pixel-title { font-size: 64px; gap: 16px; }
+}
+
+@media (max-width: 520px) {
+  .pixel-title { font-size: 44px; gap: 12px; }
+}

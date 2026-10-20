@@ -1,0 +1,238 @@
+/* Archived landing About section — moved verbatim from pages/Home.css. */
+
+/* ── About Me v2 — full-viewport page ── */
+.about-section {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Topbar clearance: sits as a flex sibling above the scale-wrap so
+   justify-content:center distributes free space outside the nav area */
+.ab2-nav-spacer {
+  height: 64px; /* topbar top(12) + height(44) + gap(8) */
+  flex-shrink: 0;
+  width: 0;
+}
+
+/* Scale wrapper: fixed natural width; zoom applied by JS to fit viewport */
+.ab2-scale-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  width: 1472px;         /* graphics(719) + gap(40) + text(713) */
+  flex-shrink: 0;
+}
+
+.ab2-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.ab2-content {
+  display: flex;
+  gap: 0;
+  align-items: center;
+  width: 100%;
+  flex-shrink: 0;
+  padding: 0 48px;
+  box-sizing: border-box;
+}
+
+/* Graphics frame */
+.ab2-graphics {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 32px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+/* Image canvas — 655×615, all photos absolutely positioned within */
+.ab2-images {
+  position: relative;
+  width: 655px;
+  height: 615px;
+}
+
+/* ── Polaroid photo cards ── */
+
+/* Absolute-positioned flex container for each card (positions within 655×615 canvas) */
+.ab2-polaroid {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Figma positions: left/top = container origin, width/height = bounding box of the rotated card */
+.ab2-polaroid--horse { left: 128px;  top: -2.5px;   width: 301.233px; height: 325.522px; z-index: 2; }
+.ab2-polaroid--climb { left: 98px;   top: 240.5px;  width: 326.044px; height: 346.639px; z-index: 1; }
+.ab2-polaroid--team  { left: 336px;  top: 159.5px;  width: 307.222px; height: 331.981px; z-index: 3; }
+
+/* White Polaroid card body — rotated, drop-shadowed */
+.ab2-polaroid-card {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  padding: 24px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease;
+}
+
+.ab2-polaroid--horse .ab2-polaroid-card { transform: rotate(-8deg); }
+.ab2-polaroid--climb .ab2-polaroid-card { transform: rotate(-14.02deg); }
+.ab2-polaroid--team  .ab2-polaroid-card { transform: rotate(9.68deg); }
+
+.ab2-polaroid--horse:hover .ab2-polaroid-card { transform: rotate(-8deg)    translateY(-8px) scale(1.03); box-shadow: 0px 12px 24px rgba(0,0,0,0.12); }
+.ab2-polaroid--climb:hover .ab2-polaroid-card { transform: rotate(-14.02deg) translateY(-8px) scale(1.03); box-shadow: 0px 12px 24px rgba(0,0,0,0.12); }
+.ab2-polaroid--team:hover  .ab2-polaroid-card { transform: rotate(9.68deg)   translateY(-8px) scale(1.03); box-shadow: 0px 12px 24px rgba(0,0,0,0.12); }
+
+/* Photo display frame — 228×242px, clips the image */
+.ab2-polaroid-frame {
+  position: relative;
+  width: 228px;
+  height: 242px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Simple full-cover photo (climb) */
+.ab2-photo-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  pointer-events: none;
+  display: block;
+}
+
+/* Overflow crop container (horse, team) */
+.ab2-photo-crop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+/* Horse: image shifted/scaled to show the correct crop region */
+.ab2-photo-horse {
+  position: absolute;
+  width: 173%;
+  height: 218.36%;
+  left: -14.24%;
+  top: -83.74%;
+  max-width: none;
+  display: block;
+}
+
+/* Team: image shifted to crop the left edge */
+.ab2-photo-team {
+  position: absolute;
+  width: 139.33%;
+  height: 100%;
+  left: -20.6%;
+  top: 0;
+  max-width: none;
+  display: block;
+}
+
+/* ── Text column — left, takes remaining space ── */
+.ab2-text {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  align-self: stretch;
+  padding: 24px 0;
+  min-width: 0;
+  color: #000;
+  word-break: break-word;
+}
+
+/* Two-paragraph body block — 20px gap between paras */
+.ab2-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ab2-heading {
+  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-size: 48px;
+  line-height: normal;
+  font-style: normal;
+  margin: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.ab2-bio {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 36px;
+  letter-spacing: -0.4px;
+  margin: 0;
+}
+
+/* ── Stat cards (currently / exploring) ── */
+.ab2-stat-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ab2-stat {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
+  padding: 12px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+}
+
+/* Minecraftia — add public/fonts/Minecraftia.ttf to enable; falls back to monospace */
+@font-face {
+  font-family: 'Minecraftia';
+  src: url('/fonts/Minecraftia.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.ab2-stat-label {
+  font-family: 'Minecraftia', 'Courier New', monospace;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.75);
+  line-height: normal;
+  margin: 0;
+}
+
+.ab2-stat-value {
+  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #000;
+  line-height: 28px;
+  margin: 0;
+}

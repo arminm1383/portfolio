@@ -31,9 +31,9 @@
 
 /* ── Takeaways stat cards — big count-up numeral + description ── */
 .fcs-page--streets .scs-stat-num {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: 48px;
-  font-weight: 400;
+  font-weight: 700;
   color: #1a1a1a;
   line-height: 1;
 }
@@ -153,9 +153,9 @@
 }
 
 .scs-flow-step-num {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 700;
   color: rgba(0, 0, 0, 0.3);
   line-height: 1;
   transition: color 0.2s ease;

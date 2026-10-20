@@ -1,0 +1,152 @@
+/* ── About page content (Figma Portfolio-v4 "About", node 2042:156118). Shell, title, navbars and
+   footer live in components/PixelPage.css. ── */
+
+/* Figma Bio: Main +2, 1078 wide, paragraphs 28px apart */
+.about-bio {
+  max-width: 1078px;
+  margin-left: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  font-family: var(--font-body);
+  color: #000;
+}
+
+.about-bio > p {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+/* Page body: photos, then stat cards — 96px apart (Figma Main gap) */
+.about-body {
+  display: flex;
+  flex-direction: column;
+  gap: 96px;
+}
+
+/* Figma Stats: full-width cards, 28px apart, below the photos */
+.about-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.about-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 24px;
+  overflow: clip;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
+}
+
+.about-stat-label,
+.about-stat-value {
+  margin: 0;
+  line-height: 28px;
+}
+
+.about-stat-label {
+  font-family: var(--font-pixel);
+  font-size: 24px;
+}
+
+.about-stat-value {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+/* ── Photos — three masonry columns (285 | 432 | 329, gap 18; photos 20 apart) ── */
+.about-photos {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.about-photos-col {
+  flex-basis: 0;
+  flex-shrink: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.about-photo {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Same lift + tilt as the landing work cards (photos aren't links). Tilts alternate down each column
+   and the middle column is mirrored, so neighbouring photos lean opposite ways. */
+.about-photo:nth-child(odd):hover {
+  transform: translateY(-10px) rotate(-1deg);
+}
+
+.about-photo:nth-child(even):hover {
+  transform: translateY(-10px) rotate(1deg);
+}
+
+.about-photos-col:nth-child(2) .about-photo:nth-child(odd):hover {
+  transform: translateY(-10px) rotate(1deg);
+}
+
+.about-photos-col:nth-child(2) .about-photo:nth-child(even):hover {
+  transform: translateY(-10px) rotate(-1deg);
+}
+
+.about-photo-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.about-photo-frame img {
+  display: block;
+}
+
+.about-photo-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-photo-caption {
+  display: flex;
+  align-items: flex-start;
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: normal;
+  color: #000;
+}
+
+.about-photo-caption > span:first-child {
+  white-space: nowrap;
+}
+
+.about-photo-date {
+  flex: 1 0 0;
+  min-width: 1px;
+  text-align: right;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .about-bio { margin-left: 0; }
+  .about-body { gap: 64px; }
+  .about-photos { flex-direction: column; gap: 20px; }
+  .about-photos-col { width: 100%; flex: none; }
+  .about-photo-frame { width: 100% !important; } /* Figma's 281/326 frames sit inset in their columns on desktop only */
+}
+
+@media (max-width: 520px) {
+  .about-bio > p { font-size: 18px; }
+}

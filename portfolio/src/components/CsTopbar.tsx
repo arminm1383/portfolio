@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import './CsTopbar.css'
+import { useScrollReveal } from '../lib/useScrollReveal'
 import starSm from '../assets/images/nav-topbar-star-sm.svg'
 import starLg from '../assets/images/nav-topbar-star-lg.svg'
 import starMd from '../assets/images/nav-topbar-star-md.svg'
@@ -15,23 +15,7 @@ export default function CsTopbar({
   visible?: boolean
   onNameClick?: () => void
 }) {
-  const [scrollVisible, setScrollVisible] = useState(showAtTop)
-  const lastY = useRef(0)
-
-  useEffect(() => {
-    lastY.current = window.scrollY
-
-    function onScroll() {
-      const y = window.scrollY
-      const scrollingUp = y < lastY.current
-      setScrollVisible(showAtTop ? (y <= 80 || (y > 120 && scrollingUp)) : (y > 120 && scrollingUp))
-      lastY.current = y
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [showAtTop])
-
+  const scrollVisible = useScrollReveal(showAtTop)
   const visible = visibleProp !== undefined ? visibleProp : scrollVisible
 
   return (

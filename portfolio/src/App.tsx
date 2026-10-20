@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import Home from './pages/Home'
+import About from './pages/About'
+import HomeAlt from './pages/HomeAlt'
 import CaseStudy from './pages/CaseStudy'
 import FindyCaseStudy from './pages/FindyCaseStudy'
 import AuraCaseStudy from './pages/AuraCaseStudy'
@@ -24,6 +26,8 @@ export default function App() {
       <CustomCursor />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/alt" element={<HomeAlt />} />
         <Route path="/work/findy" element={<FindyCaseStudy />} />
         <Route path="/work/aura" element={<AuraCaseStudy />} />
         <Route path="/work/rocket-lawyer" element={<RocketLawyerCaseStudy />} />

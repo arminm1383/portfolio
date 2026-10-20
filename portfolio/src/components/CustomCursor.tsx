@@ -4,7 +4,7 @@ import cursorCsIcon from '../assets/images/cursor-cs-icon.svg'
 import cursorSoonIcon from '../assets/images/cursor-soon-icon.svg'
 import cursorDevpostIcon from '../assets/images/cursor-devpost-icon.svg'
 
-const EASE = 0.18
+const EASE = 0.55
 
 export default function CustomCursor() {
   const ref = useRef<HTMLDivElement>(null)

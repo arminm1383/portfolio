@@ -3,13 +3,8 @@
   to   { opacity: 1; }
 }
 
-/* ── Page shell — tile grid matching Home.css ── */
+/* ── Page shell — transparent; the canvas fill + noise comes from body (index.css) ── */
 .fcs-page {
-  background-color: #f7f7f5;
-  background-image:
-    linear-gradient(#eeeeee 0.5px, transparent 0.5px),
-    linear-gradient(90deg, #eeeeee 0.5px, transparent 0.5px);
-  background-size: 25px 25px;
   min-height: 100vh;
   animation: fcs-fade-in 0.35s ease both;
 }
@@ -53,14 +48,16 @@
 }
 
 .fcs-topbar-name {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
+  font-weight: 700;
   font-size: var(--text-base);
   color: #000;
   line-height: 1.2;
 }
 
 .fcs-topbar-role {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
+  font-weight: 700;
   font-size: var(--text-xs);
   color: rgba(0, 0, 0, 0.55);
   line-height: 1.2;
@@ -321,14 +318,15 @@
 }
 
 .fcs-org-name {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: var(--text-xl);
   font-weight: 400;
   color: rgba(0, 0, 0, 0.65);
 }
 
 .fcs-title {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
+  font-weight: 700;
   font-size: var(--fluid-heading-7xl);
   line-height: 1.2;
   color: #000;
@@ -392,9 +390,9 @@
 }
 
 .fcs-section-heading {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: var(--text-3xl);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.2;
   color: #000;
   margin: 0 0 12px;
@@ -565,9 +563,9 @@
 }
 
 .fcs-next-step-title {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: var(--text-2xl);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.25;
   color: #000;
   margin: 0;
@@ -621,9 +619,9 @@
 
 /* ── Subsection heading ── */
 .fcs-subsection-heading {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: var(--text-2xl);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.25;
   color: #000;
   margin: 0 0 var(--space-6);
@@ -685,9 +683,9 @@
 }
 
 .fcs-insight-number {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: var(--text-3xl);
-  font-weight: 400;
+  font-weight: 700;
   color: rgba(0, 0, 0, 0.15);
   line-height: 1;
   letter-spacing: -0.64px;
@@ -855,7 +853,8 @@
 }
 
 .findy-problem-headline {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
+  font-weight: 700;
   font-size: 24px;
   line-height: 1.66;
   letter-spacing: -0.48px;
@@ -1237,9 +1236,9 @@
 }
 
 .findy-rec-heading {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: var(--text-xl);
-  font-weight: 400;
+  font-weight: 700;
   color: #205dfd;
   line-height: 1.2;
   letter-spacing: -0.48px;
@@ -1392,7 +1391,7 @@
 }
 
 .fcs-upnext-heading {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: var(--text-3xl);
   font-weight: 400;
   color: #000;
@@ -1463,7 +1462,7 @@
 }
 
 .fcs-upnext-card-title {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: var(--text-xl);
   font-weight: 400;
   color: #000;
@@ -1712,7 +1711,8 @@
 
 .fcs-quote-icon {
   flex-shrink: 0;
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
+  font-weight: 700;
   font-size: 28px;
   color: #991b1d;
   line-height: 1;
@@ -1885,9 +1885,9 @@
 }
 
 .fcs-rec-heading {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: var(--text-2xl);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.2;
   color: #991b1d;
   margin: 0 0 var(--space-3);
@@ -2132,9 +2132,9 @@
 }
 
 .fcs-next-steps-title {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 700;
   color: #991b1d;
   line-height: 1.4;
   margin: 0;
@@ -2162,9 +2162,9 @@
 }
 
 .fcs-reflection-item-title {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 700;
   color: #991b1d;
   line-height: 1.35;
   margin: 0;
@@ -2200,7 +2200,8 @@
 }
 
 .fcs-reflection-num {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
+  font-weight: 700;
   font-size: var(--text-lg);
   color: #991b1d;
   opacity: 0.75;
@@ -2297,9 +2298,9 @@
   display: block;
   position: sticky;
   top: 16px;
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: 32px;
-  font-weight: 400;
+  font-weight: 700;
   color: #991b1d;
   opacity: 0.75;
   line-height: 32px;
@@ -2369,7 +2370,7 @@
 }
 
 .fcs-research-callout {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: var(--text-base);
   font-weight: 400;
   color: #991b1d;
@@ -2448,9 +2449,9 @@
 }
 
 .fcs-problem-stat-num {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: 32px;
-  font-weight: 400;
+  font-weight: 700;
   color: #991b1d;
   line-height: 1;
   width: 103px;
@@ -2495,11 +2496,6 @@
   width: 100%;
 }
 
-@keyframes fcs-stat-card-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
 .fcs-stat-card {
   background: #fff;
   border-radius: 12px;
@@ -2510,12 +2506,6 @@
   flex-direction: column;
   flex: 1;
   overflow: hidden;
-  opacity: 0;
-  transform: translateY(12px);
-}
-
-.fcs-stat-card--visible {
-  animation: fcs-stat-card-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* stats connector SVG — portrait SVG rotated 90° to become landscape */
@@ -2543,9 +2533,9 @@
 }
 
 .fcs-problem-statement {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: var(--text-base);
-  font-weight: 400;
+  font-weight: 700;
   color: #991b1d;
   line-height: 1.66;
   letter-spacing: -0.32px;
@@ -2553,9 +2543,9 @@
 }
 
 .fcs-problem-statement-alt {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: var(--text-base);
-  font-weight: 400;
+  font-weight: 700;
   color: #205DFD;
   line-height: 1.66;
   letter-spacing: -0.32px;
@@ -2688,31 +2678,6 @@
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Scroll reveal — fade-up (default) and pop-in (cards)
-   ───────────────────────────────────────────────────────────── */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(10px);
-  transition:
-    opacity   0.65s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-}
-[data-reveal].reveal--visible {
-  opacity: 1;
-  transform: none;
-}
-[data-reveal="pop"] {
-  transform: translateY(8px) scale(0.985);
-  transition:
-    opacity   0.6s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-[data-reveal="pop"].reveal--visible {
-  opacity: 1;
-  transform: none;
-}
-
-/* ─────────────────────────────────────────────────────────────
    Rocket Lawyer — Up Next (clean rebuild, Figma node 1536:179731)
    ───────────────────────────────────────────────────────────── */
 .rl-upnext {
@@ -2721,7 +2686,7 @@
 }
 
 .rl-upnext-heading {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: 38px;
   font-weight: 400;
   color: #000;
@@ -2787,7 +2752,7 @@
 }
 
 .rl-upnext-title {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
   font-size: 22px;
   font-weight: 400;
   color: #000;
@@ -2818,7 +2783,8 @@
 }
 
 .findy-problem-heading {
-  font-family: 'Peace Sans', 'Anton', Impact, sans-serif;
+  font-family: var(--font-heading);
+  font-weight: 700;
   font-size: 24px;
   letter-spacing: -0.48px;
   line-height: 1.66;
@@ -2856,31 +2822,15 @@
   overflow: visible;
 }
 
-/* Characters — hidden; pop in staggered when parent gets reveal--visible */
-@keyframes findy-pd-char-in {
-  from { opacity: 0; transform: translateY(20px) scale(0.85); }
-  to   { opacity: 1; transform: translateY(0)    scale(1);    }
-}
-
+/* Characters — static (no scroll pop-in) */
 .findy-pd-char {
   position: absolute;
-  opacity: 0;
 }
 .findy-pd-char img { display: block; width: 100%; height: 100%; object-fit: contain; }
 
 .findy-pd-char--happy   { left: 59.15px;  top: 0;      width: 180.389px; height: 223.349px; }
 .findy-pd-char--walking { left: 362.13px; top: 9.45px;  width: 161.149px; height: 206.848px; }
 .findy-pd-char--group   { left: 645.8px;  top: 4.21px;  width: 172.013px; height: 211.21px;  }
-
-.reveal--visible .findy-pd-char--happy   {
-  animation: findy-pd-char-in 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s forwards;
-}
-.reveal--visible .findy-pd-char--walking {
-  animation: findy-pd-char-in 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s forwards;
-}
-.reveal--visible .findy-pd-char--group {
-  animation: findy-pd-char-in 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 0.31s forwards;
-}
 
 /* Arrow wrappers: h:0 + overflow:visible */
 .findy-pd-arrow-wrap {
@@ -2912,12 +2862,7 @@
 .findy-pd-arrow-wrap--2.fcs-arrow--drawn .findy-pd-arrow-inner { animation-delay: 0.3s; }
 .findy-pd-arrow-wrap--3.fcs-arrow--drawn .findy-pd-arrow-inner { animation-delay: 0.6s; }
 
-/* Labels — fade up after arrows */
-@keyframes findy-pd-label-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0);   }
-}
-
+/* Labels — static (no scroll pop-in) */
 .findy-pd-label {
   position: absolute;
   top: 230.32px;
@@ -2929,22 +2874,11 @@
   letter-spacing: -0.4px;
   color: #000;
   white-space: nowrap;
-  opacity: 0;
 }
 
 .findy-pd-label--1 { left: 50px;  }
 .findy-pd-label--2 { left: 369px; }
 .findy-pd-label--3 { left: 650px; }
-
-.reveal--visible .findy-pd-label--1 {
-  animation: findy-pd-label-in 0.45s ease 0.6s forwards;
-}
-.reveal--visible .findy-pd-label--2 {
-  animation: findy-pd-label-in 0.45s ease 0.85s forwards;
-}
-.reveal--visible .findy-pd-label--3 {
-  animation: findy-pd-label-in 0.45s ease 1.1s forwards;
-}
 
 /* Insight link — button reset + styles */
 .findy-insight-link {
