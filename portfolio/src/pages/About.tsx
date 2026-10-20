@@ -1,5 +1,6 @@
 import './About.css'
 import PixelPage from '../components/PixelPage'
+import { registerPageImages } from '../lib/pageAssets'
 
 import photoAnteater    from '../assets/images/about-photo-anteater.jpg'
 import photoFilet       from '../assets/images/about-photo-filet.jpg'
@@ -47,6 +48,8 @@ const COLUMNS: { width: number; photos: Photo[] }[] = [
   },
 ]
 
+registerPageImages('/about', COLUMNS.flatMap(col => col.photos.map(photo => photo.src)))
+
 function PhotoCard({ photo, columnWidth }: { photo: Photo; columnWidth: number }) {
   const [w, h] = photo.frame
   const imgStyle: React.CSSProperties | undefined = photo.crop && {
@@ -64,7 +67,6 @@ function PhotoCard({ photo, columnWidth }: { photo: Photo; columnWidth: number }
         <img
           src={photo.src}
           alt={photo.caption}
-          loading="lazy"
           decoding="async"
           className={photo.crop ? undefined : 'about-photo-cover'}
           style={imgStyle}

@@ -2,10 +2,13 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import './Home.css'
 import PixelPage from '../components/PixelPage'
+import { registerPageImages } from '../lib/pageAssets'
 
 import workStreetsGif from '../assets/images/streetsgif.gif'
 import mementoGif     from '../assets/images/memento-work-artwork.gif'
 import rocketArtwork  from '../assets/images/rocket-copilot-artwork.gif'
+
+registerPageImages('/', [workStreetsGif, mementoGif, rocketArtwork])
 
 interface WorkCardProps {
   artwork?: string
@@ -31,7 +34,8 @@ export function WorkCard({ artwork, artworkAlt, title, status, year, description
     if (!img) return
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && img) {
+        // Only once fully loaded — resetting src mid-download would restart it (and the page waits on it)
+        if (entry.isIntersecting && img && img.complete) {
           const src = img.src
           img.src = ''
           img.src = src
@@ -54,7 +58,6 @@ export function WorkCard({ artwork, artworkAlt, title, status, year, description
             ref={imgRef}
             src={artwork}
             alt={artworkAlt ?? ''}
-            loading="lazy"
             decoding="async"
             style={objectPosition ? { objectPosition } : undefined}
           />

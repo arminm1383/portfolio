@@ -116,6 +116,13 @@ Stateless helpers (e.g. `CornerDots`, `AuraCard`, `FindyCard`, `MementoCard`) ar
 - Work artwork (landing) and About photos use a 2px corner radius; About photos zoom 3% on hover but aren't links.
 - Page transition (`lib/pageTransition.ts`, via `useTransitionNavigate`): everything except the gif fades out (top navbar slides up), the route changes, then the new page's entrance plays (0.38s gif-only moment, then content). Use it for links between pixel pages.
 
+### Loading — nothing pops in (`lib/pageReady.ts`, `lib/pageAssets.ts`)
+- Pages stay hidden until **every font the page uses and every `<img>` in it** is loaded and decoded (`waitForPage`), with a 10s safety cap. Never add `loading="lazy"` to images on these pages — the page waits for them, so lazy images would stall it.
+- Pixel pages: the sprite gif shows alone for at least 0.38s, longer if loading takes longer, then content reveals. Case studies: `useRevealWhenReady()` holds the whole page (incl. top navbar) and fades it in.
+- Google Fonts load from `index.html` (preconnect + stylesheet), not a CSS `@import`; `main.tsx` starts the core faces before React renders.
+- Pixel pages register their images (`registerPageImages`) so the other pixel page is prefetched in idle time, and the destination starts loading during the exit animation.
+- Keep assets at ≤ 2× their largest display size (case-study column 900px → 1800px wide max); opaque photos as JPEG.
+
 ### Custom cursor (`components/CustomCursor.tsx`) — work cards only
 - Figma "Cursor" component set `2042:155868`: 20×20 `#fe8a09` square, radius 4; on hover expands to a 24px-tall pill with icon + `--font-pixel` 16px label: `case-study` (155px, "view case study"), `devpost` (135px), `coming-soon` (135px).
 - Variants are set with `data-cursor` and are only used on work/project cards (landing works, case-study "Up Next" cards).

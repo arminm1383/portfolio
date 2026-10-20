@@ -1,6 +1,8 @@
 import { useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
+import { waitForPage } from './pageReady'
+import { prefetchOtherPages, prefetchPage } from './pageAssets'
 
 // Everything on a PixelPage except the sprite gif — it fades out on exit and back in on entry,
 // while the gif (anchored at the same spot on every PixelPage) stays put across the route change.
@@ -8,52 +10,78 @@ export const PAGE_CONTENT = ['.pixel-title > span', '.pixel-page-intro', '.pixel
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-// How long the sprite gif is on screen alone before the rest of the page arrives — on first load and
-// on every page transition.
+// Minimum time the sprite gif is on screen alone before the rest of the page arrives — on first load and
+// on every page transition. It stays alone for longer if the page's fonts/images are still loading.
 const GIF_SOLO = 0.38
 
 // When an exit finished fading the old content out. The next entrance only waits for whatever is left
 // of GIF_SOLO, so the time spent finishing the exit and swapping routes counts toward the solo moment.
 let gifAloneSince: number | null = null
 
-// Entrance — the gif is visible from the first frame; after a short solo moment the rest arrives
-export function runPageEntrance(): gsap.Context | null {
-  if (prefersReducedMotion()) return null
+// Entrance — the gif is visible from the first frame. Everything else stays hidden until every font and
+// image on the page is ready (so nothing pops in or swaps fonts), and at least GIF_SOLO has passed.
+// Returns a cleanup function.
+export function runPageEntrance(): () => void {
+  const reduceMotion = prefersReducedMotion()
+  const aloneSince = gifAloneSince ?? performance.now()
+  const path = window.location.pathname
 
   // The top navbar owns a CSS transform transition (scroll reveal) that would fight GSAP mid-tween
   const topbar = document.querySelector<HTMLElement>('.top-navbar')
   if (topbar) topbar.style.transition = 'none'
   const restore = () => requestAnimationFrame(() => { if (topbar) topbar.style.transition = '' })
 
-  return gsap.context(() => {
-    const alreadyAlone = gifAloneSince === null ? 0 : (performance.now() - gifAloneSince) / 1000
-    const REVEAL = Math.max(0, GIF_SOLO - alreadyAlone)
-    const EASE = 'power2.out'
-    const tl = gsap.timeline({ onComplete: restore })
-    // Cleared once content starts arriving (not up front, so a re-run of this effect keeps the timestamp)
-    tl.call(() => { gifAloneSince = null }, undefined, REVEAL)
-
+  const hidden = gsap.context(() => {
     gsap.set(PAGE_CONTENT, { opacity: 0 })
     gsap.set('.top-navbar', { y: -80 })
-
-    // Title words slide outward from the sprite
-    tl.fromTo('.pixel-title > span:first-child', { x: 8 },
-      { opacity: 1, x: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL)
-    tl.fromTo('.pixel-title > span:last-child', { x: -8 },
-      { opacity: 1, x: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL)
-
-    // Top navbar — same slide-down as the previous landing's cs-topbar
-    tl.to('.top-navbar', { y: 0, duration: 0.55, ease: EASE, clearProps: 'transform' }, REVEAL)
-
-    tl.fromTo('.pixel-page-intro', { y: 6 },
-      { opacity: 1, y: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL + 0.08)
-    tl.fromTo('.navbar', { x: -10 },
-      { opacity: 1, x: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL + 0.08)
-    // Page body (works / photos) arrives as one unit so everything in it is in sync
-    tl.fromTo('.pixel-page-body', { y: 10 },
-      { opacity: 1, y: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL + 0.12)
-    tl.to('.site-footer', { opacity: 1, duration: 0.4, ease: EASE, clearProps: 'opacity' }, REVEAL + 0.2)
   })
+
+  let reveal: gsap.Context | undefined
+  let cancelled = false
+
+  waitForPage().then(() => {
+    if (cancelled) return
+    gifAloneSince = null
+    const done = () => { restore(); prefetchOtherPages(path) }
+
+    if (reduceMotion) {
+      gsap.set(PAGE_CONTENT, { clearProps: 'opacity' })
+      gsap.set('.top-navbar', { clearProps: 'transform' })
+      done()
+      return
+    }
+
+    reveal = gsap.context(() => {
+      const REVEAL = Math.max(0, GIF_SOLO - (performance.now() - aloneSince) / 1000)
+      const EASE = 'power2.out'
+      const tl = gsap.timeline({ onComplete: done })
+
+      // Title words slide outward from the sprite
+      tl.fromTo('.pixel-title > span:first-child', { opacity: 0, x: 8 },
+        { opacity: 1, x: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL)
+      tl.fromTo('.pixel-title > span:last-child', { opacity: 0, x: -8 },
+        { opacity: 1, x: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL)
+
+      // Top navbar — same slide-down as the previous landing's cs-topbar
+      tl.fromTo('.top-navbar', { y: -80 }, { y: 0, duration: 0.55, ease: EASE, clearProps: 'transform' }, REVEAL)
+
+      tl.fromTo('.pixel-page-intro', { opacity: 0, y: 6 },
+        { opacity: 1, y: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL + 0.08)
+      tl.fromTo('.navbar', { opacity: 0, x: -10 },
+        { opacity: 1, x: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL + 0.08)
+      // Page body (works / photos) arrives as one unit so everything in it is in sync
+      tl.fromTo('.pixel-page-body', { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL + 0.12)
+      tl.fromTo('.site-footer', { opacity: 0 }, { opacity: 1, duration: 0.4, ease: EASE, clearProps: 'opacity' }, REVEAL + 0.2)
+    })
+  })
+
+  return () => {
+    cancelled = true
+    reveal?.revert()
+    hidden.revert()
+    if (topbar) topbar.style.transition = ''
+  }
 }
 
 // Exit — everything but the gif fades out (top navbar slides back up)
@@ -88,6 +116,7 @@ export function useTransitionNavigate() {
 
   return useCallback((to: string) => {
     if (to === pathname || leaving) return
+    prefetchPage(to) // start loading the destination's images while the exit plays
     if (prefersReducedMotion() || !document.querySelector('.pixel-sprites')) { navigate(to); return }
     leaving = true
     Promise.all([runPageExit(), scrollToTop()]).then(() => {

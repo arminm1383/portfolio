@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import './FindyCaseStudy.css'
 import TopNavbar from '../components/TopNavbar'
+import { useRevealWhenReady } from '../lib/pageReady'
 
 import rocketHeroGif from '../assets/images/rocket-cs-hero-new.gif'
 import workStreetsPanel   from '../assets/images/work-streets-projects.png'
@@ -197,6 +198,7 @@ function StatCard({ to, decimals, text, delay }: { to: number; decimals: number;
 }
 
 export default function RocketLawyerCaseStudy() {
+  useRevealWhenReady()
   const [active, setActive] = useState('')
   const targetYRef = useRef(0)
   const currentYRef = useRef(0)

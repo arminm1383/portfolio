@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import './FindyCaseStudy.css'
 import TopNavbar from '../components/TopNavbar'
+import { useRevealWhenReady } from '../lib/pageReady'
 
 import findyGif           from '../assets/images/FindyGif.gif'
 import rocketArtwork     from '../assets/images/rocket-artwork-v2.gif'
@@ -21,13 +22,13 @@ import problemGroup5        from '../assets/images/problem-group5.svg'
 import problemArrow1        from '../assets/images/problem-arrow1.svg'
 import problemArrow2        from '../assets/images/problem-arrow2.svg'
 import problemArrow3        from '../assets/images/problem-arrow3.svg'
-import teamPhoto          from '../assets/images/findy-cs-team-photo.png'
-import surveyPhoto        from '../assets/images/findy-cs-survey-photo.png'
+import teamPhoto          from '../assets/images/findy-cs-team-photo.jpg'
+import surveyPhoto        from '../assets/images/findy-cs-survey-photo.jpg'
 import upnextStreets      from '../assets/images/work-streets-projects.png'
 import projectTeams      from '../assets/images/org-uci.png'
-import bgPhoto1          from '../assets/images/findy-cs-bg-photo1.png'
-import bgPhoto2          from '../assets/images/findy-cs-bg-photo2.png'
-import bgPhoto3          from '../assets/images/findy-cs-bg-photo3.png'
+import bgPhoto1          from '../assets/images/findy-cs-bg-photo1.jpg'
+import bgPhoto2          from '../assets/images/findy-cs-bg-photo2.jpg'
+import bgPhoto3          from '../assets/images/findy-cs-bg-photo3.jpg'
 import bgMascot          from '../assets/images/findy-cs-bg-mascot.svg'
 
 const NAV_ITEMS = [
@@ -107,6 +108,7 @@ function InsightCard({
 }
 
 export default function FindyCaseStudy() {
+  useRevealWhenReady()
   const [active, setActive] = useState('')
   const targetYRef = useRef(0)
   const currentYRef = useRef(0)

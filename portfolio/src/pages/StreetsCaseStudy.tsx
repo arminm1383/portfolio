@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import './FindyCaseStudy.css'
 import './StreetsCaseStudy.css'
 import TopNavbar from '../components/TopNavbar'
+import { useRevealWhenReady } from '../lib/pageReady'
 
 import streetsHeroGif from '../assets/images/streetsgif.gif'
 import orgStreets from '../assets/images/org-streets.png'
@@ -149,6 +150,7 @@ function SearchFlowDemo() {
 }
 
 export default function StreetsCaseStudy() {
+  useRevealWhenReady()
   const [active, setActive] = useState('')
   const targetYRef = useRef(0)
   const currentYRef = useRef(0)

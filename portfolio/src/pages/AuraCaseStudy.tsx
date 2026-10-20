@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import './FindyCaseStudy.css'
 import TopNavbar from '../components/TopNavbar'
+import { useRevealWhenReady } from '../lib/pageReady'
 
 import auraBg from '../assets/images/aura-bg.png'
 import auraMockup from '../assets/images/aura-mockup.png'
@@ -40,6 +41,7 @@ const EASE_X1 = 0.76, EASE_Y1 = 0, EASE_X2 = 0.24, EASE_Y2 = 1
 const SCROLL_DURATION = 650
 
 export default function AuraCaseStudy() {
+  useRevealWhenReady()
   const [active, setActive] = useState('')
   const targetYRef = useRef(0)
   const currentYRef = useRef(0)

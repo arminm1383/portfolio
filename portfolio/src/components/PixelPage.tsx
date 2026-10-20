@@ -16,10 +16,7 @@ interface PixelPageProps {
 // Shared shell for the pixel-title pages (Landing, About…). The title row — and so the sprite gif —
 // sits at the exact same spot on every page, which is what lets the gif stay put during page transitions.
 export default function PixelPage({ before, after, intro, children }: PixelPageProps) {
-  useLayoutEffect(() => {
-    const ctx = runPageEntrance()
-    return () => ctx?.revert()
-  }, [])
+  useLayoutEffect(() => runPageEntrance(), [])
 
   return (
     <>
