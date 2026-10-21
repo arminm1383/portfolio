@@ -150,6 +150,47 @@ a.work-card {
   width: 98.53%; /* Figma: 469-wide artwork in a 476 column */
   aspect-ratio: 469 / 557;
   background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Figma "Glow": blurred radial blue wash (gradient @ 12%, layer @ 95%), 473×555 at (−4, 2) in the 469×557 card */
+.work-card-glow {
+  position: absolute;
+  left: -0.85%;
+  top: 0.36%;
+  width: 100.85%;
+  height: 99.64%;
+  border-radius: 4px;
+  opacity: 0.95;
+  filter: blur(27.9px);
+  pointer-events: none;
+  background: radial-gradient(ellipse closest-side at center,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(204, 238, 255, 0.12) 25%,
+    rgba(153, 220, 255, 0.12) 50%,
+    rgba(102, 203, 255, 0.12) 75%,
+    rgba(77, 194, 255, 0.12) 87.5%,
+    rgba(51, 186, 255, 0.12) 100%);
+}
+
+/* Figma: phone gif in a 263×521 frame, centred in the card; image cropped 100% × 100.69% at (−1%, −0.35%) */
+.work-card--findy .work-card-media {
+  position: relative;
+  width: 56.08%;
+  aspect-ratio: 263 / 521;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.work-card--findy .work-card-media img {
+  position: absolute;
+  left: -1%;
+  top: -0.35%;
+  width: 100%;
+  height: 100.69%;
+  max-width: none;
 }
 
 /* ── Responsive ── */

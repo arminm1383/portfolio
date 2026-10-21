@@ -6,9 +6,10 @@ import { registerPageImages } from '../lib/pageAssets'
 
 import workStreetsGif from '../assets/images/streetsgif.gif'
 import mementoGif     from '../assets/images/memento-work-artwork.gif'
-import rocketArtwork  from '../assets/images/rocket-copilot-artwork.gif'
+import rocketArtwork  from '../assets/images/rocket-copilot-sparkle.gif'
+import findyPhoneGif  from '../assets/images/findy-work-phone.gif'
 
-registerPageImages('/', [workStreetsGif, mementoGif, rocketArtwork])
+registerPageImages('/', [workStreetsGif, mementoGif, rocketArtwork, findyPhoneGif])
 
 interface WorkCardProps {
   artwork?: string
@@ -22,9 +23,11 @@ interface WorkCardProps {
   href?: string
   objectPosition?: string
   className?: string
+  framed?: boolean // artwork sits in a centred inner frame instead of filling the card
+  glow?: boolean   // soft radial glow behind the artwork
 }
 
-export function WorkCard({ artwork, artworkAlt, title, status, year, description, isGif, to, href, objectPosition, className }: WorkCardProps) {
+export function WorkCard({ artwork, artworkAlt, title, status, year, description, isGif, to, href, objectPosition, className, framed, glow }: WorkCardProps) {
   const imgRef = useRef<HTMLImageElement>(null)
 
   // Restart the gif from frame 0 each time the card scrolls into view
@@ -50,18 +53,21 @@ export function WorkCard({ artwork, artworkAlt, title, status, year, description
   const cursorVariant = to ? 'case-study' : href ? 'devpost' : 'coming-soon'
   const cls = `work-card${className ? ` ${className}` : ''}`
 
+  const image = artwork && (
+    <img
+      ref={imgRef}
+      src={artwork}
+      alt={artworkAlt ?? ''}
+      decoding="async"
+      style={objectPosition ? { objectPosition } : undefined}
+    />
+  )
+
   const content = (
     <>
       <div className="work-card-artwork">
-        {artwork && (
-          <img
-            ref={imgRef}
-            src={artwork}
-            alt={artworkAlt ?? ''}
-            decoding="async"
-            style={objectPosition ? { objectPosition } : undefined}
-          />
-        )}
+        {glow && <div className="work-card-glow" aria-hidden />}
+        {framed ? <div className="work-card-media">{image}</div> : image}
         <div className="work-card-artwork-inset" aria-hidden />
       </div>
       <div className="work-card-content">
@@ -138,6 +144,11 @@ export default function Home() {
           />
           <WorkCard
             className="work-card--findy"
+            artwork={findyPhoneGif}
+            artworkAlt="Findy"
+            isGif
+            framed
+            glow
             title="Findy"
             status="Concept"
             year="2026"
