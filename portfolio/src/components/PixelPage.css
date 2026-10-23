@@ -10,7 +10,7 @@
 
 .pixel-page-main {
   box-sizing: border-box;
-  width: min(1082px, calc(100% - var(--pixel-left) - 24px));
+  width: min(1078px, calc(100% - var(--pixel-left) - 24px)); /* Figma Main 1078 on every page */
   margin-left: var(--pixel-left);
   margin-bottom: 96px;
   display: flex;
@@ -24,8 +24,7 @@
   gap: 12px;
 }
 
-/* Anchored at the Main origin (Figma Landing title x=314, y=213) on every page so the gif never moves
-   between pages. (Figma's About title sits 2px further right; the landing position wins.) */
+/* Anchored at the Main origin (Figma title x=314, y=213) on every page. */
 .pixel-title {
   display: flex;
   align-items: flex-end;
@@ -40,10 +39,15 @@
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
 }
 
-/* Figma: the word before the gif is 75px wide on every page ("hi,", "me") — fixed so the gif's x never shifts */
+/* The gif sits at the same spot on every page (Figma x=413 = Main +99): the word before it lives in a
+   fixed 0.75em (75px) slot and ends 24px before the gif. Words that fit ("hi,", "me") fill the slot;
+   longer ones ("art") extend left past the column edge instead of pushing the gif right. */
 .pixel-title > span:first-child {
   width: 0.75em;
   flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  white-space: nowrap;
 }
 
 /* Figma: 234×125 at a 100px title — sized in em so it scales with the title */

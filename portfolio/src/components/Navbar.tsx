@@ -12,7 +12,7 @@ interface NavItem {
 const ITEMS: NavItem[] = [
   { label: 'home', to: '/' },
   { label: 'about me', to: '/about' },
-  { label: 'art as of late' },
+  { label: 'art as of late', to: '/art' },
   { label: 'playground' },
 ]
 

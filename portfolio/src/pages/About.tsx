@@ -1,5 +1,6 @@
 import './About.css'
 import PixelPage from '../components/PixelPage'
+import PhotoCard, { type Photo } from '../components/PhotoCard'
 import { registerPageImages } from '../lib/pageAssets'
 
 import photoAnteater    from '../assets/images/about-photo-anteater.jpg'
@@ -12,73 +13,35 @@ import photoDesignathon from '../assets/images/about-photo-designathon.jpg'
 import photoFruit       from '../assets/images/about-photo-fruit.jpg'
 import photoMonet       from '../assets/images/about-photo-monet.jpg'
 
-interface Photo {
-  src: string
-  caption: string
-  date: string
-  frame: [number, number]                         // Figma frame w × h (px)
-  crop?: [number, number, number, number]         // Figma image crop: w%, h%, left%, top% (default: cover)
-}
-
-// Figma About "works" — three columns (285 | 432 | 329, gap 18)
+// Figma About "works" — three columns (285 | 428 | 329 = 1078, gap 18)
 const COLUMNS: { width: number; photos: Photo[] }[] = [
   {
     width: 285,
     photos: [
-      { src: photoAnteater, caption: 'me + peter the anteater', date: '06.2026', frame: [285, 198] },
-      { src: photoFilet, caption: 'reimagining the filet-o-fish', date: '06.2026', frame: [285, 198], crop: [102.11, 186.88, -0.02, -55.45] },
-      { src: photoLucas, caption: 'the lucas museum', date: '09.2026', frame: [281, 481], crop: [245.19, 107.23, -5.81, 0.04] },
+      { src: photoAnteater, caption: 'me + peter the anteater', meta: '06.2026', frame: [285, 198] },
+      { src: photoFilet, caption: 'reimagining the filet-o-fish', meta: '06.2026', frame: [285, 198], crop: [102.11, 186.88, -0.02, -55.45] },
+      { src: photoLucas, caption: 'the lucas museum', meta: '09.2026', frame: [281, 481], crop: [245.19, 107.23, -5.81, 0.04] },
     ],
   },
   {
-    width: 432,
+    width: 428,
     photos: [
-      { src: photoYosemite, caption: 'bouldering in yosemite', date: '09.2026', frame: [432, 458.341] },
-      { src: photoHuntington, caption: 'the huntington library', date: '05.2026', frame: [432, 246], crop: [114.55, 136.85, -10.95, -14.75] },
-      { src: photoJapan, caption: 'jumping in japan', date: '01.2025', frame: [432, 140], crop: [103.73, 116.57, -2.29, -9.89] },
+      { src: photoYosemite, caption: 'bouldering in yosemite', meta: '09.2026', frame: [428, 454.1] },
+      { src: photoHuntington, caption: 'the huntington library', meta: '05.2026', frame: [428, 246], crop: [114.55, 136.85, -10.95, -14.75] },
+      { src: photoJapan, caption: 'jumping in japan', meta: '01.2025', frame: [428, 138.84], crop: [103.73, 116.57, -2.29, -9.89] },
     ],
   },
   {
     width: 329,
     photos: [
-      { src: photoDesignathon, caption: 'reaching the design-a-thon finals', date: '04.2026', frame: [329, 253], crop: [101.17, 99.96, -1.26, 0] },
-      { src: photoFruit, caption: 'fruit in the middle of nowhere', date: '10.2025', frame: [326, 381], crop: [100, 114.06, 0, -14.29] },
-      { src: photoMonet, caption: 'monet at the getty', date: '09.2025', frame: [329, 253], crop: [99.97, 113.99, 0.03, -7.35] },
+      { src: photoDesignathon, caption: 'reaching the design-a-thon finals', meta: '04.2026', frame: [329, 253], crop: [101.17, 99.96, -1.26, 0] },
+      { src: photoFruit, caption: 'fruit in the middle of nowhere', meta: '10.2025', frame: [326, 381], crop: [100, 114.06, 0, -14.29] },
+      { src: photoMonet, caption: 'monet at the getty', meta: '09.2025', frame: [329, 253], crop: [99.97, 113.99, 0.03, -7.35] },
     ],
   },
 ]
 
 registerPageImages('/about', COLUMNS.flatMap(col => col.photos.map(photo => photo.src)))
-
-function PhotoCard({ photo, columnWidth }: { photo: Photo; columnWidth: number }) {
-  const [w, h] = photo.frame
-  const imgStyle: React.CSSProperties | undefined = photo.crop && {
-    position: 'absolute',
-    width: `${photo.crop[0]}%`,
-    height: `${photo.crop[1]}%`,
-    left: `${photo.crop[2]}%`,
-    top: `${photo.crop[3]}%`,
-    maxWidth: 'none',
-  }
-
-  return (
-    <figure className="about-photo">
-      <div className="about-photo-frame" style={{ width: `${(w / columnWidth) * 100}%`, aspectRatio: `${w} / ${h}` }}>
-        <img
-          src={photo.src}
-          alt={photo.caption}
-          decoding="async"
-          className={photo.crop ? undefined : 'about-photo-cover'}
-          style={imgStyle}
-        />
-      </div>
-      <figcaption className="about-photo-caption">
-        <span>{photo.caption}</span>
-        <span className="about-photo-date">{photo.date}</span>
-      </figcaption>
-    </figure>
-  )
-}
 
 export default function About() {
   return (
@@ -100,7 +63,7 @@ export default function About() {
         <section className="about-photos">
           {COLUMNS.map(col => (
             <div key={col.width} className="about-photos-col" style={{ flexGrow: col.width }}>
-              {col.photos.map(photo => <PhotoCard key={photo.caption} photo={photo} columnWidth={col.width} />)}
+              {col.photos.map(photo => <PhotoCard key={photo.caption} photo={photo} slotWidth={col.width} />)}
             </div>
           ))}
         </section>

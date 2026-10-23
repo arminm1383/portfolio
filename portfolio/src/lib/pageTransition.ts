@@ -18,6 +18,15 @@ const GIF_SOLO = 0.38
 // of GIF_SOLO, so the time spent finishing the exit and swapping routes counts toward the solo moment.
 let gifAloneSince: number | null = null
 
+// Where the gif sat (page coordinates) on the page being left. If the new page's gif sits elsewhere,
+// it glides across instead of jumping.
+let gifFrom: { x: number; y: number } | null = null
+
+const gifPosition = () => {
+  const r = document.querySelector('.pixel-sprites')?.getBoundingClientRect()
+  return r ? { x: r.left + window.scrollX, y: r.top + window.scrollY } : null
+}
+
 // Entrance — the gif is visible from the first frame. Everything else stays hidden until every font and
 // image on the page is ready (so nothing pops in or swaps fonts), and at least GIF_SOLO has passed.
 // Returns a cleanup function.
@@ -34,6 +43,16 @@ export function runPageEntrance(): () => void {
   const hidden = gsap.context(() => {
     gsap.set(PAGE_CONTENT, { opacity: 0 })
     gsap.set('.top-navbar', { y: -80 })
+
+    const sprite = document.querySelector<HTMLElement>('.pixel-sprites')
+    const to = gifPosition()
+    if (sprite && to && gifFrom && !reduceMotion) {
+      const dx = gifFrom.x - to.x, dy = gifFrom.y - to.y
+      if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
+        // Cleared on completion (not up front) so a re-run of this effect still sees where it came from
+        gsap.fromTo(sprite, { x: dx, y: dy }, { x: 0, y: 0, duration: 0.35, ease: 'power2.inOut', clearProps: 'transform', onComplete: () => { gifFrom = null } })
+      } else gifFrom = null
+    }
   })
 
   let reveal: gsap.Context | undefined
@@ -121,6 +140,7 @@ export function useTransitionNavigate() {
     leaving = true
     Promise.all([runPageExit(), scrollToTop()]).then(() => {
       leaving = false
+      gifFrom = gifPosition()
       navigate(to)
     })
   }, [navigate, pathname])

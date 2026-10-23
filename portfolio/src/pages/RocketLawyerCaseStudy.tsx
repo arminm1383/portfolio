@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import './FindyCaseStudy.css'
 import TopNavbar from '../components/TopNavbar'
+import backArrow from '../assets/images/cs-back-arrow.svg'
 import { useRevealWhenReady } from '../lib/pageReady'
 
 import rocketHeroGif from '../assets/images/rocket-cs-hero-new.gif'
@@ -329,7 +330,7 @@ export default function RocketLawyerCaseStudy() {
       <div className="fcs-body">
 
         <aside className="fcs-sidebar">
-          <Link to="/" className="fcs-nav-back">← Back</Link>
+          <Link to="/" className="fcs-nav-back"><img src={backArrow} alt="" className="fcs-nav-back-icon" />Back</Link>
           <nav className="fcs-nav">
             {NAV_ITEMS.map(({ id, label }, i) => (
               <button

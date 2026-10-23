@@ -1,0 +1,48 @@
+/* ── Photo card (Figma "Photo": 2px-radius image + 12px caption row, 12px apart) — About & Art pages ── */
+.photo-card {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); /* pages set the lift + tilt hover */
+}
+
+.photo-card-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.photo-card-frame img {
+  display: block;
+}
+
+.photo-card-cover,
+.photo-card-contain {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-card-contain {
+  object-fit: contain;
+}
+
+.photo-card-caption {
+  display: flex;
+  align-items: flex-start;
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: normal;
+  color: #000;
+}
+
+.photo-card-caption > span:first-child {
+  white-space: nowrap;
+}
+
+.photo-card-meta {
+  flex: 1 0 0;
+  min-width: 1px;
+  text-align: right;
+}

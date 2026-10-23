@@ -77,6 +77,42 @@
   --font-heading: 'Open Sans', system-ui, sans-serif;        /* headings — Open Sans Bold (replaced Peace Sans) */
   --font-body: 'Open Sans', system-ui, sans-serif;
   --font-pixel: 'Pokemon Pixel', 'Courier New', monospace;   /* landing title, navbars, footer */
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;      /* case-study before/after labels */
+  --font-icon: 'Material Symbols Rounded';                    /* case-study icons (ligatures) */
+
+  /* ── Case-study design system — mirrors Figma Portfolio-v4 variables (set by the Findy case study) ── */
+  --color-surface: #fff;                          /* color/background/surface */
+  --color-surface-figure: rgba(234, 233, 233, 0.5); /* color/surface/figure */
+  --color-text-primary: #000;                     /* color/text/primary */
+  --color-text-muted: rgba(0, 0, 0, 0.75);        /* color/text/muted */
+  --color-text-subtle: rgba(0, 0, 0, 0.5);        /* color/text/subtle */
+  --color-border-subtle: rgba(0, 0, 0, 0.1);      /* color/border/subtle */
+  --color-border-figure: rgba(0, 0, 0, 0.12);     /* color/border/figure */
+  --color-border-faint: rgba(0, 0, 0, 0.08);      /* color/border/faint */
+  --color-divider: rgba(0, 0, 0, 0.2);            /* color/divider/default */
+  --color-accent-blue: #205dfd;                   /* color/accent/blue */
+  --color-accent-findy-blue: #2d8cbd;             /* color/accent/findy-blue */
+  --color-accent-rocket-red: #991b1d;             /* color/accent/rocket-red */
+
+  --radius-2xs: 2px;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-pill: 100px;
+
+  --leading-md: 28px;                             /* text/leading/md */
+  --leading-lg: 32px;                             /* text/leading/lg */
+
+  --shadow-raised: 0 4px 4px rgba(0, 0, 0, 0.04);                                   /* Elevation/Raised */
+  --shadow-media: 0 4px 4px rgba(0, 0, 0, 0.04), inset 0 4px 4px rgba(0, 0, 0, 0.04); /* Elevation/Media */
+  --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.04);                                    /* Elevation/Soft */
+
+  --case-section-gap: 56px;                       /* layout/case-section-gap */
+  --case-pad-y: 100px;                            /* layout/case-pad-y */
+  --case-column: 900px;                           /* layout/column */
 
   /* Spacing scale — --space-N = N × 4px, enforces the grid by construction */
   --space-1: 4px;

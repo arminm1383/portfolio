@@ -99,6 +99,28 @@ Pixel values in CSS are **taken directly from Figma** — do not round or adjust
 ### Small presentational components
 Stateless helpers (e.g. `CornerDots`, `AuraCard`, `FindyCard`, `MementoCard`) are defined in the same file as their page and exported only if reused elsewhere.
 
+### Case-study design system (Figma Portfolio-v4 variables + text styles; set by the Findy case study, node `1657:154223`)
+All case studies share `pages/FindyCaseStudy.css` (despite the name) — change the **base classes**, not per-page overrides, so every case study stays consistent. Tokens are in `index.css` (`--color-surface-figure`, `--color-border-figure`, `--color-text-muted/subtle`, `--color-divider`, `--color-accent-blue`, `--radius-2xs…pill`, `--shadow-raised/media`, `--leading-md/lg`, `--case-section-gap` 56, `--case-pad-y` 100, `--case-column` 900).
+
+| Figma text style | Spec | Classes |
+|---|---|---|
+| Heading/Large | Open Sans Regular 32 / 44px | `.fcs-title`, `.fcs-section-heading`, `.fcs-subsection-heading` |
+| Heading/Card | Regular 20 | `.rl-upnext-title`, value-prop titles |
+| Heading/Up Next | Regular 32, lh 1.2, −2% | `.rl-upnext-heading` |
+| Heading/Stat | Bold 24, page accent (`--case-accent`) | `.fcs-stat-num` |
+| Label/Eyebrow | SemiBold 16, lh 1.2, −2%, uppercase, 50% | `.fcs-section-label`, `.fcs-tag-label`, `.fcs-card-label`, sidebar tabs/back |
+| Body/Reading | Regular 16 / 32px | `.fcs-section-body`, `.fcs-role-text` |
+| Body/Meta | Regular 16, lh 1.2, −2% | `.fcs-tag-value` |
+| Body/Stat | Regular 16 / 28px, 75% | card body text |
+| Caption/Figure | SemiBold 14, lh 1.2, −2%, 50% | `.fcs-media-card-label` |
+| Label/Small | Regular 12 (75% or 50%) | `.fcs-chip`, `.fcs-stat-label` |
+
+- **Figures** (`.fcs-media-card`): grey wash `--color-surface-figure`, 1px `--color-border-figure`, **square corners**, padding 32/24, gap 24, caption first.
+- **White cards** (`.fcs-card`): surface, 1px `--color-border-subtle`, radius 8, `--shadow-raised`, padding 32/24. Stats bar (`.fcs-stats`): radius 20, `--shadow-media`.
+- **Chips** (`.fcs-chip`), **dividers** (`.fcs-divider`, 2px, 20% black), **icons** (`.fcs-icon`, Material Symbols Rounded in accent blue — add new glyph names to the `icon_names` list in `index.html`).
+- **Rhythm**: 56px between sections and from header to first section (`.fcs-section` padding-top; the last child's margin never stacks); 16px between elements within a section; header internals gap 32.
+- **Sidebar**: back link = 16px arrow (`cs-back-arrow.svg`) + "BACK"; tabs are Label/Eyebrow at 50%, active at 100%, 24px apart.
+
 ### Top navbar (`components/TopNavbar.tsx`) — used on the landing and every case study
 - Figma "Top Navbar" component `2042:155940`: fixed at x=24 / y=24, 1586×56 (right edge at 1610), padding 12px 0 — no side padding, so it starts at x=24 in line with the side navbar's text. Radius 12.
 - **No fill, stroke, shadow or blur** (the Figma component still lists a background blur; it was removed on request).
@@ -110,10 +132,10 @@ Stateless helpers (e.g. `CornerDots`, `AuraCard`, `FindyCard`, `MementoCard`) ar
 - Figma "Side Navbar" component `2042:156000`: fixed at x=0 / y=250, vertical stack of `--font-pixel` 24px links (home, about me, my inspo, playground), padding 12px 24px (text at x=24), gap 12, no fill/stroke/shadow, backdrop blur 9.15px (Figma 18.3).
 - Every item is 50% opacity except the current page's, which is black. Live items (home → `/`, about me → `/about`) stay clickable and nudge right 4px on hover. Items without a page yet ("my inspo", "playground") are inert, with no hover and no custom-cursor variant.
 
-### Pixel pages (`components/PixelPage.tsx`) — Landing (`/`) and About (`/about`)
+### Pixel pages (`components/PixelPage.tsx`) — Landing (`/`), About (`/about`), Art as of late (`/art`)
 - Shared shell: top navbar, side navbar, pixel title row ("word [sprite gif] word"), intro, body, `SiteFooter` (links + resume popup).
-- The title row is anchored at the Main origin (Figma x=314 / y=213) on every page and the word before the gif is a fixed 0.75em, so the gif (x=413) never moves between pages. The intro text beside the gif (landing tagline, About bio) is Open Sans 20px.
-- Work artwork (landing) and About photos use a 2px corner radius; About photos zoom 3% on hover but aren't links.
+- Every pixel page shares one grid: Main at x=314 / y=213, 1078px wide; subtext (tagline/bio) Open Sans 20px spanning the full 1078; body 96px below the header. The gif is always at x=413 (Main +99): the word before it sits in a fixed 0.75em slot ending 24px before the gif, so longer words ("art") extend left past the column edge rather than moving the gif. (If a future title ever does move the gif, the transition glides it to its new spot.)
+- Photo + caption cards on About and Art use the shared `components/PhotoCard.tsx`. Work artwork (landing) and these photos use a 2px corner radius; photos lift 10px and tilt 1° on hover (like the work cards) but aren't links.
 - Page transition (`lib/pageTransition.ts`, via `useTransitionNavigate`): everything except the gif fades out (top navbar slides up), the route changes, then the new page's entrance plays (0.38s gif-only moment, then content). Use it for links between pixel pages.
 
 ### Loading — nothing pops in (`lib/pageReady.ts`, `lib/pageAssets.ts`)
