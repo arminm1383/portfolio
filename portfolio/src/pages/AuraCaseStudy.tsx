@@ -60,36 +60,6 @@ export default function AuraCaseStudy() {
     }
   }, [])
 
-  useEffect(() => {
-    currentYRef.current = window.scrollY
-    targetYRef.current = currentYRef.current
-
-    function tick() {
-      const diff = targetYRef.current - currentYRef.current
-      if (Math.abs(diff) < 0.5) {
-        currentYRef.current = targetYRef.current
-        window.scrollTo(0, currentYRef.current)
-        rafRef.current = null
-        return
-      }
-      currentYRef.current += diff * 0.085
-      window.scrollTo(0, currentYRef.current)
-      rafRef.current = requestAnimationFrame(tick)
-    }
-
-    function onWheel(e: WheelEvent) {
-      e.preventDefault()
-      const maxY = document.body.scrollHeight - window.innerHeight
-      targetYRef.current = Math.max(0, Math.min(maxY, targetYRef.current + e.deltaY * 1.2))
-      if (!rafRef.current) rafRef.current = requestAnimationFrame(tick)
-    }
-
-    window.addEventListener('wheel', onWheel, { passive: false })
-    return () => {
-      window.removeEventListener('wheel', onWheel)
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
-    }
-  }, [])
 
   useEffect(() => {
     const routable = NAV_ITEMS.filter(i => i.routable)

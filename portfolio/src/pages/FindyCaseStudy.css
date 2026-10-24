@@ -2138,29 +2138,20 @@
   color: var(--color-text-subtle);
 }
 
-/* Material Symbols Rounded icons (ligatures) in the accent blue */
+/* Icons — SVGs exported from Figma's Material Symbols Rounded glyphs (outlined), each in its Figma
+   text box: 24×29 overflowing a 24×24 slot, or 32×38 for the large variant. */
 .fcs-icon {
+  display: block;
   flex-shrink: 0;
   width: 24px;
-  font-family: var(--font-icon);
-  font-size: 24px;
-  font-weight: 400;
-  font-style: normal;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  white-space: nowrap;
-  direction: ltr;
-  font-feature-settings: 'liga';
-  -webkit-font-smoothing: antialiased;
-  color: var(--color-accent-blue);
-  user-select: none;
+  height: 29px;
+  margin-bottom: -5px; /* the 29px text box hangs out of its 24px slot, as in Figma */
 }
 
 .fcs-icon--lg {
   width: 32px;
-  font-size: 32px;
-  line-height: normal; /* Figma: 32px glyph in a 38px line */
+  height: 38px;
+  margin-bottom: 0;
 }
 
 .fcs-divider {
@@ -2248,6 +2239,9 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 .fcs-page--findy { --case-accent: #4b91de; }
 
+/* Sidebar tabs scroll a section so its label lands level with BACK (y=100): 100 − the section's 56px padding */
+.fcs-page--findy .fcs-section[id] { scroll-margin-top: calc(var(--case-pad-y) - var(--case-section-gap)); }
+
 /* Org logo — Figma crops the Design @ UCI mark into a 23×25 frame */
 .findy-org-logo {
   position: relative;
@@ -2266,13 +2260,21 @@
   max-width: none;
 }
 
-/* Figma: hero is an empty white 779×450 panel (radius 12) for now */
+/* Figma hero frame: 779×450, radius 12 — filled with the original Findy gif */
 .findy-hero {
   width: 779px;
   max-width: 100%;
   aspect-ratio: 779 / 450;
   border-radius: var(--radius-md);
   background: var(--color-surface);
+  overflow: hidden;
+}
+
+.findy-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* ── Problem ── */
@@ -2402,9 +2404,12 @@
   gap: var(--space-6);
 }
 
+/* Every media frame is Figma's 408×233 slot */
 .findy-media-frame {
   position: relative;
+  width: 408px;
   max-width: 100%;
+  aspect-ratio: 408 / 233;
   overflow: hidden;
   border-radius: var(--radius-2xs);
 }
@@ -2414,71 +2419,35 @@
   max-width: none;
 }
 
-/* Figma crops: image box size and offset as % of the frame */
-.findy-media-frame--table img,
-.findy-media-frame--demo img  { left: -5.68%; top: -5.79%; width: 105.79%; height: 112%; }
-.findy-media-frame--focus img { left: -29.2%; top: 0; width: 129.29%; height: 100%; }
-.findy-media-frame--usability img { inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* Figma crops: image box size and offset as % of the frame (--cover: the file is already cropped to fit) */
+.findy-media-frame--table img   { left: -5.68%; top: -5.79%; width: 105.79%; height: 112%; }
+.findy-media-frame--focus img   { left: -29.2%; top: 0; width: 129.29%; height: 100%; }
+.findy-media-frame--adriana img { left: -24.08%; top: -15.57%; width: 128%; height: 125.04%; }
+.findy-media-frame--cover img   { inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
-.findy-media-frame--table,
-.findy-media-frame--focus     { width: 408px; aspect-ratio: 408 / 233; }
-.findy-media-frame--usability { width: 377px; aspect-ratio: 377 / 222.67; }
-.findy-media-frame--demo      { width: 731px; aspect-ratio: 731 / 432; }
-
-/* Before / after phones */
-.findy-before-after {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-12);
-  width: 100%;
-}
-
-.findy-ba-phone {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.findy-ba-label {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: 0.96px;
-  text-transform: uppercase;
-  color: var(--color-text-subtle);
-}
-
-.findy-ba-phone img {
+/* Applying usability test results — 850-wide annotated screens (Figma 2162:1611) */
+.findy-usability-results {
   display: block;
-  width: 182px;
-  height: 370px;
-  object-fit: contain;
-  border-radius: var(--radius-sm);
-}
-
-.findy-ba-arrow {
-  width: 64px;
-  height: 64px;
-  transform: scaleX(-1); /* Figma flips the back arrow to point forward */
+  width: 100%;
+  height: auto;
 }
 
 /* ── Solution ── */
 .fcs-media-card--padded.findy-figure--start { align-items: flex-start; }
 
-/* The assistance loop — three states on a pale blue strip */
+/* The assistance loop — three 232px states, 50px apart, on a pale blue strip that hugs them (Figma 2105:46071) */
 .findy-states {
   box-sizing: border-box;
   display: flex;
-  gap: var(--space-3);
-  width: 100%;
+  gap: 50px;
+  max-width: 100%;
   padding: var(--space-6);
   border: 1px solid #9cd5f7;
   background: rgba(206, 234, 251, 0.2);
 }
 
 .findy-state {
-  flex: 1 1 0;
+  flex: 0 1 232px;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -2573,30 +2542,15 @@
   text-align: center;
 }
 
-/* Figma "Frame 1720 (Bezel)" — 281×560 iPhone */
+/* Phone gifs ship with their own bezel — Figma 282×560 slot */
 .findy-phone {
-  position: relative;
+  display: block;
   flex-shrink: 0;
-  width: 281px;
+  width: 282px;
+  max-width: 100%;
   height: 560px;
+  object-fit: contain;
 }
-
-.findy-phone-btn,
-.findy-phone-outer {
-  position: absolute;
-  background: #535353;
-  box-shadow: inset 0 0 2.315px rgba(0, 0, 0, 0.51);
-}
-
-.findy-phone-btn { left: 5.79px; width: 7.52px; border-radius: 1.39px; }
-.findy-phone-btn--vol-up { top: 106.47px; height: 24.3px; }
-.findy-phone-btn--vol-dn { top: 148.72px; height: 39.35px; }
-.findy-phone-btn--power  { top: 198.48px; height: 39.35px; }
-
-.findy-phone-outer  { inset: 8.68px 8.33px 8.33px 8.68px; border-radius: 32.46px; }
-.findy-phone-inner  { position: absolute; inset: 12.73px 12.38px 12.38px 12.73px; border-radius: 30.03px; background: #000; }
-.findy-phone-screen { position: absolute; inset: 19.67px 19.33px 19.33px 19.67px; border-radius: 23.09px; background: #fff; overflow: hidden; }
-.findy-phone-screen img { position: absolute; display: block; max-width: none; }
 
 /* ── Up Next: Streets artwork (blue field + projects screenshot panel) ── */
 .rl-upnext-artwork.findy-upnext-streets { background: #369af1; }
@@ -2623,8 +2577,6 @@
   .findy-media-row,
   .findy-states { flex-direction: column; align-items: stretch; }
   .findy-pain-point { flex-basis: auto; }
-  .findy-media-frame--table,
-  .findy-media-frame--focus,
-  .findy-media-frame--usability { width: 100%; }
+  .findy-media-frame { width: 100%; }
   .fcs-media-card.findy-phone-figure { align-items: center; }
 }

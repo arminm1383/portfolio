@@ -78,7 +78,6 @@
   --font-body: 'Open Sans', system-ui, sans-serif;
   --font-pixel: 'Pokemon Pixel', 'Courier New', monospace;   /* landing title, navbars, footer */
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;      /* case-study before/after labels */
-  --font-icon: 'Material Symbols Rounded';                    /* case-study icons (ligatures) */
 
   /* ── Case-study design system — mirrors Figma Portfolio-v4 variables (set by the Findy case study) ── */
   --color-surface: #fff;                          /* color/background/surface */

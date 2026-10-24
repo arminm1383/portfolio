@@ -19,7 +19,7 @@ portfolio/               ← you are here (app root)
 ├── .claude/
 │   └── agents/
 │       └── design-audit.md
-├── public/              # Static assets (icons.svg, favicon.svg)
+├── public/              # Static assets (icons.svg, CNAME, 404.html)
 ├── src/
 │   ├── assets/images/   # All raster/vector assets (PNG, SVG)
 │   ├── components/      # Shared UI (Navbar.tsx + Navbar.css)
@@ -117,14 +117,14 @@ All case studies share `pages/FindyCaseStudy.css` (despite the name) — change 
 
 - **Figures** (`.fcs-media-card`): grey wash `--color-surface-figure`, 1px `--color-border-figure`, **square corners**, padding 32/24, gap 24, caption first.
 - **White cards** (`.fcs-card`): surface, 1px `--color-border-subtle`, radius 8, `--shadow-raised`, padding 32/24. Stats bar (`.fcs-stats`): radius 20, `--shadow-media`.
-- **Chips** (`.fcs-chip`), **dividers** (`.fcs-divider`, 2px, 20% black), **icons** (`.fcs-icon`, Material Symbols Rounded in accent blue — add new glyph names to the `icon_names` list in `index.html`).
+- **Chips** (`.fcs-chip`), **dividers** (`.fcs-divider`, 2px, 20% black), **icons** (`.fcs-icon` images: Material Symbols glyphs exported from Figma as outlined SVGs `cs-icon-*.svg`, padded to their Figma text box — 24×29 or 32×38 `--lg`; export new ones the same way rather than using an icon font).
 - **Rhythm**: 56px between sections and from header to first section (`.fcs-section` padding-top; the last child's margin never stacks); 16px between elements within a section; header internals gap 32.
-- **Sidebar**: back link = 16px arrow (`cs-back-arrow.svg`) + "BACK"; tabs are Label/Eyebrow at 50%, active at 100%, 24px apart.
+- **Sidebar**: back link = 16px arrow (`cs-back-arrow.svg`) + "BACK"; tabs are Label/Eyebrow at 50%, active at 100%, 24px apart. Findy (the reference): one tab per labelled section, in page order; a click sets the tab active, pauses scroll-spy until `scrollend` (or wheel/touch/key), and calls native `scrollIntoView({behavior:"smooth"})`, with `scroll-margin-top` landing the section label level with BACK (y=100). Scroll-spy = last section whose top passed 35% of the viewport; the last tab once the page bottoms out.
 
 ### Top navbar (`components/TopNavbar.tsx`) — used on the landing and every case study
 - Figma "Top Navbar" component `2042:155940`: fixed at x=24 / y=24, 1586×56 (right edge at 1610), padding 12px 0 — no side padding, so it starts at x=24 in line with the side navbar's text. Radius 12.
 - **No fill, stroke, shadow or blur** (the Figma component still lists a background blur; it was removed on request).
-- One left-aligned row, gap 8: 16×16 pixel Poké Ball (`topnav-pokeball-pixel.svg`), then "armin mohammadi" (`--font-pixel` 24px, links home via the page transition).
+- Just "armin mohammadi", left-aligned (`--font-pixel` 24px, links home via the page transition). The Poké Ball icon and the Poké Ball favicon were removed on request; the site has no favicon (`<link rel="icon" href="data:,">` so browsers don't request `/favicon.ico`).
 - Scroll behaviour from `lib/useScrollReveal.ts`: shown near the top, hides on scroll-down, reveals on scroll-up.
 - The landing entrance slides it down from `y: -80` (0.55s). `CsTopbar` is the legacy bar — kept, but only `/alt` uses it.
 
@@ -134,7 +134,7 @@ All case studies share `pages/FindyCaseStudy.css` (despite the name) — change 
 
 ### Pixel pages (`components/PixelPage.tsx`) — Landing (`/`), About (`/about`), Art as of late (`/art`)
 - Shared shell: top navbar, side navbar, pixel title row ("word [sprite gif] word"), intro, body, `SiteFooter` (links + resume popup).
-- Every pixel page shares one grid: Main at x=314 / y=213, 1078px wide; subtext (tagline/bio) Open Sans 20px spanning the full 1078; body 96px below the header. The gif is always at x=413 (Main +99): the word before it sits in a fixed 0.75em slot ending 24px before the gif, so longer words ("art") extend left past the column edge rather than moving the gif. (If a future title ever does move the gif, the transition glides it to its new spot.)
+- Every pixel page shares one grid: Main at x=314 / y=213, 1078px wide; subtext (tagline/bio) Open Sans 20px spanning the full 1078; body 96px below the header. The gif is always at x=445 (Main +131, Figma's Art frame): the word before it sits in a fixed 1.07em slot (the width of "art") left-aligned with the body text at x=314, so every title word lines up with the body and the gif never moves. A word longer than "art" would need the slot widened (which moves the gif on every page). (If a future title ever does move the gif, the transition glides it to its new spot.)
 - Photo + caption cards on About and Art use the shared `components/PhotoCard.tsx`. Work artwork (landing) and these photos use a 2px corner radius; photos lift 10px and tilt 1° on hover (like the work cards) but aren't links.
 - Page transition (`lib/pageTransition.ts`, via `useTransitionNavigate`): everything except the gif fades out (top navbar slides up), the route changes, then the new page's entrance plays (0.38s gif-only moment, then content). Use it for links between pixel pages.
 
@@ -143,7 +143,7 @@ All case studies share `pages/FindyCaseStudy.css` (despite the name) — change 
 - Pixel pages: the sprite gif shows alone for at least 0.38s, longer if loading takes longer, then content reveals. Case studies: `useRevealWhenReady()` holds the whole page (incl. top navbar) and fades it in.
 - Google Fonts load from `index.html` (preconnect + stylesheet), not a CSS `@import`; `main.tsx` starts the core faces before React renders.
 - Pixel pages register their images (`registerPageImages`) so the other pixel page is prefetched in idle time, and the destination starts loading during the exit animation.
-- Keep assets at ≤ 2× their largest display size (case-study column 900px → 1800px wide max); opaque photos as JPEG.
+- Keep assets at ≤ 2× their largest display size (case-study column 900px → 1800px wide max); opaque photos as JPEG. Figma gif exports are huge (10–95 MB). Export animations at **2× display width** (anything less looks soft on retina) as **animated WebP** (Pillow, quality ~80–85, alpha kept: phone mockups have transparent corners); GIF palettes band on gradients/wallpapers and heavy `--lossy` looks low-quality. Halve the frame rate (summing delays) for long clips to stay under ~7 MB each.
 
 ### Custom cursor (`components/CustomCursor.tsx`) — work cards only
 - Figma "Cursor" component set `2042:155868`: 20×20 `#fe8a09` square, radius 4; on hover expands to a 24px-tall pill with icon + `--font-pixel` 16px label: `case-study` (155px, "view case study"), `devpost` (135px), `coming-soon` (135px).

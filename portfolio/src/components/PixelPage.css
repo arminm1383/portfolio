@@ -39,14 +39,12 @@
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
 }
 
-/* The gif sits at the same spot on every page (Figma x=413 = Main +99): the word before it lives in a
-   fixed 0.75em (75px) slot and ends 24px before the gif. Words that fit ("hi,", "me") fill the slot;
-   longer ones ("art") extend left past the column edge instead of pushing the gif right. */
+/* The gif sits at the same spot on every page (Figma Art frame: x=445 = Main +131) so it never moves during
+   a transition. The word before it lives in a fixed 1.07em (107px, the width of "art") slot, left-aligned
+   with the body text; shorter words ("hi,", "me") simply leave more room before the gif. */
 .pixel-title > span:first-child {
-  width: 0.75em;
+  width: 1.07em;
   flex-shrink: 0;
-  display: flex;
-  justify-content: flex-end;
   white-space: nowrap;
 }
 
