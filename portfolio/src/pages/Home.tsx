@@ -116,7 +116,6 @@ export default function Home() {
             year="2026"
             description="design engineering enterprise B2B software"
             isGif
-            to="/work/streets"
           />
           <WorkCard
             className="work-card--memento"

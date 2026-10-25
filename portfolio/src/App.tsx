@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import Home from './pages/Home'
 import About from './pages/About'
@@ -8,7 +8,6 @@ import CaseStudy from './pages/CaseStudy'
 import FindyCaseStudy from './pages/FindyCaseStudy'
 import AuraCaseStudy from './pages/AuraCaseStudy'
 import RocketLawyerCaseStudy from './pages/RocketLawyerCaseStudy'
-import StreetsCaseStudy from './pages/StreetsCaseStudy'
 import CustomCursor from './components/CustomCursor'
 
 function ScrollToTop() {
@@ -33,7 +32,8 @@ export default function App() {
         <Route path="/work/findy" element={<FindyCaseStudy />} />
         <Route path="/work/aura" element={<AuraCaseStudy />} />
         <Route path="/work/rocket-lawyer" element={<RocketLawyerCaseStudy />} />
-        <Route path="/work/streets" element={<StreetsCaseStudy />} />
+        {/* Streets is coming soon — restore <StreetsCaseStudy /> here (and the links) when it ships */}
+        <Route path="/work/streets" element={<Navigate to="/" replace />} />
         <Route path="/work/:slug" element={<CaseStudy />} />
       </Routes>
     </BrowserRouter>

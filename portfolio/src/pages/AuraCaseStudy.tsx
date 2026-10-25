@@ -239,7 +239,7 @@ export default function AuraCaseStudy() {
               <div className="fcs-upnext-divider" />
               <h2 className="fcs-upnext-heading">Up Next</h2>
               <div className="fcs-upnext-cards">
-                <Link to="/work/streets" className="fcs-upnext-card">
+                <div className="fcs-upnext-card fcs-upnext-card--soon" data-cursor="coming-soon">
                   <div className="fcs-upnext-card-artwork">
                     <img src={streetsGif} alt="" draggable={false} />
                   </div>
@@ -250,7 +250,7 @@ export default function AuraCaseStudy() {
                     </div>
                     <div className="fcs-upnext-card-title">Streets Enterprise UI</div>
                   </div>
-                </Link>
+                </div>
                 <Link to="/work/aura" className="fcs-upnext-card">
                   <div className="fcs-upnext-card-artwork">
                     <img src={auraGif} alt="" draggable={false} />

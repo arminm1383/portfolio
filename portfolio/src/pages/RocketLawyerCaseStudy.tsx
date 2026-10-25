@@ -38,7 +38,6 @@ const NAV_ITEMS = [
   { id: 'research',    label: 'Research',               routable: true  },
   { id: 'process',    label: ' Process',    routable: true  },
   { id: 'next-steps', label: 'Next Steps',  routable: true  },
-  { id: 'reflections', label: 'Reflections', routable: true  },
 ]
 
 // ── Rocket Lawyer design-system color palette (carousel) ─────────────────────
@@ -658,26 +657,6 @@ export default function RocketLawyerCaseStudy() {
                 <div className="fcs-next-steps-card">
                   <p className="fcs-next-steps-title">Applying 5+ Claude Skills to UX Research</p>
                   <p className="fcs-next-steps-body">With 6 different Claude skills shipped by me to the team, Rocket Lawyer is ready to overhaul their design process with a data-driven emphasis.</p>
-                </div>
-              </div>
-            </section>
-
-            {/* ── Reflections ── */}
-            <section className="fcs-section" id="reflections">
-              <span className="fcs-section-label">Reflections</span>
-              <h2 className="fcs-section-heading">Learning, Growing, and Evolving</h2>
-              <div className="fcs-reflection-list">
-                <div className="fcs-reflection-item">
-                  <p className="fcs-reflection-item-title">Experimenting with Validated Features in the Current Workspace</p>
-                  <p className="fcs-reflection-item-body">Design engineering components built by me are to be continuously iterated upon and tested for future business center versions.</p>
-                </div>
-                <div className="fcs-reflection-item">
-                  <p className="fcs-reflection-item-title">Shifting Focus over to the Business Center Dashboard</p>
-                  <p className="fcs-reflection-item-body">With version control and the document management system being validated, their functionality should be further explored by engineering teams.</p>
-                </div>
-                <div className="fcs-reflection-item">
-                  <p className="fcs-reflection-item-title">Connection and Communication are Key to a Remote Environment</p>
-                  <p className="fcs-reflection-item-body">With 6 different Claude skills shipped by me to the team, Rocket Lawyer is ready to overhaul their design process with a data-driven emphasis.</p>
                 </div>
               </div>
             </section>

@@ -12,7 +12,7 @@ import bubbleZen        from '../assets/images/findy-v2-zen.svg'
 import headphones       from '../assets/images/findy-v2-headphones.svg'
 import bubbleClumsy     from '../assets/images/findy-v2-clumsy.svg'
 import competitors      from '../assets/images/findy-v2-competitors.png'
-import researchSetup    from '../assets/images/findy-v2-research-setup.gif'
+import researchSetup    from '../assets/images/findy-v2-research-setup.webp'
 import tableSetup       from '../assets/images/findy-v2-table-setup.jpg'
 import focusGroup       from '../assets/images/findy-v2-focus-group.gif'
 import usabilityShot    from '../assets/images/findy-v2-usability.jpg'
@@ -464,7 +464,7 @@ export default function FindyCaseStudy() {
             <section className="rl-upnext">
               <h2 className="rl-upnext-heading">Up Next</h2>
               <div className="rl-upnext-row">
-                <Link to="/work/streets" className="rl-upnext-card" data-cursor="case-study">
+                <div className="rl-upnext-card" data-cursor="coming-soon">
                   <div className="rl-upnext-artwork findy-upnext-streets">
                     <img src={upStreets} alt="Streets" draggable={false} />
                   </div>
@@ -472,7 +472,7 @@ export default function FindyCaseStudy() {
                     <p className="rl-upnext-title">Streets</p>
                     <p className="rl-upnext-desc">design engineering enterprise B2B software</p>
                   </div>
-                </Link>
+                </div>
                 <Link to="/work/rocket-lawyer" className="rl-upnext-card" data-cursor="case-study">
                   <div className="rl-upnext-artwork rl-upnext-artwork--rocket">
                     <img src={rocketArtwork} alt="Rocket Copilot" draggable={false} />

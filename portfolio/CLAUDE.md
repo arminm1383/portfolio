@@ -19,7 +19,7 @@ portfolio/               ← you are here (app root)
 ├── .claude/
 │   └── agents/
 │       └── design-audit.md
-├── public/              # Static assets (icons.svg, CNAME, 404.html)
+├── public/              # Static assets (icons.svg, favicon-pokeball.svg, CNAME, 404.html)
 ├── src/
 │   ├── assets/images/   # All raster/vector assets (PNG, SVG)
 │   ├── components/      # Shared UI (Navbar.tsx + Navbar.css)
@@ -56,10 +56,11 @@ All sections below the hero/landing frame share a consistent horizontal margin: 
 Core tokens live in `:root` in `src/index.css` — use them instead of hardcoding.
 
 ### Canvas (page background)
-- Fill: `--color-canvas` = `#f7f7f5` (Figma variable `color/background/canvas`).
-- Plus Figma's **noise effect** (monotone `rgb(235,225,216)` @ 55%, size 0.5, density 1). CSS has no noise effect, so it is baked into `src/assets/images/canvas-noise.png` (256px tile shown at 128px → 0.5px grains), calibrated against Figma's render.
+- Source: the Figma **Background** component (`2172:2667`, first child of the Landing frame).
+- Fill: `--color-canvas` = `#ffffff`.
+- Plus Figma's **noise effect** (monotone `rgb(242,240,230)` @ 50%, size 0.5, density 1). CSS has no noise effect, so it is baked into `src/assets/images/canvas-noise.png` (256px tile shown at 128px → 0.5px grains). The tile is derived from Figma's 2x render of the component (`download_assets` `defaultScale: 2`): each pixel's alpha is solved from its distance from white toward the noise colour, so mean and grain match Figma's render. Regenerate it the same way if the noise spec changes.
 - Painted **once, on `body`** in `index.css` so it propagates to the whole viewport. Pages (`.landing`, `.fcs-page`, `.case-study`) must stay transparent — never give a page shell its own background or a second noise layer (the noise is translucent, so stacking darkens it).
-- Retired: the 25px grid-line pattern and the `#D9D9D9`/`#f7f7f7` page fills.
+- Retired: the 25px grid-line pattern, the `#D9D9D9`/`#f7f7f7`/`#f7f7f5` page fills and the old `rgb(235,225,216)` @ 55% noise.
 
 ### Colors
 - Canvas: `--color-canvas` `#f7f7f5` (see above)
@@ -124,7 +125,7 @@ All case studies share `pages/FindyCaseStudy.css` (despite the name) — change 
 ### Top navbar (`components/TopNavbar.tsx`) — used on the landing and every case study
 - Figma "Top Navbar" component `2042:155940`: fixed at x=24 / y=24, 1586×56 (right edge at 1610), padding 12px 0 — no side padding, so it starts at x=24 in line with the side navbar's text. Radius 12.
 - **No fill, stroke, shadow or blur** (the Figma component still lists a background blur; it was removed on request).
-- Just "armin mohammadi", left-aligned (`--font-pixel` 24px, links home via the page transition). The Poké Ball icon and the Poké Ball favicon were removed on request; the site has no favicon (`<link rel="icon" href="data:,">` so browsers don't request `/favicon.ico`).
+- One left-aligned row, gap 8: 16×16 pixel Poké Ball (`topnav-pokeball-pixel.svg`), then "armin mohammadi" (`--font-pixel` 24px, links home via the page transition). The favicon is the same Poké Ball (`public/favicon-pokeball.svg`).
 - Scroll behaviour from `lib/useScrollReveal.ts`: shown near the top, hides on scroll-down, reveals on scroll-up.
 - The landing entrance slides it down from `y: -80` (0.55s). `CsTopbar` is the legacy bar — kept, but only `/alt` uses it.
 
@@ -143,7 +144,7 @@ All case studies share `pages/FindyCaseStudy.css` (despite the name) — change 
 - Pixel pages: the sprite gif shows alone for at least 0.38s, longer if loading takes longer, then content reveals. Case studies: `useRevealWhenReady()` holds the whole page (incl. top navbar) and fades it in.
 - Google Fonts load from `index.html` (preconnect + stylesheet), not a CSS `@import`; `main.tsx` starts the core faces before React renders.
 - Pixel pages register their images (`registerPageImages`) so the other pixel page is prefetched in idle time, and the destination starts loading during the exit animation.
-- Keep assets at ≤ 2× their largest display size (case-study column 900px → 1800px wide max); opaque photos as JPEG. Figma gif exports are huge (10–95 MB). Export animations at **2× display width** (anything less looks soft on retina) as **animated WebP** (Pillow, quality ~80–85, alpha kept: phone mockups have transparent corners); GIF palettes band on gradients/wallpapers and heavy `--lossy` looks low-quality. Halve the frame rate (summing delays) for long clips to stay under ~7 MB each.
+- Keep assets at ≤ 2× their largest display size (case-study column 900px → 1800px wide max); opaque photos as JPEG. **Animations (gifs): always run the `gif-quality` skill** (`.claude/skills/gif-quality/`, auto-reminded by a hook in `.claude/settings.json`): export from Figma at 2x (`download_assets` `defaultScale: 2`), encode to 2x animated WebP, and ship only after its verify + browser audit print `RESULT: PASS`.
 
 ### Custom cursor (`components/CustomCursor.tsx`) — work cards only
 - Figma "Cursor" component set `2042:155868`: 20×20 `#fe8a09` square, radius 4; on hover expands to a 24px-tall pill with icon + `--font-pixel` 16px label: `case-study` (155px, "view case study"), `devpost` (135px), `coming-soon` (135px).

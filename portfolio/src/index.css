@@ -73,7 +73,7 @@
 
 :root {
   /* ── Core design system (Figma Portfolio-v4) ── */
-  --color-canvas: #f7f7f5;                                   /* Figma color/background/canvas */
+  --color-canvas: #ffffff;                                   /* Figma Background component (2172:2667) fill */
   --font-heading: 'Open Sans', system-ui, sans-serif;        /* headings — Open Sans Bold (replaced Peace Sans) */
   --font-body: 'Open Sans', system-ui, sans-serif;
   --font-pixel: 'Pokemon Pixel', 'Courier New', monospace;   /* landing title, navbars, footer */
@@ -182,8 +182,9 @@ html, body {
   cursor: none;
 }
 
-/* Page canvas — Figma Background fill + noise effect (monotone rgb(235,225,216) @ 55%, size 0.5,
-   density 1). CSS has no noise effect, so it's baked into a 256px tile shown at 128px (0.5px grains).
+/* Page canvas — Figma Background component (2172:2667): white fill + noise effect (monotone
+   rgb(242,240,230) @ 50%, size 0.5, density 1). CSS has no noise effect, so it's baked into a 256px tile
+   shown at 128px (0.5px grains), sampled from Figma's own 2x render of the component.
    Set on body only so it propagates to the whole viewport; pages stay transparent to show it. */
 body {
   background-color: var(--color-canvas);
