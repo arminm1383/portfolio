@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import { useEffect } from 'react'
 import Home from './pages/Home'
 import About from './pages/About'
-import Art from './pages/Art'
 import HomeAlt from './pages/HomeAlt'
 import CaseStudy from './pages/CaseStudy'
 import FindyCaseStudy from './pages/FindyCaseStudy'
@@ -27,7 +26,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/art" element={<Art />} />
+        {/* Art as of late is hidden — restore <Art /> here (and the navbar link) to bring it back */}
+        <Route path="/art" element={<Navigate to="/" replace />} />
         <Route path="/alt" element={<HomeAlt />} />
         <Route path="/work/findy" element={<FindyCaseStudy />} />
         <Route path="/work/aura" element={<AuraCaseStudy />} />
