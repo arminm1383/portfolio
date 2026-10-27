@@ -1,69 +1,10 @@
-/* ── About page content (Figma Portfolio-v4 "About", node 2042:156118). Shell, title, navbars and
-   footer live in components/PixelPage.css. ── */
+/* ── About page content (Figma v2.2 About frame 2227:88). The sidebar, shell and footer live in
+   components/Sidebar.css and components/SidebarPage.css. ── */
 
-/* Figma Bio: Main origin, 1078 wide, paragraphs 28px apart */
-.about-bio {
-  max-width: 1078px;
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  font-family: var(--font-body);
-  color: #000;
-}
-
-.about-bio > p {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: normal;
-}
-
-/* Page body: photos, then stat cards — 96px apart (Figma Main gap) */
-.about-body {
-  display: flex;
-  flex-direction: column;
-  gap: 96px;
-}
-
-/* Figma Stats: full-width cards, 28px apart, below the photos */
-.about-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-}
-
-.about-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 12px 24px;
-  overflow: clip;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
-}
-
-.about-stat-label,
-.about-stat-value {
-  margin: 0;
-  line-height: 28px;
-}
-
-.about-stat-label {
-  font-family: var(--font-pixel);
-  font-size: 24px;
-}
-
-.about-stat-value {
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 400;
-}
-
-/* ── Photos — three masonry columns (285 | 428 | 329 = 1078, gap 18; photos 20 apart) ── */
+/* ── Photos — three masonry columns (285 | 408 | 329 = 1058, gap 18; photos 20 apart) ── */
 .about-photos {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 18px;
 }
 
@@ -74,6 +15,16 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+/* All three columns end at the same height: the last photo in each takes up any slack (it's cover-cropped,
+   so a few extra px only trims a sliver). Figma's columns differ by up to 22px. */
+.about-photos-col > .photo-card:last-child {
+  flex-grow: 1;
+}
+
+.about-photos-col > .photo-card:last-child .photo-card-frame {
+  flex-grow: 1;
 }
 
 /* Same lift + tilt as the landing work cards (photos aren't links). Tilts alternate down each column
@@ -96,12 +47,7 @@
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
-  .about-body { gap: 64px; }
   .about-photos { flex-direction: column; gap: 20px; }
   .about-photos-col { width: 100%; flex: none; }
-  .about-photos .photo-card-frame { width: 100% !important; } /* Figma's 281/326 frames sit inset in their columns on desktop only */
 }
 
-@media (max-width: 520px) {
-  .about-bio > p { font-size: 18px; }
-}

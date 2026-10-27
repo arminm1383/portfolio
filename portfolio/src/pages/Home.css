@@ -1,38 +1,26 @@
-/* ── Landing page content (Figma Portfolio-v4 "Landing", node 2021:85606). Shell, title, navbars and
-   footer live in components/PixelPage.css. ── */
+/* ── Landing page content (Figma v2.2 "Landing", node 2217:57984). The sidebar, page shell and footer live in
+   components/Sidebar.css and components/SidebarPage.css. ── */
 
-/* Figma: tagline at the Main origin, 1078 wide, 20px */
-.landing-tagline {
-  max-width: 1078px;
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: 20px;
-  font-weight: 400;
-  line-height: normal;
-  color: #000;
-}
-
-/* ── Works — two masonry columns (570 | 32 | 476) ── */
+/* ── Works — two equal columns (513 | 32 | 513, padded 12px top and bottom), 32px between cards. The right
+   column is padded a further 24px, which staggers it below the left one. ── */
 .landing-works {
   width: 100%;
-  max-width: 1078px;
   display: flex;
   align-items: flex-start;
   gap: 32px;
+  padding: 12px 0;
 }
 
 .landing-works-col {
-  flex: 570 1 0;
+  flex: 1 1 0;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 32px;
 }
 
 .landing-works-col--right {
-  flex: 476 1 0;
-  align-items: flex-end;
+  padding: 24px 0;
 }
 
 /* ── Work Card ── */
@@ -66,16 +54,19 @@ a.work-card {
   transform: translateY(-10px) rotate(-1deg);
 }
 
+/* Every thumbnail is Figma's 513×317 */
 .work-card-artwork {
   position: relative;
   width: 100%;
+  aspect-ratio: 513 / 317;
   flex-shrink: 0;
   border-radius: 2px;
   overflow: hidden;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.04);
 }
 
-.work-card-artwork img {
+.work-card-artwork img,
+.work-card-artwork video {
   display: block;
   width: 100%;
   height: 100%;
@@ -128,16 +119,8 @@ a.work-card {
   margin: 0;
 }
 
-/* Per-card sizes — Figma artwork frames */
-.work-card--streets .work-card-artwork { aspect-ratio: 570 / 368; }
-.work-card--streets .work-card-content { width: 87.72%; } /* Figma: 500-wide text under a 570 card */
-
-.work-card--memento .work-card-artwork { aspect-ratio: 570 / 300; }
-
-.work-card--rocket { gap: 16px; }
-.work-card--rocket .work-card-artwork { aspect-ratio: 476 / 294; }
-/* Figma crop: image at 113.91% × 106.59%, shifted −6% left, top-anchored */
-.work-card--rocket .work-card-artwork img {
+/* Figma crop (single-clip cards only; a pixel/reveal pair fills the box with cover so its canvas lines up): 113.91% × 106.59%, −6% left, top-anchored */
+.work-card--rocket .work-card-artwork video:not(.pixel-reveal-video) {
   position: absolute;
   top: 0;
   left: -6%;
@@ -146,42 +129,19 @@ a.work-card {
   max-width: none;
 }
 
+/* Figma: light-blue card with the phone (311×616, centred) pushed up so only its lower part shows: it starts
+   367px above the 317px card. Image cropped 100% × 100.69% at (−1%, −0.35%) inside its frame. */
 .work-card--findy .work-card-artwork {
-  width: 98.53%; /* Figma: 469-wide artwork in a 476 column */
-  aspect-ratio: 469 / 557;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #e3f5fe;
 }
 
-/* Figma "Glow": blurred radial blue wash (gradient @ 12%, layer @ 95%), 473×555 at (−4, 2) in the 469×557 card */
-.work-card-glow {
-  position: absolute;
-  left: -0.85%;
-  top: 0.36%;
-  width: 100.85%;
-  height: 99.64%;
-  border-radius: 4px;
-  opacity: 0.95;
-  filter: blur(27.9px);
-  pointer-events: none;
-  background: radial-gradient(ellipse closest-side at center,
-    rgba(255, 255, 255, 0.12) 0%,
-    rgba(204, 238, 255, 0.12) 25%,
-    rgba(153, 220, 255, 0.12) 50%,
-    rgba(102, 203, 255, 0.12) 75%,
-    rgba(77, 194, 255, 0.12) 87.5%,
-    rgba(51, 186, 255, 0.12) 100%);
-}
-
-/* Figma: phone gif in a 263×521 frame, centred in the card; image cropped 100% × 100.69% at (−1%, −0.35%) */
 .work-card--findy .work-card-media {
-  position: relative;
-  width: 56.08%;
-  aspect-ratio: 263 / 521;
+  position: absolute;
+  left: 19.69%;   /* 101 of 513 */
+  top: -115.77%;  /* −367 of 317 */
+  width: 60.62%;  /* 311 of 513 */
+  aspect-ratio: 311 / 616;
   overflow: hidden;
-  flex-shrink: 0;
 }
 
 .work-card--findy .work-card-media img {
@@ -195,13 +155,7 @@ a.work-card {
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
-  .landing-works { flex-direction: column; gap: 40px; }
+  .landing-works { flex-direction: column; gap: 32px; }
   .landing-works-col,
-  .landing-works-col--right { width: 100%; flex: none; align-items: stretch; gap: 40px; }
-  .work-card--streets .work-card-content,
-  .work-card--findy .work-card-artwork { width: 100%; }
-}
-
-@media (max-width: 520px) {
-  .landing-tagline { font-size: 18px; }
+  .landing-works-col--right { width: 100%; flex: none; padding: 0; }
 }

@@ -45,11 +45,26 @@ function imageSettled(img: HTMLImageElement): Promise<void> {
   })
 }
 
-// Resolves once every font the page uses and every <img> in it is fully loaded and decoded
+// A looping clip is ready once its first frame or its poster (the same frame) can be shown. The poster is
+// enough on its own: iOS Low Power Mode never loads autoplay video, and the page mustn't wait on it.
+function videoSettled(video: HTMLVideoElement): Promise<void> {
+  if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) return Promise.resolve()
+  const frame = new Promise<void>(resolve => {
+    video.addEventListener('loadeddata', () => resolve(), { once: true })
+    video.addEventListener('error', () => resolve(), { once: true })
+  })
+  if (!video.poster) return frame
+  const poster = new Image()
+  poster.src = video.poster
+  return Promise.race([frame, imageSettled(poster)])
+}
+
+// Resolves once every font the page uses and every <img> and <video> in it is ready to show
 export function waitForPage(root: ParentNode = document): Promise<void> {
   const images = Array.from(root.querySelectorAll('img')).map(imageSettled)
+  const videos = Array.from(root.querySelectorAll('video')).map(videoSettled)
   return Promise.race([
-    Promise.all([fontsSettled(), ...images]).then(() => {}),
+    Promise.all([fontsSettled(), ...images, ...videos]).then(() => {}),
     sleep(MAX_WAIT_MS),
   ])
 }

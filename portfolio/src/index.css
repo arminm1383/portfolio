@@ -1,3 +1,4 @@
+/* Peace Sans: only the legacy CsTopbar on /alt still uses it */
 @font-face {
   font-family: 'Peace Sans';
   src: url('/fonts/PeaceSans.ttf') format('truetype');
@@ -14,70 +15,12 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'PP Kyoto';
-  src: url('./assets/fonts/PPKyoto-Thin.otf') format('opentype');
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'PP Kyoto';
-  src: url('./assets/fonts/PPKyoto-ThinItalic.otf') format('opentype');
-  font-weight: 100;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'PP Kyoto';
-  src: url('./assets/fonts/PPKyoto-Light.otf') format('opentype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'PP Kyoto';
-  src: url('./assets/fonts/PPKyoto-LightItalic.otf') format('opentype');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'PP Kyoto';
-  src: url('./assets/fonts/PPKyoto-Medium.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'PP Kyoto';
-  src: url('./assets/fonts/PPKyoto-MediumItalic.otf') format('opentype');
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'PP Kyoto';
-  src: url('./assets/fonts/PPKyoto-Extrabold.otf') format('opentype');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'PP Kyoto';
-  src: url('./assets/fonts/PPKyoto-ExtraboldItalic.otf') format('opentype');
-  font-weight: 800;
-  font-style: italic;
-  font-display: swap;
-}
-
 :root {
   /* ── Core design system (Figma Portfolio-v4) ── */
   --color-canvas: #ffffff;                                   /* Figma Background component (2172:2667) fill */
   --font-heading: 'Open Sans', system-ui, sans-serif;        /* headings — Open Sans Bold (replaced Peace Sans) */
   --font-body: 'Open Sans', system-ui, sans-serif;
-  --font-pixel: 'Pokemon Pixel', 'Courier New', monospace;   /* landing title, navbars, footer */
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;      /* case-study before/after labels */
+  --font-pixel: 'Pokemon Pixel', 'Courier New', monospace;   /* pixel titles, top navbar, footer, cursor labels */
 
   /* ── Case-study design system — mirrors Figma Portfolio-v4 variables (set by the Findy case study) ── */
   --color-surface: #fff;                          /* color/background/surface */
@@ -179,7 +122,6 @@
 
 html, body {
   margin: 0;
-  cursor: none;
 }
 
 /* Page canvas — Figma Background component (2172:2667): white fill + noise effect (monotone
@@ -192,6 +134,13 @@ body {
   background-size: 128px 128px;
 }
 
-*, *::before, *::after {
-  cursor: none !important;
+/* The custom cursor replaces the native one only on devices with a real mouse; touch and pen keep theirs.
+   `has-custom-cursor` is set by CustomCursor once the pointer has actually moved over the page. */
+@media (hover: hover) and (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor *,
+  html.has-custom-cursor *::before,
+  html.has-custom-cursor *::after {
+    cursor: none !important;
+  }
 }

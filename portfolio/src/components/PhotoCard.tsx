@@ -3,34 +3,25 @@ import './PhotoCard.css'
 export interface Photo {
   src: string
   caption: string
-  meta: string                                    // right-aligned caption text (date, medium…)
-  frame: [number, number]                         // Figma frame w × h (px)
-  crop?: [number, number, number, number]         // Figma image crop: w%, h%, left%, top%
-  fit?: 'cover' | 'contain'                       // used when there's no crop (default: cover)
+  meta: string                   // right-aligned caption text (date, medium…)
+  frame: [number, number]        // Figma frame w × h (px); the frame always spans its column/slot
+  focus?: string                 // object-position for the cover crop, matching Figma's framing (default: center)
+  fit?: 'cover' | 'contain'      // default: cover
 }
 
-// Photo + caption card shared by the About and Art pages. `slotWidth` is the width (in Figma px) of the
-// column/slot the card sits in; frames narrower than their slot (Figma's 281 in a 285 column) stay inset.
-export default function PhotoCard({ photo, slotWidth = photo.frame[0] }: { photo: Photo; slotWidth?: number }) {
+// Photo + caption card shared by the About and Art pages
+export default function PhotoCard({ photo }: { photo: Photo }) {
   const [w, h] = photo.frame
-  const imgStyle: React.CSSProperties | undefined = photo.crop && {
-    position: 'absolute',
-    width: `${photo.crop[0]}%`,
-    height: `${photo.crop[1]}%`,
-    left: `${photo.crop[2]}%`,
-    top: `${photo.crop[3]}%`,
-    maxWidth: 'none',
-  }
 
   return (
     <figure className="photo-card">
-      <div className="photo-card-frame" style={{ width: `${(w / slotWidth) * 100}%`, aspectRatio: `${w} / ${h}` }}>
+      <div className="photo-card-frame" style={{ aspectRatio: `${w} / ${h}` }}>
         <img
           src={photo.src}
           alt={photo.caption}
           decoding="async"
-          className={photo.crop ? undefined : `photo-card-${photo.fit ?? 'cover'}`}
-          style={imgStyle}
+          className={`photo-card-${photo.fit ?? 'cover'}`}
+          style={photo.focus ? { objectPosition: photo.focus } : undefined}
         />
       </div>
       <figcaption className="photo-card-caption">

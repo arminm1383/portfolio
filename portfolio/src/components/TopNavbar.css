@@ -1,5 +1,5 @@
 /* ── Top navbar (Figma "Top Navbar" component 2042:155940; Landing instance x=24 y=24, 1586×56, no side
-   padding). Left-aligned row: pixel Poké Ball, 8px, "armin mohammadi". No fill, stroke, shadow or blur. ── */
+   padding). Just "armin mohammadi", left-aligned (Figma dropped the Poké Ball). No fill, stroke, shadow or blur. ── */
 .top-navbar {
   position: fixed;
   top: 24px;
@@ -10,7 +10,6 @@
   height: 56px;
   display: flex;
   align-items: center;
-  gap: 8px;
   padding: 12px 0;
   overflow: clip;
   border-radius: 12px;
@@ -34,11 +33,6 @@
 }
 
 .top-navbar-name {
-  flex-shrink: 0;
-}
-
-.top-navbar-pokeball {
-  display: block;
   flex-shrink: 0;
 }
 

@@ -1,29 +1,11 @@
-/* ── Art as of late page content (Figma Portfolio-v4 node 2042:156223). Shell, title, navbars and
-   footer live in components/PixelPage.css; the photo card in components/PhotoCard.css. ── */
+/* ── Art as of late page content (Figma v2.2 Art frame 2227:297). The sidebar, shell and footer live in
+   components/Sidebar.css and components/SidebarPage.css; the photo card in components/PhotoCard.css. ── */
 
-/* Figma Bio: Main origin, 1078 wide, 20px, paragraphs 28px apart — same as the landing tagline / About bio */
-.art-bio {
-  max-width: 1078px;
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  font-family: var(--font-body);
-  color: #000;
-}
-
-.art-bio > p {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: normal;
-}
-
-/* Figma row: 325 | 479 | 231, 20px apart, top-aligned (1075 wide) */
+/* Figma row (2227:401): 275 | 238 | 183 | 255, 36px apart, top-aligned, spanning the full 1058 */
 .art-row {
-  max-width: 1075px;
   display: flex;
   align-items: flex-start;
-  gap: 20px;
+  gap: 36px;
 }
 
 .art-row-item {
@@ -45,8 +27,4 @@
 @media (max-width: 900px) {
   .art-row { flex-direction: column; gap: 20px; }
   .art-row-item { width: 100%; flex: none; }
-}
-
-@media (max-width: 520px) {
-  .art-bio > p { font-size: 18px; }
 }

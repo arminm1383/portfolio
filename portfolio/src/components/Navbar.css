@@ -17,10 +17,11 @@
   -webkit-backdrop-filter: blur(9.15px);
 }
 
-/* Figma Landing instance: no drop shadow (blur only) */
+/* Figma: Open Sans Regular 20 (was the pixel font), black; no drop shadow on the Landing instance */
 .nav-item {
-  font-family: var(--font-pixel);
-  font-size: 24px;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 400;
   line-height: normal;
   color: #000;
   white-space: nowrap;
@@ -48,4 +49,10 @@
     flex-direction: row;
     gap: 24px;
   }
+}
+
+/* The single row of four links needs ~486px at 20px, so phones get a tighter row that still fits 390 */
+@media (max-width: 520px) {
+  .navbar { gap: 12px; }
+  .nav-item { font-size: 16px; }
 }

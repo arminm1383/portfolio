@@ -1,0 +1,120 @@
+/* ── Sidebar (Figma v2.2 "Side Navbar" component 2227:58903: vertical, padding 72 40 72 40, gap 4, centred):
+   a text block that grows to fill the height (title, bio, navbar pinned to its bottom) and the gif under it. ── */
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  box-sizing: border-box;
+  width: 366px; /* Figma Side Navbar; matches .sidebar-page margin-left */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 72px 40px;
+  overflow-y: auto; /* windows shorter than the stack scroll the sidebar rather than clip it */
+  backdrop-filter: blur(9.15px);
+  -webkit-backdrop-filter: blur(9.15px);
+}
+
+/* Figma "Text": FILL height. It takes the room left above the gif (never less than its content) */
+.sidebar-text {
+  flex: 1 1 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar-title {
+  margin: 0;
+  white-space: pre-line; /* a "\n" in the title is a deliberate line break (about / me, art as of / late) */
+  font-family: var(--font-pixel);
+  font-size: 64px;
+  font-weight: 400;
+  line-height: normal;
+  color: #000;
+}
+
+/* Bio: rows 12px apart. Tagline Open Sans 12; role rows a pixel-font label (60% black) over Open Sans 16 */
+.sidebar-bio {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: normal;
+  color: #000;
+}
+
+.sidebar-bio p {
+  margin: 0;
+}
+
+.sidebar-tagline {
+  font-size: 12px;
+}
+
+.sidebar-role {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+}
+
+.sidebar-role-label {
+  font-family: var(--font-pixel);
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Figma "Navbar Fill": takes the rest of the text block and sits the navbar on its bottom edge */
+.sidebar-nav-slot {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Figma "Gif Container": a 244×130 box, centred, clipping a 270×144 gif placed 13px left of it */
+.sidebar-gif {
+  flex-shrink: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.sidebar-gif-frame {
+  position: relative;
+  width: 244px;
+  height: 130px;
+}
+
+.sidebar .pixel-sprites {
+  position: absolute;
+  left: -13px;
+  top: 0;
+  width: 270px;
+  height: 144px;
+  object-fit: cover;
+}
+
+/* ── Narrow screens: the sidebar becomes the top of the page ── */
+@media (max-width: 900px) {
+  .sidebar {
+    position: static;
+    width: auto;
+    padding: 48px 24px 0;
+    overflow: visible;
+    align-items: stretch;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .sidebar-text { flex: none; }
+  .sidebar-nav-slot { flex: none; }
+}
+
+@media (max-width: 520px) {
+  .sidebar-title { font-size: 48px; }
+}

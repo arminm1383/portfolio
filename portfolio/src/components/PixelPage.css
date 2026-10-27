@@ -1,21 +1,21 @@
-/* ── Pixel page shell (Figma Portfolio-v4 Landing 2021:85606 / About 2042:156118, 1648 wide) ── */
+/* ── Pixel page shell (Figma Portfolio-v4 Landing 2021:85606 / About 2042:156118 / Art 2042:156223, 1648 wide) ── */
 .pixel-page {
   --pixel-left: max(158px, calc(50% - 510px)); /* Figma Main x=314 at 1648; 158 = side navbar 134 + 24 */
   min-height: 100vh;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding-top: 213px; /* Figma Landing / About Main y=213 */
+  padding-top: 176px; /* Figma Main y=176 on every pixel page */
 }
 
 .pixel-page-main {
   box-sizing: border-box;
   width: min(1078px, calc(100% - var(--pixel-left) - 24px)); /* Figma Main 1078 on every page */
   margin-left: var(--pixel-left);
-  margin-bottom: 96px;
+  margin-bottom: 160px; /* Figma: footer starts 160px below Main on every page */
   display: flex;
   flex-direction: column;
-  gap: 96px;
+  gap: 64px; /* Figma Main gap: header block to body */
 }
 
 .pixel-page-header {
@@ -62,11 +62,11 @@
 }
 
 @media (max-width: 900px) {
-  .pixel-page { padding-top: 172px; }
+  .pixel-page { padding-top: 164px; } /* clears the mobile top navbar + the row of nav links under it */
   .pixel-page-main {
     width: auto;
-    margin: 0 24px 72px;
-    gap: 64px;
+    margin: 0 24px 96px;
+    gap: 48px;
   }
   .pixel-title { font-size: 64px; gap: 16px; }
 }

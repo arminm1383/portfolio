@@ -4,9 +4,12 @@ import { gsap } from 'gsap'
 import { waitForPage } from './pageReady'
 import { prefetchOtherPages, prefetchPage } from './pageAssets'
 
-// Everything on a PixelPage except the sprite gif — it fades out on exit and back in on entry,
-// while the gif (anchored at the same spot on every PixelPage) stays put across the route change.
-export const PAGE_CONTENT = ['.pixel-title > span', '.pixel-page-intro', '.pixel-page-body', '.navbar', '.site-footer']
+// Everything on a PixelPage or SidebarPage except the sprite gif — it fades out on exit and back in on entry,
+// while the gif stays put across the route change (or glides, if the two pages place it differently).
+export const PAGE_CONTENT = [
+  '.pixel-title > span', '.pixel-page-intro', '.pixel-page-body', '.navbar', '.site-footer',
+  '.sidebar-title', '.sidebar-bio', '.sidebar-nav',
+]
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -86,6 +89,14 @@ export function runPageEntrance(): () => void {
 
       tl.fromTo('.pixel-page-intro', { opacity: 0, y: 6 },
         { opacity: 1, y: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL + 0.08)
+
+      // Sidebar pages: title, then description, rise in; the navbar slides in like the old side navbar
+      tl.fromTo('.sidebar-title', { opacity: 0, y: 6 },
+        { opacity: 1, y: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL)
+      tl.fromTo('.sidebar-bio', { opacity: 0, y: 6 },
+        { opacity: 1, y: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL + 0.08)
+      tl.fromTo('.sidebar-nav', { opacity: 0, x: -10 },
+        { opacity: 1, x: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL + 0.08)
       tl.fromTo('.navbar', { opacity: 0, x: -10 },
         { opacity: 1, x: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL + 0.08)
       // Page body (works / photos) arrives as one unit so everything in it is in sync

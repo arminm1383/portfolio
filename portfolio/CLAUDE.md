@@ -37,7 +37,7 @@ portfolio/               ← you are here (app root)
 
 The portfolio uses a hybrid layout model:
 
-- **Home page (`/`)** — the Portfolio-v4 "Landing" frame (node `2021:85606`): pixel-font header ("hi, [sprite gif] i'm armin" + tagline), a two-column work grid, side navbar, footer links, and the top navbar. One normal scrolling page. The old hero collage and About section are archived in `src/archive/`.
+- **Home page (`/`)** — the Portfolio-v4 v2.2 "Landing" frame (section `2042:156111`, frame `2217:57984`): built on `SidebarPage` (fixed left sidebar with the title, bio, navbar and sprite gif; works to its right) and no top navbar. One normal scrolling page. The old hero collage and About section are archived in `src/archive/`.
 - **Case studies (`/work/:slug`)** — Each project gets its own tab/route. Format is similar to the home sub-sections but with a case-study-specific hero and content layout. Like the landing, they simply scroll: no scroll-triggered pop-in/fade-up reveals (the old `data-reveal` system was removed). Only diagram arrow-draws and stat count-ups still animate on scroll.
 
 ### Main Margins
@@ -63,7 +63,7 @@ Core tokens live in `:root` in `src/index.css` — use them instead of hardcodin
 - Retired: the 25px grid-line pattern, the `#D9D9D9`/`#f7f7f7`/`#f7f7f5` page fills and the old `rgb(235,225,216)` @ 55% noise.
 
 ### Colors
-- Canvas: `--color-canvas` `#f7f7f5` (see above)
+- Canvas: `--color-canvas` `#ffffff` + noise (see above)
 - Black: `#000` / near-black text: `rgba(0,0,0,0.65)`
 - White fills: `#fff`
 - Case-study accents are per project (e.g. Rocket Lawyer red `#991b1d`, Findy blue `#205dfd`)
@@ -71,9 +71,9 @@ Core tokens live in `:root` in `src/index.css` — use them instead of hardcodin
 ### Typography
 - **Headings**: `--font-heading` = `'Open Sans'` **Bold (700)**. This replaced `'Peace Sans'` everywhere on the landing and case studies. Exceptions kept at Regular (400) per Figma: case-study org name, research callouts, and "Up Next" headings/card titles.
 - **Body / UI text**: `--font-body` = `'Open Sans'` (Regular 400, SemiBold 600 for labels/tabs). Some older rules still list `'Open Sauce Sans'` first; it is not loaded, so they render in Open Sans.
-- **Pixel / identity**: `--font-pixel` = `'Pokemon Pixel'` (`src/assets/fonts/PokemonPixel.ttf` — a copy of the local `pokemon_pixel_font.ttf` with its broken `cmap` repaired so Chrome accepts it). Used for the landing title, top navbar, side navbar and footer links.
-- Open Sans 400/600/700 is loaded globally via the Google Fonts `@import` at the top of `index.css`.
-- `'Peace Sans'` is still loaded but only used by the legacy `CsTopbar`.
+- **Pixel / identity**: `--font-pixel` = `'Pokemon Pixel'` (`src/assets/fonts/PokemonPixel.ttf` — a copy of the local `pokemon_pixel_font.ttf` with its broken `cmap` repaired so Chrome accepts it). Used for the pixel titles, top navbar, footer links and cursor labels (the side navbar switched to Open Sans).
+- Google Fonts (`index.html`) loads only what rendered pages use: Open Sans 400/600/700 + 600 italic, and JetBrains Mono 500 (Rocket carousel chips). Anton, IBM Plex Mono, Tiro Tamil and the PP Kyoto faces were removed as unused.
+- `'Peace Sans'` is still declared but only used by the legacy `CsTopbar` on `/alt`.
 
 ### Design Language (from Figma)
 The design deliberately mimics a Figma canvas aesthetic:
@@ -125,30 +125,39 @@ All case studies share `pages/FindyCaseStudy.css` (despite the name) — change 
 ### Top navbar (`components/TopNavbar.tsx`) — used on the landing and every case study
 - Figma "Top Navbar" component `2042:155940`: fixed at x=24 / y=24, 1586×56 (right edge at 1610), padding 12px 0 — no side padding, so it starts at x=24 in line with the side navbar's text. Radius 12.
 - **No fill, stroke, shadow or blur** (the Figma component still lists a background blur; it was removed on request).
-- One left-aligned row, gap 8: 16×16 pixel Poké Ball (`topnav-pokeball-pixel.svg`), then "armin mohammadi" (`--font-pixel` 24px, links home via the page transition). The favicon is the same Poké Ball (`public/favicon-pokeball.svg`).
+- Just "armin mohammadi", left-aligned (`--font-pixel` 24px, links home via the page transition). The Poké Ball icon was removed from the Figma component (instance `2045:167854`); the favicon is still the Poké Ball (`public/favicon-pokeball.svg`).
 - Scroll behaviour from `lib/useScrollReveal.ts`: shown near the top, hides on scroll-down, reveals on scroll-up.
 - The landing entrance slides it down from `y: -80` (0.55s). `CsTopbar` is the legacy bar — kept, but only `/alt` uses it.
 
 ### Side navbar (`components/Navbar.tsx`)
-- Figma "Side Navbar" component `2042:156000`: fixed at x=0 / y=250, vertical stack of `--font-pixel` 24px links (home, about me, my inspo, playground), padding 12px 24px (text at x=24), gap 12, no fill/stroke/shadow, backdrop blur 9.15px (Figma 18.3).
-- Every item is 50% opacity except the current page's, which is black. Live items (home → `/`, about me → `/about`) stay clickable and nudge right 4px on hover. Items without a page yet ("my inspo", "playground") are inert, with no hover and no custom-cursor variant.
+- Figma "Side Navbar" component `2042:156000`: fixed at x=0 / y=250, vertical stack of Open Sans Regular 20px links (home, about me, art as of late, playground), padding 12px 24px (text at x=24), gap 12, no fill/stroke/shadow, backdrop blur 9.15px (Figma 18.3). Under 900px it becomes one row; under 520px the row drops to 16px / 12px gaps so it fits a 390px phone.
+- Every item is 50% opacity except the current page's, which is black. Live items (home, about me, art as of late) stay clickable and nudge right 4px on hover. Items without a page yet ("playground") are inert, with no hover and no custom-cursor variant.
 
-### Pixel pages (`components/PixelPage.tsx`) — Landing (`/`), About (`/about`), Art as of late (`/art`, currently hidden: greyed-out navbar item like playground, route redirects home)
-- Shared shell: top navbar, side navbar, pixel title row ("word [sprite gif] word"), intro, body, `SiteFooter` (links + resume popup).
-- Every pixel page shares one grid: Main at x=314 / y=213, 1078px wide; subtext (tagline/bio) Open Sans 20px spanning the full 1078; body 96px below the header. The gif is always at x=445 (Main +131, Figma's Art frame): the word before it sits in a fixed 1.07em slot (the width of "art") left-aligned with the body text at x=314, so every title word lines up with the body and the gif never moves. A word longer than "art" would need the slot widened (which moves the gif on every page). (If a future title ever does move the gif, the transition glides it to its new spot.)
-- Photo + caption cards on About and Art use the shared `components/PhotoCard.tsx`. Work artwork (landing) and these photos use a 2px corner radius; photos lift 10px and tilt 1° on hover (like the work cards) but aren't links.
-- Page transition (`lib/pageTransition.ts`, via `useTransitionNavigate`): everything except the gif fades out (top navbar slides up), the route changes, then the new page's entrance plays (0.38s gif-only moment, then content). Use it for links between pixel pages.
+### Sidebar pages (`components/SidebarPage.tsx`, v2.2 layout) — Landing (`/`), About (`/about`), Art as of late (`/art`)
+- Figma v2.2 (section `2042:156111`; Side Navbar component set `2227:58903`, one variant per page). `components/Sidebar.tsx` is a fixed 366px left column (auto layout: padding 72 40 72 40, gap 4): a text block that grows to fill the height (page title in `--font-pixel` 64px, bio, `SidebarNav` pinned to its bottom; never less than its content) and the sprite gif under it (244×130 box clipping a 270×144 gif, keeps the `pixel-sprites` class). A `\n` in the title is a deliberate line break ("about\nme"). Under 900px it becomes the top of the page.
+- Bio per page, passed to `SidebarPage`: landing = Open Sans 12 tagline plus "current / prev" rows (pixel-font 20px label at 60% black over Open Sans 16); About and Art = Open Sans 12 paragraphs (`.sidebar-tagline`).
+- `components/SidebarNav.tsx` (Figma "Navbar"): home, about me, art as of late, play; Open Sans 16 rows with a right arrow (`nav-arrow.svg`), current page (by route) 100%, others 50%; live rows nudge their arrow on hover; "play" is inert. Drop shadow 0/4 blur 4.
+- Body: Figma "Main" right of the sidebar (vertical, gap 64, padding-top 72 on the landing and 116 on About/Art via `mainTop`, none below: the footer brings its own 48px): the page body (1058 wide, centred, 24px minimum gutter), the footer, always below ALL the content (never fixed or floating; Figma puts it at the bottom of the frame): it fills the remaining height, so even a short page keeps it at the window's bottom, with its links bottom-right (centred on small screens). No top navbar on these pages.
+- Landing works: two equal columns of 513×317 thumbnails, 32px apart, right column padded 24px more. Order: Streets, Findy | Rocket Copilot, Memento.
+- About photos: three columns 285 | 408 | 329 (flex-grow by width), gap 18, photos 20 apart, last photo of each column stretches so they end together; the old "currently studying / exploring" stat cards are gone (not in the v2.2 frame). Art row: 275 | 238 | 183 | 255, gap 36, top-aligned.
+- Page transition (`lib/pageTransition.ts`): `.sidebar-title`, `.sidebar-bio`, `.sidebar-nav` and the body fade/rise in and out; the gif sits at the same spot on every page, so it simply stays.
+- `PixelPage` (title row + top navbar + old side navbar) is no longer used by any page; kept for reference.
 
 ### Loading — nothing pops in (`lib/pageReady.ts`, `lib/pageAssets.ts`)
-- Pages stay hidden until **every font the page uses and every `<img>` in it** is loaded and decoded (`waitForPage`), with a 10s safety cap. Never add `loading="lazy"` to images on these pages — the page waits for them, so lazy images would stall it.
+- Pages stay hidden until **every font the page uses and every `<img>` and `<video>` in it** is ready (`waitForPage`), with a 10s safety cap. A video counts as ready once its poster or first frame loads (iOS Low Power Mode never loads autoplay video). Never add `loading="lazy"` to images on these pages — the page waits for them, so lazy images would stall it.
 - Pixel pages: the sprite gif shows alone for at least 0.38s, longer if loading takes longer, then content reveals. Case studies: `useRevealWhenReady()` holds the whole page (incl. top navbar) and fades it in.
 - Google Fonts load from `index.html` (preconnect + stylesheet), not a CSS `@import`; `main.tsx` starts the core faces before React renders.
 - Pixel pages register their images (`registerPageImages`) so the other pixel page is prefetched in idle time, and the destination starts loading during the exit animation.
-- Keep assets at ≤ 2× their largest display size (case-study column 900px → 1800px wide max); opaque photos as JPEG. **Animations (gifs): always run the `gif-quality` skill** (`.claude/skills/gif-quality/`, auto-reminded by a hook in `.claude/settings.json`): export from Figma at 2x (`download_assets` `defaultScale: 2`), encode to 2x animated WebP, and ship only after its verify + browser audit print `RESULT: PASS`.
+- Keep assets at ≤ 2× their largest display size (case-study column 900px → 1800px wide max); opaque photos as JPEG. **Animations (gifs): always run the `gif-quality` skill** (`.claude/skills/gif-quality/`, auto-reminded by a hook in `.claude/settings.json`): 2x of the rendered box; opaque clips ship as video via `components/LoopVideo.tsx` (WebM + MP4 + first-frame poster, e.g. the landing's Streets/Memento/Rocket cards), anything needing transparency as animated WebP; ship only after its checks print `RESULT: PASS`.
 
 ### Custom cursor (`components/CustomCursor.tsx`) — work cards only
 - Figma "Cursor" component set `2042:155868`: 20×20 `#fe8a09` square, radius 4; on hover expands to a 24px-tall pill with icon + `--font-pixel` 16px label: `case-study` (155px, "view case study"), `devpost` (135px), `coming-soon` (135px).
-- Variants are set with `data-cursor` and are only used on work/project cards (landing works, case-study "Up Next" cards).
+- Variants are set with `data-cursor` on work/project cards (landing works, case-study "Up Next" cards).
+- Only on devices with a real mouse (`(hover: hover) and (pointer: fine)`, in both the CSS and the JS). It stays hidden until the first mousemove, and the native cursor is hidden only from then on (`html.has-custom-cursor`); touch devices keep their native cursor and never render the custom one.
+
+### Link previews and titles
+- `index.html` carries the description, Open Graph and Twitter tags (shared by every route, since crawlers don't run JS). `og:image` is `public/og-image.png` (1200x630; currently a placeholder rendered from the landing header).
+- Tab titles are set per route in `App.tsx` (`RouteTitle`): "About | Armin Mohammadi" etc.
 
 ## Figma → Code Workflow
 

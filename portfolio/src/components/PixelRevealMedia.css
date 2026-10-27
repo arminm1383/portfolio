@@ -1,0 +1,29 @@
+/* Two-state work artwork (components/PixelRevealMedia.tsx): both clips stay stacked and playing; `data-phase` picks
+   which one is visible. The canvas only shows while the depixelization runs. */
+.pixel-reveal {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pixel-reveal-video,
+.pixel-reveal-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.pixel-reveal-canvas,
+.pixel-reveal-video--actual {
+  visibility: hidden;
+}
+
+.pixel-reveal[data-phase="revealing"] .pixel-reveal-canvas,
+.pixel-reveal[data-phase="actual"] .pixel-reveal-video--actual {
+  visibility: visible;
+}
+
+.pixel-reveal[data-phase="actual"] .pixel-reveal-video--pixel {
+  visibility: hidden;
+}

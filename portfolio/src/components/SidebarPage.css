@@ -1,0 +1,52 @@
+/* ── Sidebar page shell (Figma v2.2 Landing 2217:57984, 1648 wide). Right of the 366px sidebar sits Figma's
+   "Main" (auto layout: vertical, padding-top 72 on the landing, 116 on About and Art; gap 64; centred; filling
+   the page height): the page body,
+   then the footer, which sits below all the content. The body content is 1058 wide
+   and centred (112px each side at the Figma width), with a 24px minimum gutter on narrower windows. ── */
+.sidebar-page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  margin-left: 366px; /* the fixed sidebar's width (components/Sidebar.css) */
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-page-main {
+  box-sizing: border-box;
+  flex: 1 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+  padding: var(--main-top, 72px) 0 0; /* the footer brings its own 48px */
+}
+
+.sidebar-page-main > .pixel-page-body {
+  width: min(1058px, 100% - 48px);
+}
+
+/* Figma Footer: below ALL the content, never pinned or floating. It fills whatever height is left (so on a short
+   page it still sits at the bottom of the window) and keeps its links bottom-right, padding 48 24. */
+.sidebar-page-main > .site-footer {
+  box-sizing: border-box;
+  flex-grow: 1;
+  width: 100%;
+  margin-top: 0;
+  justify-content: flex-end;
+}
+
+@media (max-width: 900px) {
+  .sidebar-page {
+    min-height: 0;
+    margin-left: 0;
+  }
+  .sidebar-page-main {
+    gap: 48px;
+    padding: 48px 0 0;
+  }
+  .sidebar-page-main > .site-footer {
+    flex-grow: 0;
+    justify-content: center;
+  }
+}

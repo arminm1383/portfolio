@@ -5,7 +5,8 @@ const RESUME_URL = 'https://www.figma.com/design/leZEBxJorC3mH2RtuKTTQN/Resume?n
 const RESUME_EMBED_URL = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(RESUME_URL)}`
 const LINKEDIN_URL = 'https://www.linkedin.com/in/arminmoh'
 const EMAIL = 'arminmohammadi1342@gmail.com'
-const X_URL = ''
+const X_URL = 'https://x.com/arminmo_'
+const RESUME_PDF = '/armin-mohammadi-resume.pdf' // public/armin-mohammadi-resume.pdf
 
 export default function SiteFooter() {
   const [resumeOpen, setResumeOpen] = useState(false)
@@ -28,6 +29,7 @@ export default function SiteFooter() {
       {resumeOpen && (
         <div className="resume-modal-overlay" onClick={() => setResumeOpen(false)}>
           <div className="resume-modal" onClick={e => e.stopPropagation()}>
+            <a className="resume-modal-download" href={RESUME_PDF} download="Armin Mohammadi - Resume.pdf">Download PDF</a>
             <button className="resume-modal-close" onClick={() => setResumeOpen(false)} aria-label="Close resume">✕</button>
             <iframe className="resume-modal-frame" src={RESUME_EMBED_URL} allowFullScreen title="Resume" />
           </div>

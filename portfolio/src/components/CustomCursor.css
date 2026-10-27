@@ -1,5 +1,14 @@
+/* Mouse/trackpad only: on touch devices the custom cursor never renders and the native one stays */
+.custom-cursor {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+
 /* Centered on the 20px circle — same offset for all states since height never changes */
 .custom-cursor {
+  display: block;
+  visibility: hidden; /* until the first mousemove, so it never sits at (0,0) */
   position: fixed;
   top: -10px;
   left: -10px;
@@ -85,4 +94,10 @@
   font-weight: 400;
   line-height: normal;
   color: rgba(255, 255, 255, 0.98);
+}
+
+.custom-cursor--active {
+  visibility: visible;
+}
+
 }
