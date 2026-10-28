@@ -129,10 +129,11 @@ a.work-card {
   max-width: none;
 }
 
-/* Figma: light-blue card with the phone (311×616, centred) pushed up so only its lower part shows: it starts
-   367px above the 317px card. Image cropped 100% × 100.69% at (−1%, −0.35%) inside its frame. */
+/* Figma Artwork (2217:58079): 513×317 card filled #fafdff, clipping. The phone frame (2217:58086, 311×616,
+   absolute) sits 101px from the left and starts 367px above the card, so only its lower part shows. Both clips
+   (pixel + real) have the #fafdff fill baked in, so the reveal's tiles blend into the card. */
 .work-card--findy .work-card-artwork {
-  background: #e3f5fe;
+  background: #fafdff;
 }
 
 .work-card--findy .work-card-media {
@@ -142,15 +143,6 @@ a.work-card {
   width: 60.62%;  /* 311 of 513 */
   aspect-ratio: 311 / 616;
   overflow: hidden;
-}
-
-.work-card--findy .work-card-media img {
-  position: absolute;
-  left: -1%;
-  top: -0.35%;
-  width: 100%;
-  height: 100.69%;
-  max-width: none;
 }
 
 /* ── Responsive ── */

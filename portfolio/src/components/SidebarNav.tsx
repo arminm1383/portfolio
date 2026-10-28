@@ -11,7 +11,7 @@ interface NavItem {
 // Figma "Navbar" component set (2227:457): one variant per page, the current page's row at full opacity.
 // Items without a `to` don't have a page yet: greyed out and inert.
 const ITEMS: NavItem[] = [
-  { label: 'home', to: '/' },
+  { label: 'work', to: '/' },
   { label: 'about me', to: '/about' },
   { label: 'art as of late', to: '/art' },
   { label: 'play' },
