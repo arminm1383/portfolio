@@ -11,7 +11,7 @@ import RocketLawyerCaseStudy from './pages/RocketLawyerCaseStudy'
 import CustomCursor from './components/CustomCursor'
 
 // Per-route tab titles (link-preview tags in index.html are shared, since crawlers don't run JS)
-const SITE = 'Armin Mohammadi'
+const SITE = 'armin mohammadi | ui/ux'
 const TITLES: Record<string, string> = {
   '/about': 'About',
   '/art': 'Art as of Late',
