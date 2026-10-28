@@ -1,5 +1,15 @@
-/* ── Sidebar (Figma v2.2 "Side Navbar" component 2227:58903: vertical, padding 72 40 72 40, gap 4, centred):
-   a text block that grows to fill the height (title, bio, navbar pinned to its bottom) and the gif under it. ── */
+/* ── Sidebar (Figma v2.2 "Side Navbar" component 2227:58903, drawn in a 1648×1024 frame: vertical, padding
+   72 40 72 40, gap 4, centred): a text block that grows to fill the height (title, bio, navbar pinned to its
+   bottom) and the gif under it.
+
+   Scale: every size below is a Figma pixel × --sb-u, so the sidebar shrinks in proportion to the window and keeps
+   the mockup's look instead of staying a fixed 366px column. --sb-u is 1px at the 1648×1024 frame size or larger
+   and follows whichever of the window's width or height is tighter, never below 0.72px (type has its own floors,
+   so small text stays readable). ── */
+:root {
+  --sb-u: clamp(0.72px, min(100vw / 1648, 100vh / 1024), 1px);
+}
+
 .sidebar {
   position: fixed;
   top: 0;
@@ -7,13 +17,13 @@
   left: 0;
   z-index: 100;
   box-sizing: border-box;
-  width: 366px; /* Figma Side Navbar; matches .sidebar-page margin-left */
+  width: calc(366 * var(--sb-u)); /* Figma Side Navbar; matches .sidebar-page margin-left */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 72px 40px;
-  overflow-y: auto; /* windows shorter than the stack scroll the sidebar rather than clip it */
+  gap: calc(4 * var(--sb-u));
+  padding: calc(72 * var(--sb-u)) calc(40 * var(--sb-u));
+  overflow-y: auto; /* only if the window is still too short for the stack at the smallest scale */
   backdrop-filter: blur(9.15px);
   -webkit-backdrop-filter: blur(9.15px);
 }
@@ -24,24 +34,25 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: calc(12 * var(--sb-u));
 }
 
 .sidebar-title {
   margin: 0;
   white-space: pre-line; /* a "\n" in the title is a deliberate line break (about / me, art as of / late) */
   font-family: var(--font-pixel);
-  font-size: 64px;
+  font-size: 64px; /* fallback */
+  font-size: round(nearest, calc(64 * var(--sb-u)), 1px); /* whole pixels keep the pixel font crisp */
   font-weight: 400;
   line-height: normal;
   color: #000;
 }
 
-/* Bio: rows 12px apart. Tagline Open Sans 12; role rows a pixel-font label (60% black) over Open Sans 16 */
+/* Bio: rows 12 apart. Tagline Open Sans 12; role rows a pixel-font label (60% black) over Open Sans 16 */
 .sidebar-bio {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: calc(12 * var(--sb-u));
   font-family: var(--font-body);
   font-weight: 400;
   line-height: normal;
@@ -53,18 +64,19 @@
 }
 
 .sidebar-tagline {
-  font-size: 12px;
+  font-size: max(11px, calc(12 * var(--sb-u)));
 }
 
 .sidebar-role {
   display: flex;
   flex-direction: column;
-  font-size: 16px;
+  font-size: max(13px, calc(16 * var(--sb-u)));
 }
 
 .sidebar-role-label {
   font-family: var(--font-pixel);
-  font-size: 20px;
+  font-size: 20px; /* fallback */
+  font-size: max(14px, round(nearest, calc(20 * var(--sb-u)), 1px));
   color: rgba(0, 0, 0, 0.6);
 }
 
@@ -76,7 +88,7 @@
   justify-content: flex-end;
 }
 
-/* Figma "Gif Container": a 244×130 box, centred, clipping a 270×144 gif placed 13px left of it */
+/* Figma "Gif Container": a 244×130 box, centred, clipping a 270×144 gif placed 13 left of it */
 .sidebar-gif {
   flex-shrink: 0;
   width: 100%;
@@ -87,21 +99,22 @@
 
 .sidebar-gif-frame {
   position: relative;
-  width: 244px;
-  height: 130px;
+  width: calc(244 * var(--sb-u));
+  height: calc(130 * var(--sb-u));
 }
 
 .sidebar .pixel-sprites {
   position: absolute;
-  left: -13px;
+  left: calc(-13 * var(--sb-u));
   top: 0;
-  width: 270px;
-  height: 144px;
+  width: calc(270 * var(--sb-u));
+  height: calc(144 * var(--sb-u));
   object-fit: cover;
 }
 
-/* ── Narrow screens: the sidebar becomes the top of the page ── */
+/* ── Narrow screens: the sidebar becomes the top of the page, at a fixed smaller scale ── */
 @media (max-width: 900px) {
+  :root { --sb-u: 0.85px; }
   .sidebar {
     position: static;
     width: auto;
@@ -116,5 +129,5 @@
 }
 
 @media (max-width: 520px) {
-  .sidebar-title { font-size: 48px; }
+  :root { --sb-u: 0.75px; }
 }

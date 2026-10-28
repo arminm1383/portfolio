@@ -6,7 +6,7 @@
 .sidebar-page {
   box-sizing: border-box;
   min-height: 100vh;
-  margin-left: 366px; /* the fixed sidebar's width (components/Sidebar.css) */
+  margin-left: calc(366 * var(--sb-u)); /* the fixed sidebar's width (components/Sidebar.css), which scales */
   display: flex;
   flex-direction: column;
 }
