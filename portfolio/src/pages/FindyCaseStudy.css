@@ -722,127 +722,11 @@
    ══════════════════════════════════════════════════════════ */
 
 
-/* ── Up Next: Rocket Lawyer artwork ── */
-.rl-upnext-artwork--rocket {
-  background: #cc1a1d;
-}
-
-.rl-upnext-artwork--rocket img {
-  object-fit: cover;
-  object-position: top center;
-}
-
 /* ── Findy: Reflections — blue numbers ── */
 .fcs-reflection-num--findy {
   color: #205dfd;
 }
 
-/* ── Up Next: dark artwork variant (Memento) ── */
-.fcs-upnext-card-artwork--dark {
-  background: #1b130f;
-}
-
-.fcs-upnext-card-artwork--dark img {
-  object-fit: contain;
-}
-
-/* ── Up Next ── */
-.fcs-upnext {
-  padding-top: var(--space-16);
-  padding-bottom: var(--space-20);
-}
-
-.fcs-upnext-divider {
-  height: 2px;
-  background: rgba(0, 0, 0, 0.08);
-  margin-bottom: var(--space-9);
-  border-radius: 1px;
-}
-
-.fcs-upnext-heading {
-  font-family: var(--font-heading);
-  font-size: var(--text-3xl);
-  font-weight: 400;
-  color: #000;
-  margin: 0 0 var(--space-8);
-  letter-spacing: -0.64px;
-  line-height: 1.2;
-}
-
-.fcs-upnext-cards {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-10);
-}
-
-.fcs-upnext-card {
-  text-decoration: none;
-  display: block;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.06), inset 0 0 0 1px rgba(0,0,0,0.06);
-  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease;
-}
-
-.fcs-upnext-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.10), inset 0 0 0 1px rgba(0,0,0,0.06);
-}
-
-/* Coming-soon cards aren't links — no lift */
-.fcs-upnext-card--soon:hover {
-  transform: none;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.06), inset 0 0 0 1px rgba(0,0,0,0.06);
-}
-
-.fcs-upnext-card-artwork {
-  aspect-ratio: 452 / 264;
-  overflow: hidden;
-  display: block;
-}
-
-.fcs-upnext-card-artwork img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  pointer-events: none;
-}
-
-.fcs-upnext-card-info {
-  padding: var(--space-4) var(--space-6) var(--space-5);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  border-top: 1px solid rgba(0,0,0,0.06);
-}
-
-.fcs-upnext-card-org {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: var(--text-xs);
-  color: rgba(0, 0, 0, 0.5);
-  line-height: 1;
-}
-
-.fcs-upnext-card-org-logo {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-  border-radius: 4px;
-}
-
-.fcs-upnext-card-title {
-  font-family: var(--font-heading);
-  font-size: var(--text-xl);
-  font-weight: 400;
-  color: #000;
-  letter-spacing: -0.44px;
-  line-height: 1.2;
-}
 
 /* ── Rocket Lawyer: Core Task card — two-column layout ── */
 .fcs-core-task-row {
@@ -2047,26 +1931,19 @@
   position: relative;
 }
 
-.rl-upnext-artwork img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top left;
-  display: block;
-  pointer-events: none;
-}
+/* The clips cover the 373×217 box like the landing cards (pixel cut by default, real clip on hover) */
+.rl-upnext-artwork video { object-position: top center; }
 
-.rl-upnext-artwork--streets {
-  background: #afc9e0;
-}
+/* Findy: the landing's phone frame (311×616 in a 513-wide card, 367 above the top) scaled to this 373×217 box */
+.rl-upnext-card--findy .rl-upnext-artwork { background: #fafdff; }
 
-.rl-upnext-artwork--findy {
-  background: #f0f0ee;
-}
-
-.rl-upnext-artwork--findy img {
-  object-fit: contain;
-  object-position: center;
+.rl-upnext-media {
+  position: absolute;
+  left: 19.69%;
+  top: -123%;
+  width: 60.62%;
+  aspect-ratio: 311 / 616;
+  overflow: hidden;
 }
 
 .rl-upnext-title {
@@ -2266,21 +2143,32 @@
   max-width: none;
 }
 
-/* Figma hero frame: 779×450, radius 12 — filled with the original Findy gif */
+/* Figma hero frame: 779×450, radius 12, filled #fafdff like the landing card. The landing's phone clip (622×1240, shown at
+   its native 311×616 so it stays 2x sharp) is centred, with the same crop as the landing card: the phone starts above the
+   frame and only its lower part shows, ending 68px above the bottom edge. */
 .findy-hero {
+  position: relative;
   width: 779px;
   max-width: 100%;
   aspect-ratio: 779 / 450;
   border-radius: var(--radius-md);
-  background: var(--color-surface);
+  background: #fafdff;
   overflow: hidden;
 }
 
-.findy-hero img {
+.findy-hero-phone {
+  position: absolute;
+  left: 50%;
+  top: -234px; /* landing leaves 68px of card below the phone; the same 68px here puts its bottom at 382 of 450 */
+  width: 311px;
+  aspect-ratio: 311 / 616;
+  transform: translateX(-50%);
+}
+
+.findy-hero-phone video {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 
 /* ── Problem ── */
@@ -2556,23 +2444,6 @@
   max-width: 100%;
   height: 560px;
   object-fit: contain;
-}
-
-/* ── Up Next: Streets artwork (blue field + projects screenshot panel) ── */
-.rl-upnext-artwork.findy-upnext-streets { background: #369af1; }
-
-.rl-upnext-artwork.findy-upnext-streets img {
-  position: absolute;
-  left: 5.9%;
-  top: 14.29%;
-  width: 94.64%;
-  height: 89.86%;
-  box-sizing: border-box;
-  object-fit: cover;
-  object-position: left top;
-  border: 2px solid rgba(0, 0, 0, 0.06);
-  border-radius: 12px 0 12px 0;
-  box-shadow: -6px 3px 3px rgba(0, 0, 0, 0.08);
 }
 
 /* ── Narrow screens: stack rows ── */

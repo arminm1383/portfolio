@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
+import UpNext from '../components/UpNext'
 import './FindyCaseStudy.css'
 import TopNavbar from '../components/TopNavbar'
 import backArrow from '../assets/images/cs-back-arrow.svg'
 import { useRevealWhenReady } from '../lib/pageReady'
 
 import rocketHeroGif from '../assets/images/rocket-cs-hero-new.gif'
-import workStreetsPanel   from '../assets/images/work-streets-projects.png'
-import findyGif          from '../assets/images/findy-artwork-v2.gif'
 import rocketFdsSidebar  from '../assets/images/rocket-cs-fds-sidebar.png'
 import rocketUsabilityTest from '../assets/images/rocket-cs-usability-test.png'
 import rocketTestResults from '../assets/images/rocket-cs-test-results.png'
@@ -32,38 +31,41 @@ import rqIcon3 from '../assets/images/rq-icon-3.svg'
 import orgRocket from '../assets/images/org-rocket.png'
 import rocketFinalDeliverable from '../assets/images/rocket-cs-final-deliverable.png'
 
+// Header chips (the skills this case study shows), like Streets and Findy
+const CHIPS = ['UX Research', 'AI Workflows', 'Data-Driven Design', 'Legal Tech']
+
 const NAV_ITEMS = [
-  { id: '',            label: 'Background',             routable: false },
+  { id: 'background',  label: 'Background',             routable: true  },
   { id: 'problem',     label: 'Problem',                routable: true  },
   { id: 'research',    label: 'Research',               routable: true  },
-  { id: 'process',    label: ' Process',    routable: true  },
+  { id: 'process',    label: 'Process',     routable: true  },
   { id: 'next-steps', label: 'Next Steps',  routable: true  },
 ]
 
 // ── Rocket Lawyer design-system color palette (carousel) ─────────────────────
-const RL_COLORS = [
-  '#7A0000', '#C41C1C', '#E05252',
-  '#FFFDE7', '#F5D200', '#C8A000',
-  '#1B5E20', '#2E7D32', '#43A047', '#1565C0',
-]
+// const RL_COLORS = [
+//   '#7A0000', '#C41C1C', '#E05252',
+//   '#FFFDE7', '#F5D200', '#C8A000',
+//   '#1B5E20', '#2E7D32', '#43A047', '#1565C0',
+// ]
 
-function ColorCarousel() {
-  const doubled = [...RL_COLORS, ...RL_COLORS]
-  return (
-    <div className="rl-carousel-outer">
-      <div className="rl-carousel-track">
-        {doubled.map((color, i) => (
-          <div
-            key={i}
-            className="rl-carousel-chip"
-            style={{ backgroundColor: color, '--chip-color': color } as React.CSSProperties}
-            data-hex={color}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
+// function ColorCarousel() {
+//   const doubled = [...RL_COLORS, ...RL_COLORS]
+//   return (
+//     <div className="rl-carousel-outer">
+//       <div className="rl-carousel-track">
+//         {doubled.map((color, i) => (
+//           <div
+//             key={i}
+//             className="rl-carousel-chip"
+//             style={{ backgroundColor: color, '--chip-color': color } as React.CSSProperties}
+//             data-hex={color}
+//           />
+//         ))}
+//       </div>
+//     </div>
+//   )
+// }
 
 function cubicBezierEase(t: number, x1: number, y1: number, x2: number, y2: number): number {
   const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx
@@ -273,7 +275,8 @@ export default function RocketLawyerCaseStudy() {
     const el = document.getElementById(id)
     if (!el) return
     const startY = window.scrollY
-    const targetY = el.getBoundingClientRect().top + startY - 80
+    // Lands the section's label level with BACK (y=100): 100 minus the section's 56px padding, as on Streets and Findy
+    const targetY = el.getBoundingClientRect().top + startY - 44
     const startTime = performance.now()
     if (rafRef.current) cancelAnimationFrame(rafRef.current)
     targetYRef.current = targetY
@@ -327,7 +330,14 @@ export default function RocketLawyerCaseStudy() {
                   <span className="fcs-org-name">Rocket Lawyer</span>
                 </div>
                 <h1 className="fcs-title">Rocket Copilot</h1>
+                <ul className="fcs-chips">
+                  {CHIPS.map(chip => <li key={chip} className="fcs-chip">{chip}</li>)}
+                </ul>
               </div>
+              <p className="fcs-section-body fcs-section-body--muted">
+                Rocket Copilot is Rocket Lawyer’s AI-powered legal assistant. As a UX research intern, I built a Claude-powered
+                research pipeline that grounds the design team’s decisions in data.
+              </p>
               <img src={rocketHeroGif} alt="" className="fcs-hero-single" draggable={false} />
               <div className="fcs-tags">
                 <div className="fcs-tag">
@@ -359,7 +369,7 @@ export default function RocketLawyerCaseStudy() {
             </header>
 
             {/* ── Background ── */}
-            <section className="fcs-section">
+            <section className="fcs-section" id="background">
               <div className="fcs-bg-group">
                 <div className="fcs-bg-sub">
                   <span className="fcs-section-label">Background</span>
@@ -598,10 +608,10 @@ export default function RocketLawyerCaseStudy() {
                           <img src={rocketFdsSidebar} alt="" className="fcs-media-card-img--results" draggable={false} />
                         </div>
                       </div>
-                      <div className="fcs-media-card fcs-media-card--padded rl-color-sys-card">
+                      {/* <div className="fcs-media-card fcs-media-card--padded rl-color-sys-card">
                         <p className="fcs-media-card-label">COLOR SYSTEM</p>
                         <ColorCarousel />
-                      </div>
+                      </div> */}
                       <p className="fcs-section-body">
                         Through automated user testing, I validated and built an AI-powered guided, autonomous
                         workflows serving as the new core value proposition of the evolving project.
@@ -661,30 +671,7 @@ export default function RocketLawyerCaseStudy() {
               </div>
             </section>
 
-            {/* ── Up Next ── */}
-            <section className="fcs-section">
-              <h2 className="rl-upnext-heading">Up Next</h2>
-              <div className="rl-upnext-row">
-                <div className="rl-upnext-card" data-cursor="coming-soon">
-                  <div className="rl-upnext-artwork rl-upnext-artwork--streets">
-                    <img src={workStreetsPanel} alt="Streets" draggable={false} />
-                  </div>
-                  <div>
-                    <p className="rl-upnext-title">Streets</p>
-                    <p className="rl-upnext-desc">Design-engineering enterprise B2B software</p>
-                  </div>
-                </div>
-                <Link to="/work/findy" className="rl-upnext-card" data-cursor="case-study">
-                  <div className="rl-upnext-artwork rl-upnext-artwork--findy">
-                    <img src={findyGif} alt="Findy" draggable={false} />
-                  </div>
-                  <div>
-                    <p className="rl-upnext-title">Findy</p>
-                    <p className="rl-upnext-desc">A case-competition winning solution built for elders, tested by elders</p>
-                  </div>
-                </Link>
-              </div>
-            </section>
+            <UpNext works={['streets', 'findy']} />
 
           </div>
         </main>

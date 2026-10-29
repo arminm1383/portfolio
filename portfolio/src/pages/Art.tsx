@@ -1,6 +1,7 @@
 import './Art.css'
 import SidebarPage from '../components/SidebarPage'
 import PhotoCard, { type Photo } from '../components/PhotoCard'
+import { AmLMProvider } from '../components/AskAmLM'
 import { registerPageImages } from '../lib/pageAssets'
 
 import artNoOtherChoice from '../assets/images/art-no-other-choice.jpg'
@@ -11,10 +12,10 @@ import artMonet         from '../assets/images/art-monet.jpg'
 // Figma v2.2 Art row (2227:401): four artworks spanning the full 1058 (275 | 238 | 183 | 255, gap 36),
 // top-aligned. Figma's crops are baked into the image files.
 const ARTWORKS: Photo[] = [
-  { src: artNoOtherChoice, caption: 'no other choice', meta: 'film', frame: [275, 392.86] },
-  { src: artOnGuitar, caption: 'on guitar', meta: 'album', frame: [238, 241] },
-  { src: artStrawberry, caption: 'strawberry + fennel', meta: 'food', frame: [183, 181.05] },
-  { src: artMonet, caption: 'monet', meta: 'museum', frame: [255, 340] },
+  { id: 'art-no-other-choice', src: artNoOtherChoice, caption: 'no other choice', meta: 'film', frame: [275, 392.86] },
+  { id: 'art-on-guitar', src: artOnGuitar, caption: 'on guitar', meta: 'album', frame: [238, 241] },
+  { id: 'art-strawberry-fennel', src: artStrawberry, caption: 'strawberry + fennel', meta: 'food', frame: [183, 181.05] },
+  { id: 'art-monet', src: artMonet, caption: 'monet', meta: 'museum', frame: [255, 340] },
 ]
 
 registerPageImages('/art', ARTWORKS.map(art => art.src))
@@ -35,6 +36,7 @@ export default function Art() {
         </>
       }
     >
+      <AmLMProvider>
       <section className="art-row">
         {ARTWORKS.map(art => (
           <div key={art.caption} className="art-row-item" style={{ flexGrow: art.frame[0] }}>
@@ -42,6 +44,7 @@ export default function Art() {
           </div>
         ))}
       </section>
+      </AmLMProvider>
     </SidebarPage>
   )
 }

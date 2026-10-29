@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Link } from 'react-router-dom'
+import UpNext from '../components/UpNext'
 import './FindyCaseStudy.css'
 import TopNavbar from '../components/TopNavbar'
 import { useRevealWhenReady } from '../lib/pageReady'
@@ -8,9 +8,6 @@ import auraBg from '../assets/images/aura-bg.png'
 import auraMockup from '../assets/images/aura-mockup.png'
 import auraNewArtwork from '../assets/images/aura-new-artwork.png'
 import orgPacuci from '../assets/images/org-pacuci.png'
-import orgStreets from '../assets/images/org-streets.png'
-import streetsGif from '../assets/images/streetsgif.gif'
-import auraGif from '../assets/images/auragif.gif'
 
 const NAV_ITEMS = [
   { id: '',            label: 'Background',  routable: false },
@@ -235,36 +232,7 @@ export default function AuraCaseStudy() {
               </p>
             </section>
 
-            <section className="fcs-upnext">
-              <div className="fcs-upnext-divider" />
-              <h2 className="fcs-upnext-heading">Up Next</h2>
-              <div className="fcs-upnext-cards">
-                <div className="fcs-upnext-card fcs-upnext-card--soon" data-cursor="coming-soon">
-                  <div className="fcs-upnext-card-artwork">
-                    <img src={streetsGif} alt="" draggable={false} />
-                  </div>
-                  <div className="fcs-upnext-card-info">
-                    <div className="fcs-upnext-card-org">
-                      <img src={orgStreets} alt="" className="fcs-upnext-card-org-logo" />
-                      <span>Streets by Plyance</span>
-                    </div>
-                    <div className="fcs-upnext-card-title">Streets Enterprise UI</div>
-                  </div>
-                </div>
-                <Link to="/work/aura" className="fcs-upnext-card">
-                  <div className="fcs-upnext-card-artwork">
-                    <img src={auraGif} alt="" draggable={false} />
-                  </div>
-                  <div className="fcs-upnext-card-info">
-                    <div className="fcs-upnext-card-org">
-                      <img src={orgPacuci} alt="" className="fcs-upnext-card-org-logo" />
-                      <span>Product Association @ UCI</span>
-                    </div>
-                    <div className="fcs-upnext-card-title">Aura</div>
-                  </div>
-                </Link>
-              </div>
-            </section>
+            <UpNext works={['streets', 'findy']} />
 
           </div>
         </main>

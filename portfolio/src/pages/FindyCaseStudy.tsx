@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import UpNext from '../components/UpNext'
+import LoopVideo from '../components/LoopVideo'
+import { FINDY_VIDEO } from '../lib/workMedia'
 import './FindyCaseStudy.css'
 import TopNavbar from '../components/TopNavbar'
 import { useRevealWhenReady } from '../lib/pageReady'
 
 import backArrow        from '../assets/images/cs-back-arrow.svg'
 import orgLogo          from '../assets/images/findy-v2-org.png'
-import heroGif          from '../assets/images/findy-assisting.gif'
 import bubbleDetective  from '../assets/images/findy-v2-detective.svg'
 import bubbleZen        from '../assets/images/findy-v2-zen.svg'
 import headphones       from '../assets/images/findy-v2-headphones.svg'
@@ -26,8 +28,6 @@ import phoneSpotlight   from '../assets/images/findy-v2-phone-spotlight.webp'
 import phoneNavigation  from '../assets/images/findy-v2-phone-navigation.webp'
 import phonePay         from '../assets/images/findy-v2-phone-pay.webp'
 import demoDay          from '../assets/images/findy-v2-demo-day.jpg'
-import upStreets        from '../assets/images/findy-v2-up-streets-projects.png'
-import rocketArtwork    from '../assets/images/rocket-artwork-v2.gif'
 import iconExplore      from '../assets/images/cs-icon-explore.svg'
 import iconPalette      from '../assets/images/cs-icon-palette.svg'
 import iconForum        from '../assets/images/cs-icon-forum.svg'
@@ -208,9 +208,11 @@ export default function FindyCaseStudy() {
                 takes on an innovative approach towards addressing elderly care through its AI-powered native
                 integration into local interfaces.
               </p>
-              {/* Figma hero frame (779×450, radius 12) holding the original Findy gif */}
+              {/* Figma hero frame (779×450, radius 12) holding the landing's Findy clip (the default, not the pixel cut) */}
               <div className="findy-hero">
-                <img src={heroGif} alt="Findy guiding a senior through their iPhone" draggable={false} />
+                <div className="findy-hero-phone">
+                  <LoopVideo src={FINDY_VIDEO} label="Findy guiding a senior through their iPhone" />
+                </div>
               </div>
               <div className="fcs-tags">
                 <div className="fcs-tag">
@@ -460,30 +462,7 @@ export default function FindyCaseStudy() {
 
             <div className="fcs-divider fcs-divider--section" />
 
-            {/* ── Up Next ── */}
-            <section className="rl-upnext">
-              <h2 className="rl-upnext-heading">Up Next</h2>
-              <div className="rl-upnext-row">
-                <div className="rl-upnext-card" data-cursor="coming-soon">
-                  <div className="rl-upnext-artwork findy-upnext-streets">
-                    <img src={upStreets} alt="Streets" draggable={false} />
-                  </div>
-                  <div>
-                    <p className="rl-upnext-title">Streets</p>
-                    <p className="rl-upnext-desc">design engineering enterprise B2B software</p>
-                  </div>
-                </div>
-                <Link to="/work/rocket-lawyer" className="rl-upnext-card" data-cursor="case-study">
-                  <div className="rl-upnext-artwork rl-upnext-artwork--rocket">
-                    <img src={rocketArtwork} alt="Rocket Copilot" draggable={false} />
-                  </div>
-                  <div>
-                    <p className="rl-upnext-title">Rocket Copilot</p>
-                    <p className="rl-upnext-desc">redefining legal tech software through data-driven research</p>
-                  </div>
-                </Link>
-              </div>
-            </section>
+            <UpNext works={['streets', 'rocket']} />
 
           </div>
         </main>

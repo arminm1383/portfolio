@@ -1,182 +1,287 @@
 /* ══════════════════════════════════════════════════════════
-   STREETS CASE STUDY — Streets-specific overrides
-   Shell + typography inherit from .fcs-page--rocket (FindyCaseStudy.css);
-   this file only adds what's unique to the Streets design-system page.
+   STREETS CASE STUDY (Figma Portfolio-v4 Main 2174:8136, 900 wide)
+   Shell, typography, figures, chips, cards and Up Next come from the shared case-study base in
+   FindyCaseStudy.css; this file adds what is unique to Streets.
    ══════════════════════════════════════════════════════════ */
+.fcs-page--streets { --case-accent: #14651b; }
 
-/* ── Figure blocks — self-contained gray cards exported from Figma ── */
-.scs-figure {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.04);
-  pointer-events: none;
-  user-select: none;
-}
+/* Sidebar tabs scroll a section so its label lands level with BACK (y=100): 100 − the section's 56px padding */
+.fcs-page--streets .fcs-section[id] { scroll-margin-top: calc(var(--case-pad-y) - var(--case-section-gap)); }
 
-/* ── Nested subsection (Building Screens from Shared Pieces) ── */
-.scs-subsection {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 56px;
-}
-.scs-subsection > * { margin: 0; }
-
-/* Brown accent heading — Figma #897C5F */
-.scs-subsection-heading {
-  color: #897c5f;
-}
-
-/* ── Takeaways stat cards — big count-up numeral + description ── */
-.fcs-page--streets .scs-stat-num {
-  font-family: var(--font-heading);
-  font-size: 48px;
-  font-weight: 700;
-  color: #1a1a1a;
-  line-height: 1;
-}
-
-.fcs-page--streets .scs-stat-text {
-  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  color: rgba(0, 0, 0, 0.6);
-  line-height: 1.5;
-  margin: 0;
-}
-
-/* ══════════════════════════════════════════════════════════
-   IN PRODUCT — semi-interactive search-flow walkthrough
-   Click the stage (or a step) to advance through the 3 screens.
-   ══════════════════════════════════════════════════════════ */
-.scs-flow {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  background: #ebeae9;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.04);
-}
-
-.scs-flow-top {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.scs-flow-label {
-  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.45);
-  margin: 0;
-}
-
-.scs-flow-hint {
-  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  color: #897c5f;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-/* Screen stage — fixed aspect, stacked crossfading screenshots */
-.scs-flow-stage {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1616 / 1160;
-  border: none;
-  padding: 0;
-  margin: 0;
-  border-radius: 8px;
+/* ── Header hero: 779×450, radius 12, the Streets clip ── */
+.scs-hero {
+  width: 779px;
+  max-width: 100%;
+  aspect-ratio: 779 / 450;
+  border-radius: var(--radius-md);
+  background: #f4f4f3;
   overflow: hidden;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  cursor: pointer;
-  display: block;
 }
 
-.scs-flow-screen {
-  position: absolute;
-  inset: 0;
+.scs-hero video {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top left;
-  opacity: 0;
-  transform: scale(1.01);
-  transition: opacity 0.45s ease, transform 0.45s ease;
-  pointer-events: none;
-  user-select: none;
 }
 
-.scs-flow-screen.is-active {
-  opacity: 1;
-  transform: scale(1);
-}
+/* Background: the role icons are the shared Material Symbols SVGs recoloured to Figma's green (#14651b) */
 
-/* Step tabs */
-.scs-flow-steps {
+/* ── Feature: a figure (552) beside its caption (332), caption sitting on the figure's bottom edge ── */
+.scs-feature {
   display: flex;
-  gap: 12px;
+  align-items: flex-end;
+  gap: var(--space-4);
 }
 
-.scs-flow-step {
-  flex: 1;
+.fcs-media-card.scs-feature-figure {
+  box-sizing: border-box; /* 552 includes the figure's padding and border, as in Figma */
+  flex: 0 0 552px;
+  min-width: 0;
+  align-items: flex-start;
+  margin-bottom: 0;
+}
+
+.scs-feature + .scs-feature { margin-top: var(--space-4); } /* Figma: the Feature rows stack 16 apart inside Solution */
+
+.scs-feature-text {
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  text-align: left;
-  padding: 14px 16px;
-  border: none;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.5);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
-  cursor: pointer;
-  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
 }
 
-.scs-flow-step:hover {
-  background: rgba(255, 255, 255, 0.85);
+.scs-feature-text p { margin: 0; }
+
+/* Figure Label at 16: the title in full black, the description at 50% */
+.scs-feature-title,
+.scs-feature-desc {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.32px;
 }
 
-.scs-flow-step.is-active {
-  background: #fff;
-  box-shadow: inset 0 0 0 1.5px #897c5f, 0 2px 6px rgba(0, 0, 0, 0.06);
+.scs-feature-title { color: var(--color-text-primary); }
+.scs-feature-desc { color: var(--color-text-subtle); }
+
+/* Screenshot frame: 2px wash around a 498×355 image */
+.scs-shot {
+  box-sizing: border-box;
+  width: 100%;
+  aspect-ratio: 502 / 359;
+  padding: 2px;
+  background: rgba(0, 0, 0, 0.02);
 }
 
-.scs-flow-step-num {
-  font-family: var(--font-heading);
-  font-size: 18px;
-  font-weight: 700;
-  color: rgba(0, 0, 0, 0.3);
-  line-height: 1;
-  transition: color 0.2s ease;
+.scs-shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  object-fit: cover;
 }
 
-.scs-flow-step.is-active .scs-flow-step-num {
+/* ── Subsections inside a section (56 apart; 16 inside) ── */
+.scs-subsection,
+.scs-step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--case-section-gap);
+}
+
+.scs-subsection > *,
+.scs-step > * { margin: 0; }
+
+.scs-step { margin-top: var(--space-4); padding: var(--space-4) 0; }
+
+/* ── The design to code loop: four white steps joined by arrows ── */
+.scs-loop {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scs-loop-item {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.scs-loop-step {
+  flex: 1 1 0;
+  min-width: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.scs-loop-tag {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.28px;
   color: #897c5f;
 }
 
-.scs-flow-step-label {
-  font-family: 'Open Sauce Sans', 'Open Sans', system-ui, sans-serif;
-  font-size: 13px;
-  line-height: 1.4;
-  color: rgba(0, 0, 0, 0.6);
+.scs-loop-title {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+  color: var(--color-text-primary);
 }
 
-.scs-flow-step.is-active .scs-flow-step-label {
-  color: rgba(0, 0, 0, 0.85);
+.scs-loop-text {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: normal;
+  color: var(--color-text-muted);
 }
 
-@media (max-width: 680px) {
-  .scs-flow-steps { flex-direction: column; }
-  .scs-flow-hint { display: none; }
+.scs-loop-arrow {
+  flex-shrink: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-subtle);
+}
+
+/* ── Terminal code blocks: black, radius 8, JetBrains Mono 14 ── */
+.scs-terminal {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: var(--space-6);
+  border-radius: var(--radius-sm);
+  background: #000;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', ui-monospace, 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #fff;
+  tab-size: 2;
+}
+
+.scs-terminal code { font: inherit; }
+.scs-code-w { color: #fff; }
+.scs-code-b { color: #205dfd; }
+.scs-code-g { color: #8c8c8c; }
+
+/* ── System rules: the sidebar component beside its rules card ── */
+.scs-rules-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+.scs-rules-sidebar {
+  flex: 0 0 132px;
+  width: 132px;
+  height: auto;
+  border-radius: var(--radius-2xs);
+}
+
+.scs-rules {
+  flex: 1 1 0;
+  min-width: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.scs-rule-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.scs-rule-group > p { margin: 0; }
+
+.scs-rule-label,
+.scs-pane-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  text-transform: uppercase;
+  color: #737373;
+}
+
+.scs-pane-label { margin: 0; width: 100%; }
+
+.scs-rule-value {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: normal;
+  color: #1a1a1a;
+}
+
+/* Hairline between rules; the gap above it is the card's 16 */
+.scs-rule-divider {
+  height: 1px;
+  margin: 0 0 var(--space-4);
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* "In Figma": the component on a white stage */
+.scs-pane-stage {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: var(--space-8) 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.scs-pane-stage img,
+.scs-pane-stage video {
+  display: block;
+  width: 444px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Storybook placeholder: just the figure label ── */
+.fcs-media-card.scs-soon { align-items: center; }
+
+/* ── Reflection stats: radius 8 (Figma), accent from the page ── */
+.fcs-page--streets .fcs-stats { border-radius: var(--radius-sm); }
+
+/* ── Narrow screens ── */
+@media (max-width: 1100px) {
+  .scs-feature { flex-direction: column; align-items: stretch; }
+  .fcs-media-card.scs-feature-figure { flex: none; width: 100%; }
+}
+
+@media (max-width: 760px) {
+  .scs-loop,
+  .scs-loop-item { flex-direction: column; align-items: stretch; }
+  .scs-loop-arrow { align-self: center; transform: rotate(90deg); }
+  .scs-rules-row { flex-direction: column; }
+  .scs-rules-sidebar { flex: none; }
 }

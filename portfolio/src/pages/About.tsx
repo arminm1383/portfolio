@@ -1,6 +1,7 @@
 import './About.css'
 import SidebarPage from '../components/SidebarPage'
 import PhotoCard, { type Photo } from '../components/PhotoCard'
+import { AmLMProvider } from '../components/AskAmLM'
 import { registerPageImages } from '../lib/pageAssets'
 
 import photoAnteater    from '../assets/images/about-photo-anteater.jpg'
@@ -19,25 +20,25 @@ const COLUMNS: { width: number; photos: Photo[] }[] = [
   {
     width: 285,
     photos: [
-      { src: photoAnteater, caption: 'me + peter the anteater', meta: '06.2026', frame: [285, 198] },
-      { src: photoFilet, caption: 'reimagining the filet-o-fish', meta: '06.2026', frame: [285, 198], focus: '0% 64%' },
-      { src: photoLucas, caption: 'the lucas museum', meta: '09.2026', frame: [285, 487.85], focus: '4% 0%' },
+      { id: 'about-anteater', src: photoAnteater, caption: 'me + peter the anteater', meta: '06.2026', frame: [285, 198] },
+      { id: 'about-filet', src: photoFilet, caption: 'reimagining the filet-o-fish', meta: '06.2026', frame: [285, 198], focus: '0% 64%' },
+      { id: 'about-lucas', src: photoLucas, caption: 'the lucas museum', meta: '09.2026', frame: [285, 487.85], focus: '4% 0%' },
     ],
   },
   {
     width: 408,
     photos: [
-      { src: photoYosemite, caption: 'bouldering in Yosemite', meta: '09.2026', frame: [408, 432.88] },
-      { src: photoHuntington, caption: 'the huntington library', meta: '05.2026', frame: [408, 246], focus: '75% 40%' },
-      { src: photoJapan, caption: 'jumping in japan', meta: '01.2025', frame: [408, 190] },
+      { id: 'about-yosemite', src: photoYosemite, caption: 'bouldering in Yosemite', meta: '09.2026', frame: [408, 432.88] },
+      { id: 'about-huntington', src: photoHuntington, caption: 'the huntington library', meta: '05.2026', frame: [408, 246], focus: '75% 40%' },
+      { id: 'about-japan', src: photoJapan, caption: 'jumping in japan', meta: '01.2025', frame: [408, 190] },
     ],
   },
   {
     width: 329,
     photos: [
-      { src: photoDesignathon, caption: 'reaching the design-a-thon finals', meta: '04.2026', frame: [329, 253], focus: '100% 0%' },
-      { src: photoFruit, caption: 'fruit in the middle of nowhere', meta: '10.2025', frame: [329, 384.51], focus: '50% 100%' },
-      { src: photoMonet, caption: 'monet at the getty', meta: '09.2025', frame: [329, 253], focus: '50% 53%' },
+      { id: 'about-designathon', src: photoDesignathon, caption: 'reaching the design-a-thon finals', meta: '04.2026', frame: [329, 253], focus: '100% 0%' },
+      { id: 'about-fruit', src: photoFruit, caption: 'fruit in the middle of nowhere', meta: '10.2025', frame: [329, 384.51], focus: '50% 100%' },
+      { id: 'about-monet', src: photoMonet, caption: 'monet at the getty', meta: '09.2025', frame: [329, 253], focus: '50% 53%' },
     ],
   },
 ]
@@ -60,6 +61,7 @@ export default function About() {
         </>
       }
     >
+      <AmLMProvider>
       <section className="about-photos">
         {COLUMNS.map(col => (
           <div key={col.width} className="about-photos-col" style={{ flexGrow: col.width }}>
@@ -67,6 +69,7 @@ export default function About() {
           </div>
         ))}
       </section>
+      </AmLMProvider>
     </SidebarPage>
   )
 }

@@ -8,7 +8,7 @@ import { prefetchOtherPages, prefetchPage } from './pageAssets'
 // while the gif stays put across the route change (or glides, if the two pages place it differently).
 export const PAGE_CONTENT = [
   '.pixel-title > span', '.pixel-page-intro', '.pixel-page-body', '.navbar', '.site-footer',
-  '.sidebar-title', '.sidebar-bio', '.sidebar-nav',
+  '.sidebar-title', '.sidebar-bio',
 ]
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -90,13 +90,12 @@ export function runPageEntrance(): () => void {
       tl.fromTo('.pixel-page-intro', { opacity: 0, y: 6 },
         { opacity: 1, y: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL + 0.08)
 
-      // Sidebar pages: title, then description, rise in; the navbar slides in like the old side navbar
+      // Sidebar pages: title, then description, rise in. The navbar (the buttons) is not part of the swap: it stays
+      // on screen through every transition and only its highlighted row changes.
       tl.fromTo('.sidebar-title', { opacity: 0, y: 6 },
         { opacity: 1, y: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL)
       tl.fromTo('.sidebar-bio', { opacity: 0, y: 6 },
         { opacity: 1, y: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL + 0.08)
-      tl.fromTo('.sidebar-nav', { opacity: 0, x: -10 },
-        { opacity: 1, x: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL + 0.08)
       tl.fromTo('.navbar', { opacity: 0, x: -10 },
         { opacity: 1, x: 0, duration: 0.45, ease: EASE, clearProps: 'opacity,transform' }, REVEAL + 0.08)
       // Page body (works / photos) arrives as one unit so everything in it is in sync
