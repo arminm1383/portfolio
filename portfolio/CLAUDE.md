@@ -129,10 +129,18 @@ All case studies share `pages/FindyCaseStudy.css` (despite the name) — change 
 - Linked from the landing card and every other case study's Up Next (cursor `case-study`).
 - **Up Next** is one shared component, `components/UpNext.tsx` (`<UpNext works={['streets','findy']} />`; keys `streets` / `findy` / `rocket`). Each card is the landing's pixel + real clip pair (`lib/workMedia.ts`, shared with `Home.tsx`) in a 373×217 box that depixelizes on card hover, with the landing's title and subtext, routing to its case study (`data-cursor="case-study"`, lift + tilt hover from `.rl-upnext-card`). Pairs: Streets → Rocket + Findy, Findy → Streets + Rocket, Rocket → Streets + Findy, Aura → Streets + Findy. Findy's phone frame is the landing geometry rescaled (`.rl-upnext-media`).
 
+### Findy case study media
+- Every animation on the Findy page is a `LoopVideo` (WebM + MP4 + poster), like the landing work cards: the four phone clips (564×1120, `#f2f3f7` panel colour baked behind the transparent bezel corners, BT.709-tagged so it matches the CSS panel), and the research-setup and focus-group clips (Figma crops baked in). Spotlight & dimming is trimmed to start 5.5s into the screen recording so the status-bar glitch never plays. The focus-group source is only 640 wide in Figma, so it tops out at 1.2x.
+- Encode with the skill's `encode_video.sh` settings plus `scale=out_color_matrix=bt709:out_range=tv` and bt709 colour tags (untagged tall video is decoded as BT.709 by Chrome, which lifts a baked background by a few levels).
+
 ### arminLM on About and Art (`components/AskAmLM.tsx`, `lib/amlm.ts`)
 - Visual from Figma `2207:17`: selecting a photo draws a dashed orange outline (#fe8a09, 2px, 8/8), an orange 20×20 AI tag sits 47px beside it and opens a 165×32 white popup (pixel-font "ask amLM" input, orange send button; widens to 240 to show the reply). The tag flips to the photo's left when the viewport has no room on the right.
 - Logic is the old landing implementation: `POST { graphicId, question }` to the Cloudflare Worker in `worker/` (`VITE_ARMINLM_ENDPOINT`; the key stays server-side). `<AmLMProvider>` wraps each page's photos; a `Photo` with an `id` is selectable (`PhotoCard`), one at a time. Clicking elsewhere or Escape deselects; each photo starts a fresh conversation.
 - Every selectable photo's `id` needs an entry in `worker/src/graphicContext.ts` (the model's only source of truth; entries marked FILL IN need Armin's real stories). Classes are prefixed `ask-lm-` because the archived collage CSS (imported by `/alt`) still defines `amlm-*`.
+
+### Image library (`src/assets/images`) and archive (`src/assets/archive`)
+- `images/` holds only graphics the front end currently imports (JS/TS or CSS `url()`). Retired graphics that were used since 2026-09-01 live in `archive/` (flat, not imported anywhere; Vite never bundles them); anything last used before September, and byte-identical duplicates, was deleted (recoverable from git history).
+- To retire a graphic, move it to `archive/`; to bring one back, move it into `images/` and import it. No two files in `images/` should have identical content: reuse one import instead of keeping copies.
 
 ### Top navbar (`components/TopNavbar.tsx`) — used on the landing and every case study
 - Figma "Top Navbar" component `2042:155940`: fixed at x=24 / y=24, 1586×56 (right edge at 1610), padding 12px 0 — no side padding, so it starts at x=24 in line with the side navbar's text. Radius 12.

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import UpNext from '../components/UpNext'
-import LoopVideo from '../components/LoopVideo'
+import LoopVideo, { type LoopVideoSource } from '../components/LoopVideo'
 import { FINDY_VIDEO } from '../lib/workMedia'
 import './FindyCaseStudy.css'
 import TopNavbar from '../components/TopNavbar'
@@ -14,20 +14,32 @@ import bubbleZen        from '../assets/images/findy-v2-zen.svg'
 import headphones       from '../assets/images/findy-v2-headphones.svg'
 import bubbleClumsy     from '../assets/images/findy-v2-clumsy.svg'
 import competitors      from '../assets/images/findy-v2-competitors.png'
-import researchSetup    from '../assets/images/findy-v2-research-setup.webp'
 import tableSetup       from '../assets/images/findy-v2-table-setup.jpg'
-import focusGroup       from '../assets/images/findy-v2-focus-group.gif'
 import usabilityShot    from '../assets/images/findy-v2-usability.jpg'
 import adrianaHomes     from '../assets/images/findy-v2-adriana-homes.jpg'
 import usabilityResults from '../assets/images/findy-v2-usability-results.png'
 import stateDefault     from '../assets/images/findy-v2-state-default.png'
 import stateListening   from '../assets/images/findy-v2-state-listening.png'
 import stateAssisting   from '../assets/images/findy-v2-state-assisting.png'
-import phoneHome        from '../assets/images/findy-v2-phone-home.webp'
-import phoneSpotlight   from '../assets/images/findy-v2-phone-spotlight.webp'
-import phoneNavigation  from '../assets/images/findy-v2-phone-navigation.webp'
-import phonePay         from '../assets/images/findy-v2-phone-pay.webp'
 import demoDay          from '../assets/images/findy-v2-demo-day.jpg'
+import researchSetupWebm   from '../assets/images/findy-v2-research-setup.webm'
+import researchSetupMp4    from '../assets/images/findy-v2-research-setup.mp4'
+import researchSetupPoster from '../assets/images/findy-v2-research-setup-poster.jpg'
+import focusGroupWebm   from '../assets/images/findy-v2-focus-group.webm'
+import focusGroupMp4    from '../assets/images/findy-v2-focus-group.mp4'
+import focusGroupPoster from '../assets/images/findy-v2-focus-group-poster.jpg'
+import phoneHomeWebm   from '../assets/images/findy-v2-phone-home.webm'
+import phoneHomeMp4    from '../assets/images/findy-v2-phone-home.mp4'
+import phoneHomePoster from '../assets/images/findy-v2-phone-home-poster.jpg'
+import phoneSpotlightWebm   from '../assets/images/findy-v2-phone-spotlight.webm'
+import phoneSpotlightMp4    from '../assets/images/findy-v2-phone-spotlight.mp4'
+import phoneSpotlightPoster from '../assets/images/findy-v2-phone-spotlight-poster.jpg'
+import phoneNavigationWebm   from '../assets/images/findy-v2-phone-navigation.webm'
+import phoneNavigationMp4    from '../assets/images/findy-v2-phone-navigation.mp4'
+import phoneNavigationPoster from '../assets/images/findy-v2-phone-navigation-poster.jpg'
+import phonePayWebm   from '../assets/images/findy-v2-phone-pay.webm'
+import phonePayMp4    from '../assets/images/findy-v2-phone-pay.mp4'
+import phonePayPoster from '../assets/images/findy-v2-phone-pay-poster.jpg'
 import iconExplore      from '../assets/images/cs-icon-explore.svg'
 import iconPalette      from '../assets/images/cs-icon-palette.svg'
 import iconForum        from '../assets/images/cs-icon-forum.svg'
@@ -38,6 +50,16 @@ import iconSupportAgent from '../assets/images/cs-icon-support-agent.svg'
 
 // Figma sidebar tabs (1657:189080), one per labelled section, in page order. Research covers the
 // unlabelled competitor and usability-testing sections that follow it.
+// Every animation on this page ships as video, like the landing's work cards (WebM + MP4 + poster): 2x sharp at a fraction of the
+// size of an animated WebP. The phone clips carry the panel colour (#f2f3f7) behind their transparent corners. Spotlight & dimming is
+// trimmed to start after the screen recording's first 5.5 seconds (the status-bar glitch) so the loop never shows it.
+const RESEARCH_SETUP_VIDEO: LoopVideoSource = { webm: researchSetupWebm, mp4: researchSetupMp4, poster: researchSetupPoster }
+const FOCUS_GROUP_VIDEO: LoopVideoSource = { webm: focusGroupWebm, mp4: focusGroupMp4, poster: focusGroupPoster }
+const PHONE_HOME_VIDEO: LoopVideoSource = { webm: phoneHomeWebm, mp4: phoneHomeMp4, poster: phoneHomePoster }
+const PHONE_SPOTLIGHT_VIDEO: LoopVideoSource = { webm: phoneSpotlightWebm, mp4: phoneSpotlightMp4, poster: phoneSpotlightPoster }
+const PHONE_NAVIGATION_VIDEO: LoopVideoSource = { webm: phoneNavigationWebm, mp4: phoneNavigationMp4, poster: phoneNavigationPoster }
+const PHONE_PAY_VIDEO: LoopVideoSource = { webm: phonePayWebm, mp4: phonePayMp4, poster: phonePayPoster }
+
 const NAV_ITEMS = [
   { id: 'background',  label: 'Background' },
   { id: 'problem',     label: 'Problem'    },
@@ -309,13 +331,13 @@ export default function FindyCaseStudy() {
                 <div className="findy-media-row">
                   <figure className="findy-media">
                     <div className="findy-media-frame findy-media-frame--cover">
-                      <img src={researchSetup} alt="Setting up at the Huntington Beach Council of Aging" draggable={false} />
+                      <LoopVideo src={RESEARCH_SETUP_VIDEO} label="Setting up at the Huntington Beach Council of Aging" />
                     </div>
                     <figcaption className="fcs-media-card-label">Setting Up at the Huntington Beach Council of Aging</figcaption>
                   </figure>
                   <figure className="findy-media">
-                    <div className="findy-media-frame findy-media-frame--focus">
-                      <img src={focusGroup} alt="Focus group with individuals aged 75-90+" draggable={false} />
+                    <div className="findy-media-frame findy-media-frame--cover">
+                      <LoopVideo src={FOCUS_GROUP_VIDEO} label="Focus group with individuals aged 75-90+" />
                     </div>
                     <figcaption className="fcs-media-card-label">Focus Group with Individuals Aged 75-90+</figcaption>
                   </figure>
@@ -407,18 +429,18 @@ export default function FindyCaseStudy() {
               </p>
               <div className="findy-phone-row">
                 <PhoneFigure label="THE MAIN INTERACTION - HOME" caption="The main button ensures Findy is apparent, readily-available, and easy to interact with.">
-                  <img src={phoneHome} alt="Findy listening on the iOS home screen" className="findy-phone" draggable={false} />
+                  <LoopVideo src={PHONE_HOME_VIDEO} label="Findy listening on the iOS home screen" className="findy-phone" />
                 </PhoneFigure>
                 <PhoneFigure label="SPOTLIGHT & DIMMING" caption="After talking to experts in aging psychology, we added spotlight/dimming to guide seniors’ focus">
-                  <img src={phoneSpotlight} alt="Findy dimming the screen to spotlight one control" className="findy-phone" draggable={false} />
+                  <LoopVideo src={PHONE_SPOTLIGHT_VIDEO} label="Findy dimming the screen to spotlight one control" className="findy-phone" />
                 </PhoneFigure>
               </div>
               <div className="findy-phone-row">
                 <PhoneFigure label="ASSISTED NAVIGATION WITH GUIDED CHECKS" caption="Before every redirect, the user is informed and prompted, ensuring seniors are the ones in control, not their phones.">
-                  <img src={phoneNavigation} alt="Findy asking before redirecting to another app" className="findy-phone" draggable={false} />
+                  <LoopVideo src={PHONE_NAVIGATION_VIDEO} label="Findy asking before redirecting to another app" className="findy-phone" />
                 </PhoneFigure>
                 <PhoneFigure label="CONNECTIVITY WITH APPLE PAY" caption="By synching with Apple Pay, transactions are simplified without burderning users hesitant to share financial information.">
-                  <img src={phonePay} alt="Findy completing a purchase with Apple Pay" className="findy-phone" draggable={false} />
+                  <LoopVideo src={PHONE_PAY_VIDEO} label="Findy completing a purchase with Apple Pay" className="findy-phone" />
                 </PhoneFigure>
               </div>
             </section>

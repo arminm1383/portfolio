@@ -2308,7 +2308,8 @@
   border-radius: var(--radius-2xs);
 }
 
-.findy-media-frame img {
+.findy-media-frame img,
+.findy-media-frame video {
   position: absolute;
   max-width: none;
 }
@@ -2317,7 +2318,8 @@
 .findy-media-frame--table img   { left: -5.68%; top: -5.79%; width: 105.79%; height: 112%; }
 .findy-media-frame--focus img   { left: -29.2%; top: 0; width: 129.29%; height: 100%; }
 .findy-media-frame--adriana img { left: -24.08%; top: -15.57%; width: 128%; height: 125.04%; }
-.findy-media-frame--cover img   { inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.findy-media-frame--cover img,
+.findy-media-frame--cover video { inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
 /* Applying usability test results — 850-wide annotated screens (Figma 2162:1611) */
 .findy-usability-results {

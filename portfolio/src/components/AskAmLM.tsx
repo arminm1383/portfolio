@@ -66,20 +66,29 @@ function Popup({ graphicId }: { graphicId: string }) {
     const q = question.trim()
     if (!q || loading) return
     setLoading(true); setError(''); setAnswer('')
+    if (ARMINLM_ENDPOINT.includes('YOUR-SUBDOMAIN')) {
+      setError('arminLM has no Worker URL yet: set VITE_ARMINLM_ENDPOINT (see worker/README.md).')
+      setLoading(false)
+      return
+    }
+    let res: Response
     try {
-      const res = await fetch(ARMINLM_ENDPOINT, {
+      res = await fetch(ARMINLM_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ graphicId, question: q }),
       })
-      const data = await res.json().catch(() => ({}))
-      if (!res.ok) throw new Error(data?.error || 'Request failed')
-      setAnswer((data.answer as string) || '')
-    } catch {
-      setError('arminLM is offline right now, try again later.')
-    } finally {
+    } catch (err) {
+      // Network failure, a blocked CORS response, or the Worker not running
+      console.warn('arminLM: could not reach the Worker', err)
+      setError('arminLM can’t be reached right now, try again later.')
       setLoading(false)
+      return
     }
+    const data = await res.json().catch(() => ({}))
+    if (res.ok) setAnswer((data.answer as string) || '')
+    else setError((data?.error as string) || 'arminLM hit a snag, try again in a moment.')
+    setLoading(false)
   }
 
   const hasReply = loading || answer || error
