@@ -1,0 +1,25 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/local/bin/node \"$CLAUDE_PROJECT_DIR/.claude/skills/gif-quality/hooks/gif-reminder.cjs\""
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/local/bin/node \"$CLAUDE_PROJECT_DIR/.claude/skills/gif-quality/hooks/gif-reminder.cjs\""
+          }
+        ]
+      }
+    ]
+  }
+}

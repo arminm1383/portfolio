@@ -176,7 +176,7 @@ All case studies share `pages/FindyCaseStudy.css` (despite the name) — change 
 - Only on devices with a real mouse (`(hover: hover) and (pointer: fine)`, in both the CSS and the JS). It stays hidden until the first mousemove, and the native cursor is hidden only from then on (`html.has-custom-cursor`); touch devices keep their native cursor and never render the custom one.
 
 ### Link previews and titles
-- `index.html` carries the description, Open Graph and Twitter tags (shared by every route, since crawlers don't run JS). `og:image` is `public/og-image.png` (1200x630; currently a placeholder rendered from the landing header).
+- `index.html` carries the description, Open Graph and Twitter tags (shared by every route, since crawlers don't run JS). `og:image` is `public/og-image.png` (1200x630; rendered from the live landing: sidebar title, bio and sprites beside the four pixel work cards, with the nav and captions hidden). Re-render it when the landing changes.
 - Tab titles are set per route in `App.tsx` (`RouteTitle`): "About | Armin Mohammadi" etc.
 
 ## Figma → Code Workflow

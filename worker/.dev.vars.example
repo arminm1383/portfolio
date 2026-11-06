@@ -1,0 +1,4 @@
+# Copy this file to `.dev.vars` and paste your real key for local `wrangler dev`.
+#   cp .dev.vars.example .dev.vars
+# `.dev.vars` is gitignored. (For production, use `wrangler secret put ANTHROPIC_API_KEY`.)
+ANTHROPIC_API_KEY=sk-ant-your-key-here
