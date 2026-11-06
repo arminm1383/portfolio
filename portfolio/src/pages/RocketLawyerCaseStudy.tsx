@@ -3,12 +3,17 @@ import { Link } from 'react-router-dom'
 import UpNext from '../components/UpNext'
 import './FindyCaseStudy.css'
 import TopNavbar from '../components/TopNavbar'
+import LoopVideo, { type LoopVideoSource } from '../components/LoopVideo'
 import backArrow from '../assets/images/cs-back-arrow.svg'
 import { useRevealWhenReady } from '../lib/pageReady'
 
-import rocketHeroGif from '../assets/images/rocket-cs-hero-new.gif'
+import rocketHeroMp4    from '../assets/images/rocket-cs-hero.mp4'
+import rocketHeroWebm   from '../assets/images/rocket-cs-hero.webm'
+import rocketHeroPoster from '../assets/images/rocket-cs-hero-poster.jpg'
 import rocketFdsSidebar  from '../assets/images/rocket-cs-fds-sidebar.png'
-import rocketUsabilityTest from '../assets/images/rocket-cs-usability-test.png'
+import rocketUsabilityMp4    from '../assets/images/rocket-cs-usability-test.mp4'
+import rocketUsabilityWebm   from '../assets/images/rocket-cs-usability-test.webm'
+import rocketUsabilityPoster from '../assets/images/rocket-cs-usability-test-poster.jpg'
 import rocketTestResults from '../assets/images/rocket-cs-test-results.png'
 import rocketStatsConnector from '../assets/images/rocket-cs-stats-connector.svg'
 import appliedResearch from '../assets/images/applied-research.png'
@@ -18,12 +23,18 @@ import diagArrow1      from '../assets/images/rocket-cs-diag-arrow1.svg'
 import diagUT          from '../assets/images/rocket-cs-diag-ut.svg'
 import diagArrow2      from '../assets/images/rocket-cs-diag-arrow2.svg'
 import diagRL          from '../assets/images/rocket-cs-diag-rl.svg'
-import rocketChart from '../assets/images/rocket-cs-chart.gif'
+import rocketChartMp4    from '../assets/images/rocket-cs-chart.mp4'
+import rocketChartWebm   from '../assets/images/rocket-cs-chart.webm'
+import rocketChartPoster from '../assets/images/rocket-cs-chart-poster.jpg'
 import rocketAffinityMap from '../assets/images/rocket-cs-affinity-map.png'
 import rocketVersionHistoryBefore from '../assets/images/rocket-cs-version-history-before.png'
-import rocketVersionHistoryAfter  from '../assets/images/version-history.gif'
+import rocketVersionHistoryMp4    from '../assets/images/rocket-cs-version-history.mp4'
+import rocketVersionHistoryWebm   from '../assets/images/rocket-cs-version-history.webm'
+import rocketVersionHistoryPoster from '../assets/images/rocket-cs-version-history-poster.jpg'
 import rocketBizCenterBreakdown from '../assets/images/rocket-cs-business-center-breakdown.png'
-import rocketBizCenter from '../assets/images/rocket-cs-biz-center.gif'
+import rocketBizCenterMp4    from '../assets/images/rocket-cs-biz-center.mp4'
+import rocketBizCenterWebm   from '../assets/images/rocket-cs-biz-center.webm'
+import rocketBizCenterPoster from '../assets/images/rocket-cs-biz-center-poster.jpg'
 import rocketBizCenterBefore from '../assets/images/rocket-cs-dashboard.png'
 import rqIcon1 from '../assets/images/rq-icon-1.svg'
 import rqIcon2 from '../assets/images/rq-icon-2.svg'
@@ -87,13 +98,41 @@ function cubicBezierEase(t: number, x1: number, y1: number, x2: number, y2: numb
 const EASE_X1 = 0.76, EASE_Y1 = 0, EASE_X2 = 0.24, EASE_Y2 = 1
 const SCROLL_DURATION = 650
 
+const HERO_CLIP: LoopVideoSource = { webm: rocketHeroWebm, mp4: rocketHeroMp4, poster: rocketHeroPoster }
+const CHART_CLIP: LoopVideoSource = { webm: rocketChartWebm, mp4: rocketChartMp4, poster: rocketChartPoster }
+const VERSION_HISTORY_CLIP: LoopVideoSource = { webm: rocketVersionHistoryWebm, mp4: rocketVersionHistoryMp4, poster: rocketVersionHistoryPoster }
+const BIZ_CENTER_CLIP: LoopVideoSource = { webm: rocketBizCenterWebm, mp4: rocketBizCenterMp4, poster: rocketBizCenterPoster }
+const USABILITY_CLIP: LoopVideoSource = { webm: rocketUsabilityWebm, mp4: rocketUsabilityMp4, poster: rocketUsabilityPoster }
+
+// Like the landing's work cards: restarts from its first frame on scrolling into view, pauses off screen
+function Clip({ src, className }: { src: LoopVideoSource; className?: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return video.pause()
+        video.currentTime = 0
+        video.play().catch(() => {})
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(video)
+    return () => observer.disconnect()
+  }, [])
+
+  return <LoopVideo ref={videoRef} src={src} className={className} />
+}
+
 function BeforeAfterContainer({
   beforeSrc,
-  afterSrc,
+  afterClip,
   beforeLayout = 'fill',
 }: {
   beforeSrc: string
-  afterSrc: string
+  afterClip: LoopVideoSource
   beforeLayout?: 'inset' | 'fill'
 }) {
   const [active, setActive] = useState<'before' | 'after'>('after')
@@ -123,11 +162,11 @@ function BeforeAfterContainer({
       </div>
 
       <div className="fcs-ba-mockup">
-        <img src={afterSrc} alt="" className="fcs-ba-sizer" draggable={false} />
+        <img src={afterClip.poster} alt="" className="fcs-ba-sizer" draggable={false} />
 
         {/* AFTER panel */}
         <div className={`fcs-ba-panel${active === 'after' ? ' fcs-ba-panel--active' : ''}`}>
-          <img src={afterSrc} alt="" className="fcs-ba-fill-img" draggable={false} />
+          <Clip src={afterClip} className="fcs-ba-fill-img" />
           <div className="fcs-ba-inset" aria-hidden />
         </div>
 
@@ -338,7 +377,7 @@ export default function RocketLawyerCaseStudy() {
                 Rocket Copilot is Rocket Lawyer’s AI-powered legal assistant. As a UX research intern, I built a Claude-powered
                 research pipeline that grounds the design team’s decisions in data.
               </p>
-              <img src={rocketHeroGif} alt="" className="fcs-hero-single" draggable={false} />
+              <Clip src={HERO_CLIP} className="fcs-hero-single" />
               <div className="fcs-tags">
                 <div className="fcs-tag">
                   <span className="fcs-tag-label">Role</span>
@@ -470,7 +509,7 @@ export default function RocketLawyerCaseStudy() {
                   <div className="fcs-media-card fcs-media-card--padded">
                     <p className="fcs-media-card-label">DEFINING COHORTS TO SEGMENT COPILOT USE CASES IN AMPLITUDE</p>
                     <div className="fcs-chart-crop">
-                      <img src={rocketChart} alt="" className="fcs-media-card-img" draggable={false} />
+                      <Clip src={CHART_CLIP} className="fcs-media-card-img" />
                     </div>
                   </div>
                 </div>
@@ -493,7 +532,7 @@ export default function RocketLawyerCaseStudy() {
                       <span className="fcs-quote-icon" aria-hidden="true">"</span>
                       <div className="fcs-quote-content">
                         <span className="fcs-quote-attr">Small Business Owner</span>
-                        <p className="fcs-quote-text">"How do I have to get these pieces of critical information organized and communicated without constantly relying an attorney communication."</p>
+                        <p className="fcs-quote-text">“How do I have to get these pieces of critical information organized and communicated without constantly relying on an attorney at every step.”</p>
                       </div>
                     </div>
                     <div className="fcs-quote-divider" />
@@ -501,7 +540,7 @@ export default function RocketLawyerCaseStudy() {
                       <span className="fcs-quote-icon" aria-hidden="true">"</span>
                       <div className="fcs-quote-content">
                         <span className="fcs-quote-attr">Attorney</span>
-                        <p className="fcs-quote-text">“How do I have to get these pieces of critical information organized and communicated without constantly relying on an attorney at every step.”</p>
+                        <p className="fcs-quote-text">“At what point in the process is...this core distinction of legal advice vs. information being communicated by Copilot.”</p>
                       </div>
                     </div>
                   </div>
@@ -548,7 +587,7 @@ export default function RocketLawyerCaseStudy() {
                       </p>
                       <BeforeAfterContainer
                         beforeSrc={rocketVersionHistoryBefore}
-                        afterSrc={rocketVersionHistoryAfter}
+                        afterClip={VERSION_HISTORY_CLIP}
                         beforeLayout="inset"
                       />
                       <p className="fcs-section-body">
@@ -578,7 +617,7 @@ export default function RocketLawyerCaseStudy() {
                       </p>
                       <BeforeAfterContainer
                         beforeSrc={rocketBizCenterBefore}
-                        afterSrc={rocketBizCenter}
+                        afterClip={BIZ_CENTER_CLIP}
                       />
                     </div>
                   </div>
@@ -594,7 +633,7 @@ export default function RocketLawyerCaseStudy() {
                       <div className="fcs-media-card fcs-media-card--padded">
                         <p className="fcs-media-card-label">LAUNCHING A USABILITY TEST USING CUSTOM CLAUDE SKILLS</p>
                         <div className="fcs-chart-crop">
-                          <img src={rocketUsabilityTest} alt="" className="fcs-media-card-img" draggable={false} />
+                          <Clip src={USABILITY_CLIP} className="fcs-media-card-img" />
                         </div>
                       </div>
                       <p className="fcs-section-body">
